@@ -24,7 +24,7 @@ book:
     collapse-level: 2
     border: true
     search: true
-  repo-url: https://github.com/Damian-esc0/tesis
+  repo-url: https://github.com/Damian-esc0/tesis_deeponet
   repo-actions: [edit, issue, source]
   chapters:
     - index.qmd
