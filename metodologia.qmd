@@ -8,7 +8,7 @@ execute:
 ::: {style="text-align: justify"}
 En esta sección se describe el enfoque metodológico utilizado para evaluar la efectividad de una PINN utilizando una arquitectura DeepONet con el objetivo de resolver la ecuacion del Bio-Calor. El proceso metodológico se divide en las siguientes etapas:
 
-## Margen de mejora
+## Aportaciones del modelo
 Ya que se parte del trabajo de @medical_rep, se examinó que dos de los puntos a mejorar de la red neuronal que plantearon son:
 
 1. Desarrollar nuevas arquitecturas para la red neuronal y explorar nuevas configuraciones
