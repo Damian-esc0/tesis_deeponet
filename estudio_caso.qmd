@@ -1,0 +1,45 @@
+---
+title: Estudio de caso
+subtitle: Hipertermia como opción terapéutica complementaria en el manejo de cáncer
+lang: es
+execute: 
+  freeze: auto
+---
+::: {style="text-align: justify"}
+La @omscancer en su página web define Cáncer como:
+
+::: {.custom-indent style="margin-left: 2em;"}
+*«Cáncer» es un término genérico utilizado para designar un amplio grupo de enfermedades que pueden afectar a cualquier parte del organismo; también se habla de «tumores malignos» o «neoplasias malignas». Una característica definitoria del cáncer es la multiplicación rápida de células anormales que se extienden más allá de sus límites habituales y pueden invadir partes adyacentes del cuerpo o propagarse a otros órganos, en un proceso que se denomina «metástasis». La extensión de las metástasis es la principal causa de muerte por la enfermedad.*
+:::
+
+Por su parte @nci2021 aporta lo siguiente:
+
+::: {.custom-indent style="margin-left: 2em;"}
+*Es posible que el cáncer comience en cualquier parte del cuerpo humano, formado por billones de células. En condiciones normales, las células humanas se forman y se multiplican (mediante un proceso que se llama división celular) para formar células nuevas a medida que el cuerpo las necesita. Cuando las células envejecen o se dañan, mueren y las células nuevas las reemplazan.*
+*A veces el proceso no sigue este orden y las células anormales o células dañadas se forman y se multiplican cuando no deberían. Estas células tal vez formen tumores, que son bultos de tejido. Los tumores son cancerosos (malignos) o no cancerosos (benignos).*
+:::
+
+
+![Una célula de cáncer de seno que se multiplica, @nci2021.](images/dividing-breast-cancer-cell.jpg){#fig-breast-cancer fig-align="center" width="500"}
+
+Ésta enfermedad es la principal causa de muerte a nivel mundial, solo en 2020 arrebató casi 10 millones de vidas y según datos de @omscancer los cánceres más comunes en 2020 fueron:
+
+- De mama (2.26 millones de casos)
+- De pulmón (2.21 millones de casos)
+- De colon (1.93 millones de casos)
+- De próstata (1.41 millones de casos)
+- De piel (distinto del melanoma) (1.20 millones de casos)
+- Gástrico (1.09 millones de casos)
+
+Es ante este panorama que distintos tratamientos surgen con el objetivo de erradicar la enfermedad siempre que se tenga una detección oportuna. Uno de dichos tratamientos es la hipertermia, según en el @hyperthermia es un método que consiste en calentar el tejido corporal hasta los 39-45 °C para ayudar a erradicar células cancerígenas con pequeñas o nulas lesiones en el tejido sano. La hipertermia también es llamada terapia térmica o termoterapia.
+
+Uno de los principales retos de este tratamiento es la creación de un modelo óptimo que se adecue al comportamiento de la transferencia de calor que se hace a los tejidos con el fin de dañar únicamente el área en el que se encuentran las célular cancerígenas, es por ello que los modelos de integencia artificial y más precisamente las PINN's (aqui irá una cita) surgen como posible solución a este reto.   
+
+El presente estudio utilizó como punto de partida el trabajo realizado por @medical_rep para modelar el calentamiento del tejido corporal usando la ecuación del Bio-Calor en dos dimensiones. 
+
+:::
+
+
+
+
+

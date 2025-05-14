@@ -1,0 +1,35 @@
+---
+title: Metodología
+lang: es
+execute: 
+  freeze: auto
+---
+
+::: {style="text-align: justify"}
+En esta sección se describe el enfoque metodológico utilizado para evaluar la efectividad de una PINN utilizando una arquitectura DeepONet con el objetivo de resolver la ecuacion del Bio-Calor. El proceso metodológico se divide en las siguientes etapas:
+
+## Margen de mejora
+Ya que se parte del trabajo de @medical_rep, se examinó que dos de los puntos a mejorar de la red neuronal que plantearon son:
+
+1. Desarrollar nuevas arquitecturas para la red neuronal y explorar nuevas configuraciones
+2. Combinar las fortalezas de los algoritmos de optimización Adam y L-BFGS para mejorar la velocidad de convergencia y la precisión
+
+Tenindo los anteriores puntos en cuenta, se procedió a abordarlos e implementarlos dentro del diseño del modelo.
+
+## Diseño del modelo
+El lenguaje seleccionado fué Python, a su vez el código se basa enteramente en la librería Deepxde creada por @deepxde la cual está directamente enfocada a resolver ecuaciones diferenciales, se usó además como backend *tensorflow_compat_v1* siendo su elección debida únicamente a la familiarización previa que se tenía con ella. Finalmente el entorno donde se programó y optimizó el código fué en *Google Colab* ya que la potencia de cómputo ofrecida por la plataforma era necesaria para ejecutar el modelo. 
+
+## Implementación del modelo
+Una vez creado el código que resuelve la ecuación del Bio-Calor, se ajustaron los hiperparámetros tales como cantidad de épocas de entrenamiento, el ratio de aprendizaje, la función de activación y el inicializador en base al trabajo de @medical_rep.
+
+## Evaluación del modelo
+Se llevó a cabo una evaluación del modelo al darle como entrada un conjunto de datos que no había visto y posteriormente obtener como salida sus predicciones, con ellas se elaboraron gráficas claras y detalladas de su pronóstico en el intervalo de tiempo y espacio especificados.
+
+## Comparación de resultados
+Los resultados obtenidos de la evaluación del modelo fueron comparados con los del trabajo de @medical_rep para determinar su eficacia predictiva relativa. Se analizaron las fortalezas y debilidades del modelo en función de su desempeño en la predicción de las variables de interés.
+
+## Análisis y conclusión
+Finalmente, se realizó un análisis detallado de los resultados obtenidos para extraer conclusiones significativas. Se proporcionaron recomendaciones basadas en los hallazgos del estudio, lo que permitió establecer un marco para interpretaciones analíticas profundas y recomendaciones bien fundamentadas en la sección de conclusiones del estudio.
+
+Este enfoque metodológico proporcionó una base sólida para los resultados obtenidos, asegurando la integridad y la calidad del análisis realizado en el estudio.
+:::

@@ -1,0 +1,380 @@
+---
+title: Predicciones del modelo
+lang: es
+execute: 
+  freeze: auto
+---
+Conforme se ha referido previamente, se creó el modelo utilizando Deepxde como base. Resulta relevante descatacar que se empleó la versión 1.10.1 de dicha librería. A continuación se presenta el código fuente de la red neuronal
+```{python}
+import deepxde as dde
+import numpy as np
+import tensorflow as tf
+
+# ------------------------------------------------------------------------------
+# Constants and Parameters
+# ------------------------------------------------------------------------------
+
+# Backend and seed
+dde.backend.set_default_backend("tensorflow.compat.v1")
+dde.config.set_random_seed(123)
+
+# Physical parameters
+heat_coefficient = 1.0
+p = 1050
+c = 3639
+keff = 5
+tf = 1800
+L0 = 0.05
+cb = 3825
+Q = 0
+TM = 45
+Ta = 37
+alpha = p * c / keff
+
+# Dimensionless coefficients
+a1 = tf / (alpha * L0**2)
+a2 = tf * cb / (p * c)
+a3 = (tf * Q) / (p * c * (TM - Ta))
+
+# Domain boundaries
+x_initial, x_boundary = 0.0, 1.0
+y_initial, y_boundary = 0.0, 1.0
+t_initial, t_final = 0.0, 1.0
+
+# Dataset configuration
+pts_dom = 10
+pts_bc = 20
+pts_ic = 60
+num_test = 20
+
+# Sensor grid and function space
+num_sensors = 4
+size_cov_matrix = 40
+
+# Network architecture
+width_net = 20
+len_net = 3
+AF = "elu"
+k_initializer = "Glorot normal"
+
+# Training parameters
+num_iterations = 3000
+learning_rate = 2e-3
+decay_rate = 0.05
+decay_steps = 1000
+
+# ------------------------------------------------------------------------------
+# Geometry and Time Domain
+# ------------------------------------------------------------------------------
+
+spatial_domain = dde.geometry.Rectangle([x_initial, y_initial],
+                                        [x_boundary, y_boundary])
+time_domain = dde.geometry.TimeDomain(t_initial, t_final)
+geomtime = dde.geometry.GeometryXTime(spatial_domain, time_domain)
+
+# ------------------------------------------------------------------------------
+# PDE and Conditions
+# ------------------------------------------------------------------------------
+
+def initial_condition(X):
+    return 0
+
+def heat_equation(func, u, coords):
+    u_t = dde.grad.jacobian(u, func, i=0, j=2)
+    u_xx = dde.grad.hessian(u, func, i=0, j=0)
+    u_yy = dde.grad.hessian(u, func, i=1, j=1)
+    return a1 * u_t - (u_xx + u_yy) + a2 * u
+
+def zero_value(X):
+    return 0
+
+def time_value(X):
+    return X[:, 2]
+
+def is_on_vertex(x):
+    vertices = np.array([[x_initial, y_initial],
+                         [x_boundary, y_initial],
+                         [x_initial, y_boundary],
+                         [x_boundary, y_boundary]])
+    return any(np.allclose(x, v) for v in vertices)
+
+def is_initial(X, on_initial):
+    return on_initial and np.isclose(X[2], t_initial)
+
+def left_boundary(X, on_boundary):
+    spatial = X[0:2]
+    t = X[2]
+    return (
+        on_boundary 
+        and np.isclose(spatial[0], x_initial) 
+        and not np.isclose(t, t_initial) 
+        and not is_on_vertex(spatial)
+    )
+
+def right_boundary(X, on_boundary):
+    spatial = X[0:2]
+    t = X[2]
+    return (
+        on_boundary 
+        and np.isclose(spatial[0], x_boundary) 
+        and not np.isclose(t, t_initial) 
+        and not is_on_vertex(spatial)
+    )
+
+def up_low_boundary(X, on_boundary):
+    spatial = X[0:2]
+    t = X[2]
+    return (on_boundary 
+    and (np.isclose(spatial[1], y_initial) 
+    or np.isclose(spatial[1], y_boundary)) 
+    and not np.isclose(t, t_initial) 
+    and not is_on_vertex(spatial)
+    )
+
+# Initial and boundary conditions
+ic = dde.icbc.IC(geomtime, initial_condition, is_initial)
+left_bc = dde.icbc.DirichletBC(geomtime, 
+                                zero_value, left_boundary)
+right_bc = dde.icbc.NeumannBC(geomtime,
+                                time_value, right_boundary)
+up_low_bc = dde.icbc.NeumannBC(geomtime, 
+                                zero_value, up_low_boundary)
+
+# ------------------------------------------------------------------------------
+# Dataset Construction
+# ------------------------------------------------------------------------------
+
+pde_data = dde.data.TimePDE(
+    geomtime,
+    heat_equation,
+    [ic, left_bc, right_bc, up_low_bc],
+    num_domain=pts_dom,
+    num_boundary=pts_bc,
+    num_initial=pts_ic,
+    num_test = num_test 
+)
+
+# ------------------------------------------------------------------------------
+# Sensor Points and Function Space
+# ------------------------------------------------------------------------------
+
+side = np.linspace(x_initial, x_boundary, num_sensors + 1)
+x, y = np.meshgrid(side, side, indexing='xy')
+sensor_pts = np.stack([x.ravel(), y.ravel()], axis=1)
+
+fs = dde.data.function_spaces.GRF2D(N=size_cov_matrix, 
+                                    interp="linear")
+
+data = dde.data.PDEOperatorCartesianProd(
+    pde_data,
+    fs,
+    sensor_pts,
+    num_function=(num_sensors + 1)**2,
+    function_variables=[0, 1],
+    num_test=num_test
+)
+
+# ------------------------------------------------------------------------------
+# Network Definition
+# ------------------------------------------------------------------------------
+
+branch_layers = [(num_sensors + 1)**2] + len_net * [width_net]
+trunk_layers = [3] + len_net * [width_net]
+
+net = dde.nn.DeepONetCartesianProd(
+    branch_layers,
+    trunk_layers,
+    activation=AF,
+    kernel_initializer=k_initializer
+)
+
+# ------------------------------------------------------------------------------
+# Model Compilation and Training
+# ------------------------------------------------------------------------------
+
+model = dde.Model(data, net)
+model.compile("adam", lr=learning_rate, decay=("inverse time", decay_steps, decay_rate))
+losshistory, train_state = model.train(iterations=num_iterations)
+
+# Fine-tuning with LBFGS optimizer
+model.compile("L-BFGS")
+losshistory, train_state = model.train()
+
+```
+
+El historial de perdida para el entrenamiento obtenido es el siguiente:
+```{python}
+#| label: fig-training_loss
+#| fig-cap: "Historial de perdida en el entrenamiento de la red neuronal."
+
+import plotly.graph_objects as go
+# Nombres de las componentes del loss
+loss_labels = [
+    "PDE residual loss",
+    "Initial‐condition loss",
+    "Left‐boundary (Dirichlet) loss",
+    "Right‐boundary (Neumann) loss",
+    "Top/Bottom‐boundary (Neumann) loss"
+]
+
+# Extraer pasos y pérdida de entrenamiento
+steps = losshistory.steps
+train_loss = np.array(losshistory.loss_train)  # Asegurarse de que sea array NumPy
+
+# Crear figura
+fig = go.Figure()
+
+# Agregar cada componente del loss
+for i in range(train_loss.shape[1]):
+    fig.add_trace(go.Scatter(
+        x=steps,
+        y=train_loss[:, i],
+        mode='lines',
+        name=loss_labels[i]
+    ))
+
+# Layout con escala logarítmica y notación científica
+fig.update_layout(
+    title="Training Loss history",
+    xaxis=dict(
+        title="Iteration",
+        tickformat=".1e"  # Notación científica
+    ),
+    yaxis=dict(
+        title="Loss",
+        type="log",
+        tickformat=".1e"  # Notación científica
+    ),
+    template="plotly_white",
+    legend=dict(x=0.99, y=0.99),
+    font=dict(size=14)
+)
+
+fig.show()
+```
+
+El historial de perdida para el conjunto de prueba es el siguiente:
+```{python}
+#| label: fig-test_loss
+#| fig-cap: "Historial de perdida en el conjunto de prueba de la red neuronal."
+
+import plotly.graph_objects as go
+# Nombres de las componentes del loss
+loss_labels = [
+    "PDE residual loss",
+    "Initial‐condition loss",
+    "Left‐boundary (Dirichlet) loss",
+    "Right‐boundary (Neumann) loss",
+    "Top/Bottom‐boundary (Neumann) loss"
+]
+
+# Extraer pasos y pérdida del conjunto de prueba
+steps = losshistory.steps
+test_loss = np.array(losshistory.loss_test)  
+
+# Crear figura
+fig = go.Figure()
+
+# Agregar cada componente del loss
+for i in range(test_loss.shape[1]):
+    fig.add_trace(go.Scatter(
+        x=steps,
+        y=test_loss[:, i],
+        mode='lines',
+        name=loss_labels[i]
+    ))
+
+# Layout con escala logarítmica y notación científica
+fig.update_layout(
+    title="Test Loss history",
+    xaxis=dict(
+        title="Iteration",
+        tickformat=".1e"  # Notación científica
+    ),
+    yaxis=dict(
+        title="Loss",
+        type="log",
+        tickformat=".1e"  # Notación científica
+    ),
+    template="plotly_white",
+    legend=dict(x=0.99, y=0.99),
+    font=dict(size=14)
+)
+
+fig.show()
+```
+
+A continuación, los valores predichos por la red neuronal a tiempos t(s) de 0.0, 0.25, 0.50, 0.75 y 1.0. 
+```{python}
+#| label: fig-my_results
+#| fig-cap: "Predicciones de la red neuronal a distintos tiempos."
+
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+import matplotlib.gridspec as gridspec
+
+# Times at which to evaluate the model
+times = [0.0, 0.25, 0.5, 0.75, 1.0]
+
+# Generate a grid of (x, y) points
+num_points = 25
+x = np.linspace(0, 1, num_points)
+y = np.linspace(0, 1, num_points)
+X, Y = np.meshgrid(x, y)
+
+# Create a figure and a GridSpec layout.
+# We reserve one row at the bottom for the colorbar.
+ncols = len(times)
+fig = plt.figure(figsize=((5 * ncols) +1, 6))
+gs = gridspec.GridSpec(2, ncols, height_ratios=[10, 1], hspace=0.3)
+
+# Create a list to store the surface plots for the color bar.
+surf_list = []
+
+for i, t_val in enumerate(times):
+    # Create trunk input for the model: shape (num_points^2, 3)
+    points = np.vstack((X.flatten(), Y.flatten(), t_val * np.ones_like(X.flatten()))).T
+
+    # Create branch input: for your constant zero initial condition,
+    # just use an array of zeros with shape (1, num_sensors)
+    branch_input = np.zeros((1, sensor_pts.shape[0]))
+
+    # Predict
+    predicted = model.predict((branch_input, points))
+    predicted = predicted.flatten()
+    # Reshape to 2D
+    Z = predicted.reshape(X.shape)
+
+    # 3D subplot
+    ax = fig.add_subplot(gs[0, i], projection="3d")
+
+    # Plot surface
+    surf = ax.plot_surface(
+        Y, X, Z,
+        rstride=1, cstride=1,
+        cmap="viridis",
+        edgecolor="none",
+        antialiased=True
+    )
+    surf_list.append(surf)
+
+    ax.set_title(f"Time = {t_val:.2f} s")
+    ax.set_xlabel("Y")
+    ax.set_ylabel("X")
+    ax.set_zlabel("T[K]")
+
+# Create a single color bar below all subplots
+# We take the mappable from the last subplot (or average from one)
+cbar_ax = fig.add_subplot(gs[1, :])
+# Use the mappable from the last subplot; orientation horizontal.
+fig.colorbar(surf_list[-1], cax=cbar_ax, orientation="horizontal")
+
+#plt.tight_layout()
+plt.show()
+
+```
+
+
+![Resultados reportados por @medical_rep en el caso 2D.](images/results_paper.png){#fig-results_fnn fig-align="center" width="750"}
+
+

@@ -1,0 +1,58 @@
+project:
+  type: book
+
+website: 
+  favicon: FCFMLOGO.png
+  reader-mode: true
+  search:
+    location: sidebar
+    type: overlay
+  comments:
+    hypothesis: true
+
+book:
+  title: "Estimación de la temperatura con la ecuacion del Bio-Calor usando DeepONet"
+  reader-mode: true
+  language: es
+  date: "04/21/2025"
+  image: FCFMLOGO.png
+  downloads: [pdf, epub]
+  favicon: FCFMLOGO.png
+  sidebar:
+    logo: LOGO-JUBILEO.png
+    style: floating
+    collapse-level: 2
+    border: true
+    search: true
+  repo-url: https://github.com/Damian-esc0/tesis
+  repo-actions: [edit, issue, source]
+  chapters:
+    - index.qmd
+    - intro.qmd
+
+    - part: estudio_caso.qmd
+      chapters: 
+        - metodologia.qmd
+        - predicciones.qmd
+
+    - references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme:
+      light: cosmo
+      dark: darkly
+    highlight-style: a11y
+    lang: es
+    html-math-method: mathjax
+    grid:
+      sidebar-width: 300px
+      body-width: 950px
+      margin-width: 250px
+      gutter-width: 1.5rem
+    code-fold: true
+    code-copy: true
+  pdf:
+    documentclass: scrreprt

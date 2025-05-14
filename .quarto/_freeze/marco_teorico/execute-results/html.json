@@ -1,0 +1,12 @@
+{
+  "hash": "8d64697e78dcb787ef3280e3eeb45d1c",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\nlang: es\nexecute: \n  freeze: auto\n---\n\n# Marco teórcico\nAqui irá todo lo relacionado a la teoria.\n\n\n",
+    "supporting": [
+      "marco_teorico_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

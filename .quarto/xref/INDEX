@@ -1,0 +1,29 @@
+{
+  "index.qmd": {
+    "index.html": "bd59289d"
+  },
+  "intro.qmd": {
+    "intro.html": "312a254d"
+  },
+  "summary.qmd": {
+    "summary.html": "0203e4ce"
+  },
+  "references.qmd": {
+    "references.html": "beb02316"
+  },
+  "code.qmd": {
+    "code.html": "a326cc76"
+  },
+  "marco_teorico.qmd": {
+    "marco_teorico.html": "eadaa4eb"
+  },
+  "estudio_caso.qmd": {
+    "estudio_caso.html": "910eb294"
+  },
+  "metodologia.qmd": {
+    "metodologia.html": "fc45259b"
+  },
+  "predicciones.qmd": {
+    "predicciones.html": "089fd242"
+  }
+}

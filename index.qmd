@@ -1,0 +1,14 @@
+---
+author:
+  - name: Francisco Damián Escobar Candelaria
+    email: francisco.escobar30@unach.mx
+    corresponding: true
+  - name: Yofre Hernán García Gómez
+    degrees: PhD
+    email: yofre.garcia@unach.mx
+    roles: supervisor
+    corresponding: true
+---
+
+# Resumen {.unnumbered}
+Aquí irá el resumen de la tesis.
