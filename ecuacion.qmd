@@ -1,0 +1,52 @@
+---
+title: Forma de la ecuación
+lang: es
+execute: 
+  freeze: auto
+---
+
+La ecuación diferencial de bio-calor de @pennes1948 modela la transferencia de calor en tejidos biológicos, integrando efectos de conducción, perfusión sanguínea y metabolismo. Su forma general es:
+
+\[
+\rho c \frac{\partial T}{\partial t} = k_{\text{eff}} \frac{\partial^{2} T}{\partial x^{2}} - \rho_b c_b \omega_b (T - T_a) + Q, \quad x \in \Omega, \, t \in [0, t_f]
+\]
+
+**Donde**:  
+- \(T\): Temperatura del tejido (°C).  
+- \(\rho, c\): Densidad (kg/m³) y calor específico (J/kg·°C) del tejido.  
+- \(k_{\text{eff}}\): Conductividad térmica efectiva (W/m·°C).  
+- \(\rho_b, c_b\): Densidad y calor específico de la sangre.  
+- \(\omega_b\): Tasa de perfusión sanguínea (1/s).  
+- \(T_a\): Temperatura arterial (°C).  
+- \(Q = q_m + q_p\): Fuente de calor (W/m³), incluye metabolismo (\(q_m\)) y aporte externo (\(q_p\)).
+
+### Versión reducida (adimensionalizada)  
+Mediante escalamiento (\(T' = T - T_a\), \(\theta = T' / (T_M - T_a)\), \(X = x / L_0\), \(\tau = t / t_f\)), se obtiene:  
+
+\[
+\partial_{\tau} \theta = a_1 \partial_{XX} \theta - a_2 W \theta + a_3
+\]
+
+**Parámetros adimensionales**:  
+- \(a_1 = \frac{t_f}{\alpha L_0^2}\) (difusividad térmica \(\alpha = \frac{k_{\text{eff}}}{\rho c}\)).  
+- \(a_2 = \frac{t_f c_b}{\rho c}\).  
+- \(a_3 = \frac{t_f Q}{\rho c (T_M - T_a)}\).  
+- \(W = \rho_b \omega_b\): Tasa volumétrica de perfusión (kg/m³·s).  
+
+### Condiciones de uso adecuadas  
+1. **Tejidos homogéneos**: Aproximación válida para regiones con propiedades térmicas uniformes.  
+2. **Perfusión sanguínea constante**: Supone flujo sanguíneo estable en el dominio.  
+3. **Aplicaciones clínicas**: Hipertermia, crioterapia y modelado térmico en terapias oncológicas.  
+
+### Tabla de nomenclatura  
+
+| Símbolo | Descripción | Unidades |  
+|---------|------------|----------|  
+| \(T\) | Temperatura del tejido | °C |  
+| \(\rho\) | Densidad del tejido | kg/m³ |  
+| \(c\) | Calor específico del tejido | J/kg·°C |  
+| \(k_{\text{eff}}\) | Conductividad térmica | W/m·°C |  
+| \(\omega_b\) | Tasa de perfusión sanguínea | 1/s |  
+| \(Q\) | Fuente de calor (metabolismo + externa) | W/m³ |  
+| \(L_0\) | Longitud característica del dominio | m |  
+| \(t_f\) | Tiempo final de simulación | s |  

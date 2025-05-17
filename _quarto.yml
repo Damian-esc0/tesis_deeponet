@@ -29,7 +29,10 @@ book:
   chapters:
     - index.qmd
     - intro.qmd
-
+    - part: PBHE.qmd
+      -chapters:
+        -ecuacion.qmd
+        -ejemplos.qmd
     - part: estudio_caso.qmd
       chapters: 
         - metodologia.qmd

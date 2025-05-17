@@ -58,7 +58,7 @@ AF = "elu"
 k_initializer = "Glorot normal"
 
 # Training parameters
-num_iterations = 3000
+num_iterations = 5000
 learning_rate = 2e-3
 decay_rate = 0.05
 decay_steps = 1000
@@ -150,8 +150,7 @@ pde_data = dde.data.TimePDE(
     [ic, left_bc, right_bc, up_low_bc],
     num_domain=pts_dom,
     num_boundary=pts_bc,
-    num_initial=pts_ic,
-    num_test = num_test 
+    num_initial=pts_ic 
 )
 
 # ------------------------------------------------------------------------------
