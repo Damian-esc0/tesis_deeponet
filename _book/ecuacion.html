@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Estudio de caso – Estimación de la temperatura con la ecuacion del Bio-Calor usando DeepONet</title>
+<title>2&nbsp; Forma de la ecuación – Estimación de la temperatura con la ecuacion del Bio-Calor usando DeepONet</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -50,8 +50,8 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./metodologia.html" rel="next">
-<link href="./ejemplos.html" rel="prev">
+<link href="./ejemplos.html" rel="next">
+<link href="./PBHE.html" rel="prev">
 <link href="./FCFMLOGO.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -93,6 +93,35 @@ div.csl-indent {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -105,7 +134,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./estudio_caso.html">Estudio de caso</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./PBHE.html">Ecuación del Bio-Calor</a></li><li class="breadcrumb-item"><a href="./ecuacion.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Forma de la ecuación</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -182,7 +211,7 @@ div.csl-indent {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ecuacion.html" class="sidebar-item-text sidebar-link">
+  <a href="./ecuacion.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Forma de la ecuación</span></span></a>
   </div>
 </li>
@@ -196,7 +225,7 @@ div.csl-indent {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./estudio_caso.html" class="sidebar-item-text sidebar-link active">
+            <a href="./estudio_caso.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Estudio de caso</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Alternar sección">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -393,10 +422,9 @@ div.csl-indent {
     }
   </script>
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./PBHE.html">Ecuación del Bio-Calor</a></li><li class="breadcrumb-item"><a href="./ecuacion.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Forma de la ecuación</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Estudio de caso</h1>
-<p class="subtitle lead">Hipertermia como opción terapéutica complementaria en el manejo de cáncer</p>
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Forma de la ecuación</span></h1>
 </div>
 
 
@@ -414,51 +442,103 @@ div.csl-indent {
 
 
 <div style="text-align: justify">
-<p>La <span class="citation" data-cites="omscancer">Organización Mundial de la Salud (<a href="references.html#ref-omscancer" role="doc-biblioref">2022</a>)</span> en su página web define Cáncer como:</p>
-<div class="custom-indent" style="margin-left: 2em;">
-<p><em>«Cáncer» es un término genérico utilizado para designar un amplio grupo de enfermedades que pueden afectar a cualquier parte del organismo; también se habla de «tumores malignos» o «neoplasias malignas». Una característica definitoria del cáncer es la multiplicación rápida de células anormales que se extienden más allá de sus límites habituales y pueden invadir partes adyacentes del cuerpo o propagarse a otros órganos, en un proceso que se denomina «metástasis». La extensión de las metástasis es la principal causa de muerte por la enfermedad.</em></p>
-</div>
-<p>Por su parte <span class="citation" data-cites="nci2021">Instituto Nacional del Cáncer (<a href="references.html#ref-nci2021" role="doc-biblioref">2021</a>)</span> aporta lo siguiente:</p>
-<div class="custom-indent" style="margin-left: 2em;">
-<p><em>Es posible que el cáncer comience en cualquier parte del cuerpo humano, formado por billones de células. En condiciones normales, las células humanas se forman y se multiplican (mediante un proceso que se llama división celular) para formar células nuevas a medida que el cuerpo las necesita. Cuando las células envejecen o se dañan, mueren y las células nuevas las reemplazan.</em> <em>A veces el proceso no sigue este orden y las células anormales o células dañadas se forman y se multiplican cuando no deberían. Estas células tal vez formen tumores, que son bultos de tejido. Los tumores son cancerosos (malignos) o no cancerosos (benignos).</em></p>
-</div>
-<div id="fig-breast-cancer" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-breast-cancer-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="images/dividing-breast-cancer-cell.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img" width="500">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-breast-cancer-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;1: Una célula de cáncer de seno que se multiplica, <span class="citation" data-cites="nci2021">Instituto Nacional del Cáncer (<a href="references.html#ref-nci2021" role="doc-biblioref">2021</a>)</span>.
-</figcaption>
-</figure>
-</div>
-<p>Ésta enfermedad es la principal causa de muerte a nivel mundial, solo en 2020 arrebató casi 10 millones de vidas y según datos de <span class="citation" data-cites="omscancer">Organización Mundial de la Salud (<a href="references.html#ref-omscancer" role="doc-biblioref">2022</a>)</span> los cánceres más comunes en 2020 fueron:</p>
-<ul>
-<li>De mama (2.26 millones de casos)</li>
-<li>De pulmón (2.21 millones de casos)</li>
-<li>De colon (1.93 millones de casos)</li>
-<li>De próstata (1.41 millones de casos)</li>
-<li>De piel (distinto del melanoma) (1.20 millones de casos)</li>
-<li>Gástrico (1.09 millones de casos)</li>
-</ul>
-<p>Es ante este panorama que distintos tratamientos surgen con el objetivo de erradicar la enfermedad siempre que se tenga una detección oportuna. Uno de dichos tratamientos es la hipertermia, según en el <span class="citation" data-cites="hyperthermia">National Cancer Institute (<a href="references.html#ref-hyperthermia" role="doc-biblioref">2021</a>)</span> es un método que consiste en calentar el tejido corporal hasta los 39-45 °C para ayudar a erradicar células cancerígenas con pequeñas o nulas lesiones en el tejido sano. La hipertermia también es llamada terapia térmica o termoterapia.</p>
-<p>Uno de los principales retos de este tratamiento es la creación de un modelo óptimo que se adecue al comportamiento de la transferencia de calor que se hace a los tejidos con el fin de dañar únicamente el área en el que se encuentran las célular cancerígenas, es por ello que los modelos de integencia artificial y más precisamente las PINN’s (aqui irá una cita) surgen como posible solución a este reto.</p>
-<p>El presente estudio utilizó como punto de partida el trabajo realizado por <span class="citation" data-cites="medical_rep">Alessio Borgi (<a href="references.html#ref-medical_rep" role="doc-biblioref">2023</a>)</span> para modelar el calentamiento del tejido corporal usando la ecuación del Bio-Calor en dos dimensiones.</p>
+<p>La ecuación diferencial de bio-calor de <span class="citation" data-cites="pennes1948">Pennes (<a href="references.html#ref-pennes1948" role="doc-biblioref">1948</a>)</span> modela la transferencia de calor en tejidos biológicos, integrando efectos de conducción, perfusión sanguínea y metabolismo. Su forma general es:</p>
+<p><span class="math display">\[\begin{equation}
+\rho c \frac{\partial T}{\partial t} = k_{\text{eff}} \frac{\partial^{2} T}{\partial x^{2}} - \rho_b c_b \omega_b (T - T_a) + Q, \quad x \in \Omega, \, t \in [0, t_f]
+\end{equation}\]</span></p>
+<p><strong>Donde</strong>:<br>
+- <span class="math inline">\(T\)</span>: Temperatura del tejido (°C).<br>
+- <span class="math inline">\(\rho, c\)</span>: Densidad (kg/m³) y calor específico (J/kg·°C) del tejido.<br>
+- <span class="math inline">\(k_{\text{eff}}\)</span>: Conductividad térmica efectiva (W/m·°C).<br>
+- <span class="math inline">\(\rho_b, c_b\)</span>: Densidad y calor específico de la sangre.<br>
+- <span class="math inline">\(\omega_b\)</span>: Tasa de perfusión sanguínea (1/s).<br>
+- <span class="math inline">\(T_a\)</span>: Temperatura arterial (°C).<br>
+- <span class="math inline">\(Q = q_m + q_p\)</span>: Fuente de calor (W/m³), incluye metabolismo (q_m) y aporte externo (q_p).</p>
+<section id="versión-reducida-adimensionalizada" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="versión-reducida-adimensionalizada"><span class="header-section-number">2.1</span> Versión reducida (adimensionalizada)</h2>
+<p>Mediante escalamiento: <span class="math display">\[\begin{equation}
+T' = T - T_a \qquad \theta = \dfrac{T'}{T_M - T_a} \qquad X = \dfrac{x}{L_0} \qquad \tau = \dfrac{t}{t_f}
+\end{equation}\]</span></p>
+<p>se obtiene:</p>
+<p><span class="math display">\[\begin{equation}
+\partial_{\tau} \theta = a_1 \partial_{XX} \theta - a_2 W \theta + a_3
+\end{equation}\]</span></p>
+<p><strong>Parámetros adimensionales</strong>:<br>
+- <span class="math inline">\(a_1 = \frac{t_f}{\alpha L_0^2}\)</span> (difusividad térmica <span class="math inline">\(\alpha = \frac{k_{\text{eff}}}{\rho c}\)</span>).<br>
+- <span class="math inline">\(a_2 = \frac{t_f c_b}{\rho c}\)</span>.<br>
+- <span class="math inline">\(a_3 = \frac{t_f Q}{\rho c (T_M - T_a)}\)</span>.<br>
+- <span class="math inline">\(W = \rho_b \omega_b\)</span>: Tasa volumétrica de perfusión (kg/m³·s).</p>
+</section>
+<section id="condiciones-de-uso-adecuadas" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="condiciones-de-uso-adecuadas"><span class="header-section-number">2.2</span> Condiciones de uso adecuadas</h2>
+<ol type="1">
+<li><strong>Tejidos homogéneos</strong>: Aproximación válida para regiones con propiedades térmicas uniformes.<br>
+</li>
+<li><strong>Perfusión sanguínea constante</strong>: Supone flujo sanguíneo estable en el dominio.<br>
+</li>
+<li><strong>Aplicaciones clínicas</strong>: Hipertermia, crioterapia y modelado térmico en terapias oncológicas.</li>
+</ol>
+</section>
+<section id="tabla-de-nomenclatura" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="tabla-de-nomenclatura"><span class="header-section-number">2.3</span> Tabla de nomenclatura</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Símbolo</th>
+<th>Descripción</th>
+<th>Unidades</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(T\)</span></td>
+<td>Temperatura del tejido</td>
+<td>°C</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\rho\)</span></td>
+<td>Densidad del tejido</td>
+<td>kg/m³</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(c\)</span></td>
+<td>Calor específico del tejido</td>
+<td>J/kg·°C</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(k_{\text{eff}}\)</span></td>
+<td>Conductividad térmica</td>
+<td>W/m·°C</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\omega_b\)</span></td>
+<td>Tasa de perfusión sanguínea</td>
+<td>1/s</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(Q\)</span></td>
+<td>Fuente de calor (metabolismo + externa)</td>
+<td>W/m³</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(L_0\)</span></td>
+<td>Longitud característica del dominio</td>
+<td>m</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(t_f\)</span></td>
+<td>Tiempo final de simulación</td>
+<td>s</td>
+</tr>
+</tbody>
+</table>
+</section>
 </div>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
-<div id="ref-medical_rep" class="csl-entry" role="listitem">
-Alessio Borgi, Alessandro De Luca, Eugenio Bugli. 2023. <span>«<span>BioHeat PINNs: Temperature Estimation with Bio-Heat Equation using Physics-Informed Neural Networks</span>»</span>. <a href="https://github.com/alessioborgi/BioHeat_PINNs/tree/main?tab=readme-ov-file#bioheat-pinns-temperature-estimation-with-bio-heat-equation-using-physics-informed-neural-networks">https://github.com/alessioborgi/BioHeat_PINNs/tree/main?tab=readme-ov-file#bioheat-pinns-temperature-estimation-with-bio-heat-equation-using-physics-informed-neural-networks</a>.
-</div>
-<div id="ref-nci2021" class="csl-entry" role="listitem">
-Instituto Nacional del Cáncer. 2021. <span>«<span>¿Qué es el cáncer?</span>»</span> <a href="https://www.cancer.gov/espanol/cancer/naturaleza/que-es">https://www.cancer.gov/espanol/cancer/naturaleza/que-es</a>.
-</div>
-<div id="ref-hyperthermia" class="csl-entry" role="listitem">
-National Cancer Institute. 2021. <span>«<span>Hyperthermia to Treat Cancer</span>»</span>. <a href="https://www.cancer.gov/about-cancer/treatment/types/hyperthermia">https://www.cancer.gov/about-cancer/treatment/types/hyperthermia</a>.
-</div>
-<div id="ref-omscancer" class="csl-entry" role="listitem">
-Organización Mundial de la Salud. 2022. <span>«<span>Cáncer</span>»</span>. <a href="https://www.who.int/es/news-room/fact-sheets/detail/cancer">https://www.who.int/es/news-room/fact-sheets/detail/cancer</a>.
+<div id="ref-pennes1948" class="csl-entry" role="listitem">
+Pennes, H. H. 1948. <span>«Analysis of Tissue and Arterial Blood Temperatures in the Resting Human Forearm»</span>. <em>Journal of Applied Physiology</em> 1 (2): 93-122. <a href="https://doi.org/10.1152/jappl.1948.1.2.93">https://doi.org/10.1152/jappl.1948.1.2.93</a>.
 </div>
 </div>
 
@@ -877,13 +957,13 @@ Organización Mundial de la Salud. 2022. <span>«<span>Cáncer</span>»</span>. 
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./ejemplos.html" class="pagination-link" aria-label="Modelado del Bio-Calor en Hipertermia">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Modelado del Bio-Calor en Hipertermia</span></span>
+      <a href="./PBHE.html" class="pagination-link" aria-label="Ecuación del Bio-Calor">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Ecuación del Bio-Calor</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./metodologia.html" class="pagination-link" aria-label="Metodología">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Metodología</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./ejemplos.html" class="pagination-link" aria-label="Modelado del Bio-Calor en Hipertermia">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Modelado del Bio-Calor en Hipertermia</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -892,4 +972,4 @@ Organización Mundial de la Salud. 2022. <span>«<span>Cáncer</span>»</span>. 
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/Damian-esc0/tesis_deeponet/edit/main/estudio_caso.qmd" class="toc-action"><i class="bi bi-github"></i>Editar esta página</a></li><li><a href="https://github.com/Damian-esc0/tesis_deeponet/issues/new" class="toc-action"><i class="bi empty"></i>Informar de un problema</a></li><li><a href="https://github.com/Damian-esc0/tesis_deeponet/blob/main/estudio_caso.qmd" class="toc-action"><i class="bi empty"></i>Ver el código</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/Damian-esc0/tesis_deeponet/edit/main/ecuacion.qmd" class="toc-action"><i class="bi bi-github"></i>Editar esta página</a></li><li><a href="https://github.com/Damian-esc0/tesis_deeponet/issues/new" class="toc-action"><i class="bi empty"></i>Informar de un problema</a></li><li><a href="https://github.com/Damian-esc0/tesis_deeponet/blob/main/ecuacion.qmd" class="toc-action"><i class="bi empty"></i>Ver el código</a></li></ul></div></div></div></footer></body></html>

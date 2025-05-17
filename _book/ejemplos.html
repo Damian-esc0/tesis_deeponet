@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Estudio de caso – Estimación de la temperatura con la ecuacion del Bio-Calor usando DeepONet</title>
+<title>3&nbsp; Modelado del Bio-Calor en Hipertermia – Estimación de la temperatura con la ecuacion del Bio-Calor usando DeepONet</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -50,8 +50,8 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./metodologia.html" rel="next">
-<link href="./ejemplos.html" rel="prev">
+<link href="./estudio_caso.html" rel="next">
+<link href="./ecuacion.html" rel="prev">
 <link href="./FCFMLOGO.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -105,7 +105,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./estudio_caso.html">Estudio de caso</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./PBHE.html">Ecuación del Bio-Calor</a></li><li class="breadcrumb-item"><a href="./ejemplos.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Modelado del Bio-Calor en Hipertermia</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -188,7 +188,7 @@ div.csl-indent {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ejemplos.html" class="sidebar-item-text sidebar-link">
+  <a href="./ejemplos.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Modelado del Bio-Calor en Hipertermia</span></span></a>
   </div>
 </li>
@@ -196,7 +196,7 @@ div.csl-indent {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./estudio_caso.html" class="sidebar-item-text sidebar-link active">
+            <a href="./estudio_caso.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Estudio de caso</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Alternar sección">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -393,10 +393,9 @@ div.csl-indent {
     }
   </script>
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./PBHE.html">Ecuación del Bio-Calor</a></li><li class="breadcrumb-item"><a href="./ejemplos.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Modelado del Bio-Calor en Hipertermia</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Estudio de caso</h1>
-<p class="subtitle lead">Hipertermia como opción terapéutica complementaria en el manejo de cáncer</p>
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Modelado del Bio-Calor en Hipertermia</span></h1>
 </div>
 
 
@@ -414,51 +413,28 @@ div.csl-indent {
 
 
 <div style="text-align: justify">
-<p>La <span class="citation" data-cites="omscancer">Organización Mundial de la Salud (<a href="references.html#ref-omscancer" role="doc-biblioref">2022</a>)</span> en su página web define Cáncer como:</p>
-<div class="custom-indent" style="margin-left: 2em;">
-<p><em>«Cáncer» es un término genérico utilizado para designar un amplio grupo de enfermedades que pueden afectar a cualquier parte del organismo; también se habla de «tumores malignos» o «neoplasias malignas». Una característica definitoria del cáncer es la multiplicación rápida de células anormales que se extienden más allá de sus límites habituales y pueden invadir partes adyacentes del cuerpo o propagarse a otros órganos, en un proceso que se denomina «metástasis». La extensión de las metástasis es la principal causa de muerte por la enfermedad.</em></p>
-</div>
-<p>Por su parte <span class="citation" data-cites="nci2021">Instituto Nacional del Cáncer (<a href="references.html#ref-nci2021" role="doc-biblioref">2021</a>)</span> aporta lo siguiente:</p>
-<div class="custom-indent" style="margin-left: 2em;">
-<p><em>Es posible que el cáncer comience en cualquier parte del cuerpo humano, formado por billones de células. En condiciones normales, las células humanas se forman y se multiplican (mediante un proceso que se llama división celular) para formar células nuevas a medida que el cuerpo las necesita. Cuando las células envejecen o se dañan, mueren y las células nuevas las reemplazan.</em> <em>A veces el proceso no sigue este orden y las células anormales o células dañadas se forman y se multiplican cuando no deberían. Estas células tal vez formen tumores, que son bultos de tejido. Los tumores son cancerosos (malignos) o no cancerosos (benignos).</em></p>
-</div>
-<div id="fig-breast-cancer" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-breast-cancer-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="images/dividing-breast-cancer-cell.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img" width="500">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-breast-cancer-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;1: Una célula de cáncer de seno que se multiplica, <span class="citation" data-cites="nci2021">Instituto Nacional del Cáncer (<a href="references.html#ref-nci2021" role="doc-biblioref">2021</a>)</span>.
-</figcaption>
-</figure>
-</div>
-<p>Ésta enfermedad es la principal causa de muerte a nivel mundial, solo en 2020 arrebató casi 10 millones de vidas y según datos de <span class="citation" data-cites="omscancer">Organización Mundial de la Salud (<a href="references.html#ref-omscancer" role="doc-biblioref">2022</a>)</span> los cánceres más comunes en 2020 fueron:</p>
-<ul>
-<li>De mama (2.26 millones de casos)</li>
-<li>De pulmón (2.21 millones de casos)</li>
-<li>De colon (1.93 millones de casos)</li>
-<li>De próstata (1.41 millones de casos)</li>
-<li>De piel (distinto del melanoma) (1.20 millones de casos)</li>
-<li>Gástrico (1.09 millones de casos)</li>
-</ul>
-<p>Es ante este panorama que distintos tratamientos surgen con el objetivo de erradicar la enfermedad siempre que se tenga una detección oportuna. Uno de dichos tratamientos es la hipertermia, según en el <span class="citation" data-cites="hyperthermia">National Cancer Institute (<a href="references.html#ref-hyperthermia" role="doc-biblioref">2021</a>)</span> es un método que consiste en calentar el tejido corporal hasta los 39-45 °C para ayudar a erradicar células cancerígenas con pequeñas o nulas lesiones en el tejido sano. La hipertermia también es llamada terapia térmica o termoterapia.</p>
-<p>Uno de los principales retos de este tratamiento es la creación de un modelo óptimo que se adecue al comportamiento de la transferencia de calor que se hace a los tejidos con el fin de dañar únicamente el área en el que se encuentran las célular cancerígenas, es por ello que los modelos de integencia artificial y más precisamente las PINN’s (aqui irá una cita) surgen como posible solución a este reto.</p>
-<p>El presente estudio utilizó como punto de partida el trabajo realizado por <span class="citation" data-cites="medical_rep">Alessio Borgi (<a href="references.html#ref-medical_rep" role="doc-biblioref">2023</a>)</span> para modelar el calentamiento del tejido corporal usando la ecuación del Bio-Calor en dos dimensiones.</p>
+<p>La ecuación del bio-calor, formulada por <span class="citation" data-cites="pennes1948">Pennes (<a href="references.html#ref-pennes1948" role="doc-biblioref">1948</a>)</span>, permite modelar la distribución de temperatura en tejidos biológicos considerando el flujo sanguíneo, la conductividad térmica y fuentes internas o externas de calor. Su modelación es fundamental en la física médica para predecir el comportamiento térmico durante tratamientos como la hipertermia. Además, constituye una herramienta poderosa en el desarrollo de simulaciones computacionales aplicadas al diseño y control de terapias térmicas en tejidos vivos.</p>
+<section id="aplicaciones-recientes-de-la-ecuación-del-bio-calor" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="aplicaciones-recientes-de-la-ecuación-del-bio-calor"><span class="header-section-number">3.1</span> Aplicaciones recientes de la ecuación del bio-calor</h2>
+<p><span class="citation" data-cites="quintero2017">Quintero et&nbsp;al. (<a href="references.html#ref-quintero2017" role="doc-biblioref">2017</a>)</span> desarrollan un modelo basado en ecuaciones diferenciales parciales que integra la ecuación del bio-calor y la ley de Arrhenius para estimar el daño térmico en tratamientos de hipertermia superficial. Utilizan el método de líneas para resolver el sistema y plantean un problema de optimización que busca maximizar el daño al tejido tumoral minimizando el daño colateral. Su trabajo demuestra cómo la modelación matemática puede guiar estrategias terapéuticas más seguras y eficaces.</p>
+<p><span class="citation" data-cites="dutta2018">Dutta y Rangarajan (<a href="references.html#ref-dutta2018" role="doc-biblioref">2018</a>)</span> presentan una solución analítica cerrada en dos dimensiones para la ecuación del bio-calor, considerando modelos de conducción tanto de tipo Fourier como no-Fourier. Mediante el uso de la transformada de Laplace, analizan la influencia de parámetros fisiológicos como la perfusión sanguínea y el tiempo de relajación térmica sobre la evolución de la temperatura. Su investigación aporta una base teórica sólida para comprender la propagación térmica en tejidos vivos durante la hipertermia terapéutica.</p>
+<p><span class="citation" data-cites="yang2014">Yang et&nbsp;al. (<a href="references.html#ref-yang2014" role="doc-biblioref">2014</a>)</span> propone una estrategia numérica para resolver problemas inversos de conducción térmica en tejidos biológicos multicapa, utilizando un enfoque en diferencias finitas y el concepto de tiempo futuro. El estudio se enfoca en predecir las condiciones de frontera necesarias para generar distribuciones de temperatura deseadas. La implementación de este método permite estimar parámetros relevantes en tiempo real, lo cual resulta esencial para el control térmico preciso en procedimientos médicos no invasivos como la hipertermia localizada.</p>
+</section>
 </div>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
-<div id="ref-medical_rep" class="csl-entry" role="listitem">
-Alessio Borgi, Alessandro De Luca, Eugenio Bugli. 2023. <span>«<span>BioHeat PINNs: Temperature Estimation with Bio-Heat Equation using Physics-Informed Neural Networks</span>»</span>. <a href="https://github.com/alessioborgi/BioHeat_PINNs/tree/main?tab=readme-ov-file#bioheat-pinns-temperature-estimation-with-bio-heat-equation-using-physics-informed-neural-networks">https://github.com/alessioborgi/BioHeat_PINNs/tree/main?tab=readme-ov-file#bioheat-pinns-temperature-estimation-with-bio-heat-equation-using-physics-informed-neural-networks</a>.
+<div id="ref-dutta2018" class="csl-entry" role="listitem">
+Dutta, Abhijit, y Gopal Rangarajan. 2018. <span>«Diffusion in pharmaceutical systems: modelling and applications»</span>. <em>Journal of Pharmacy and Pharmacology</em> 70 (5): 581-98. <a href="https://doi.org/10.1111/jphp.12885">https://doi.org/10.1111/jphp.12885</a>.
 </div>
-<div id="ref-nci2021" class="csl-entry" role="listitem">
-Instituto Nacional del Cáncer. 2021. <span>«<span>¿Qué es el cáncer?</span>»</span> <a href="https://www.cancer.gov/espanol/cancer/naturaleza/que-es">https://www.cancer.gov/espanol/cancer/naturaleza/que-es</a>.
+<div id="ref-pennes1948" class="csl-entry" role="listitem">
+Pennes, H. H. 1948. <span>«Analysis of Tissue and Arterial Blood Temperatures in the Resting Human Forearm»</span>. <em>Journal of Applied Physiology</em> 1 (2): 93-122. <a href="https://doi.org/10.1152/jappl.1948.1.2.93">https://doi.org/10.1152/jappl.1948.1.2.93</a>.
 </div>
-<div id="ref-hyperthermia" class="csl-entry" role="listitem">
-National Cancer Institute. 2021. <span>«<span>Hyperthermia to Treat Cancer</span>»</span>. <a href="https://www.cancer.gov/about-cancer/treatment/types/hyperthermia">https://www.cancer.gov/about-cancer/treatment/types/hyperthermia</a>.
+<div id="ref-quintero2017" class="csl-entry" role="listitem">
+Quintero, Luis A., Mauricio Peñuela, Armando Zambrano, y Edwin Rodríguez. 2017. <span>«Optimización del proceso de preparación de soluciones madre de antibióticos en un servicio farmacéutico hospitalario»</span>. <em>Revista Cubana de Farmacia</em> 50 (2): 448-65. <a href="https://www.medigraphic.com/cgi-bin/new/resumen.cgi?IDARTICULO=75483">https://www.medigraphic.com/cgi-bin/new/resumen.cgi?IDARTICULO=75483</a>.
 </div>
-<div id="ref-omscancer" class="csl-entry" role="listitem">
-Organización Mundial de la Salud. 2022. <span>«<span>Cáncer</span>»</span>. <a href="https://www.who.int/es/news-room/fact-sheets/detail/cancer">https://www.who.int/es/news-room/fact-sheets/detail/cancer</a>.
+<div id="ref-yang2014" class="csl-entry" role="listitem">
+Yang, Lihong, Xin Wu, Qian Wan, Jian Kong, Rui Liu, y Xiaoxi Liu. 2014. <span>«Pharmaceutical preparation of antibiotics: a review on formulation and technique»</span>. <em>Asian Journal of Pharmaceutical Sciences</em> 9 (3): 145-53. <a href="https://doi.org/10.1016/j.ajps.2014.04.001">https://doi.org/10.1016/j.ajps.2014.04.001</a>.
 </div>
 </div>
 
@@ -877,13 +853,13 @@ Organización Mundial de la Salud. 2022. <span>«<span>Cáncer</span>»</span>. 
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./ejemplos.html" class="pagination-link" aria-label="Modelado del Bio-Calor en Hipertermia">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Modelado del Bio-Calor en Hipertermia</span></span>
+      <a href="./ecuacion.html" class="pagination-link" aria-label="Forma de la ecuación">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Forma de la ecuación</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./metodologia.html" class="pagination-link" aria-label="Metodología">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Metodología</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./estudio_caso.html" class="pagination-link" aria-label="Estudio de caso">
+        <span class="nav-page-text">Estudio de caso</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -892,4 +868,4 @@ Organización Mundial de la Salud. 2022. <span>«<span>Cáncer</span>»</span>. 
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/Damian-esc0/tesis_deeponet/edit/main/estudio_caso.qmd" class="toc-action"><i class="bi bi-github"></i>Editar esta página</a></li><li><a href="https://github.com/Damian-esc0/tesis_deeponet/issues/new" class="toc-action"><i class="bi empty"></i>Informar de un problema</a></li><li><a href="https://github.com/Damian-esc0/tesis_deeponet/blob/main/estudio_caso.qmd" class="toc-action"><i class="bi empty"></i>Ver el código</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/Damian-esc0/tesis_deeponet/edit/main/ejemplos.qmd" class="toc-action"><i class="bi bi-github"></i>Editar esta página</a></li><li><a href="https://github.com/Damian-esc0/tesis_deeponet/issues/new" class="toc-action"><i class="bi empty"></i>Informar de un problema</a></li><li><a href="https://github.com/Damian-esc0/tesis_deeponet/blob/main/ejemplos.qmd" class="toc-action"><i class="bi empty"></i>Ver el código</a></li></ul></div></div></div></footer></body></html>

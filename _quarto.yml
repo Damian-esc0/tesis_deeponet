@@ -30,9 +30,9 @@ book:
     - index.qmd
     - intro.qmd
     - part: PBHE.qmd
-      -chapters:
-        -ecuacion.qmd
-        -ejemplos.qmd
+      chapters:
+        - ecuacion.qmd
+        - ejemplos.qmd
     - part: estudio_caso.qmd
       chapters: 
         - metodologia.qmd
@@ -57,5 +57,7 @@ format:
       gutter-width: 1.5rem
     code-fold: true
     code-copy: true
+  
   pdf:
     documentclass: scrreprt
+    pdf-engine: lualatex
