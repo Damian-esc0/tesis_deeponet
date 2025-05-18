@@ -29,6 +29,12 @@ book:
   chapters:
     - index.qmd
     - intro.qmd
+
+    - part: neural_net.qmd
+      chapters: 
+        - pinns.qmd
+        - deeponet.qmd
+
     - part: PBHE.qmd
       chapters:
         - ecuacion.qmd

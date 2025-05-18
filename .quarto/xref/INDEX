@@ -34,5 +34,14 @@
   },
   "ejemplos.qmd": {
     "ejemplos.html": "cbda27b5"
+  },
+  "neural_net.qmd": {
+    "neural_net.html": "67c4fcb2"
+  },
+  "pinns.qmd": {
+    "pinns.html": "aae7cd99"
+  },
+  "deeponet.qmd": {
+    "deeponet.html": "8859f2e3"
   }
 }
