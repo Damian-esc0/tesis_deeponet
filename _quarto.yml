@@ -39,6 +39,7 @@ book:
       chapters:
         - ecuacion.qmd
         - ejemplos.qmd
+
     - part: estudio_caso.qmd
       chapters: 
         - metodologia.qmd
@@ -65,5 +66,12 @@ format:
     code-copy: true
   
   pdf:
+    lang: es
     documentclass: scrreprt
+    papersize: us-letter
+    titlegraphic: FCFMLOGO.png
+    institution: Universidad Autónoma de Chiapas
+    email: francisco.escobar30@unach.mx
+    keep-tex: true
     pdf-engine: lualatex
+    link-citations: true

@@ -4,6 +4,7 @@ lang: es
 execute: 
   freeze: auto
 ---
+::: {style="text-align: justify"}
 Conforme se ha referido previamente, se creó el modelo utilizando Deepxde como base. Resulta relevante descatacar que se empleó la versión 1.10.1 de dicha librería. A continuación se presenta el código fuente de la red neuronal
 ```{python}
 import deepxde as dde
@@ -45,7 +46,7 @@ t_initial, t_final = 0.0, 1.0
 pts_dom = 10
 pts_bc = 20
 pts_ic = 60
-num_test = 20
+num_test = 25
 
 # Sensor grid and function space
 num_sensors = 4
@@ -58,7 +59,7 @@ AF = "elu"
 k_initializer = "Glorot normal"
 
 # Training parameters
-num_iterations = 5000
+num_iterations = 2000
 learning_rate = 2e-3
 decay_rate = 0.05
 decay_steps = 1000
@@ -201,12 +202,14 @@ losshistory, train_state = model.train()
 
 ```
 
-El historial de perdida para el entrenamiento obtenido es el siguiente:
+El historial de perdida para el conjunto de entrenamiento es el siguiente:
 ```{python}
 #| label: fig-training_loss
-#| fig-cap: "Historial de perdida en el entrenamiento de la red neuronal."
+#| echo: true
+#| output: false
 
 import plotly.graph_objects as go
+
 # Nombres de las componentes del loss
 loss_labels = [
     "PDE residual loss",
@@ -218,12 +221,11 @@ loss_labels = [
 
 # Extraer pasos y pérdida de entrenamiento
 steps = losshistory.steps
-train_loss = np.array(losshistory.loss_train)  # Asegurarse de que sea array NumPy
+train_loss = np.array(losshistory.loss_train)
 
 # Crear figura
 fig = go.Figure()
 
-# Agregar cada componente del loss
 for i in range(train_loss.shape[1]):
     fig.add_trace(go.Scatter(
         x=steps,
@@ -232,32 +234,51 @@ for i in range(train_loss.shape[1]):
         name=loss_labels[i]
     ))
 
-# Layout con escala logarítmica y notación científica
 fig.update_layout(
     title="Training Loss history",
-    xaxis=dict(
-        title="Iteration",
-        tickformat=".1e"  # Notación científica
-    ),
-    yaxis=dict(
-        title="Loss",
-        type="log",
-        tickformat=".1e"  # Notación científica
-    ),
+    xaxis=dict(title="Iteration", tickformat=".1e"),
+    yaxis=dict(title="Loss", type="log", tickformat=".1e"),
     template="plotly_white",
     legend=dict(x=0.99, y=0.99),
     font=dict(size=14)
 )
+# fig.show()
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| label: fig-training_loss_html
+#| fig-cap: "Historial de pérdida en el entrenamiento de la red neuronal."
+#| echo: false
 
 fig.show()
 ```
+:::
+
+::: {.content-visible when-format="pdf"}
+```{python}
+#| include: false
+import numpy as np
+import os
+# Asegurar que la carpeta 'figs' exista
+os.makedirs("images", exist_ok=True)
+# Exportar imagen para PDF
+fig.write_image("images/fig-training_loss.png", width=800, height=600)
+```
+
+![Gráfica de la perdida en el entrenamiento.](images/fig-training_loss.png){#fig-loss_training fig-align="center"}
+:::
+
+
 
 El historial de perdida para el conjunto de prueba es el siguiente:
 ```{python}
 #| label: fig-test_loss
-#| fig-cap: "Historial de perdida en el conjunto de prueba de la red neuronal."
+#| echo: true
+#| output: false
 
 import plotly.graph_objects as go
+
 # Nombres de las componentes del loss
 loss_labels = [
     "PDE residual loss",
@@ -267,14 +288,13 @@ loss_labels = [
     "Top/Bottom‐boundary (Neumann) loss"
 ]
 
-# Extraer pasos y pérdida del conjunto de prueba
+# Extraer pasos y pérdida de entrenamiento
 steps = losshistory.steps
-test_loss = np.array(losshistory.loss_test)  
+test_loss = np.array(losshistory.loss_test)
 
 # Crear figura
 fig = go.Figure()
 
-# Agregar cada componente del loss
 for i in range(test_loss.shape[1]):
     fig.add_trace(go.Scatter(
         x=steps,
@@ -283,25 +303,41 @@ for i in range(test_loss.shape[1]):
         name=loss_labels[i]
     ))
 
-# Layout con escala logarítmica y notación científica
 fig.update_layout(
     title="Test Loss history",
-    xaxis=dict(
-        title="Iteration",
-        tickformat=".1e"  # Notación científica
-    ),
-    yaxis=dict(
-        title="Loss",
-        type="log",
-        tickformat=".1e"  # Notación científica
-    ),
+    xaxis=dict(title="Iteration", tickformat=".1e"),
+    yaxis=dict(title="Loss", type="log", tickformat=".1e"),
     template="plotly_white",
     legend=dict(x=0.99, y=0.99),
     font=dict(size=14)
 )
+# fig.show()
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| label: fig-test_loss_html
+#| fig-cap: "Historial de pérdida en el conjunto de prueba de la red neuronal."
+#| echo: false
 
 fig.show()
 ```
+
+:::
+
+::: {.content-visible when-format="pdf"}
+```{python}
+#| include: false
+import numpy as np
+import os
+# Asegurar que la carpeta 'figs' exista
+os.makedirs("images", exist_ok=True)
+# Exportar imagen para PDF
+fig.write_image("images/fig-test_loss.png", width=800, height=600)
+```
+
+![Gráfica de la perdida en el conjunto de prueba.](images/fig-test_loss.png){#fig-loss_test fig-align="center"}
+:::
 
 A continuación, los valores predichos por la red neuronal a tiempos t(s) de 0.0, 0.25, 0.50, 0.75 y 1.0. 
 ```{python}
@@ -375,5 +411,5 @@ plt.show()
 
 
 ![Resultados reportados por @medical_rep en el caso 2D.](images/results_paper.png){#fig-results_fnn fig-align="center" width="750"}
-
+:::
 
