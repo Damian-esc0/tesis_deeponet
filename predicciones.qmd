@@ -59,7 +59,7 @@ AF = "elu"
 k_initializer = "Glorot normal"
 
 # Training parameters
-num_iterations = 2000
+num_iterations = 1000
 learning_rate = 2e-3
 decay_rate = 0.05
 decay_steps = 1000
@@ -204,8 +204,6 @@ losshistory, train_state = model.train()
 
 El historial de perdida para el conjunto de entrenamiento es el siguiente:
 ```{python}
-#| label: fig-training_loss
-#| echo: true
 #| output: false
 
 import plotly.graph_objects as go
@@ -224,17 +222,17 @@ steps = losshistory.steps
 train_loss = np.array(losshistory.loss_train)
 
 # Crear figura
-fig = go.Figure()
+fig_train = go.Figure()
 
 for i in range(train_loss.shape[1]):
-    fig.add_trace(go.Scatter(
+    fig_train.add_trace(go.Scatter(
         x=steps,
         y=train_loss[:, i],
         mode='lines',
         name=loss_labels[i]
     ))
 
-fig.update_layout(
+fig_train.update_layout(
     title="Training Loss history",
     xaxis=dict(title="Iteration", tickformat=".1e"),
     yaxis=dict(title="Loss", type="log", tickformat=".1e"),
@@ -242,16 +240,16 @@ fig.update_layout(
     legend=dict(x=0.99, y=0.99),
     font=dict(size=14)
 )
-# fig.show()
+fig_train.show()
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| label: fig-training_loss_html
+#| label: fig-training_loss
 #| fig-cap: "Historial de pérdida en el entrenamiento de la red neuronal."
 #| echo: false
 
-fig.show()
+fig_train.show()
 ```
 :::
 
@@ -260,10 +258,10 @@ fig.show()
 #| include: false
 import numpy as np
 import os
-# Asegurar que la carpeta 'figs' exista
+# Asegurar que la carpeta 'images' exista
 os.makedirs("images", exist_ok=True)
 # Exportar imagen para PDF
-fig.write_image("images/fig-training_loss.png", width=800, height=600)
+fig_train.write_image("images/fig-training_loss.png", width=800, height=600)
 ```
 
 ![Gráfica de la perdida en el entrenamiento.](images/fig-training_loss.png){#fig-loss_training fig-align="center"}
@@ -273,8 +271,6 @@ fig.write_image("images/fig-training_loss.png", width=800, height=600)
 
 El historial de perdida para el conjunto de prueba es el siguiente:
 ```{python}
-#| label: fig-test_loss
-#| echo: true
 #| output: false
 
 import plotly.graph_objects as go
@@ -293,17 +289,17 @@ steps = losshistory.steps
 test_loss = np.array(losshistory.loss_test)
 
 # Crear figura
-fig = go.Figure()
+fig_test = go.Figure()
 
 for i in range(test_loss.shape[1]):
-    fig.add_trace(go.Scatter(
+    fig_test.add_trace(go.Scatter(
         x=steps,
         y=test_loss[:, i],
         mode='lines',
         name=loss_labels[i]
     ))
 
-fig.update_layout(
+fig_test.update_layout(
     title="Test Loss history",
     xaxis=dict(title="Iteration", tickformat=".1e"),
     yaxis=dict(title="Loss", type="log", tickformat=".1e"),
@@ -311,16 +307,16 @@ fig.update_layout(
     legend=dict(x=0.99, y=0.99),
     font=dict(size=14)
 )
-# fig.show()
+fig_test.show()
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| label: fig-test_loss_html
+#| label: fig-test_loss
 #| fig-cap: "Historial de pérdida en el conjunto de prueba de la red neuronal."
 #| echo: false
 
-fig.show()
+fig_test.show()
 ```
 
 :::
@@ -330,10 +326,10 @@ fig.show()
 #| include: false
 import numpy as np
 import os
-# Asegurar que la carpeta 'figs' exista
+# Asegurar que la carpeta 'images' exista
 os.makedirs("images", exist_ok=True)
 # Exportar imagen para PDF
-fig.write_image("images/fig-test_loss.png", width=800, height=600)
+fig_test.write_image("images/fig-test_loss.png", width=800, height=600)
 ```
 
 ![Gráfica de la perdida en el conjunto de prueba.](images/fig-test_loss.png){#fig-loss_test fig-align="center"}

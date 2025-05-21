@@ -768,7 +768,7 @@ la red neuronal
 \NormalTok{k\_initializer }\OperatorTok{=} \StringTok{"Glorot normal"}
 
 \CommentTok{\# Training parameters}
-\NormalTok{num\_iterations }\OperatorTok{=} \DecValTok{2000}
+\NormalTok{num\_iterations }\OperatorTok{=} \DecValTok{1000}
 \NormalTok{learning\_rate }\OperatorTok{=} \FloatTok{2e{-}3}
 \NormalTok{decay\_rate }\OperatorTok{=} \FloatTok{0.05}
 \NormalTok{decay\_steps }\OperatorTok{=} \DecValTok{1000}
@@ -912,11 +912,11 @@ la red neuronal
 \end{Shaded}
 
 \begin{verbatim}
-2025-05-20 18:13:28.894698: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
-2025-05-20 18:13:29.128141: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
-2025-05-20 18:13:29.130347: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+2025-05-20 19:13:11.966121: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
+2025-05-20 19:13:12.015891: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
+2025-05-20 19:13:12.016611: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
 To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
-2025-05-20 18:13:30.116682: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+2025-05-20 19:13:12.774304: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
 Using backend: tensorflow.compat.v1
 Other supported backends: tensorflow, pytorch, jax, paddle.
 paddle supports more examples now and is recommended.
@@ -929,7 +929,7 @@ non-resource variables are not supported in the long term
 Setting the default backend to "tensorflow.compat.v1". You can change it in the ~/.deepxde/config.json file or export the DDE_BACKEND environment variable. Valid options are: tensorflow.compat.v1, tensorflow, pytorch, jax, paddle (all lowercase)
 Compiling model...
 Building DeepONetCartesianProd...
-'build' took 0.098436 s
+'build' took 0.087113 s
 \end{verbatim}
 
 \begin{verbatim}
@@ -947,11 +947,11 @@ Building DeepONetCartesianProd...
 \end{verbatim}
 
 \begin{verbatim}
-'compile' took 15.037677 s
+'compile' took 14.870243 s
 \end{verbatim}
 
 \begin{verbatim}
-2025-05-20 18:13:46.885013: I tensorflow/compiler/mlir/mlir_graph_optimization_pass.cc:375] MLIR V1 optimization pass is not enabled
+2025-05-20 19:13:29.177209: I tensorflow/compiler/mlir/mlir_graph_optimization_pass.cc:375] MLIR V1 optimization pass is not enabled
 \end{verbatim}
 
 \begin{verbatim}
@@ -960,43 +960,38 @@ Training model...
 Step      Train loss                                            Test loss                                             Test metric
 0         [2.57e+00, 4.03e-01, 4.13e-01, 6.71e-01, 1.05e+00]    [1.57e+00, 1.57e-01, 3.45e-01, 5.19e-01, 3.07e-01]    []  
 1000      [3.97e-03, 3.15e-03, 3.81e-04, 2.63e-02, 1.86e-04]    [6.39e-03, 3.24e-03, 9.14e-04, 2.74e-02, 4.08e-04]    []  
-2000      [1.23e-03, 1.01e-03, 1.47e-04, 2.58e-02, 7.37e-05]    [4.01e-03, 1.03e-03, 6.52e-04, 2.66e-02, 1.18e-04]    []  
 
-Best model at step 2000:
-  train loss: 2.83e-02
-  test loss: 3.24e-02
+Best model at step 1000:
+  train loss: 3.40e-02
+  test loss: 3.84e-02
   test metric: []
 
-'train' took 22.959966 s
+'train' took 15.590192 s
 
 Compiling model...
-'compile' took 34.020894 s
+'compile' took 33.016664 s
 
 Training model...
 
 Step      Train loss                                            Test loss                                             Test metric
-2000      [1.23e-03, 1.01e-03, 1.47e-04, 2.58e-02, 7.37e-05]    [4.01e-03, 1.03e-03, 6.52e-04, 2.66e-02, 1.18e-04]    []  
+1000      [3.97e-03, 3.15e-03, 3.81e-04, 2.63e-02, 1.86e-04]    [6.39e-03, 3.24e-03, 9.14e-04, 2.74e-02, 4.08e-04]    []  
 INFO:tensorflow:Optimization terminated with:
   Message: CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH
-  Objective function value: 0.028235
-  Number of iterations: 4
-  Number of functions evaluations: 41
-2041      [1.21e-03, 1.01e-03, 1.11e-04, 2.58e-02, 7.36e-05]    [3.90e-03, 1.03e-03, 5.92e-04, 2.66e-02, 1.17e-04]    []  
+  Objective function value: 0.033171
+  Number of iterations: 5
+  Number of functions evaluations: 65
+1065      [3.14e-03, 3.15e-03, 3.80e-04, 2.63e-02, 1.87e-04]    [5.62e-03, 3.23e-03, 9.08e-04, 2.74e-02, 4.08e-04]    []  
 
-Best model at step 2041:
-  train loss: 2.82e-02
-  test loss: 3.22e-02
+Best model at step 1065:
+  train loss: 3.32e-02
+  test loss: 3.76e-02
   test metric: []
 
-'train' took 11.552876 s
+'train' took 11.204808 s
 \end{verbatim}
 
 El historial de perdida para el conjunto de entrenamiento es el
 siguiente:
-
-\begin{figure}
-
-\centering{
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1016,17 +1011,17 @@ siguiente:
 \NormalTok{train\_loss }\OperatorTok{=}\NormalTok{ np.array(losshistory.loss\_train)}
 
 \CommentTok{\# Crear figura}
-\NormalTok{fig }\OperatorTok{=}\NormalTok{ go.Figure()}
+\NormalTok{fig\_train }\OperatorTok{=}\NormalTok{ go.Figure()}
 
 \ControlFlowTok{for}\NormalTok{ i }\KeywordTok{in} \BuiltInTok{range}\NormalTok{(train\_loss.shape[}\DecValTok{1}\NormalTok{]):}
-\NormalTok{    fig.add\_trace(go.Scatter(}
+\NormalTok{    fig\_train.add\_trace(go.Scatter(}
 \NormalTok{        x}\OperatorTok{=}\NormalTok{steps,}
 \NormalTok{        y}\OperatorTok{=}\NormalTok{train\_loss[:, i],}
 \NormalTok{        mode}\OperatorTok{=}\StringTok{\textquotesingle{}lines\textquotesingle{}}\NormalTok{,}
 \NormalTok{        name}\OperatorTok{=}\NormalTok{loss\_labels[i]}
 \NormalTok{    ))}
 
-\NormalTok{fig.update\_layout(}
+\NormalTok{fig\_train.update\_layout(}
 \NormalTok{    title}\OperatorTok{=}\StringTok{"Training Loss history"}\NormalTok{,}
 \NormalTok{    xaxis}\OperatorTok{=}\BuiltInTok{dict}\NormalTok{(title}\OperatorTok{=}\StringTok{"Iteration"}\NormalTok{, tickformat}\OperatorTok{=}\StringTok{".1e"}\NormalTok{),}
 \NormalTok{    yaxis}\OperatorTok{=}\BuiltInTok{dict}\NormalTok{(title}\OperatorTok{=}\StringTok{"Loss"}\NormalTok{, }\BuiltInTok{type}\OperatorTok{=}\StringTok{"log"}\NormalTok{, tickformat}\OperatorTok{=}\StringTok{".1e"}\NormalTok{),}
@@ -1034,15 +1029,9 @@ siguiente:
 \NormalTok{    legend}\OperatorTok{=}\BuiltInTok{dict}\NormalTok{(x}\OperatorTok{=}\FloatTok{0.99}\NormalTok{, y}\OperatorTok{=}\FloatTok{0.99}\NormalTok{),}
 \NormalTok{    font}\OperatorTok{=}\BuiltInTok{dict}\NormalTok{(size}\OperatorTok{=}\DecValTok{14}\NormalTok{)}
 \NormalTok{)}
-\CommentTok{\# fig.show()}
+\NormalTok{fig\_train.show()}
 \end{Highlighting}
 \end{Shaded}
-
-}
-
-\caption{\label{fig-training_loss}}
-
-\end{figure}%
 
 \begin{figure}
 
@@ -1058,10 +1047,6 @@ entrenamiento.}
 \end{figure}%
 
 El historial de perdida para el conjunto de prueba es el siguiente:
-
-\begin{figure}
-
-\centering{
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1081,17 +1066,17 @@ El historial de perdida para el conjunto de prueba es el siguiente:
 \NormalTok{test\_loss }\OperatorTok{=}\NormalTok{ np.array(losshistory.loss\_test)}
 
 \CommentTok{\# Crear figura}
-\NormalTok{fig }\OperatorTok{=}\NormalTok{ go.Figure()}
+\NormalTok{fig\_test }\OperatorTok{=}\NormalTok{ go.Figure()}
 
 \ControlFlowTok{for}\NormalTok{ i }\KeywordTok{in} \BuiltInTok{range}\NormalTok{(test\_loss.shape[}\DecValTok{1}\NormalTok{]):}
-\NormalTok{    fig.add\_trace(go.Scatter(}
+\NormalTok{    fig\_test.add\_trace(go.Scatter(}
 \NormalTok{        x}\OperatorTok{=}\NormalTok{steps,}
 \NormalTok{        y}\OperatorTok{=}\NormalTok{test\_loss[:, i],}
 \NormalTok{        mode}\OperatorTok{=}\StringTok{\textquotesingle{}lines\textquotesingle{}}\NormalTok{,}
 \NormalTok{        name}\OperatorTok{=}\NormalTok{loss\_labels[i]}
 \NormalTok{    ))}
 
-\NormalTok{fig.update\_layout(}
+\NormalTok{fig\_test.update\_layout(}
 \NormalTok{    title}\OperatorTok{=}\StringTok{"Test Loss history"}\NormalTok{,}
 \NormalTok{    xaxis}\OperatorTok{=}\BuiltInTok{dict}\NormalTok{(title}\OperatorTok{=}\StringTok{"Iteration"}\NormalTok{, tickformat}\OperatorTok{=}\StringTok{".1e"}\NormalTok{),}
 \NormalTok{    yaxis}\OperatorTok{=}\BuiltInTok{dict}\NormalTok{(title}\OperatorTok{=}\StringTok{"Loss"}\NormalTok{, }\BuiltInTok{type}\OperatorTok{=}\StringTok{"log"}\NormalTok{, tickformat}\OperatorTok{=}\StringTok{".1e"}\NormalTok{),}
@@ -1099,15 +1084,9 @@ El historial de perdida para el conjunto de prueba es el siguiente:
 \NormalTok{    legend}\OperatorTok{=}\BuiltInTok{dict}\NormalTok{(x}\OperatorTok{=}\FloatTok{0.99}\NormalTok{, y}\OperatorTok{=}\FloatTok{0.99}\NormalTok{),}
 \NormalTok{    font}\OperatorTok{=}\BuiltInTok{dict}\NormalTok{(size}\OperatorTok{=}\DecValTok{14}\NormalTok{)}
 \NormalTok{)}
-\CommentTok{\# fig.show()}
+\NormalTok{fig\_test.show()}
 \end{Highlighting}
 \end{Shaded}
-
-}
-
-\caption{\label{fig-test_loss}}
-
-\end{figure}%
 
 \begin{figure}
 

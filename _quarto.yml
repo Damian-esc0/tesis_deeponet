@@ -64,6 +64,7 @@ format:
       gutter-width: 1.5rem
     code-fold: true
     code-copy: true
+    echo: True
   
   pdf:
     lang: es
