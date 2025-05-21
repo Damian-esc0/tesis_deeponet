@@ -318,6 +318,69 @@ datos y cumplimiento de leyes físicas)
 
 \chapter{DeepONet}\label{deeponet}
 
+\textbf{DeepONet} (Deep Operator Network) es una arquitectura de red
+neuronal profunda diseñada para aprender operadores no lineales que
+mapean funciones de entrada a funciones de salida. A diferencia de las
+redes convencionales que aprenden funciones escalares, DeepONet se
+enfoca en representar operadores completos, como soluciones de
+ecuaciones diferenciales, a partir de datos observados o simulaciones
+numérica (\citeproc{ref-lu2021deeponet}{Lu, Jin, et~al. 2021}).
+
+\section{Arquitectura}\label{arquitectura}
+
+La arquitectura de DeepONet está compuesta por dos redes principales: la
+red de \emph{branch} y la red de \emph{trunk}. La red \emph{branch}
+procesa las evaluaciones discretas de la función de entrada (por
+ejemplo, condiciones iniciales o de frontera), mientras que la red
+\emph{trunk} recibe como entrada los puntos del dominio donde se desea
+evaluar la función de salida. La salida final se obtiene mediante el
+producto punto de los vectores generados por ambas redes, lo que permite
+representar operadores complejos con alta generalización a nuevos datos
+(\citeproc{ref-lu2021deeponet}{Lu, Jin, et~al. 2021}).
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=6.25in,height=\textheight,keepaspectratio]{images/deeponet_architecture.png}
+
+}
+
+\caption{\label{fig-deeponet-arch}\textbf{Ilustraciones del
+planteamiento del problema y arquitectura DeepONet que conducen a una
+buena generalización. a)} Para que la red aprenda un operador
+\(G : u \rightarrow G(u)\) se necesitan dos entradas
+\([u(x_1), u(x_2), ..., u(x_m)]\) e \(y\). \textbf{b)} Ilustración de
+los datos de entrenamiento. Para cada función de entrada \(u\), se
+requiere el mismo número de evaluaciones en los mismos sensores
+dispersos \(x_1, x_2, ..., x_m\). Sin embargo, no se impone ninguna
+restricción sobre el número ni las ubicaciones para la evaluación de las
+funciones de salida. \textbf{c)} La DeepONet \emph{stacked} se inspira
+en el Teorema 1 y consta de una red \emph{Trunk} y \(p\) redes
+\emph{Branch} apiladas. La red construida en el Teorema 1 es una
+DeepONet \emph{stacked} formada al elegir la red \emph{Trunk} como una
+red de una capa de ancho \(p\) y cada red \emph{Branch} como una red de
+una capa oculta de ancho \(n\). \textbf{d)} La red DeepONet
+\emph{unstacked} se inspira en el Teorema 2 y consta de una red
+\emph{Trunk} y una red \emph{Branch}. Una red DeepONet \emph{unstacked}
+puede considerarse como una red DeepONet \emph{stacked}, en la que todas
+las redes \emph{Branch} comparten el mismo conjunto de parámetros
+(\citeproc{ref-lu2021deeponet}{Lu, Jin, et~al. 2021}).}
+
+\end{figure}%
+
+\section{Comparación con una PINN}\label{comparaciuxf3n-con-una-pinn}
+
+En contraste con una red PINN convencional (Physics-Informed Neural
+Network), que resuelve una instancia específica de una ecuación
+diferencial para un conjunto dado de condiciones, DeepONet aprende el
+operador general que resuelve muchas instancias a la vez. Mientras que
+una PINN debe ser reentrenada para cada nuevo problema, DeepONet, una
+vez entrenado, puede predecir soluciones rápidamente para múltiples
+condiciones nuevas. Esto lo hace especialmente eficiente en aplicaciones
+donde se requiere realizar inferencias repetidas, como en control o
+diseño inverso (\citeproc{ref-kumar2024deeponet}{Kumar et~al. 2024}).
+
 \part{Ecuación del Bio-Calor}
 
 La ecuación del bio-calor, formulada por Pennes
@@ -338,11 +401,11 @@ la producción metabólica de calor y la conducción térmica en tejidos.
 
 }
 
-\caption{\label{fig-pennes_art}a)Posición del brazo derecho (vista
-superior). La linea horizontal II indica el nivel de la figura
-c).\textbackslash{} b)Posición del brazo derecho (vista
-lateral).\textbackslash{} c)Sección transverla anatómica del antebrazo
-en el nivel II. Fuente:Pennes (\citeproc{ref-pennes1948}{1948})}
+\caption{\label{fig-pennes_art}\textbf{a)} Posición del brazo derecho
+(vista superior). La linea horizontal II indica el nivel de la figura
+c). \textbf{b)} Posición del brazo derecho (vista lateral).
+\textbf{c)}Sección transversal anatómica del antebrazo en el nivel II
+(\citeproc{ref-pennes1948}{Pennes 1948}).}
 
 \end{figure}%
 
@@ -366,16 +429,25 @@ sanguínea y metabolismo. Su forma general es:
 \rho c \frac{\partial T}{\partial t} = k_{\text{eff}} \frac{\partial^{2} T}{\partial x^{2}} - \rho_b c_b \omega_b (T - T_a) + Q, \quad x \in \Omega, \, t \in [0, t_f]
 \end{equation}
 
-\textbf{Donde}:\\
-- \(T\): Temperatura del tejido (°C).\\
-- \(\rho, c\): Densidad (kg/m³) y calor específico (J/kg·°C) del
-tejido.\\
-- \(k_{\text{eff}}\): Conductividad térmica efectiva (W/m·°C).\\
-- \(\rho_b, c_b\): Densidad y calor específico de la sangre.\\
-- \(\omega_b\): Tasa de perfusión sanguínea (1/s).\\
-- \(T_a\): Temperatura arterial (°C).\\
-- \(Q = q_m + q_p\): Fuente de calor (\(W/m^3\)), incluye metabolismo
-(\(q_m\)) y aporte externo (\(q_p\)).
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+Símbolo & Descripción & Unidades \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\(T\) & Temperatura del tejido & °C \\
+\(\rho\) & Densidad del tejido & \(\dfrac{kg}{m^3}\) \\
+\(c\) & Calor específico del tejido & \(\dfrac{J}{kg °C}\) \\
+\(k_{\text{eff}}\) & Conductividad térmica & \(\dfrac{W}{m °C}\) \\
+\(\rho_b\) & Densidad de la sangre & \(\dfrac{kg}{m^3}\) \\
+\(c_b\) & Calor específico de la sangre & \(\dfrac{J}{kg °C}\) \\
+\(\omega_b\) & Tasa de perfusión sanguínea & \(1/s\) \\
+\(T_a\) & Temperatura arterial & °C \\
+\(Q = q_m + q_p\) & Fuente de calor & \(\dfrac{W}{m^3}\) \\
+\(q_m\) & Metabolismo & \(\dfrac{W}{m^3}\) \\
+\(q_p\) & Externa & \(\dfrac{W}{m^3}\) \\
+\end{longtable}
 
 \section{Versión reducida
 (adimensionalizada)}\label{versiuxf3n-reducida-adimensionalizada}
@@ -383,6 +455,17 @@ tejido.\\
 Mediante escalamiento: \begin{equation}
 T' = T - T_a \qquad \theta = \dfrac{T'}{T_M - T_a} \qquad X = \dfrac{x}{L_0} \qquad \tau = \dfrac{t}{t_f}
 \end{equation}
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+Símbolo & Descripción & Unidades \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\(L_0\) & Longitud característica del dominio & \(m\) \\
+\(t_f\) & Tiempo final de simulación & \(s\) \\
+\end{longtable}
 
 se obtiene:
 
@@ -413,25 +496,6 @@ adecuadas}\label{condiciones-de-uso-adecuadas}
   \textbf{Aplicaciones clínicas}: Hipertermia, crioterapia y modelado
   térmico en terapias oncológicas.
 \end{enumerate}
-
-\section{Tabla de nomenclatura}\label{tabla-de-nomenclatura}
-
-\begin{longtable}[]{@{}lll@{}}
-\toprule\noalign{}
-Símbolo & Descripción & Unidades \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-\(T\) & Temperatura del tejido & °C \\
-\(\rho\) & Densidad del tejido & kg/m³ \\
-\(c\) & Calor específico del tejido & J/kg·°C \\
-\(k_{\text{eff}}\) & Conductividad térmica & W/m·°C \\
-\(\omega_b\) & Tasa de perfusión sanguínea & 1/s \\
-\(Q\) & Fuente de calor (metabolismo + externa) & W/m³ \\
-\(L_0\) & Longitud característica del dominio & m \\
-\(t_f\) & Tiempo final de simulación & s \\
-\end{longtable}
 
 \chapter{Modelado del Bio-Calor en
 Hipertermia}\label{modelado-del-bio-calor-en-hipertermia}
@@ -520,8 +584,8 @@ cancerosos (benignos).}
 }
 
 \caption{\label{fig-breast-cancer}Una célula de cáncer de seno que se
-multiplica, Instituto Nacional del Cáncer
-(\citeproc{ref-nci2021}{2021}).}
+multiplica (\citeproc{ref-nci2021}{Instituto Nacional del Cáncer
+2021}).}
 
 \end{figure}%
 
@@ -597,7 +661,7 @@ implementarlos dentro del diseño del modelo.
 \section{Diseño del modelo}\label{diseuxf1o-del-modelo}
 
 El lenguaje seleccionado fué Python, a su vez el código se basa
-enteramente en la librería Deepxde creada por Lu et~al.
+enteramente en la librería Deepxde creada por Lu, Meng, et~al.
 (\citeproc{ref-deepxde}{2021}) la cual está directamente enfocada a
 resolver ecuaciones diferenciales, se usó además como backend
 \emph{tensorflow\_compat\_v1} siendo su elección debida únicamente a la
@@ -848,11 +912,11 @@ la red neuronal
 \end{Shaded}
 
 \begin{verbatim}
-2025-05-19 23:48:10.558682: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
-2025-05-19 23:48:10.610332: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
-2025-05-19 23:48:10.611088: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+2025-05-20 18:13:28.894698: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
+2025-05-20 18:13:29.128141: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
+2025-05-20 18:13:29.130347: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
 To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
-2025-05-19 23:48:11.410503: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+2025-05-20 18:13:30.116682: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
 Using backend: tensorflow.compat.v1
 Other supported backends: tensorflow, pytorch, jax, paddle.
 paddle supports more examples now and is recommended.
@@ -865,7 +929,7 @@ non-resource variables are not supported in the long term
 Setting the default backend to "tensorflow.compat.v1". You can change it in the ~/.deepxde/config.json file or export the DDE_BACKEND environment variable. Valid options are: tensorflow.compat.v1, tensorflow, pytorch, jax, paddle (all lowercase)
 Compiling model...
 Building DeepONetCartesianProd...
-'build' took 0.099548 s
+'build' took 0.098436 s
 \end{verbatim}
 
 \begin{verbatim}
@@ -883,11 +947,11 @@ Building DeepONetCartesianProd...
 \end{verbatim}
 
 \begin{verbatim}
-'compile' took 14.625464 s
+'compile' took 15.037677 s
 \end{verbatim}
 
 \begin{verbatim}
-2025-05-19 23:48:27.572878: I tensorflow/compiler/mlir/mlir_graph_optimization_pass.cc:375] MLIR V1 optimization pass is not enabled
+2025-05-20 18:13:46.885013: I tensorflow/compiler/mlir/mlir_graph_optimization_pass.cc:375] MLIR V1 optimization pass is not enabled
 \end{verbatim}
 
 \begin{verbatim}
@@ -903,10 +967,10 @@ Best model at step 2000:
   test loss: 3.24e-02
   test metric: []
 
-'train' took 23.455316 s
+'train' took 22.959966 s
 
 Compiling model...
-'compile' took 33.974093 s
+'compile' took 34.020894 s
 
 Training model...
 
@@ -924,10 +988,11 @@ Best model at step 2041:
   test loss: 3.22e-02
   test metric: []
 
-'train' took 10.903910 s
+'train' took 11.552876 s
 \end{verbatim}
 
-El historial de perdida para el entrenamiento obtenido es el siguiente:
+El historial de perdida para el conjunto de entrenamiento es el
+siguiente:
 
 \begin{figure}
 
@@ -1188,6 +1253,19 @@ Karniadakis, George Em, Ioannis G. Kevrekidis, Lu Lu, Paris Perdikaris,
 Sifan Wang, y Liu Yang. 2021. {«Physics-informed machine learning»}.
 \emph{Nature Reviews Physics} 3 (6): 422-40.
 \url{https://doi.org/10.1038/s42254-021-00314-5}.
+
+\bibitem[\citeproctext]{ref-kumar2024deeponet}
+Kumar, Varun, Somdatta Goswami, Katiana Kontolati, Michael D. Shields, y
+George Em Karniadakis. 2024. {«Synergistic Learning with Multi-Task
+DeepONet for Efficient PDE Problem Solving»}. \emph{arXiv preprint
+arXiv:2408.02198}. \url{https://arxiv.org/abs/2408.02198}.
+
+\bibitem[\citeproctext]{ref-lu2021deeponet}
+Lu, Lu, Pengzhan Jin, Guofei Pang, Zhongqiang Zhang, y George Em
+Karniadakis. 2021. {«Learning nonlinear operators via DeepONet based on
+the universal approximation theorem of operators»}. \emph{Nature Machine
+Intelligence} 3 (3): 218-29.
+\url{https://doi.org/10.1038/s42256-021-00302-5}.
 
 \bibitem[\citeproctext]{ref-deepxde}
 Lu, Lu, Xuhui Meng, Zhiping Mao, y George Em Karniadakis. 2021.

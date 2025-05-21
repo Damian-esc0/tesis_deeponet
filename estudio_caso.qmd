@@ -20,7 +20,7 @@ Por su parte @nci2021 aporta lo siguiente:
 :::
 
 
-![Una célula de cáncer de seno que se multiplica, @nci2021.](images/dividing-breast-cancer-cell.jpg){#fig-breast-cancer fig-align="center" width="500"}
+![Una célula de cáncer de seno que se multiplica [@nci2021].](images/dividing-breast-cancer-cell.jpg){#fig-breast-cancer fig-align="center" width="500"}
 
 Ésta enfermedad es la principal causa de muerte a nivel mundial, solo en 2020 arrebató casi 10 millones de vidas y según datos de @omscancer los cánceres más comunes en 2020 fueron:
 

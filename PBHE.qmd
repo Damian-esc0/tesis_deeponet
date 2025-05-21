@@ -8,7 +8,7 @@ execute:
 ::: {style="text-align: justify"}
 La ecuación del bio-calor, formulada por @pennes1948, surgió de su estudio pionero *"Analysis of Tissue and Arterial Blood Temperatures in the Resting Human Forearm"*. Publicado en el *Journal of Applied Physiology*, este trabajo fue el primero en cuantificar la interacción entre la temperatura arterial y tisular en humanos. Pennes combinó principios termodinámicos con mediciones experimentales en el antebrazo, estableciendo un modelo matemático que relacionaba el flujo sanguíneo, la producción metabólica de calor y la conducción térmica en tejidos.  
 
-![a)Posición del brazo derecho (vista superior). La linea horizontal II indica el nivel de la figura c).\\ b)Posición del brazo derecho (vista lateral).\\ c)Sección transverla anatómica del antebrazo en el nivel II. Fuente:@pennes1948](images/pennes_art.png){#fig-pennes_art fig-align="center" width="500"}
+![**a)** Posición del brazo derecho (vista superior). La linea horizontal II indica el nivel de la figura c). **b)** Posición del brazo derecho (vista lateral). **c)**Sección transversal anatómica del antebrazo en el nivel II [@pennes1948].](images/pennes_art.png){#fig-pennes_art fig-align="center" width="500"}
 
 El modelo de Pennes simplificó la complejidad biológica al asumir un flujo sanguíneo uniforme y una transferencia de calor proporcional a la diferencia entre la temperatura arterial y la tisular. Aunque posteriores investigaciones refinaron sus supuestos, su ecuación sigue siendo un referente en bioingeniería térmica. Su trabajo no solo sentó las bases para aplicaciones clínicas, como la hipertermia oncológica, sino que también inspiró avances en el estudio de la termorregulación humana y el diseño de dispositivos médicos.
 :::
