@@ -466,9 +466,9 @@ window.Quarto = {
 
 <div style="text-align: justify">
 <p>La ecuación diferencial de bio-calor de <span class="citation" data-cites="pennes1948">Pennes (<a href="references.html#ref-pennes1948" role="doc-biblioref">1948</a>)</span> modela la transferencia de calor en tejidos biológicos, integrando efectos de conducción, perfusión sanguínea y metabolismo. Su forma general es:</p>
-<p><span class="math display">\[\begin{equation}\label{eq:PBHE_completa}
+<p><span id="eq-PBHE_completa"><span class="math display">\[
 \rho c \frac{\partial T}{\partial t} = k_{\text{eff}} \frac{\partial^{2} T}{\partial x^{2}} - \rho_b c_b \omega_b (T - T_a) + Q, \quad x \in \Omega, \, t \in [0, t_f]
-\end{equation}\]</span></p>
+\tag{4.1}\]</span></span></p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -561,10 +561,10 @@ T' = T - T_a \qquad \theta = \dfrac{T'}{T_M - T_a} \qquad X = \dfrac{x}{L_0} \qq
 </tr>
 </tbody>
 </table>
-<p>se obtiene:</p>
-<p><span class="math display">\[\begin{equation}
+<p>la <a href="#eq-PBHE_completa" class="quarto-xref">Ecuación&nbsp;<span>4.1</span></a> se convierte en:</p>
+<p><span id="eq-PBHE-reduced"><span class="math display">\[
 \partial_{\tau} \theta = a_1 \partial_{XX} \theta - a_2 W \theta + a_3
-\end{equation}\]</span></p>
+\tag{4.2}\]</span></span></p>
 <p><strong>Parámetros adimensionales</strong>:<br>
 - <span class="math inline">\(a_1 = \frac{t_f}{\alpha L_0^2}\)</span> (difusividad térmica <span class="math inline">\(\alpha = \frac{k_{\text{eff}}}{\rho c}\)</span>).<br>
 - <span class="math inline">\(a_2 = \frac{t_f c_b}{\rho c}\)</span>.<br>

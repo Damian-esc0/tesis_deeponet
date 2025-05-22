@@ -93,6 +93,35 @@ div.csl-indent {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -437,6 +466,33 @@ div.csl-indent {
 
 <div style="text-align: justify">
 <p>Las Physics-Informed Neural Networks (PINNs) son un enfoque innovador que combina redes neuronales con ecuaciones diferenciales gobernantes para resolver problemas complejos de física <span class="citation" data-cites="blechs2021">(<a href="references.html#ref-blechs2021" role="doc-biblioref">Blechschmidt y Ernst 2021</a>)</span>. A diferencia de métodos tradicionales, las PINNs incorporan directamente las ecuaciones físicas en su función de pérdida mediante diferenciación automática, lo que permite minimizar simultáneamente el error en los datos y el residual de las PDEs <span class="citation" data-cites="karniadakis2021">(<a href="references.html#ref-karniadakis2021" role="doc-biblioref">Karniadakis et&nbsp;al. 2021</a>)</span>. Esta característica las hace particularmente valiosas en escenarios con datos limitados, donde el conocimiento físico actúa como un regularizador efectivo . La capacidad de aproximación de las PINNs se fundamenta en el teorema de aproximación universal de las redes neuronales, adaptado para incorporar restricciones físicas a través de términos de penalización en la función de optimización <span class="citation" data-cites="karniadakis2021">(<a href="references.html#ref-karniadakis2021" role="doc-biblioref">Karniadakis et&nbsp;al. 2021</a>)</span>.</p>
+<p>Como ejemplo, se considera la <strong>ecuación de Burgers para viscocidad</strong>:</p>
+<p><span class="math display">\[
+\frac{\partial u}{\partial t} + u \frac{\partial u}{\partial x} = \nu \frac{\partial^2 u}{\partial x^2}
+\]</span></p>
+<p>Con una condición inicial adecuada y condiciones de contorno de Dirichlet. En la figura <a href="#fig-pinn_graph" class="quarto-xref">Figura&nbsp;<span>2.1</span></a>, la red izquierda (physics-​uninformed) representa el sustituto de la solución de EDP <span class="math inline">\(u(x, t)\)</span>, mientras que la red derecha (physics-​informed) describe el residuo de EDP <span class="math inline">\(\frac{\partial u}{\partial t} + u \frac{\partial u}{\partial x} - \nu \frac{\partial^2 u}{\partial x^2}\)</span>. La función de pérdida incluye una pérdida supervisada de las mediciones de datos de <span class="math inline">\(u\)</span> de las condiciones iniciales y de contorno, y una pérdida no supervisada de EDP:</p>
+<p><span id="eq-loss-funct"><span class="math display">\[
+\mathcal{L} = w_{\text{data}} \mathcal{L}_{\text{data}} + w_{\text{PDE}} \mathcal{L}_{\text{PDE}}
+\label{eq-loss-funct}
+\tag{2.1}\]</span></span></p>
+<p>donde:</p>
+<p><span class="math display">\[\begin{align*}
+\mathcal{L}_{\text{data}} =&amp; \frac{1}{N_{\text{data}}} \sum_{i=1}^{N_{\text{data}}} \left( u(x_i, t_i) - u_i \right)^2 \\ \\
+
+\mathcal{L}_{\text{PDE}} =&amp; \frac{1}{N_{\text{PDE}}} \sum_{j=1}^{N_{\text{PDE}}} \left( \frac{\partial u}{\partial t}(x_j, t_j) + u \frac{\partial u}{\partial x}(x_j, t_j) - \nu \frac{\partial^2 u}{\partial x^2}(x_j, t_j) \right)^2
+\end{align*}\]</span></p>
+<p>Aquí, <span class="math inline">\((x_i, t_i)\)</span> representan puntos donde se conocen valores de la solución y <span class="math inline">\((x_j, t_j)\)</span> son puntos interiores del dominio. Los pesos <span class="math inline">\(w_{\text{data}}\)</span> y <span class="math inline">\(w_{\text{PDE}}\)</span> equilibran la contribución de cada término. La red se entrena minimizando <span class="math inline">\(\mathcal{L}\)</span> usando optimizadores como Adam o L-BFGS hasta alcanzar un umbral <span class="math inline">\(\varepsilon\)</span> <span class="citation" data-cites="karniadakis2021">(<a href="references.html#ref-karniadakis2021" role="doc-biblioref">Karniadakis et&nbsp;al. 2021</a>)</span>.</p>
+<p>Este enfoque permite resolver EDPs (clásicas, fraccionarias o estocásticas) sin mallas, en dominios complejos o con datos escasos y ruidosos, siendo una herramienta flexible y poderosa para la modelación científica.</p>
+<div id="fig-pinn_graph" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-pinn_graph-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/PINN_diagram.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="600">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pinn_graph-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2.1: <strong>El algoritmo de una PINN.</strong> Construya una red neuronal (NN) <span class="math inline">\(u(x, t; \theta)\)</span> donde <span class="math inline">\(\theta\)</span> representa el conjunto de pesos entrenables <span class="math inline">\(w\)</span> y sesgos <span class="math inline">\(b\)</span>, y <span class="math inline">\(\sigma\)</span> representa una función de activación no lineal. Especifique los datos de medición <span class="math inline">\({x_i, t_i, u_i}\)</span> para <span class="math inline">\(u\)</span> y los puntos residuales <span class="math inline">\({x_j, t_j}\)</span> para la EDP. Especifique la pérdida <span class="math inline">\(\mathcal{L}\)</span> en la ecuación <a href="#eq-loss-funct" class="quarto-xref">Ecuación&nbsp;<span>2.1</span></a> sumando las pérdidas ponderadas de los datos y la EDP. Entrene la NN para encontrar los mejores parámetros <span class="math inline">\(\mathbb{\theta^*}\)</span> minimizando la pérdida <span class="math inline">\(\mathcal{L}\)</span> <span class="citation" data-cites="karniadakis2021">(<a href="references.html#ref-karniadakis2021" role="doc-biblioref">Karniadakis et&nbsp;al. 2021</a>)</span>.
+</figcaption>
+</figure>
+</div>
 <section id="comparación-con-redes-neuronales-tradicionales" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="comparación-con-redes-neuronales-tradicionales"><span class="header-section-number">2.1</span> Comparación con Redes Neuronales Tradicionales</h2>
 <p>Mientras que las redes neuronales tradicionales dependen exclusivamente de grandes volúmenes de datos etiquetados para su entrenamiento <span class="citation" data-cites="karniadakis2021">(<a href="references.html#ref-karniadakis2021" role="doc-biblioref">Karniadakis et&nbsp;al. 2021</a>)</span>, las PINNs integran el conocimiento físico como parte esencial de su arquitectura <span class="citation" data-cites="blechs2021">(<a href="references.html#ref-blechs2021" role="doc-biblioref">Blechschmidt y Ernst 2021</a>)</span>. Esta diferencia clave permite a las PINNs generar soluciones físicamente consistentes incluso con datos escasos, evitando el sobreajuste común en enfoques puramente basados en datos. Otra ventaja significativa de las PINNs es su naturaleza mesh-free, que contrasta con los métodos numéricos tradicionales como FEM o FDM que requieren discretización espacial. Sin embargo, el entrenamiento de PINNs puede ser más desafiante debido a la necesidad de optimizar múltiples objetivos simultáneamente (ajuste a datos y cumplimiento de leyes físicas) <span class="citation" data-cites="blechs2021 karniadakis2021">(<a href="references.html#ref-blechs2021" role="doc-biblioref">Blechschmidt y Ernst 2021</a>; <a href="references.html#ref-karniadakis2021" role="doc-biblioref">Karniadakis et&nbsp;al. 2021</a>)</span>.</p>

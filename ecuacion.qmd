@@ -7,9 +7,9 @@ execute:
 ::: {style="text-align: justify"}
 La ecuación diferencial de bio-calor de @pennes1948 modela la transferencia de calor en tejidos biológicos, integrando efectos de conducción, perfusión sanguínea y metabolismo. Su forma general es:
 
-\begin{equation}\label{eq:PBHE_completa}
+$$
 \rho c \frac{\partial T}{\partial t} = k_{\text{eff}} \frac{\partial^{2} T}{\partial x^{2}} - \rho_b c_b \omega_b (T - T_a) + Q, \quad x \in \Omega, \, t \in [0, t_f]
-\end{equation}
+$$ {#eq-PBHE_completa}
 
 | Símbolo | Descripción | Unidades |  
 |---------|------------|----------|  
@@ -37,11 +37,11 @@ T' = T - T_a \qquad \theta = \dfrac{T'}{T_M - T_a} \qquad X = \dfrac{x}{L_0} \qq
 | $t_f$ | Tiempo final de simulación | $s$ |
 
 
-se obtiene:  
+la @eq-PBHE_completa se convierte en:  
 
-\begin{equation}
+$$
 \partial_{\tau} \theta = a_1 \partial_{XX} \theta - a_2 W \theta + a_3
-\end{equation}
+$$ {#eq-PBHE-reduced}
 
 
 **Parámetros adimensionales**:  
