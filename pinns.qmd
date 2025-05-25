@@ -18,14 +18,12 @@ Con una condición inicial adecuada y condiciones de contorno de Dirichlet. En l
 
 $$
 \mathcal{L} = w_{\text{data}} \mathcal{L}_{\text{data}} + w_{\text{PDE}} \mathcal{L}_{\text{PDE}}
-\label{eq-loss-funct}
 $$ {#eq-loss-funct}
 
 donde:
 
 \begin{align*}
 \mathcal{L}_{\text{data}} =& \frac{1}{N_{\text{data}}} \sum_{i=1}^{N_{\text{data}}} \left( u(x_i, t_i) - u_i \right)^2 \\ \\
-
 \mathcal{L}_{\text{PDE}} =& \frac{1}{N_{\text{PDE}}} \sum_{j=1}^{N_{\text{PDE}}} \left( \frac{\partial u}{\partial t}(x_j, t_j) + u \frac{\partial u}{\partial x}(x_j, t_j) - \nu \frac{\partial^2 u}{\partial x^2}(x_j, t_j) \right)^2
 \end{align*}
 

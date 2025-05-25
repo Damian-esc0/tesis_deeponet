@@ -406,6 +406,6 @@ plt.show()
 ```
 
 
-![Resultados reportados por @medical_rep en el caso 2D.](images/results_paper.png){#fig-results_fnn fig-align="center" width="750"}
+![Resultados reportados por @medical_rep en el caso 2D.](images/results_paper.png){#fig-results_fnn fig-align="center" width="500"}
 :::
 

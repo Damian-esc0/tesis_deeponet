@@ -297,6 +297,69 @@ neuronales, adaptado para incorporar restricciones físicas a través de
 términos de penalización en la función de optimización
 (\citeproc{ref-karniadakis2021}{Karniadakis et~al. 2021}).
 
+Como ejemplo, se considera la \textbf{ecuación de Burgers para
+viscocidad}:
+
+\[
+\frac{\partial u}{\partial t} + u \frac{\partial u}{\partial x} = \nu \frac{\partial^2 u}{\partial x^2}
+\]
+
+Con una condición inicial adecuada y condiciones de contorno de
+Dirichlet. En la figura Figura~\ref{fig-pinn_graph}, la red izquierda
+(physics-\hspace{0pt}uninformed) representa el sustituto de la solución
+de EDP \(u(x, t)\), mientras que la red derecha
+(physics-\hspace{0pt}informed) describe el residuo de EDP
+\(\frac{\partial u}{\partial t} + u \frac{\partial u}{\partial x} - \nu \frac{\partial^2 u}{\partial x^2}\).
+La función de pérdida incluye una pérdida supervisada de las mediciones
+de datos de \(u\) de las condiciones iniciales y de contorno, y una
+pérdida no supervisada de EDP:
+
+\begin{equation}\phantomsection\label{eq-loss-funct}{
+\mathcal{L} = w_{\text{data}} \mathcal{L}_{\text{data}} + w_{\text{PDE}} \mathcal{L}_{\text{PDE}}
+}\end{equation}
+
+donde:
+
+\begin{align*}
+\mathcal{L}_{\text{data}} =& \frac{1}{N_{\text{data}}} \sum_{i=1}^{N_{\text{data}}} \left( u(x_i, t_i) - u_i \right)^2 \\ \\
+\mathcal{L}_{\text{PDE}} =& \frac{1}{N_{\text{PDE}}} \sum_{j=1}^{N_{\text{PDE}}} \left( \frac{\partial u}{\partial t}(x_j, t_j) + u \frac{\partial u}{\partial x}(x_j, t_j) - \nu \frac{\partial^2 u}{\partial x^2}(x_j, t_j) \right)^2
+\end{align*}
+
+Aquí, \((x_i, t_i)\) representan puntos donde se conocen valores de la
+solución y \((x_j, t_j)\) son puntos interiores del dominio. Los pesos
+\(w_{\text{data}}\) y \(w_{\text{PDE}}\) equilibran la contribución de
+cada término. La red se entrena minimizando \(\mathcal{L}\) usando
+optimizadores como Adam o L-BFGS hasta alcanzar un umbral
+\(\varepsilon\) (\citeproc{ref-karniadakis2021}{Karniadakis et~al.
+2021}).
+
+Este enfoque permite resolver EDPs (clásicas, fraccionarias o
+estocásticas) sin mallas, en dominios complejos o con datos escasos y
+ruidosos, siendo una herramienta flexible y poderosa para la modelación
+científica.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=6.25in,height=\textheight,keepaspectratio]{images/PINN_diagram.png}
+
+}
+
+\caption{\label{fig-pinn_graph}\textbf{El algoritmo de una PINN.}
+Construya una red neuronal (NN) \(u(x, t; \theta)\) donde \(\theta\)
+representa el conjunto de pesos entrenables \(w\) y sesgos \(b\), y
+\(\sigma\) representa una función de activación no lineal. Especifique
+los datos de medición \({x_i, t_i, u_i}\) para \(u\) y los puntos
+residuales \({x_j, t_j}\) para la EDP. Especifique la pérdida
+\(\mathcal{L}\) en la ecuación Ecuación~\ref{eq-loss-funct} sumando las
+pérdidas ponderadas de los datos y la EDP. Entrene la NN para encontrar
+los mejores parámetros \(\mathbb{\theta^*}\) minimizando la pérdida
+\(\mathcal{L}\) (\citeproc{ref-karniadakis2021}{Karniadakis et~al.
+2021}).}
+
+\end{figure}%
+
 \section{Comparación con Redes Neuronales
 Tradicionales}\label{comparaciuxf3n-con-redes-neuronales-tradicionales}
 
@@ -356,15 +419,17 @@ requiere el mismo número de evaluaciones en los mismos sensores
 dispersos \(x_1, x_2, ..., x_m\). Sin embargo, no se impone ninguna
 restricción sobre el número ni las ubicaciones para la evaluación de las
 funciones de salida. \textbf{c)} La DeepONet \emph{stacked} se inspira
-en el Teorema 1 y consta de una red \emph{Trunk} y \(p\) redes
-\emph{Branch} apiladas. La red construida en el Teorema 1 es una
-DeepONet \emph{stacked} formada al elegir la red \emph{Trunk} como una
-red de una capa de ancho \(p\) y cada red \emph{Branch} como una red de
-una capa oculta de ancho \(n\). \textbf{d)} La red DeepONet
-\emph{unstacked} se inspira en el Teorema 2 y consta de una red
-\emph{Trunk} y una red \emph{Branch}. Una red DeepONet \emph{unstacked}
-puede considerarse como una red DeepONet \emph{stacked}, en la que todas
-las redes \emph{Branch} comparten el mismo conjunto de parámetros
+en el \textbf{Teorema de aproximación universal para operadores} y
+consta de una red \emph{Trunk} y \(p\) redes \emph{Branch} apiladas. La
+red cuya construcción se inspira en el mismo teorema es una DeepONet
+\emph{stacked} formada al elegir la red \emph{Trunk} como una red de una
+capa de ancho \(p\) y cada red \emph{Branch} como una red de una capa
+oculta de ancho \(n\). \textbf{d)} La red DeepONet \emph{unstacked} se
+inspira en el \textbf{Teorema general de aproximación universal para
+operadores} y consta de una red \emph{Trunk} y una red \emph{Branch}.
+Una red DeepONet \emph{unstacked} puede considerarse como una red
+DeepONet \emph{stacked}, en la que todas las redes \emph{Branch}
+comparten el mismo conjunto de parámetros
 (\citeproc{ref-lu2021deeponet}{Lu, Jin, et~al. 2021}).}
 
 \end{figure}%
@@ -393,6 +458,27 @@ principios termodinámicos con mediciones experimentales en el antebrazo,
 estableciendo un modelo matemático que relacionaba el flujo sanguíneo,
 la producción metabólica de calor y la conducción térmica en tejidos.
 
+\section*{Experimento}\label{experimento}
+\addcontentsline{toc}{section}{Experimento}
+
+\markright{Experimento}
+
+Durante su estudio, Pennes diseñó un experimento riguroso para medir la
+temperatura interna del antebrazo humano. Utilizó termopares tipo ``Y''
+insertados transversalmente en la musculatura del antebrazo mediante una
+aguja estéril, como se ilustra en la Figura~\ref{fig-pennes_art}. Esta
+configuración permitía capturar un perfil térmico a lo largo del eje
+transversal, minimizando interferencias derivadas del contacto externo o
+la conducción axial no deseada.
+
+La técnica experimental buscó máxima precisión geométrica y térmica: los
+termopares eran fijados con tensión controlada mediante un sistema
+mecánico que aseguraba trayectorias rectas y repetibles dentro del
+tejido. La inserción se realizaba con anestesia tópica mínima y bajo
+condiciones ambientales estables, lo cual garantizaba que los gradientes
+de temperatura registrados fueran atribuibles principalmente al
+metabolismo local y al efecto del flujo sanguíneo arterial.
+
 \begin{figure}
 
 \centering{
@@ -408,6 +494,11 @@ c). \textbf{b)} Posición del brazo derecho (vista lateral).
 (\citeproc{ref-pennes1948}{Pennes 1948}).}
 
 \end{figure}%
+
+\section*{Trascendencia}\label{trascendencia}
+\addcontentsline{toc}{section}{Trascendencia}
+
+\markright{Trascendencia}
 
 El modelo de Pennes simplificó la complejidad biológica al asumir un
 flujo sanguíneo uniforme y una transferencia de calor proporcional a la
@@ -425,11 +516,17 @@ La ecuación diferencial de bio-calor de Pennes
 tejidos biológicos, integrando efectos de conducción, perfusión
 sanguínea y metabolismo. Su forma general es:
 
-\begin{equation}\label{eq:PBHE_completa}
+\begin{equation}\phantomsection\label{eq-PBHE_completa}{
 \rho c \frac{\partial T}{\partial t} = k_{\text{eff}} \frac{\partial^{2} T}{\partial x^{2}} - \rho_b c_b \omega_b (T - T_a) + Q, \quad x \in \Omega, \, t \in [0, t_f]
-\end{equation}
+}\end{equation}
 
 \begin{longtable}[]{@{}lll@{}}
+\caption{Tabla de nomenclaturas de la
+Ecuación~\ref{eq-PBHE_completa}.}\label{tbl-nomenclatura-PBHE_completa}\tabularnewline
+\toprule\noalign{}
+Símbolo & Descripción & Unidades \\
+\midrule\noalign{}
+\endfirsthead
 \toprule\noalign{}
 Símbolo & Descripción & Unidades \\
 \midrule\noalign{}
@@ -437,26 +534,32 @@ Símbolo & Descripción & Unidades \\
 \bottomrule\noalign{}
 \endlastfoot
 \(T\) & Temperatura del tejido & °C \\
-\(\rho\) & Densidad del tejido & \(\dfrac{kg}{m^3}\) \\
-\(c\) & Calor específico del tejido & \(\dfrac{J}{kg °C}\) \\
-\(k_{\text{eff}}\) & Conductividad térmica & \(\dfrac{W}{m °C}\) \\
-\(\rho_b\) & Densidad de la sangre & \(\dfrac{kg}{m^3}\) \\
-\(c_b\) & Calor específico de la sangre & \(\dfrac{J}{kg °C}\) \\
+\(\rho\) & Densidad del tejido & \(\frac{kg}{m^3}\) \\
+\(c\) & Calor específico del tejido & \(\frac{J}{kg °C}\) \\
+\(k_{\text{eff}}\) & Conductividad térmica & \(\frac{W}{m °C}\) \\
+\(\rho_b\) & Densidad de la sangre & \(\frac{kg}{m^3}\) \\
+\(c_b\) & Calor específico de la sangre & \(\frac{J}{kg °C}\) \\
 \(\omega_b\) & Tasa de perfusión sanguínea & \(1/s\) \\
 \(T_a\) & Temperatura arterial & °C \\
-\(Q = q_m + q_p\) & Fuente de calor & \(\dfrac{W}{m^3}\) \\
-\(q_m\) & Metabolismo & \(\dfrac{W}{m^3}\) \\
-\(q_p\) & Externa & \(\dfrac{W}{m^3}\) \\
+\(Q = q_m + q_p\) & Fuente de calor & \(\frac{W}{m^3}\) \\
+\(q_m\) & Metabolismo & \(\frac{W}{m^3}\) \\
+\(q_p\) & Externa & \(\frac{W}{m^3}\) \\
 \end{longtable}
 
 \section{Versión reducida
 (adimensionalizada)}\label{versiuxf3n-reducida-adimensionalizada}
 
-Mediante escalamiento: \begin{equation}
+Mediante escalamiento: \begin{equation*}
 T' = T - T_a \qquad \theta = \dfrac{T'}{T_M - T_a} \qquad X = \dfrac{x}{L_0} \qquad \tau = \dfrac{t}{t_f}
-\end{equation}
+\end{equation*}
 
 \begin{longtable}[]{@{}lll@{}}
+\caption{Tabla de nomenclatura de las relaciones para
+escalamiento.}\label{tbl-}\tabularnewline
+\toprule\noalign{}
+Símbolo & Descripción & Unidades \\
+\midrule\noalign{}
+\endfirsthead
 \toprule\noalign{}
 Símbolo & Descripción & Unidades \\
 \midrule\noalign{}
@@ -467,11 +570,11 @@ Símbolo & Descripción & Unidades \\
 \(t_f\) & Tiempo final de simulación & \(s\) \\
 \end{longtable}
 
-se obtiene:
+la Ecuación~\ref{eq-PBHE_completa} se convierte en:
 
-\begin{equation}
+\begin{equation}\phantomsection\label{eq-PBHE-reduced}{
 \partial_{\tau} \theta = a_1 \partial_{XX} \theta - a_2 W \theta + a_3
-\end{equation}
+}\end{equation}
 
 \textbf{Parámetros adimensionales}:\\
 - \(a_1 = \frac{t_f}{\alpha L_0^2}\) (difusividad térmica
@@ -543,10 +646,14 @@ hipertermia localizada.
 
 \part{Estudio de caso}
 
-Hipertermia como opción terapéutica complementaria en el manejo de
-cáncer
+\section*{Hipertermia como opción terapéutica complementaria en el
+manejo de
+cáncer}\label{hipertermia-como-opciuxf3n-terapuxe9utica-complementaria-en-el-manejo-de-cuxe1ncer}
+\addcontentsline{toc}{section}{Hipertermia como opción terapéutica
+complementaria en el manejo de cáncer}
 
-\hfill\break
+\markright{Hipertermia como opción terapéutica complementaria en el
+manejo de cáncer}
 
 La Organización Mundial de la Salud (\citeproc{ref-omscancer}{2022}) en
 su página web define Cáncer como:
@@ -912,11 +1019,11 @@ la red neuronal
 \end{Shaded}
 
 \begin{verbatim}
-2025-05-20 19:13:11.966121: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
-2025-05-20 19:13:12.015891: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
-2025-05-20 19:13:12.016611: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+2025-05-22 08:28:32.968999: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
+2025-05-22 08:28:33.351670: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
+2025-05-22 08:28:33.354215: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
 To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
-2025-05-20 19:13:12.774304: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+2025-05-22 08:28:35.585493: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
 Using backend: tensorflow.compat.v1
 Other supported backends: tensorflow, pytorch, jax, paddle.
 paddle supports more examples now and is recommended.
@@ -929,7 +1036,7 @@ non-resource variables are not supported in the long term
 Setting the default backend to "tensorflow.compat.v1". You can change it in the ~/.deepxde/config.json file or export the DDE_BACKEND environment variable. Valid options are: tensorflow.compat.v1, tensorflow, pytorch, jax, paddle (all lowercase)
 Compiling model...
 Building DeepONetCartesianProd...
-'build' took 0.087113 s
+'build' took 0.194565 s
 \end{verbatim}
 
 \begin{verbatim}
@@ -947,11 +1054,11 @@ Building DeepONetCartesianProd...
 \end{verbatim}
 
 \begin{verbatim}
-'compile' took 14.870243 s
+'compile' took 33.462227 s
 \end{verbatim}
 
 \begin{verbatim}
-2025-05-20 19:13:29.177209: I tensorflow/compiler/mlir/mlir_graph_optimization_pass.cc:375] MLIR V1 optimization pass is not enabled
+2025-05-22 08:29:13.352090: I tensorflow/compiler/mlir/mlir_graph_optimization_pass.cc:375] MLIR V1 optimization pass is not enabled
 \end{verbatim}
 
 \begin{verbatim}
@@ -966,10 +1073,10 @@ Best model at step 1000:
   test loss: 3.84e-02
   test metric: []
 
-'train' took 15.590192 s
+'train' took 31.058892 s
 
 Compiling model...
-'compile' took 33.016664 s
+'compile' took 67.502451 s
 
 Training model...
 
@@ -987,7 +1094,7 @@ Best model at step 1065:
   test loss: 3.76e-02
   test metric: []
 
-'train' took 11.204808 s
+'train' took 21.247213 s
 \end{verbatim}
 
 El historial de perdida para el conjunto de entrenamiento es el
@@ -1188,7 +1295,7 @@ distintos tiempos.}
 
 \centering{
 
-\includegraphics[width=7.8125in,height=\textheight,keepaspectratio]{images/results_paper.png}
+\includegraphics[width=5.20833in,height=\textheight,keepaspectratio]{images/results_paper.png}
 
 }
 

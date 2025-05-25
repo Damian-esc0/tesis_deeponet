@@ -1,10 +1,12 @@
 ---
 title: Estudio de caso
-subtitle: Hipertermia como opción terapéutica complementaria en el manejo de cáncer
 lang: es
 execute: 
   freeze: auto
 ---
+
+## Hipertermia como opción terapéutica complementaria en el manejo de cáncer
+
 ::: {style="text-align: justify"}
 La @omscancer en su página web define Cáncer como:
 

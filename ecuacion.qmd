@@ -11,31 +11,35 @@ $$
 \rho c \frac{\partial T}{\partial t} = k_{\text{eff}} \frac{\partial^{2} T}{\partial x^{2}} - \rho_b c_b \omega_b (T - T_a) + Q, \quad x \in \Omega, \, t \in [0, t_f]
 $$ {#eq-PBHE_completa}
 
+
 | Símbolo | Descripción | Unidades |  
 |---------|------------|----------|  
 | $T$ | Temperatura del tejido | °C |  
-| $\rho$ | Densidad del tejido | $\dfrac{kg}{m^3}$ |  
-| $c$ | Calor específico del tejido | $\dfrac{J}{kg °C}$ |  
-| $k_{\text{eff}}$ | Conductividad térmica | $\dfrac{W}{m °C}$ |
-| $\rho_b$ | Densidad de la sangre | $\dfrac{kg}{m^3}$ |
-| $c_b$ | Calor específico de la sangre | $\dfrac{J}{kg °C}$ |   
+| $\rho$ | Densidad del tejido | $\frac{kg}{m^3}$  |  
+| $c$ | Calor específico del tejido | $\frac{J}{kg °C}$ |  
+| $k_{\text{eff}}$ | Conductividad térmica | $\frac{W}{m °C}$ |
+| $\rho_b$ | Densidad de la sangre | $\frac{kg}{m^3}$ |
+| $c_b$ | Calor específico de la sangre | $\frac{J}{kg °C}$|   
 | $\omega_b$ | Tasa de perfusión sanguínea | $1/s$ |
 | $T_a$ | Temperatura arterial | °C |  
-| $Q = q_m + q_p$ | Fuente de calor | $\dfrac{W}{m^3}$ |
-| $q_m$ | Metabolismo | $\dfrac{W}{m^3}$ |
-| $q_p$ | Externa | $\dfrac{W}{m^3}$ |
+| $Q = q_m + q_p$ | Fuente de calor | $\frac{W}{m^3}$|
+| $q_m$ | Metabolismo | $\frac{W}{m^3}$ |
+| $q_p$ | Externa | $\frac{W}{m^3}$|
+
+: Tabla de nomenclaturas de la @eq-PBHE_completa. {#tbl-nomenclatura-PBHE_completa}
 
 ## Versión reducida (adimensionalizada)  
 Mediante escalamiento:
-\begin{equation}
+\begin{equation*}
 T' = T - T_a \qquad \theta = \dfrac{T'}{T_M - T_a} \qquad X = \dfrac{x}{L_0} \qquad \tau = \dfrac{t}{t_f}
-\end{equation} 
+\end{equation*} 
 
 | Símbolo | Descripción | Unidades |  
 |---------|------------|----------|    
 | $L_0$ | Longitud característica del dominio | $m$ |  
 | $t_f$ | Tiempo final de simulación | $s$ |
 
+: Tabla de nomenclatura de las relaciones para escalamiento. {#tbl-}
 
 la @eq-PBHE_completa se convierte en:  
 
