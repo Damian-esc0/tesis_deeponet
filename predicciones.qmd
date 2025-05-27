@@ -20,7 +20,6 @@ dde.backend.set_default_backend("tensorflow.compat.v1")
 dde.config.set_random_seed(123)
 
 # Physical parameters
-heat_coefficient = 1.0
 p = 1050
 c = 3639
 keff = 5

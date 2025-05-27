@@ -1,0 +1,118 @@
+---
+title: Aplicacion de Crank Nikolson
+lang: es
+execute: 
+  freeze: auto
+---
+
+```{julia}
+#| output: false
+using DifferentialEquations, LinearAlgebra, Plots
+
+# Physical parameters
+p, c, keff = 1050.0, 3639.0, 5.0
+tf, L0       = 1800.0, 0.05
+cb, Q        = 3825.0, 0.0
+TM, Ta       = 45.0,   37.0
+
+# Dimensionless coefficients
+alpha = p * c / keff
+a1 = tf / (alpha * L0^2)
+a2 = tf * cb / (p * c)
+a3 = (tf * Q) / (p * c * (TM - Ta))
+
+# Spatial grid
+Nx, Ny = 50, 50
+dx, dy = 1.0/(Nx-1), 1.0/(Ny-1)
+N = Nx * Ny
+
+# Initial condition
+u0 = zeros(N)
+
+# PDE system
+function f!(du, u, p, τ)
+    U = reshape(u, Nx, Ny)
+    D = similar(U)
+    @inbounds for i in 1:Nx, j in 1:Ny
+        # X direction
+        if i == 1
+            d2x = (U[2,j] - 0) / dx^2
+        elseif i == Nx
+            u_ghost = U[Nx,j] + τ * dx
+            d2x = (u_ghost - 2U[Nx,j] + U[Nx-1,j]) / dx^2
+        else
+            d2x = (U[i+1,j] - 2U[i,j] + U[i-1,j]) / dx^2
+        end
+
+        # Y direction
+        if j == 1
+            d2y = (U[i,2] - U[i,1]) / dy^2
+        elseif j == Ny
+            d2y = (U[i,Ny-1] - U[i,Ny]) / dy^2
+        else
+            d2y = (U[i,j+1] - 2U[i,j] + U[i,j-1]) / dy^2
+        end
+
+        D[i,j] = (d2x + d2y - a2*U[i,j] + a3) / a1
+    end
+    du .= vec(D)
+end
+
+# Solve the PDE
+τspan = (0.0, 1.0)
+prob = ODEProblem(f!, u0, τspan)
+taus = [0.0, 0.25, 0.5, 0.75, 1.0]
+sol = solve(prob, TRBDF2(), dt=5e-4, saveat=taus)
+
+# Crear grilla espacial
+x = range(0, L0, length=Nx)
+y = range(0, L0, length=Ny)
+
+# Obtener la solución en cada τ como matriz 2D
+solutions = [reshape(sol(τ), Nx, Ny) for τ in taus]
+
+# Calcular mínimo y máximo global para unificar escala de colores (z)
+zmins = [minimum(u) for u in solutions]
+zmaxs = [maximum(u) for u in solutions]
+zmin = minimum(zmins)
+zmax = maximum(zmaxs)
+
+# Crear figura con layout 2x3
+p = plot(layout = (2, 3), size = (900, 600))
+
+# Añadir cada superficie a la figura
+for (i, (τ, uτ)) in enumerate(zip(taus, solutions))
+    surface!(
+        p, x, y, uτ';  # uτ' para que las dimensiones correspondan a (x, y)
+        xlabel = "x (m)",
+        ylabel = "y (m)",
+        zlabel = "θ",
+        title = "τ = $(τ)",
+        subplot = i,
+        c = :thermal,
+        clim = (zmin, zmax),  # unifica rango de colores
+        legend = false
+    )
+end
+
+```
+
+::: {.content-visible when-format="html"}
+```{julia}
+#| label: fig-crank-nick
+#| fig-cap: "Resultados obtenidos mediante el método numérico."
+#| echo: false
+using Plots
+display(p)
+```
+:::
+
+::: {.content-visible when-format="pdf"}
+```{julia}
+#| include: false
+using Plots
+Plots.savefig("p_crank_nickolson.png")
+```
+
+![Resultados obtenidos mediante el método numérico.](/metodo-num_files/figure-pdf/fig-crank-nick-output-2.png){#fig-met-num fig-align="center"}
+:::

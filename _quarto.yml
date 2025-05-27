@@ -29,8 +29,8 @@ book:
   chapters:
     - index.qmd
     - intro.qmd
-
-    - part: neural_net.qmd
+    - metodo-num.qmd
+    - part: "Redes neuronales"
       chapters: 
         - pinns.qmd
         - deeponet.qmd

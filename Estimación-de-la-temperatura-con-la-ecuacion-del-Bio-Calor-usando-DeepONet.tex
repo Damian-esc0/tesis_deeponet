@@ -276,6 +276,116 @@ Aquí irá el resumen de la tesis.
 
 \chapter{Introducción}\label{introducciuxf3n}
 
+\bookmarksetup{startatroot}
+
+\chapter{Aplicacion de Crank
+Nikolson}\label{aplicacion-de-crank-nikolson}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{using} \BuiltInTok{DifferentialEquations}\NormalTok{, }\BuiltInTok{LinearAlgebra}\NormalTok{, }\BuiltInTok{Plots}
+
+\CommentTok{\# Physical parameters}
+\NormalTok{p, c, keff }\OperatorTok{=} \FloatTok{1050.0}\NormalTok{, }\FloatTok{3639.0}\NormalTok{, }\FloatTok{5.0}
+\NormalTok{tf, L0       }\OperatorTok{=} \FloatTok{1800.0}\NormalTok{, }\FloatTok{0.05}
+\NormalTok{cb, Q        }\OperatorTok{=} \FloatTok{3825.0}\NormalTok{, }\FloatTok{0.0}
+\NormalTok{TM, Ta       }\OperatorTok{=} \FloatTok{45.0}\NormalTok{,   }\FloatTok{37.0}
+
+\CommentTok{\# Dimensionless coefficients}
+\NormalTok{alpha }\OperatorTok{=}\NormalTok{ p }\OperatorTok{*}\NormalTok{ c }\OperatorTok{/}\NormalTok{ keff}
+\NormalTok{a1 }\OperatorTok{=}\NormalTok{ tf }\OperatorTok{/}\NormalTok{ (alpha }\OperatorTok{*}\NormalTok{ L0}\OperatorTok{\^{}}\FloatTok{2}\NormalTok{)}
+\NormalTok{a2 }\OperatorTok{=}\NormalTok{ tf }\OperatorTok{*}\NormalTok{ cb }\OperatorTok{/}\NormalTok{ (p }\OperatorTok{*}\NormalTok{ c)}
+\NormalTok{a3 }\OperatorTok{=}\NormalTok{ (tf }\OperatorTok{*}\NormalTok{ Q) }\OperatorTok{/}\NormalTok{ (p }\OperatorTok{*}\NormalTok{ c }\OperatorTok{*}\NormalTok{ (TM }\OperatorTok{{-}}\NormalTok{ Ta))}
+
+\CommentTok{\# Spatial grid}
+\NormalTok{Nx, Ny }\OperatorTok{=} \FloatTok{50}\NormalTok{, }\FloatTok{50}
+\NormalTok{dx, dy }\OperatorTok{=} \FloatTok{1.0}\OperatorTok{/}\NormalTok{(Nx}\OperatorTok{{-}}\FloatTok{1}\NormalTok{), }\FloatTok{1.0}\OperatorTok{/}\NormalTok{(Ny}\OperatorTok{{-}}\FloatTok{1}\NormalTok{)}
+\NormalTok{N }\OperatorTok{=}\NormalTok{ Nx }\OperatorTok{*}\NormalTok{ Ny}
+
+\CommentTok{\# Initial condition}
+\NormalTok{u0 }\OperatorTok{=} \FunctionTok{zeros}\NormalTok{(N)}
+
+\CommentTok{\# PDE system}
+\KeywordTok{function} \FunctionTok{f!}\NormalTok{(du, u, p, τ)}
+\NormalTok{    U }\OperatorTok{=} \FunctionTok{reshape}\NormalTok{(u, Nx, Ny)}
+\NormalTok{    D }\OperatorTok{=} \FunctionTok{similar}\NormalTok{(U)}
+    \PreprocessorTok{@inbounds} \ControlFlowTok{for}\NormalTok{ i }\KeywordTok{in} \FloatTok{1}\OperatorTok{:}\NormalTok{Nx, j }\KeywordTok{in} \FloatTok{1}\OperatorTok{:}\NormalTok{Ny}
+        \CommentTok{\# X direction}
+        \ControlFlowTok{if}\NormalTok{ i }\OperatorTok{==} \FloatTok{1}
+\NormalTok{            d2x }\OperatorTok{=}\NormalTok{ (U[}\FloatTok{2}\NormalTok{,j] }\OperatorTok{{-}} \FloatTok{0}\NormalTok{) }\OperatorTok{/}\NormalTok{ dx}\OperatorTok{\^{}}\FloatTok{2}
+        \ControlFlowTok{elseif}\NormalTok{ i }\OperatorTok{==}\NormalTok{ Nx}
+\NormalTok{            u\_ghost }\OperatorTok{=}\NormalTok{ U[Nx,j] }\OperatorTok{+}\NormalTok{ τ }\OperatorTok{*}\NormalTok{ dx}
+\NormalTok{            d2x }\OperatorTok{=}\NormalTok{ (u\_ghost }\OperatorTok{{-}} \FloatTok{2}\NormalTok{U[Nx,j] }\OperatorTok{+}\NormalTok{ U[Nx}\OperatorTok{{-}}\FloatTok{1}\NormalTok{,j]) }\OperatorTok{/}\NormalTok{ dx}\OperatorTok{\^{}}\FloatTok{2}
+        \ControlFlowTok{else}
+\NormalTok{            d2x }\OperatorTok{=}\NormalTok{ (U[i}\OperatorTok{+}\FloatTok{1}\NormalTok{,j] }\OperatorTok{{-}} \FloatTok{2}\NormalTok{U[i,j] }\OperatorTok{+}\NormalTok{ U[i}\OperatorTok{{-}}\FloatTok{1}\NormalTok{,j]) }\OperatorTok{/}\NormalTok{ dx}\OperatorTok{\^{}}\FloatTok{2}
+        \ControlFlowTok{end}
+
+        \CommentTok{\# Y direction}
+        \ControlFlowTok{if}\NormalTok{ j }\OperatorTok{==} \FloatTok{1}
+\NormalTok{            d2y }\OperatorTok{=}\NormalTok{ (U[i,}\FloatTok{2}\NormalTok{] }\OperatorTok{{-}}\NormalTok{ U[i,}\FloatTok{1}\NormalTok{]) }\OperatorTok{/}\NormalTok{ dy}\OperatorTok{\^{}}\FloatTok{2}
+        \ControlFlowTok{elseif}\NormalTok{ j }\OperatorTok{==}\NormalTok{ Ny}
+\NormalTok{            d2y }\OperatorTok{=}\NormalTok{ (U[i,Ny}\OperatorTok{{-}}\FloatTok{1}\NormalTok{] }\OperatorTok{{-}}\NormalTok{ U[i,Ny]) }\OperatorTok{/}\NormalTok{ dy}\OperatorTok{\^{}}\FloatTok{2}
+        \ControlFlowTok{else}
+\NormalTok{            d2y }\OperatorTok{=}\NormalTok{ (U[i,j}\OperatorTok{+}\FloatTok{1}\NormalTok{] }\OperatorTok{{-}} \FloatTok{2}\NormalTok{U[i,j] }\OperatorTok{+}\NormalTok{ U[i,j}\OperatorTok{{-}}\FloatTok{1}\NormalTok{]) }\OperatorTok{/}\NormalTok{ dy}\OperatorTok{\^{}}\FloatTok{2}
+        \ControlFlowTok{end}
+
+\NormalTok{        D[i,j] }\OperatorTok{=}\NormalTok{ (d2x }\OperatorTok{+}\NormalTok{ d2y }\OperatorTok{{-}}\NormalTok{ a2}\OperatorTok{*}\NormalTok{U[i,j] }\OperatorTok{+}\NormalTok{ a3) }\OperatorTok{/}\NormalTok{ a1}
+    \ControlFlowTok{end}
+\NormalTok{    du }\OperatorTok{.=} \FunctionTok{vec}\NormalTok{(D)}
+\KeywordTok{end}
+
+\CommentTok{\# Solve the PDE}
+\NormalTok{τspan }\OperatorTok{=}\NormalTok{ (}\FloatTok{0.0}\NormalTok{, }\FloatTok{1.0}\NormalTok{)}
+\NormalTok{prob }\OperatorTok{=} \FunctionTok{ODEProblem}\NormalTok{(f!, u0, τspan)}
+\NormalTok{taus }\OperatorTok{=}\NormalTok{ [}\FloatTok{0.0}\NormalTok{, }\FloatTok{0.25}\NormalTok{, }\FloatTok{0.5}\NormalTok{, }\FloatTok{0.75}\NormalTok{, }\FloatTok{1.0}\NormalTok{]}
+\NormalTok{sol }\OperatorTok{=} \FunctionTok{solve}\NormalTok{(prob, }\FunctionTok{TRBDF2}\NormalTok{(), dt}\OperatorTok{=}\FloatTok{5e{-}4}\NormalTok{, saveat}\OperatorTok{=}\NormalTok{taus)}
+
+\CommentTok{\# Crear grilla espacial}
+\NormalTok{x }\OperatorTok{=} \FunctionTok{range}\NormalTok{(}\FloatTok{0}\NormalTok{, L0, length}\OperatorTok{=}\NormalTok{Nx)}
+\NormalTok{y }\OperatorTok{=} \FunctionTok{range}\NormalTok{(}\FloatTok{0}\NormalTok{, L0, length}\OperatorTok{=}\NormalTok{Ny)}
+
+\CommentTok{\# Obtener la solución en cada τ como matriz 2D}
+\NormalTok{solutions }\OperatorTok{=}\NormalTok{ [}\FunctionTok{reshape}\NormalTok{(}\FunctionTok{sol}\NormalTok{(τ), Nx, Ny) for τ }\KeywordTok{in}\NormalTok{ taus]}
+
+\CommentTok{\# Calcular mínimo y máximo global para unificar escala de colores (z)}
+\NormalTok{zmins }\OperatorTok{=}\NormalTok{ [}\FunctionTok{minimum}\NormalTok{(u) for u }\KeywordTok{in}\NormalTok{ solutions]}
+\NormalTok{zmaxs }\OperatorTok{=}\NormalTok{ [}\FunctionTok{maximum}\NormalTok{(u) for u }\KeywordTok{in}\NormalTok{ solutions]}
+\NormalTok{zmin }\OperatorTok{=} \FunctionTok{minimum}\NormalTok{(zmins)}
+\NormalTok{zmax }\OperatorTok{=} \FunctionTok{maximum}\NormalTok{(zmaxs)}
+
+\CommentTok{\# Crear figura con layout 2x3}
+\NormalTok{p }\OperatorTok{=} \FunctionTok{plot}\NormalTok{(layout }\OperatorTok{=}\NormalTok{ (}\FloatTok{2}\NormalTok{, }\FloatTok{3}\NormalTok{), size }\OperatorTok{=}\NormalTok{ (}\FloatTok{900}\NormalTok{, }\FloatTok{600}\NormalTok{))}
+
+\CommentTok{\# Añadir cada superficie a la figura}
+\ControlFlowTok{for}\NormalTok{ (i, (τ, uτ)) }\KeywordTok{in} \FunctionTok{enumerate}\NormalTok{(}\FunctionTok{zip}\NormalTok{(taus, solutions))}
+    \FunctionTok{surface!}\NormalTok{(}
+\NormalTok{        p, x, y, uτ}\CharTok{\textquotesingle{};  \# uτ\textquotesingle{}}\NormalTok{ para que las dimensiones correspondan a (x, y)}
+\NormalTok{        xlabel }\OperatorTok{=} \StringTok{"x (m)"}\NormalTok{,}
+\NormalTok{        ylabel }\OperatorTok{=} \StringTok{"y (m)"}\NormalTok{,}
+\NormalTok{        zlabel }\OperatorTok{=} \StringTok{"θ"}\NormalTok{,}
+\NormalTok{        title }\OperatorTok{=} \StringTok{"τ = }\SpecialCharTok{$}\NormalTok{(τ)}\StringTok{"}\NormalTok{,}
+\NormalTok{        subplot }\OperatorTok{=}\NormalTok{ i,}
+\NormalTok{        c }\OperatorTok{=} \OperatorTok{:}\NormalTok{thermal,}
+\NormalTok{        clim }\OperatorTok{=}\NormalTok{ (zmin, zmax),  }\CommentTok{\# unifica rango de colores}
+\NormalTok{        legend }\OperatorTok{=} \ConstantTok{false}
+\NormalTok{    )}
+\ControlFlowTok{end}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{metodo-num_files/figure-pdf/fig-crank-nick-output-2.png}}
+
+}
+
+\caption{\label{fig-met-num}Resultados obtenidos mediante el método
+numérico.}
+
+\end{figure}%
+
 \part{Redes neuronales}
 
 \chapter{Physic Informed Neural Networks
@@ -836,7 +946,6 @@ la red neuronal
 \NormalTok{dde.config.set\_random\_seed(}\DecValTok{123}\NormalTok{)}
 
 \CommentTok{\# Physical parameters}
-\NormalTok{heat\_coefficient }\OperatorTok{=} \FloatTok{1.0}
 \NormalTok{p }\OperatorTok{=} \DecValTok{1050}
 \NormalTok{c }\OperatorTok{=} \DecValTok{3639}
 \NormalTok{keff }\OperatorTok{=} \DecValTok{5}
@@ -1019,11 +1128,11 @@ la red neuronal
 \end{Shaded}
 
 \begin{verbatim}
-2025-05-22 08:28:32.968999: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
-2025-05-22 08:28:33.351670: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
-2025-05-22 08:28:33.354215: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+2025-05-27 08:19:28.453487: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
+2025-05-27 08:19:28.819471: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
+2025-05-27 08:19:28.822359: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
 To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
-2025-05-22 08:28:35.585493: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+2025-05-27 08:19:30.674541: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
 Using backend: tensorflow.compat.v1
 Other supported backends: tensorflow, pytorch, jax, paddle.
 paddle supports more examples now and is recommended.
@@ -1036,7 +1145,7 @@ non-resource variables are not supported in the long term
 Setting the default backend to "tensorflow.compat.v1". You can change it in the ~/.deepxde/config.json file or export the DDE_BACKEND environment variable. Valid options are: tensorflow.compat.v1, tensorflow, pytorch, jax, paddle (all lowercase)
 Compiling model...
 Building DeepONetCartesianProd...
-'build' took 0.194565 s
+'build' took 0.177653 s
 \end{verbatim}
 
 \begin{verbatim}
@@ -1054,11 +1163,11 @@ Building DeepONetCartesianProd...
 \end{verbatim}
 
 \begin{verbatim}
-'compile' took 33.462227 s
+'compile' took 31.361335 s
 \end{verbatim}
 
 \begin{verbatim}
-2025-05-22 08:29:13.352090: I tensorflow/compiler/mlir/mlir_graph_optimization_pass.cc:375] MLIR V1 optimization pass is not enabled
+2025-05-27 08:20:05.488497: I tensorflow/compiler/mlir/mlir_graph_optimization_pass.cc:375] MLIR V1 optimization pass is not enabled
 \end{verbatim}
 
 \begin{verbatim}
@@ -1073,10 +1182,10 @@ Best model at step 1000:
   test loss: 3.84e-02
   test metric: []
 
-'train' took 31.058892 s
+'train' took 28.575673 s
 
 Compiling model...
-'compile' took 67.502451 s
+'compile' took 65.380840 s
 
 Training model...
 
@@ -1094,7 +1203,7 @@ Best model at step 1065:
   test loss: 3.76e-02
   test metric: []
 
-'train' took 21.247213 s
+'train' took 21.034016 s
 \end{verbatim}
 
 El historial de perdida para el conjunto de entrenamiento es el

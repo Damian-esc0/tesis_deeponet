@@ -1,7 +1,0 @@
----
-title: Redes neuronales
-lang: es
-execute: 
-  freeze: auto
----
-
