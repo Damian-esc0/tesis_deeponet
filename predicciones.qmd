@@ -198,7 +198,6 @@ losshistory, train_state = model.train(iterations=num_iterations)
 # Fine-tuning with LBFGS optimizer
 model.compile("L-BFGS")
 losshistory, train_state = model.train()
-
 ```
 
 El historial de perdida para el conjunto de entrenamiento es el siguiente:
@@ -306,7 +305,6 @@ fig_test.update_layout(
     legend=dict(x=0.99, y=0.99),
     font=dict(size=14)
 )
-fig_test.show()
 ```
 
 ::: {.content-visible when-format="html"}
@@ -334,7 +332,68 @@ fig_test.write_image("images/fig-test_loss.png", width=800, height=600)
 ![Gráfica de la perdida en el conjunto de prueba.](images/fig-test_loss.png){#fig-loss_test fig-align="center"}
 :::
 
-A continuación, los valores predichos por la red neuronal a tiempos t(s) de 0.0, 0.25, 0.50, 0.75 y 1.0. 
+Para guardar los datos y porteriormente graficar, se uso el modelo para predecir los valores en el cuadrado de $[0,1]\times[0,1]$ dividiendo sus lados en 26 segementos equiespaciados a los tiempos $t=[0.0,0.25,0.50,0.75,1.0]$.
+
+```{python}
+import pandas as pd
+# Lista de tiempos
+times = [0.0, 0.25, 0.5, 0.75, 1.0]
+
+# Crear la malla (x, y)
+num_points = 26
+x = np.linspace(0, 1, num_points)
+y = np.linspace(0, 1, num_points)
+X, Y = np.meshgrid(x, y)
+
+# Lista para almacenar resultados
+results = []
+
+for t_val in times:
+    # Crear entrada trunk: (num_points^2, 3)
+    points = np.vstack((X.flatten(), Y.flatten(), t_val * np.ones_like(X.flatten()))).T
+
+    # Crear entrada branch: condición inicial constante cero
+    branch_input = np.zeros((1, sensor_pts.shape[0]))
+
+    # Predecir
+    predicted = model.predict((branch_input, points)).flatten()
+
+    # Agregar los datos al resultado
+    for xi, yi, thetai in zip(points[:, 0], points[:, 1], predicted):
+        results.append([t_val, xi, yi, thetai])
+
+# Crear el DataFrame
+df = pd.DataFrame(results, columns=["time", "X", "Y", "Theta"])
+
+# Obtener la ruta del script actual y guardar el archivo CSV
+ruta = r"data/model_DoN.csv"
+df.to_csv(ruta, index=False)
+
+```
+
+::: {.content-visible when-format="html"}
+Se presentan los datos de las predicciones
+```{python}
+#| label: tbl-data-model
+#| tbl-cap: "Predicciones de la red neuronal."
+#| warning: false
+#| message: false
+
+import pandas as pd
+from itables import show, options
+
+# Leer el archivo CSV
+datos = pd.read_csv("data/model_DoN.csv")
+
+# Opcional: Aumentar el límite de bytes permitidos
+options.maxBytes = 0  # 0 significa "sin límite"
+
+# Mostrar la tabla interactiva
+show(datos, paging=True, searching=True, ordering=True, buttons=["copy", "csv", "excel"])
+```
+:::
+
+A continuación, los valores predichos por la red neuronal a tiempos antes mencionados. 
 ```{python}
 #| label: fig-my_results
 #| fig-cap: "Predicciones de la red neuronal a distintos tiempos."
@@ -343,44 +402,39 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.gridspec as gridspec
 
-# Times at which to evaluate the model
-times = [0.0, 0.25, 0.5, 0.75, 1.0]
+# Cargar el DataFrame desde CSV
+#df = pd.read_csv("predicciones_biocalor.csv")
 
-# Generate a grid of (x, y) points
-num_points = 25
-x = np.linspace(0, 1, num_points)
-y = np.linspace(0, 1, num_points)
-X, Y = np.meshgrid(x, y)
+# Lista de tiempos
+#times = [0.0, 0.25, 0.5, 0.75, 1.0]
 
-# Create a figure and a GridSpec layout.
-# We reserve one row at the bottom for the colorbar.
+# Crear una figura y layout con GridSpec
 ncols = len(times)
-fig = plt.figure(figsize=((5 * ncols) +1, 6))
+fig = plt.figure(figsize=((5 * ncols) + 1, 6))
 gs = gridspec.GridSpec(2, ncols, height_ratios=[10, 1], hspace=0.3)
 
-# Create a list to store the surface plots for the color bar.
+# Lista para almacenar los objetos surface
 surf_list = []
 
+# Asumimos que el grid es regular, así que podemos inferir la forma
+num_points = int(np.sqrt(df[df["time"] == times[0]].shape[0]))
+
+# Reordenar para graficar
 for i, t_val in enumerate(times):
-    # Create trunk input for the model: shape (num_points^2, 3)
-    points = np.vstack((X.flatten(), Y.flatten(), t_val * np.ones_like(X.flatten()))).T
+    # Filtrar por tiempo actual
+    df_t = df[df["time"] == t_val]
 
-    # Create branch input: for your constant zero initial condition,
-    # just use an array of zeros with shape (1, num_sensors)
-    branch_input = np.zeros((1, sensor_pts.shape[0]))
+    # Obtener los valores de X, Y, Theta
+    X_vals = df_t["X"].values.reshape((num_points, num_points))
+    Y_vals = df_t["Y"].values.reshape((num_points, num_points))
+    Z_vals = df_t["Theta"].values.reshape((num_points, num_points))
 
-    # Predict
-    predicted = model.predict((branch_input, points))
-    predicted = predicted.flatten()
-    # Reshape to 2D
-    Z = predicted.reshape(X.shape)
-
-    # 3D subplot
+    # Subgráfico 3D
     ax = fig.add_subplot(gs[0, i], projection="3d")
 
-    # Plot surface
+    # Dibujar la superficie
     surf = ax.plot_surface(
-        Y, X, Z,
+        Y_vals, X_vals, Z_vals,
         rstride=1, cstride=1,
         cmap="viridis",
         edgecolor="none",
@@ -391,20 +445,102 @@ for i, t_val in enumerate(times):
     ax.set_title(f"Time = {t_val:.2f} s")
     ax.set_xlabel("Y")
     ax.set_ylabel("X")
-    ax.set_zlabel("T[K]")
+    ax.set_zlabel("T[K]", labelpad=5, rotation=90)
 
-# Create a single color bar below all subplots
-# We take the mappable from the last subplot (or average from one)
+# Barra de color común
 cbar_ax = fig.add_subplot(gs[1, :])
-# Use the mappable from the last subplot; orientation horizontal.
 fig.colorbar(surf_list[-1], cax=cbar_ax, orientation="horizontal")
 
-#plt.tight_layout()
 plt.show()
-
 ```
 
 
-![Resultados reportados por @medical_rep en el caso 2D.](images/results_paper.png){#fig-results_fnn fig-align="center" width="500"}
+![Resultados reportados por @medical_rep en el caso 2D.](images/results_paper.png){#fig-results_fnn fig-align="center" width="550"}
 :::
 
+## Comparación con el método de Crank Nickolson
+Para tener un valor numérico con el cual conocer al veracidad del modelo se comparó con las predicciones del método de Crank Nickolson
+
+```{python}
+import os
+
+# Definir los tiempos a evaluar
+times = [0.0, 0.25, 0.5, 0.75, 1.0]
+
+# Rutas de los archivos (modificar según sea necesario)
+crank_nick_path = "data/crank_nick.csv"
+model_don_path = "data/model_DoN.csv"
+output_path = "data/error_comparison.csv"
+
+# Cargar los datos
+def load_data(file_path):
+    try:
+        return pd.read_csv(file_path)
+    except FileNotFoundError:
+        print(f"Error: No se encontró el archivo {file_path}")
+        return None
+    except Exception as e:
+        print(f"Error al cargar {file_path}: {str(e)}")
+        return None
+
+crank_nick_data = load_data(crank_nick_path)
+model_don_data = load_data(model_don_path)
+
+if crank_nick_data is None or model_don_data is None:
+    exit()
+
+# Función para calcular errores
+def calculate_errors(true_data, pred_data, times):
+    results = []
+    
+    for time in times:
+        # Filtrar datos por tiempo
+        true_subset = true_data[true_data['time'] == time]
+        pred_subset = pred_data[pred_data['time'] == time]
+        
+        if len(true_subset) == 0 or len(pred_subset) == 0:
+            print(f"Advertencia: No hay datos para tiempo t={time}")
+            continue
+        
+        # Verificar que las dimensiones coincidan
+        if len(true_subset) != len(pred_subset):
+            print(f"Advertencia: Número de puntos no coincide para t={time}")
+            min_len = min(len(true_subset), len(pred_subset))
+            true_subset = true_subset.iloc[:min_len]
+            pred_subset = pred_subset.iloc[:min_len]
+        
+        # Calcular errores para Theta
+        theta_true = true_subset['Theta'].values
+        theta_pred = pred_subset['Theta'].values
+        
+        absolute_error = np.abs(theta_true - theta_pred)
+        l2_error = np.sqrt(np.sum((theta_true - theta_pred)**2))
+        
+        results.append({
+            'time': time,
+            'mean_absolute_error': np.mean(absolute_error),
+            'max_absolute_error': np.max(absolute_error),
+            'l2_error': l2_error,
+            'n_points': len(true_subset)
+        })
+    
+    return pd.DataFrame(results)
+
+# Calcular errores
+error_results = calculate_errors(crank_nick_data, model_don_data, times)
+
+# Guardar resultados
+error_results.to_csv(output_path, index=False)
+```
+
+
+```{python}
+#| label: tbl-errores
+#| tbl-cap: "Errores de la red neuronal."
+#| echo: false
+from tabulate import tabulate
+
+# Convertir a formato markdown para mejor visualización
+error_table = tabulate(error_results, headers='keys', tablefmt='pipe', showindex=False)
+print(error_table)
+```

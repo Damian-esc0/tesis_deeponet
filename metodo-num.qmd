@@ -7,112 +7,157 @@ execute:
 
 ```{julia}
 #| output: false
-using DifferentialEquations, LinearAlgebra, Plots
+using DifferentialEquations, LinearAlgebra
+using DataFrames, CSV
 
-# Physical parameters
-p, c, keff = 1050.0, 3639.0, 5.0
-tf, L0       = 1800.0, 0.05
-cb, Q        = 3825.0, 0.0
-TM, Ta       = 45.0,   37.0
+# --- PARÁMETROS FÍSICOS Y DIMENSIONALES ------------------------------------
+ρ, c = 1050.0, 3639.0                         # densidad, calor específico 
+k_eff = 5.0                                   # conductividad
+t_f, L = 1800.0, 0.05                         # tiempo final, longitud del dominio
+c_b, Q = 3825.0, 0.0                          # coef. perfusión, fuente térmica
+T_M, T_a = 45.0, 37.0                         # temperatura máxima, ambiente
 
-# Dimensionless coefficients
-alpha = p * c / keff
-a1 = tf / (alpha * L0^2)
-a2 = tf * cb / (p * c)
-a3 = (tf * Q) / (p * c * (TM - Ta))
+# --- COEFICIENTES ADIMENSIONALES -------------------------------------------
+α = ρ * c / k_eff
+a₁ = t_f / (α * L^2)
+a₂ = t_f * c_b / (ρ * c)
+a₃ = (t_f * Q) / (ρ * c * (T_M - T_a))
 
-# Spatial grid
-Nx, Ny = 50, 50
-dx, dy = 1.0/(Nx-1), 1.0/(Ny-1)
-N = Nx * Ny
+# --- MALLA ESPACIAL ---------------------------------------------------------
+Nx, Ny = 51, 51
+dx, dy = 1.0 / (Nx - 1), 1.0 / (Ny - 1)
+x = range(0, 1, length=Nx)
+y = range(0, 1, length=Ny)
+N = Nx * Ny  # total de puntos
 
-# Initial condition
+# --- CONDICIÓN INICIAL ------------------------------------------------------
 u0 = zeros(N)
 
-# PDE system
-function f!(du, u, p, τ)
+# --- SISTEMA DE EDOs DEL PDE ------------------------------------------------
+function f!(du, u, _, τ)
     U = reshape(u, Nx, Ny)
     D = similar(U)
     @inbounds for i in 1:Nx, j in 1:Ny
-        # X direction
-        if i == 1
-            d2x = (U[2,j] - 0) / dx^2
+        # Derivadas segunda en x
+        d2x = if i == 1
+            (U[2, j] - 0) / dx^2
         elseif i == Nx
-            u_ghost = U[Nx,j] + τ * dx
-            d2x = (u_ghost - 2U[Nx,j] + U[Nx-1,j]) / dx^2
+            U_ghost = U[Nx, j] + τ * dx
+            (U_ghost - 2U[Nx, j] + U[Nx-1, j]) / dx^2
         else
-            d2x = (U[i+1,j] - 2U[i,j] + U[i-1,j]) / dx^2
+            (U[i+1, j] - 2U[i, j] + U[i-1, j]) / dx^2
         end
 
-        # Y direction
-        if j == 1
-            d2y = (U[i,2] - U[i,1]) / dy^2
+        # Derivadas segunda en y
+        d2y = if j == 1
+            (U[i, 2] - U[i, 1]) / dy^2
         elseif j == Ny
-            d2y = (U[i,Ny-1] - U[i,Ny]) / dy^2
+            (U[i, Ny-1] - U[i, Ny]) / dy^2
         else
-            d2y = (U[i,j+1] - 2U[i,j] + U[i,j-1]) / dy^2
+            (U[i, j+1] - 2U[i, j] + U[i, j-1]) / dy^2
         end
 
-        D[i,j] = (d2x + d2y - a2*U[i,j] + a3) / a1
+        D[i, j] = (d2x + d2y - a₂ * U[i, j] + a₃) / a₁
     end
     du .= vec(D)
 end
 
-# Solve the PDE
+# --- RESOLVER PDE ---------------------------------------------------------
 τspan = (0.0, 1.0)
 prob = ODEProblem(f!, u0, τspan)
 taus = [0.0, 0.25, 0.5, 0.75, 1.0]
 sol = solve(prob, TRBDF2(), dt=5e-4, saveat=taus)
 
-# Crear grilla espacial
-x = range(0, L0, length=Nx)
-y = range(0, L0, length=Ny)
+# --- PROCESAR SOLUCIÓN EN GRILLA REDUCIDA ---------------------------------
+idxs = 1:2:Nx  # índices para submuestreo
+npts = length(idxs)^2 * length(taus)
 
-# Obtener la solución en cada τ como matriz 2D
-solutions = [reshape(sol(τ), Nx, Ny) for τ in taus]
+# Preasignar vectores para crear el DataFrame
+times = Float64[]
+Xs = Float64[]
+Ys = Float64[]
+Thetas = Float64[]
 
-# Calcular mínimo y máximo global para unificar escala de colores (z)
-zmins = [minimum(u) for u in solutions]
-zmaxs = [maximum(u) for u in solutions]
-zmin = minimum(zmins)
-zmax = maximum(zmaxs)
+for (k, τ) in enumerate(taus)
+    Θ = reshape(sol(τ), Nx, Ny)
+    for i in idxs, j in idxs
+        push!(times, τ)
+        push!(Xs, x[i])
+        push!(Ys, y[j])
+        push!(Thetas, Θ[i, j])
+    end
+end
 
-# Crear figura con layout 2x3
-p = plot(layout = (2, 3), size = (900, 600))
+df = DataFrame(time=times, X=Xs, Y=Ys, Theta=Thetas)
 
-# Añadir cada superficie a la figura
-for (i, (τ, uτ)) in enumerate(zip(taus, solutions))
+# --- GUARDAR CSV ------------------------------------------------------------
+ruta = "data"
+CSV.write(joinpath(ruta, "crank_nick.csv"), df)
+```
+
+```{julia}
+#| label: fig-met-crank-nick
+#| fig-cap: "Resultados obtenidos mediante el método numérico de Crank Nickolson."
+using DataFrames, CSV, Plots, Statistics
+pyplot()
+
+# --- CARGAR DATOS DESDE EL CSV ---------------------------------------------
+#ruta = "./Archivos"
+#df = CSV.read(joinpath(ruta, "biocalor_2d.csv"), DataFrame)
+
+# --- OBTENER VALORES ÚNICOS Y ORDENADOS DE X, Y, TIME ----------------------
+x_vals = sort(unique(df.X))
+y_vals = sort(unique(df.Y))
+times = sort(unique(df.time))  # tiempos
+
+Nx, Ny = length(x_vals), length(y_vals)
+
+# --- RECONSTRUIR MATRICES 2D DE THETA PARA CADA TIEMPO ---------------------
+solutions = []
+
+for t in times
+    dft = filter(:time => ==(t), df)
+
+    # Crear matriz vacía
+    Θ = fill(NaN, Nx, Ny)
+
+    # Llenar la matriz con los valores correspondientes
+    for row in eachrow(dft)
+        ix = findfirst(==(row.X), x_vals)
+        iy = findfirst(==(row.Y), y_vals)
+        Θ[ix, iy] = row.Theta
+    end
+
+    push!(solutions, Θ)
+end
+
+# --- DETERMINAR ESCALA GLOBAL DE COLORES -----------------------------------
+zmin = minimum([minimum(u) for u in solutions])
+zmax = maximum([maximum(u) for u in solutions])
+
+# --- GRAFICAR EN LAYOUT 3x2 ------------------------------------------------
+p = plot(layout = (3, 2), size = (800, 900))
+
+for (i, (t, Θ)) in enumerate(zip(times, solutions))
     surface!(
-        p, x, y, uτ';  # uτ' para que las dimensiones correspondan a (x, y)
-        xlabel = "x (m)",
-        ylabel = "y (m)",
-        zlabel = "θ",
-        title = "τ = $(τ)",
+        p, y_vals, x_vals, Θ;  # transpuesta para que coincidan con x, y
+        camera = (45,30),
+        xlabel = "Y",
+        ylabel = "X",
+        zlabel = "T   ",
+        title = "t = $(t)",
         subplot = i,
         c = :thermal,
-        clim = (zmin, zmax),  # unifica rango de colores
+        clim = (zmin, zmax),
         legend = false
     )
 end
 
-```
+# Eliminar ejes y contenido del subplot 6
+plot!(p[6], framestyle = :none, grid = false, xticks = false, yticks = false)
+close("all")
 
-::: {.content-visible when-format="html"}
-```{julia}
-#| label: fig-crank-nick
-#| fig-cap: "Resultados obtenidos mediante el método numérico."
-#| echo: false
-using Plots
 display(p)
 ```
-:::
 
-::: {.content-visible when-format="pdf"}
-```{julia}
-#| include: false
-using Plots
-Plots.savefig("p_crank_nickolson.png")
-```
 
-![Resultados obtenidos mediante el método numérico.](/metodo-num_files/figure-pdf/fig-crank-nick-output-2.png){#fig-met-num fig-align="center"}
-:::
