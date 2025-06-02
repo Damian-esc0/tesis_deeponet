@@ -11,11 +11,13 @@ using DifferentialEquations, LinearAlgebra
 using DataFrames, CSV
 
 # --- PARÁMETROS FÍSICOS Y DIMENSIONALES ------------------------------------
-ρ, c = 1050.0, 3639.0                         # densidad, calor específico 
+ρ, c  = 1050.0, 3639.0                        # densidad, calor específico 
 k_eff = 5.0                                   # conductividad
-t_f, L = 1800.0, 0.05                         # tiempo final, longitud del dominio
-c_b, Q = 3825.0, 0.0                          # coef. perfusión, fuente térmica
-T_M, T_a = 45.0, 37.0                         # temperatura máxima, ambiente
+t_f   = 1800.0                                # tiempo final 
+L     = 0.05                                  # longitud del dominio
+c_b   = 3825.0                                # coef. perfusión
+Q     = 0.0                                   # fuente térmica
+T_M, T_a = 45.0, 37.0                         # temp máxima, temp ambiente
 
 # --- COEFICIENTES ADIMENSIONALES -------------------------------------------
 α = ρ * c / k_eff
@@ -66,7 +68,7 @@ end
 τspan = (0.0, 1.0)
 prob = ODEProblem(f!, u0, τspan)
 taus = [0.0, 0.25, 0.5, 0.75, 1.0]
-sol = solve(prob, TRBDF2(), dt=5e-4, saveat=taus)
+sol = solve(prob, Trapezoid(), dt=8e-4, saveat=taus)
 
 # --- PROCESAR SOLUCIÓN EN GRILLA REDUCIDA ---------------------------------
 idxs = 1:2:Nx  # índices para submuestreo
@@ -80,7 +82,7 @@ Thetas = Float64[]
 
 for (k, τ) in enumerate(taus)
     Θ = reshape(sol(τ), Nx, Ny)
-    for i in idxs, j in idxs
+    for j in idxs, i in idxs
         push!(times, τ)
         push!(Xs, x[i])
         push!(Ys, y[j])
@@ -100,10 +102,6 @@ CSV.write(joinpath(ruta, "crank_nick.csv"), df)
 #| fig-cap: "Resultados obtenidos mediante el método numérico de Crank Nickolson."
 using DataFrames, CSV, Plots, Statistics
 pyplot()
-
-# --- CARGAR DATOS DESDE EL CSV ---------------------------------------------
-#ruta = "./Archivos"
-#df = CSV.read(joinpath(ruta, "biocalor_2d.csv"), DataFrame)
 
 # --- OBTENER VALORES ÚNICOS Y ORDENADOS DE X, Y, TIME ----------------------
 x_vals = sort(unique(df.X))

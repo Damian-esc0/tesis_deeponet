@@ -58,7 +58,7 @@ AF = "elu"
 k_initializer = "Glorot normal"
 
 # Training parameters
-num_iterations = 1000
+num_iterations = 5000
 learning_rate = 2e-3
 decay_rate = 0.05
 decay_steps = 1000
@@ -238,7 +238,6 @@ fig_train.update_layout(
     legend=dict(x=0.99, y=0.99),
     font=dict(size=14)
 )
-fig_train.show()
 ```
 
 ::: {.content-visible when-format="html"}
@@ -332,7 +331,7 @@ fig_test.write_image("images/fig-test_loss.png", width=800, height=600)
 ![Gráfica de la perdida en el conjunto de prueba.](images/fig-test_loss.png){#fig-loss_test fig-align="center"}
 :::
 
-Para guardar los datos y porteriormente graficar, se uso el modelo para predecir los valores en el cuadrado de $[0,1]\times[0,1]$ dividiendo sus lados en 26 segementos equiespaciados a los tiempos $t=[0.0,0.25,0.50,0.75,1.0]$.
+Para guardar los datos y porteriormente graficar, se uso el modelo para predecir los valores en el cuadrado de $[0,1]\times[0,1]$ dividiendo sus lados en 51 segementos equiespaciados a los tiempos $t=[0.0,0.25,0.50,0.75,1.0]$.
 
 ```{python}
 import pandas as pd
@@ -379,17 +378,19 @@ Se presentan los datos de las predicciones
 #| warning: false
 #| message: false
 
-import pandas as pd
 from itables import show, options
 
-# Leer el archivo CSV
-datos = pd.read_csv("data/model_DoN.csv")
-
-# Opcional: Aumentar el límite de bytes permitidos
-options.maxBytes = 0  # 0 significa "sin límite"
+options.maxBytes = 0
 
 # Mostrar la tabla interactiva
-show(datos, paging=True, searching=True, ordering=True, buttons=["copy", "csv", "excel"])
+show(df, paging=True,
+        ordering=True,
+        searching = False,
+        scrollY="300px",
+        buttons=["pageLength", "csv", "excel"],
+        lengthMenu=[5, 10, 25, 50],
+        classes="display nowrap cell-border"
+        )
 ```
 :::
 
@@ -401,12 +402,6 @@ A continuación, los valores predichos por la red neuronal a tiempos antes menci
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.gridspec as gridspec
-
-# Cargar el DataFrame desde CSV
-#df = pd.read_csv("predicciones_biocalor.csv")
-
-# Lista de tiempos
-#times = [0.0, 0.25, 0.5, 0.75, 1.0]
 
 # Crear una figura y layout con GridSpec
 ncols = len(times)
@@ -520,8 +515,7 @@ def calculate_errors(true_data, pred_data, times):
             'time': time,
             'mean_absolute_error': np.mean(absolute_error),
             'max_absolute_error': np.max(absolute_error),
-            'l2_error': l2_error,
-            'n_points': len(true_subset)
+            'l2_error': l2_error
         })
     
     return pd.DataFrame(results)
