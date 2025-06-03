@@ -1,0 +1,10 @@
+---
+title: Condiciones de frontera
+lang: es
+execute: 
+  freeze: auto
+---
+::: {style="text-align: justify"}
+
+
+:::

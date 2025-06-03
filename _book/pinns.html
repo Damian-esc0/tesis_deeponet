@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>3&nbsp; Physic Informed Neural Networks (PINNs) – Estimación de la temperatura con la ecuacion del Bio-Calor usando DeepONet</title>
+<title>6&nbsp; Physic Informed Neural Networks (PINNs) – Estimación de la temperatura con la ecuacion del Bio-Calor usando DeepONet</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -51,7 +51,7 @@ div.csl-indent {
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./deeponet.html" rel="next">
-<link href="./metodo-num.html" rel="prev">
+<link href="./boundary_conditions.html" rel="prev">
 <link href="./FCFMLOGO.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -134,7 +134,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./pinns.html">Redes neuronales</a></li><li class="breadcrumb-item"><a href="./pinns.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Physic Informed Neural Networks (PINNs)</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./pinns.html">Redes neuronales</a></li><li class="breadcrumb-item"><a href="./pinns.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Physic Informed Neural Networks (PINNs)</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -209,7 +209,7 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
- <span class="menu-text">Redes neuronales</span></a>
+ <span class="menu-text">Preliminares</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar sección">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -217,14 +217,43 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./partial_diff_eq.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Ecuaciones diferenciales parciales</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./initial_values.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Problemas de valores iniciales</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./boundary_conditions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Condiciones de frontera</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Redes neuronales</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./pinns.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Physic Informed Neural Networks (PINNs)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Physic Informed Neural Networks (PINNs)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./deeponet.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">DeepONet</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">DeepONet</span></span></a>
   </div>
 </li>
       </ul>
@@ -233,21 +262,21 @@ window.Quarto = {
       <div class="sidebar-item-container"> 
             <a href="./PBHE.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Ecuación del Bio-Calor</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Alternar sección">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ecuacion.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Forma de la ecuación</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Forma de la ecuación</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ejemplos.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Modelado del Bio-Calor en Hipertermia</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Modelado del Bio-Calor en Hipertermia</span></span></a>
   </div>
 </li>
       </ul>
@@ -256,21 +285,21 @@ window.Quarto = {
       <div class="sidebar-item-container"> 
             <a href="./estudio_caso.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Estudio de caso</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Alternar sección">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./metodologia.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Metodología</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Metodología</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./predicciones.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Predicciones del modelo</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Predicciones del modelo</span></span></a>
   </div>
 </li>
       </ul>
@@ -451,9 +480,9 @@ window.Quarto = {
     }
   </script>
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./pinns.html">Redes neuronales</a></li><li class="breadcrumb-item"><a href="./pinns.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Physic Informed Neural Networks (PINNs)</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./pinns.html">Redes neuronales</a></li><li class="breadcrumb-item"><a href="./pinns.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Physic Informed Neural Networks (PINNs)</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Physic Informed Neural Networks (PINNs)</span></h1>
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Physic Informed Neural Networks (PINNs)</span></h1>
 </div>
 
 
@@ -476,10 +505,10 @@ window.Quarto = {
 <p><span class="math display">\[
 \frac{\partial u}{\partial t} + u \frac{\partial u}{\partial x} = \nu \frac{\partial^2 u}{\partial x^2}
 \]</span></p>
-<p>Con una condición inicial adecuada y condiciones de contorno de Dirichlet. En la figura <a href="#fig-pinn_graph" class="quarto-xref">Figura&nbsp;<span>3.1</span></a>, la red izquierda (physics-​uninformed) representa el sustituto de la solución de EDP <span class="math inline">\(u(x, t)\)</span>, mientras que la red derecha (physics-​informed) describe el residuo de EDP <span class="math inline">\(\frac{\partial u}{\partial t} + u \frac{\partial u}{\partial x} - \nu \frac{\partial^2 u}{\partial x^2}\)</span>. La función de pérdida incluye una pérdida supervisada de las mediciones de datos de <span class="math inline">\(u\)</span> de las condiciones iniciales y de contorno, y una pérdida no supervisada de EDP:</p>
+<p>Con una condición inicial adecuada y condiciones de contorno de Dirichlet. En la figura <a href="#fig-pinn_graph" class="quarto-xref">Figura&nbsp;<span>6.1</span></a>, la red izquierda (physics-​uninformed) representa el sustituto de la solución de EDP <span class="math inline">\(u(x, t)\)</span>, mientras que la red derecha (physics-​informed) describe el residuo de EDP <span class="math inline">\(\frac{\partial u}{\partial t} + u \frac{\partial u}{\partial x} - \nu \frac{\partial^2 u}{\partial x^2}\)</span>. La función de pérdida incluye una pérdida supervisada de las mediciones de datos de <span class="math inline">\(u\)</span> de las condiciones iniciales y de contorno, y una pérdida no supervisada de EDP:</p>
 <p><span id="eq-loss-funct"><span class="math display">\[
 \mathcal{L} = w_{\text{data}} \mathcal{L}_{\text{data}} + w_{\text{PDE}} \mathcal{L}_{\text{PDE}}
-\tag{3.1}\]</span></span></p>
+\tag{6.1}\]</span></span></p>
 <p>donde:</p>
 <p><span class="math display">\[\begin{align*}
 \mathcal{L}_{\text{data}} =&amp; \frac{1}{N_{\text{data}}} \sum_{i=1}^{N_{\text{data}}} \left( u(x_i, t_i) - u_i \right)^2 \\ \\
@@ -493,12 +522,12 @@ window.Quarto = {
 <img src="images/PINN_diagram.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="600">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pinn_graph-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;3.1: <strong>El algoritmo de una PINN.</strong> Construya una red neuronal (NN) <span class="math inline">\(u(x, t; \theta)\)</span> donde <span class="math inline">\(\theta\)</span> representa el conjunto de pesos entrenables <span class="math inline">\(w\)</span> y sesgos <span class="math inline">\(b\)</span>, y <span class="math inline">\(\sigma\)</span> representa una función de activación no lineal. Especifique los datos de medición <span class="math inline">\({x_i, t_i, u_i}\)</span> para <span class="math inline">\(u\)</span> y los puntos residuales <span class="math inline">\({x_j, t_j}\)</span> para la EDP. Especifique la pérdida <span class="math inline">\(\mathcal{L}\)</span> en la ecuación <a href="#eq-loss-funct" class="quarto-xref">Ecuación&nbsp;<span>3.1</span></a> sumando las pérdidas ponderadas de los datos y la EDP. Entrene la NN para encontrar los mejores parámetros <span class="math inline">\(\mathbb{\theta^*}\)</span> minimizando la pérdida <span class="math inline">\(\mathcal{L}\)</span> <span class="citation" data-cites="karniadakis2021">(<a href="references.html#ref-karniadakis2021" role="doc-biblioref">Karniadakis et&nbsp;al. 2021</a>)</span>.
+Figura&nbsp;6.1: <strong>El algoritmo de una PINN.</strong> Construya una red neuronal (NN) <span class="math inline">\(u(x, t; \theta)\)</span> donde <span class="math inline">\(\theta\)</span> representa el conjunto de pesos entrenables <span class="math inline">\(w\)</span> y sesgos <span class="math inline">\(b\)</span>, y <span class="math inline">\(\sigma\)</span> representa una función de activación no lineal. Especifique los datos de medición <span class="math inline">\({x_i, t_i, u_i}\)</span> para <span class="math inline">\(u\)</span> y los puntos residuales <span class="math inline">\({x_j, t_j}\)</span> para la EDP. Especifique la pérdida <span class="math inline">\(\mathcal{L}\)</span> en la ecuación <a href="#eq-loss-funct" class="quarto-xref">Ecuación&nbsp;<span>6.1</span></a> sumando las pérdidas ponderadas de los datos y la EDP. Entrene la NN para encontrar los mejores parámetros <span class="math inline">\(\mathbb{\theta^*}\)</span> minimizando la pérdida <span class="math inline">\(\mathcal{L}\)</span> <span class="citation" data-cites="karniadakis2021">(<a href="references.html#ref-karniadakis2021" role="doc-biblioref">Karniadakis et&nbsp;al. 2021</a>)</span>.
 </figcaption>
 </figure>
 </div>
-<section id="comparación-con-redes-neuronales-tradicionales" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="comparación-con-redes-neuronales-tradicionales"><span class="header-section-number">3.1</span> Comparación con Redes Neuronales Tradicionales</h2>
+<section id="comparación-con-redes-neuronales-tradicionales" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="comparación-con-redes-neuronales-tradicionales"><span class="header-section-number">6.1</span> Comparación con Redes Neuronales Tradicionales</h2>
 <p>Mientras que las redes neuronales tradicionales dependen exclusivamente de grandes volúmenes de datos etiquetados para su entrenamiento <span class="citation" data-cites="karniadakis2021">(<a href="references.html#ref-karniadakis2021" role="doc-biblioref">Karniadakis et&nbsp;al. 2021</a>)</span>, las PINNs integran el conocimiento físico como parte esencial de su arquitectura <span class="citation" data-cites="blechs2021">(<a href="references.html#ref-blechs2021" role="doc-biblioref">Blechschmidt y Ernst 2021</a>)</span>. Esta diferencia clave permite a las PINNs generar soluciones físicamente consistentes incluso con datos escasos, evitando el sobreajuste común en enfoques puramente basados en datos. Otra ventaja significativa de las PINNs es su naturaleza mesh-free, que contrasta con los métodos numéricos tradicionales como FEM o FDM que requieren discretización espacial. Sin embargo, el entrenamiento de PINNs puede ser más desafiante debido a la necesidad de optimizar múltiples objetivos simultáneamente (ajuste a datos y cumplimiento de leyes físicas) <span class="citation" data-cites="blechs2021 karniadakis2021">(<a href="references.html#ref-blechs2021" role="doc-biblioref">Blechschmidt y Ernst 2021</a>; <a href="references.html#ref-karniadakis2021" role="doc-biblioref">Karniadakis et&nbsp;al. 2021</a>)</span>.</p>
 </section>
 </div>
@@ -928,13 +957,13 @@ Karniadakis, George Em, Ioannis G. Kevrekidis, Lu Lu, Paris Perdikaris, Sifan Wa
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./metodo-num.html" class="pagination-link" aria-label="Aplicacion de Crank Nikolson">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Aplicacion de Crank Nikolson</span></span>
+      <a href="./boundary_conditions.html" class="pagination-link" aria-label="Condiciones de frontera">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Condiciones de frontera</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./deeponet.html" class="pagination-link" aria-label="DeepONet">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">DeepONet</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">DeepONet</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

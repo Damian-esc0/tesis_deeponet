@@ -30,6 +30,13 @@ book:
     - index.qmd
     - intro.qmd
     - metodo-num.qmd
+
+    - part: "Preliminares"
+      chapters: 
+        - partial_diff_eq.qmd
+        - initial_values.qmd
+        - boundary_conditions.qmd
+
     - part: "Redes neuronales"
       chapters: 
         - pinns.qmd
@@ -64,7 +71,7 @@ format:
       gutter-width: 1.5rem
     code-fold: true
     code-copy: true
-    echo: True
+
   
   pdf:
     lang: es

@@ -1,0 +1,114 @@
+---
+title: Problemas de valor inicial
+lang: es
+execute: 
+  freeze: auto
+---
+::: {style="text-align: justify"}
+Las ecuaciones diferenciales se utilizan para modelar problemas en ciencia e ingeniería que implican el cambio de una variable con respecto a otra. La mayoría de estos problemas requieren la solución de un problema de valor inicial, es decir, la solución de una ecuación diferencial que satisface una condición inicial dada.
+
+En situaciones reales comunes, la ecuación diferencial que modela el problema es demasiado compleja para resolverse con exactitud, y se adopta uno de dos enfoques para aproximar la solución. El primer enfoque consiste en modificar el problema simplificando la ecuación diferencial a una que pueda resolverse con exactitud y luego utilizar la solución de la ecuación simplificada para aproximar la solución del problema original. El otro enfoque utiliza métodos para aproximar la solución del problema original. Este es el enfoque más común porque los métodos de aproximación proporcionan resultados más precisos e información de error realista [@burden2011].
+
+::: {.callout-caution collapse="true" icon="false"}
+## Ejemplo
+El movimiento de un péndulo oscilante bajo ciertas suposiciones se describe mediante la ecuación diferencial de segundo orden:
+$$
+\dfrac{d^2 \theta}{d t^2} + \dfrac{g}{L} \sin{\theta} = 0 
+$$
+
+Donde $L$ es la longitud del péndulo, $g \approx 9.81 \frac{m}{s^2}$ es la constante gravitacional terrestre y $\theta$ es el ángulo que forma el péndulo con la vertical. Si, además, especificamos la posición del péndulo al inicio del movimiento, $\theta(t_0) = \theta_{0}$ , y su velocidad en ese punto, $\theta'(t_0) = \theta'_0$. Tenemos un *problema de valor inicial*.
+:::
+
+::: {#def-Lip-con}
+Se dice que una función $f(t,y)$ satisface una **Condición de Lipschitz** en la variable $y$ en un conjunto $D \subset \mathbb{R}^2$ si existe una constante $L>0$ tal que
+$$
+|f(t,y_1) - f(t,y_2)| \leq L|y_1-y_2|
+$$
+
+donde $f(t,y_1) \text{y} f(t,y_2)$ están en $D$. La constante $L$ es llamada **constante de Lipschitz** para $f$.
+:::
+
+::: {#def-convex-set}
+Se dice que un conjunto $D \subset \mathbb{R}^2$ es **convexo** si para cualesquiera $f(t,y_1), f(t,y_2) \in D$, entonces $((1-\lambda)t_1 + \lambda t_2, (1-\lambda)y_1 + \lambda y_2)$ también pertenece a $D$ para cada $\lambda \in[0,1]$. 
+:::
+
+En términos geométricos, la @def-convex-set establece que un conjunto es convexo siempre que, para cualesquiera dos puntos dentro del conjunto, todo el segmento recto entre ellos también pertenezca al conjunto [@fig-convx-set].
+
+![Ejemplo geométrico de un conjunto *convexo* y *no convexo* [@burden2011].](images/definition_5-2.png){#fig-convx-set fig-align="center" width="600"}
+
+::: {#thm-Lib-teo}
+Supongamos que $f(t, y)$ está definida en un conjunto convexo $D \in \mathbb{R}2$. Si existe una constante $L > 0$ con
+$$
+\left|\dfrac{\partial f}{\partial y}(t,y) \right| \leq L, \quad \text{para todo} (t,y)\in D,
+$$ {#eq-Lib-teo}
+
+entonces $f$ satisface una condición de Libschitz en $D$ en la variable $y$ con una constante de Libschitz $L$.
+:::
+
+Como se mostrará en el siguiente teorema, suele ser de gran interés determinar si la función involucrada en un problema de valor inicial satisface una condición de Lipschitz en su segunda variable, y la condición @eq-Lib-teo suele ser más fácil de aplicar que la definición. Cabe destacar, sin embargo, que el Teorema @thm-Lib-teo solo proporciona condiciones suficientes para que se cumpla una condición de Lipschitz.
+
+
+::: {#thm-uniq-sol}
+Supóngase que $D = \{(t, y) | a \leq t \leq b \quad y \quad  -\infty < y < \infty \}$ y que $f (t, y)$ es continua en $D$. Si $f$ satisface una condición de Lipschitz en $D$ en la variable $y$, entonces el problema del valor inicial
+$$
+y'(t)= f(t,y), \quad a\leq t \leq b, \quad y(a) = \alpha,
+$$
+
+tiene una solución única $y(t)$  para $a\leq t \leq b$.
+:::
+
+::: {.callout-caution collapse="true" icon="false"}
+## Ejemplo
+Use el teorema @thm-uniq-sol para mostrar que hay una única solución al problema de valor inicial:
+$$
+y'(t)= 1 + t\sin(ty), \quad 0\leq t \leq 2, \quad y(0) = 0.
+$$
+**Solución:** Mantieniendo a $t$ constante y usando el *Teorema de valor medio* a la función
+$$
+f(t,y) = 1 + t\sin(ty),
+$$
+notamos que cuando $y_1<y_2$, un número $\xi$ existe en $(y_1,y_2)$ tal que:
+$$
+\dfrac{f(t,y_2)-f(t,y_1)}{y_2-y_1} = \dfrac{\partial}{\partial y} f(t,\xi) = t^2\cos(\xi t).
+$$
+De este modo:
+$$
+|f(t,y_2)-f(t,y_1)| = |y_2-y_1||t^2\cos(\xi t)| \leq 4|y_2-y_1|,
+$$
+y $f$ satisface una condición de Lipschitz en la variable y con constante de Lipschitz $L = 4$. Además, $f(t, y)$ es continua cuando $0 ≤ t ≤ 2$ y $−∞ < y < ∞$, por lo que el @thm-uniq-sol implica que existe una solución única para este problema de valor inicial.
+:::
+
+## Problemas bien plantedos
+Ahora que hemos abordado, hasta cierto punto, la cuestión de cuándo los problemas de valor inicial tienen soluciones únicas, podemos pasar a la segunda consideración importante: cuándo aproximar la solución de un problema de valor inicial. Los problemas de valor inicial obtenidos mediante la observación de fenómenos físicos generalmente solo se aproximan a la situación real, por lo que necesitamos saber si pequeños cambios en el plamteamiento del problema introducen cambios correspondientemente pequeños en la solución.
+
+:::{#def- }
+Se dice que el problema de valor inicial
+$$
+\dfrac{dy}{dt} = f(t,y), \quad a\leq t \leq b, \quad y(a) = \alpha,
+$$ {#eq-original-problem}
+es un **problema bien planteado** si:
+
+- Existe una única solución $y(t)$ para el problema, y
+- Existen constantes $ε_0 > 0$ y $k > 0$ tales que para cualquier $ε$, con $ε_0 > ε > 0$, siempre que $δ(t)$ sea continua con $|δ(t)| < ε$ para todo $t$ en $[a, b]$, y cuando $|δ_0| < ε$, el problema del valor inicial
+$$
+\dfrac{dz}{dt} = f(t,z) + δ(t), \quad a\leq t \leq b, \quad z(a) = \alpha + δ_0
+$$ {#eq-perturbed-rpoblem}
+tenga una única solución $z(t)$ que satisface:
+$$
+|z(t)-y(t)| < k\epsilon \quad \forall t \in[a,b]
+$$
+:::
+El problema especificado por al @eq-perturbed-rpoblem se denomina **problema perturbado** asociado al problema original @eq-original-problem. Se asume la posibilidad de que se introduzca un error en el planteamiento de la ecuación diferencial, así como la presencia de un error $δ_0$ en la condición inicial.
+
+Los métodos numéricos siempre se centrarán en la solución de un problema perturbado, ya que cualquier error de redondeo introducido en la representación perturba el problema original. A menos que el problema original esté bien planteado, hay pocas razones para esperar que la solución numérica de un problema perturbado se aproxime con precisión a la solución del problema original.
+
+:::{#thm- }
+Supongamos $D = \{(t, y) | a \leq t \leq b \quad y \quad  -\infty < y < \infty \}$. Si $f$ es continua y satisface una condición de Lipschitz en la variable $y$ en el conjunto $D$, entonces el problema de valor inicial
+$$
+\dfrac{dy}{dt} = f(t,y), \quad a\leq t \leq b, \quad y(a) = \alpha
+$$
+es bien planteado.
+:::
+
+
+:::

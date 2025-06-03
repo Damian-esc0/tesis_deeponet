@@ -1,0 +1,10 @@
+---
+title: Ecuaciones diferenciales parciales
+lang: es
+execute: 
+  freeze: auto
+---
+::: {style="text-align: justify"}
+
+
+:::

@@ -46,5 +46,14 @@
   },
   "metodo-num.qmd": {
     "metodo-num.html": "2e2d991c"
+  },
+  "partial_diff_eq.qmd": {
+    "partial_diff_eq.html": "8481a7c5"
+  },
+  "initial_values.qmd": {
+    "initial_values.html": "bc4a1159"
+  },
+  "boundary_conditions.qmd": {
+    "boundary_conditions.html": "e9ba8926"
   }
 }
