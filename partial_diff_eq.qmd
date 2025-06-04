@@ -5,6 +5,77 @@ execute:
   freeze: auto
 ---
 ::: {style="text-align: justify"}
+Las ecuaciones diferenciales parciales (EDPs), al igual que las ecuaciones diferenciales ordinarias (EDOs), se clasifican en lineales y no lineales. De forma análoga a una EDO lineal, la variable dependiente y sus derivadas parciales en una EDP lineal se elevan únicamente a la primera potencia [@zill2008].
+
+## Ecuación diferencial parcial lineal
+Si dejamos que $u$ denote la variable dependiente y que $x$ e $y$ representen las variables independientes, entonces la forma general de una **ecuación diferencial parcial lineal de segundo orden** está dada por:
+
+$$
+A \dfrac{\partial^2 u}{\partial x^2} + B \dfrac{\partial^2 u}{\partial x \, \partial y} + C \dfrac{\partial^2 u}{\partial y^2} + D \dfrac{\partial u}{\partial x} + E \dfrac{\partial u}{\partial y} + F u = G,
+$$ {#eq-LPDE}
+
+donde los coeficientes $A, B, C, \dots, G$ son funciones de $x$ e $y$. Cuando $G(x, y) = 0$, la ecuación [-@eq-LPDE] se denomina **homogénea**; de lo contrario, es **no homogénea**. Por ejemplo, las ecuaciones lineales:
+
+$$
+\dfrac{\partial^2 u}{\partial x^2} + \dfrac{\partial^2 u}{\partial y^2} = 0 \quad\text{y} \quad \dfrac{\partial^2 u}{\partial x^2} - \dfrac{\partial u}{\partial y} = x y
+$$
+son homogénea y no homogénea, respectivamente.
+
+## Solucion de una PDE
+Una **solución** de una ecuación diferencial parcial es una función $u(x, y)$ de dos variables independientes que posee todas las derivadas parciales que aparecen en la ecuación y que satisface dicha ecuación en alguna región del plano $xy$.
+
+No es lo habitual examinar los procedimientos para encontrar **soluciones generales** de ecuaciones diferenciales parciales lineales. No solo porque suele ser difícil obtener una solución general de una EDP lineal de segundo orden, sino que una solución general generalmente no es tan útil en aplicaciones prácticas. Por lo tanto, el enfoque común es el de encontrar **soluciones particulares** de algunas de las EDPs lineales más importantes, es decir, ecuaciones que aparecen en muchas aplicaciones.
+
+## Separación de variables
+Aunque existen varios métodos que pueden intentarse para encontrar soluciones particulares de una EDP lineal, uno de los métodos más comunes se llama **método de separación de variables**. En este método buscamos una solución particular de la forma de un *producto* de una función de $x$ y una función de $y$:
+
+$$
+u(x, y) = X(x)Y(y).
+$$
+
+Con esta suposición, *a veces* es posible reducir una EDP lineal en dos variables a dos ecuaciones diferenciales ordinarias (ODEs). Para este fin, observamos que:
+
+$$
+\dfrac{\partial u}{\partial x} = X'Y, \quad
+\dfrac{\partial u}{\partial y} = XY', \quad
+\dfrac{\partial^2 u}{\partial x^2} = X''Y, \quad
+\dfrac{\partial^2 u}{\partial y^2} = XY'',
+$$
+
+donde las comillas (*primes*) denotan derivación ordinaria.
+
+## Principio de superposición
+:::{#thm-superposition}
+Si $u_1 , u_2 , \dots , u_k$ son soluciones de una ecuación diferencial parcial lineal homogénea, entonces la combinación lineal
+$$
+u = c_1u_1 + c_2u_2 + \dots + c_ku_k
+$$
+donde las $c_1=1,2,\dots,k$ son constantes. Es también una solución.
+:::
+
+EL teorema [-@thm-superposition] se puede entender como *siempre que tengamos un conjunto infinito de soluciones $u_1, u_2, u_3, \ldots$ de una ecuación lineal homogénea, podemos construir otra solución $u$ mediante la serie infinita*:  
+
+$$  
+u = \sum_{k=1}^{\infty} c_k u_k,  
+$$  
+donde las constantes $c_i$, con $i = 1, 2, \ldots$, son coeficientes.  
+
+
+## Clasificación de ecuaciones
+Una ecuación diferencial parcial lineal de segundo orden con dos variables independientes y coeficientes constantes puede clasificarse en uno de tres tipos. Esta clasificación depende únicamente de los coeficientes de las derivadas de segundo orden. Por supuesto, asumimos que al menos uno de los coeficientes $A$, $B$ o $C$ es distinto de cero.
+
+:::{#def-PDEs-classes }
+La ecuación diferencial parcial lineal de segundo orden
+$$
+A \dfrac{\partial^2 u}{\partial x^2} + B \dfrac{\partial^2 u}{\partial x \, \partial y} + C \dfrac{\partial^2 u}{\partial y^2} + D \dfrac{\partial u}{\partial x} + E \dfrac{\partial u}{\partial y} + F u = 0,
+$$
+donde $A,B,C,D,F$ son constantes reales, se dice que es:
+
+- **Hiperbólica** si $\quad B^2-4AC>0$,
+- **Parabólica** si $\quad B^2-4AC=0$,
+- **Elíptica** si $\quad B^2-4AC<0$.
+:::
+
 
 
 :::

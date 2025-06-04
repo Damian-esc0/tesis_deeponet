@@ -34,8 +34,8 @@ book:
     - part: "Preliminares"
       chapters: 
         - partial_diff_eq.qmd
+        - boundary_problems.qmd
         - initial_values.qmd
-        - boundary_conditions.qmd
 
     - part: "Redes neuronales"
       chapters: 

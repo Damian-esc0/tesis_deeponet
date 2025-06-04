@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>3&nbsp; Ecuaciones diferenciales parciales – Estimación de la temperatura con la ecuacion del Bio-Calor usando DeepONet</title>
+<title>4&nbsp; Problemas de valores en la frontera – Estimación de la temperatura con la ecuacion del Bio-Calor usando DeepONet</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -50,8 +50,8 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./boundary_problems.html" rel="next">
-<link href="./metodo-num.html" rel="prev">
+<link href="./initial_values.html" rel="next">
+<link href="./partial_diff_eq.html" rel="prev">
 <link href="./FCFMLOGO.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -134,7 +134,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./partial_diff_eq.html">Preliminares</a></li><li class="breadcrumb-item"><a href="./partial_diff_eq.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Ecuaciones diferenciales parciales</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./partial_diff_eq.html">Preliminares</a></li><li class="breadcrumb-item"><a href="./boundary_problems.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Problemas de valores en la frontera</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -217,13 +217,13 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./partial_diff_eq.html" class="sidebar-item-text sidebar-link active">
+  <a href="./partial_diff_eq.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Ecuaciones diferenciales parciales</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./boundary_problems.html" class="sidebar-item-text sidebar-link">
+  <a href="./boundary_problems.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Problemas de valores en la frontera</span></span></a>
   </div>
 </li>
@@ -480,9 +480,9 @@ window.Quarto = {
     }
   </script>
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./partial_diff_eq.html">Preliminares</a></li><li class="breadcrumb-item"><a href="./partial_diff_eq.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Ecuaciones diferenciales parciales</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./partial_diff_eq.html">Preliminares</a></li><li class="breadcrumb-item"><a href="./boundary_problems.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Problemas de valores en la frontera</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Ecuaciones diferenciales parciales</span></h1>
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Problemas de valores en la frontera</span></h1>
 </div>
 
 
@@ -500,64 +500,63 @@ window.Quarto = {
 
 
 <div style="text-align: justify">
-<p>Las ecuaciones diferenciales parciales (EDPs), al igual que las ecuaciones diferenciales ordinarias (EDOs), se clasifican en lineales y no lineales. De forma análoga a una EDO lineal, la variable dependiente y sus derivadas parciales en una EDP lineal se elevan únicamente a la primera potencia <span class="citation" data-cites="zill2008">(<a href="references.html#ref-zill2008" role="doc-biblioref">Zill y Cullen 2008</a>)</span>.</p>
-<section id="ecuación-diferencial-parcial-lineal" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="ecuación-diferencial-parcial-lineal"><span class="header-section-number">3.1</span> Ecuación diferencial parcial lineal</h2>
-<p>Si dejamos que <span class="math inline">\(u\)</span> denote la variable dependiente y que <span class="math inline">\(x\)</span> e <span class="math inline">\(y\)</span> representen las variables independientes, entonces la forma general de una <strong>ecuación diferencial parcial lineal de segundo orden</strong> está dada por:</p>
-<p><span id="eq-LPDE"><span class="math display">\[
-A \dfrac{\partial^2 u}{\partial x^2} + B \dfrac{\partial^2 u}{\partial x \, \partial y} + C \dfrac{\partial^2 u}{\partial y^2} + D \dfrac{\partial u}{\partial x} + E \dfrac{\partial u}{\partial y} + F u = G,
-\tag{3.1}\]</span></span></p>
-<p>donde los coeficientes <span class="math inline">\(A, B, C, \dots, G\)</span> son funciones de <span class="math inline">\(x\)</span> e <span class="math inline">\(y\)</span>. Cuando <span class="math inline">\(G(x, y) = 0\)</span>, la ecuación <a href="#eq-LPDE" class="quarto-xref"><span>3.1</span></a> se denomina <strong>homogénea</strong>; de lo contrario, es <strong>no homogénea</strong>. Por ejemplo, las ecuaciones lineales:</p>
-<p><span class="math display">\[
-\dfrac{\partial^2 u}{\partial x^2} + \dfrac{\partial^2 u}{\partial y^2} = 0 \quad\text{y} \quad \dfrac{\partial^2 u}{\partial x^2} - \dfrac{\partial u}{\partial y} = x y
-\]</span> son homogénea y no homogénea, respectivamente.</p>
-</section>
-<section id="solucion-de-una-pde" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="solucion-de-una-pde"><span class="header-section-number">3.2</span> Solucion de una PDE</h2>
-<p>Una <strong>solución</strong> de una ecuación diferencial parcial es una función <span class="math inline">\(u(x, y)\)</span> de dos variables independientes que posee todas las derivadas parciales que aparecen en la ecuación y que satisface dicha ecuación en alguna región del plano <span class="math inline">\(xy\)</span>.</p>
-<p>No es lo habitual examinar los procedimientos para encontrar <strong>soluciones generales</strong> de ecuaciones diferenciales parciales lineales. No solo porque suele ser difícil obtener una solución general de una EDP lineal de segundo orden, sino que una solución general generalmente no es tan útil en aplicaciones prácticas. Por lo tanto, el enfoque común es el de encontrar <strong>soluciones particulares</strong> de algunas de las EDPs lineales más importantes, es decir, ecuaciones que aparecen en muchas aplicaciones.</p>
-</section>
-<section id="separación-de-variables" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="separación-de-variables"><span class="header-section-number">3.3</span> Separación de variables</h2>
-<p>Aunque existen varios métodos que pueden intentarse para encontrar soluciones particulares de una EDP lineal, uno de los métodos más comunes se llama <strong>método de separación de variables</strong>. En este método buscamos una solución particular de la forma de un <em>producto</em> de una función de <span class="math inline">\(x\)</span> y una función de <span class="math inline">\(y\)</span>:</p>
-<p><span class="math display">\[
-u(x, y) = X(x)Y(y).
-\]</span></p>
-<p>Con esta suposición, <em>a veces</em> es posible reducir una EDP lineal en dos variables a dos ecuaciones diferenciales ordinarias (ODEs). Para este fin, observamos que:</p>
-<p><span class="math display">\[
-\dfrac{\partial u}{\partial x} = X'Y, \quad
-\dfrac{\partial u}{\partial y} = XY', \quad
-\dfrac{\partial^2 u}{\partial x^2} = X''Y, \quad
-\dfrac{\partial^2 u}{\partial y^2} = XY'',
-\]</span></p>
-<p>donde las comillas (<em>primes</em>) denotan derivación ordinaria.</p>
-</section>
-<section id="principio-de-superposición" class="level2" data-number="3.4">
-<h2 data-number="3.4" class="anchored" data-anchor-id="principio-de-superposición"><span class="header-section-number">3.4</span> Principio de superposición</h2>
-<div id="thm-superposition" class="theorem">
-<p><span class="theorem-title"><strong>Teorema 3.1</strong></span> Si <span class="math inline">\(u_1 , u_2 , \dots , u_k\)</span> son soluciones de una ecuación diferencial parcial lineal homogénea, entonces la combinación lineal <span class="math display">\[
-u = c_1u_1 + c_2u_2 + \dots + c_ku_k
-\]</span> donde las <span class="math inline">\(c_1=1,2,\dots,k\)</span> son constantes. Es también una solución.</p>
+<p>Si, por ejemplo, <span class="math inline">\(u(x, t)\)</span> es una solución de una EDP, donde <span class="math inline">\(x\)</span> representa una dimensión espacial y <span class="math inline">\(t\)</span> representa el tiempo, entonces es posible prescribir el valor de <span class="math inline">\(u\)</span>, o <span class="math inline">\(\frac{\partial u}{\partial x}\)</span>, o una combinación lineal de <span class="math inline">\(u\)</span> y <span class="math inline">\(\frac{\partial u}{\partial x}\)</span> en un valor <span class="math inline">\(x\)</span> especificado, así como prescribir <span class="math inline">\(u\)</span> y <span class="math inline">\(\frac{\partial u}{\partial t}\)</span> en un instante dado <span class="math inline">\(t\)</span> (normalmente, <span class="math inline">\(t=0\)</span>). En otras palabras, un <em>problema de valores en la frontera</em> puede consistir en una EDP, junto con <em>condiciones de frontera</em> y <em>condiciones iniciales</em> <span class="citation" data-cites="zill2008">(<a href="references.html#ref-zill2008" role="doc-biblioref">Zill y Cullen 2008</a>)</span>.</p>
+<section id="ecuaciones-clásicas" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="ecuaciones-clásicas"><span class="header-section-number">4.1</span> Ecuaciones clásicas</h2>
+<p>Aplicar el método de separación de variables para encontrar soluciones en forma de producto es muy común con las siguientes <em>ecuaciones clásicas</em> de la física matemática:</p>
+<p><span id="eq-heat"><span class="math display">\[  
+k\frac{\partial^2 u}{\partial x^2} = \frac{\partial u}{\partial t}, \quad k &gt; 0  
+\tag{4.1}\]</span></span></p>
+<p><span id="eq-wave"><span class="math display">\[  
+\alpha^2 \frac{\partial^2 u}{\partial x^2} = \frac{\partial^2 u}{\partial t^2}  
+\tag{4.2}\]</span></span></p>
+<p><span id="eq-laplace"><span class="math display">\[  
+\frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2} = 0  
+\tag{4.3}\]</span></span></p>
+<p>o variantes ligeras de estas ecuaciones. Las EDPs <a href="#eq-heat" class="quarto-xref"><span>4.1</span></a>, <a href="#eq-wave" class="quarto-xref"><span>4.2</span></a> y <a href="#eq-laplace" class="quarto-xref"><span>4.3</span></a> se conocen, respectivamente, como la <em>ecuación del calor unidimensional</em>, la <em>ecuación de onda unidimensional</em> y la <em>forma bidimensional de la ecuación de Laplace</em>. El término “unidimensional” en el caso de las ecuaciones <a href="#eq-heat" class="quarto-xref"><span>4.1</span></a> y <a href="#eq-wave" class="quarto-xref"><span>4.2</span></a> se refiere al hecho de que <span class="math inline">\(x\)</span> denota una variable espacial, mientras que <span class="math inline">\(t\)</span> representa el tiempo; “bidimensional” en <a href="#eq-laplace" class="quarto-xref"><span>4.3</span></a> significa que tanto <span class="math inline">\(x\)</span> como <span class="math inline">\(y\)</span> son variables espaciales. Si comparas <a href="#eq-heat" class="quarto-xref"><span>4.1</span></a>-<a href="#eq-laplace" class="quarto-xref"><span>4.3</span></a> con la forma lineal en la <a href="partial_diff_eq.html#def-PDEs-classes" class="quarto-xref">Definición&nbsp;<span>3.1</span></a> (donde <span class="math inline">\(t\)</span> juega el papel del símbolo <span class="math inline">\(y\)</span>), observarás que la ecuación del calor <a href="#eq-heat" class="quarto-xref"><span>4.1</span></a> es parabólica, la ecuación de onda <a href="#eq-wave" class="quarto-xref"><span>4.2</span></a> es hiperbólica y la ecuación de Laplace <a href="#eq-laplace" class="quarto-xref"><span>4.3</span></a> es elíptica.</p>
+<div id="fig-examples-eqs" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-examples-eqs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-examples-eqs" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-1D-heat" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-1D-heat-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/cross-section.png" class="img-fluid figure-img" data-ref-parent="fig-examples-eqs">
 </div>
-<p>EL teorema <a href="#thm-superposition" class="quarto-xref"><span>3.1</span></a> se puede entender como <em>siempre que tengamos un conjunto infinito de soluciones <span class="math inline">\(u_1, u_2, u_3, \ldots\)</span> de una ecuación lineal homogénea, podemos construir otra solución <span class="math inline">\(u\)</span> mediante la serie infinita</em>:</p>
-<p><span class="math display">\[  
-u = \sum_{k=1}^{\infty} c_k u_k,  
-\]</span><br>
-donde las constantes <span class="math inline">\(c_i\)</span>, con <span class="math inline">\(i = 1, 2, \ldots\)</span>, son coeficientes.</p>
-</section>
-<section id="clasificación-de-ecuaciones" class="level2" data-number="3.5">
-<h2 data-number="3.5" class="anchored" data-anchor-id="clasificación-de-ecuaciones"><span class="header-section-number">3.5</span> Clasificación de ecuaciones</h2>
-<p>Una ecuación diferencial parcial lineal de segundo orden con dos variables independientes y coeficientes constantes puede clasificarse en uno de tres tipos. Esta clasificación depende únicamente de los coeficientes de las derivadas de segundo orden. Por supuesto, asumimos que al menos uno de los coeficientes <span class="math inline">\(A\)</span>, <span class="math inline">\(B\)</span> o <span class="math inline">\(C\)</span> es distinto de cero.</p>
-<div id="def-PDEs-classes" class="theorem definition">
-<p><span class="theorem-title"><strong>Definición 3.1</strong></span> La ecuación diferencial parcial lineal de segundo orden <span class="math display">\[
-A \dfrac{\partial^2 u}{\partial x^2} + B \dfrac{\partial^2 u}{\partial x \, \partial y} + C \dfrac{\partial^2 u}{\partial y^2} + D \dfrac{\partial u}{\partial x} + E \dfrac{\partial u}{\partial y} + F u = 0,
-\]</span> donde <span class="math inline">\(A,B,C,D,F\)</span> son constantes reales, se dice que es:</p>
-<ul>
-<li><strong>Hiperbólica</strong> si <span class="math inline">\(\quad B^2-4AC&gt;0\)</span>,</li>
-<li><strong>Parabólica</strong> si <span class="math inline">\(\quad B^2-4AC=0\)</span>,</li>
-<li><strong>Elíptica</strong> si <span class="math inline">\(\quad B^2-4AC&lt;0\)</span>.</li>
-</ul>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-1D-heat-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Flujo de calor unidimensional.
+</figcaption>
+</figure>
 </div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-examples-eqs" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-wave-exmpl" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-wave-exmpl-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/wave-eq.png" class="img-fluid figure-img" data-ref-parent="fig-examples-eqs">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-wave-exmpl-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Cuerda tensada.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-examples-eqs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;4.1: Aplicaciones de las ecuaciones <a href="#eq-heat" class="quarto-xref"><span>4.1</span></a> y <a href="#eq-wave" class="quarto-xref"><span>4.2</span></a> <span class="citation" data-cites="zill2008">(<a href="references.html#ref-zill2008" role="doc-biblioref">Zill y Cullen 2008</a>)</span>.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="condiciones-iniciales" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="condiciones-iniciales"><span class="header-section-number">4.2</span> Condiciones iniciales</h2>
+<p>Dado que las soluciones de las ecuaciones <a href="#eq-heat" class="quarto-xref"><span>4.1</span></a> y <a href="#eq-wave" class="quarto-xref"><span>4.2</span></a> dependen del tiempo <span class="math inline">\(t\)</span>, es posible especificar lo que ocurre en <span class="math inline">\(t = 0\)</span>; es decir, establecer <strong>condiciones iniciales (CI)</strong>. Si <span class="math inline">\(f(x)\)</span> representa la distribución inicial de temperatura en la barra mostrada en la <a href="#fig-1D-heat" class="quarto-xref">Figura&nbsp;<span>4.1 (a)</span></a>, entonces una solución <span class="math inline">\(u(x, t)\)</span> de <a href="#eq-heat" class="quarto-xref"><span>4.1</span></a> debe satisfacer la condición inicial única <span class="math inline">\(u(x, 0) = f(x), \quad 0 &lt; x &lt; L\)</span>.</p>
+<p>Por otro lado, para una cuerda vibrante podemos especificar tanto su desplazamiento inicial (o forma) <span class="math inline">\(f(x)\)</span> como su velocidad inicial <span class="math inline">\(g(x)\)</span>. En términos matemáticos, buscamos una función <span class="math inline">\(u(x, t)\)</span> que satisfaga <a href="#eq-wave" class="quarto-xref"><span>4.2</span></a> y las dos condiciones iniciales: <span class="math display">\[
+u(x, 0) = f(x), \quad \left. \frac{\partial u}{\partial t} \right|_{t=0} = g(x), \quad 0 &lt; x &lt; L.
+\]</span></p>
+<p>Por ejemplo, la cuerda podría ser tensada, como se muestra en la <a href="#fig-wave-exmpl" class="quarto-xref">Figura&nbsp;<span>4.1 (b)</span></a>, y liberada desde el reposo <span class="math inline">\((g(x)=0)\)</span>.</p>
 </section>
 </div>
 
@@ -983,13 +982,13 @@ Zill, Dennis G., y Michael R. Cullen. 2008. <span>«Differential Equations with 
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./metodo-num.html" class="pagination-link" aria-label="Aplicacion de Crank Nikolson">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Aplicacion de Crank Nikolson</span></span>
+      <a href="./partial_diff_eq.html" class="pagination-link" aria-label="Ecuaciones diferenciales parciales">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Ecuaciones diferenciales parciales</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./boundary_problems.html" class="pagination-link" aria-label="Problemas de valores en la frontera">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Problemas de valores en la frontera</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./initial_values.html" class="pagination-link" aria-label="Problemas de valor inicial">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Problemas de valor inicial</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -998,4 +997,4 @@ Zill, Dennis G., y Michael R. Cullen. 2008. <span>«Differential Equations with 
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/Damian-esc0/tesis_deeponet/edit/main/partial_diff_eq.qmd" class="toc-action"><i class="bi bi-github"></i>Editar esta página</a></li><li><a href="https://github.com/Damian-esc0/tesis_deeponet/issues/new" class="toc-action"><i class="bi empty"></i>Informar de un problema</a></li><li><a href="https://github.com/Damian-esc0/tesis_deeponet/blob/main/partial_diff_eq.qmd" class="toc-action"><i class="bi empty"></i>Ver el código</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/Damian-esc0/tesis_deeponet/edit/main/boundary_problems.qmd" class="toc-action"><i class="bi bi-github"></i>Editar esta página</a></li><li><a href="https://github.com/Damian-esc0/tesis_deeponet/issues/new" class="toc-action"><i class="bi empty"></i>Informar de un problema</a></li><li><a href="https://github.com/Damian-esc0/tesis_deeponet/blob/main/boundary_problems.qmd" class="toc-action"><i class="bi empty"></i>Ver el código</a></li></ul></div></div></div></footer></body></html>

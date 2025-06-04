@@ -1,0 +1,56 @@
+---
+title: Problemas de valores en la frontera
+lang: es
+execute: 
+  freeze: auto
+---
+::: {style="text-align: justify"}
+Si, por ejemplo, $u(x, t)$ es una solución de una EDP, donde $x$ representa una dimensión espacial y $t$ representa el tiempo, entonces es posible prescribir el valor de $u$, o $\frac{\partial u}{\partial x}$, o una combinación lineal de $u$ y $\frac{\partial u}{\partial x}$ en un valor $x$ especificado, así como prescribir $u$ y $\frac{\partial u}{\partial t}$ en un instante dado $t$ (normalmente, $t=0$). En otras palabras, un *problema de valores en la frontera* puede consistir en una EDP, junto con *condiciones de frontera* y *condiciones iniciales* [@zill2008].
+
+## Ecuaciones clásicas 
+Aplicar el método de separación de variables para encontrar soluciones en forma de producto es muy común con las siguientes *ecuaciones clásicas* de la física matemática:  
+
+$$  
+k\frac{\partial^2 u}{\partial x^2} = \frac{\partial u}{\partial t}, \quad k > 0  
+$$ {#eq-heat}
+
+$$  
+\alpha^2 \frac{\partial^2 u}{\partial x^2} = \frac{\partial^2 u}{\partial t^2}  
+$$ {#eq-wave} 
+
+$$  
+\frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2} = 0  
+$$ {#eq-laplace} 
+
+o variantes ligeras de estas ecuaciones. Las EDPs [-@eq-heat], [-@eq-wave] y [-@eq-laplace] se conocen, respectivamente, como la *ecuación del calor unidimensional*, la *ecuación de onda unidimensional* y la *forma bidimensional de la ecuación de Laplace*. El término "unidimensional" en el caso de las ecuaciones [-@eq-heat] y [-@eq-wave] se refiere al hecho de que $x$ denota una variable espacial, mientras que $t$ representa el tiempo; "bidimensional" en [-@eq-laplace] significa que tanto $x$ como $y$ son variables espaciales. Si comparas [-@eq-heat]-[-@eq-laplace] con la forma lineal en la @def-PDEs-classes (donde $t$ juega el papel del símbolo $y$), observarás que la ecuación del calor [-@eq-heat] es parabólica, la ecuación de onda [-@eq-wave] es hiperbólica y la ecuación de Laplace [-@eq-laplace] es elíptica.
+
+::: {#fig-examples-eqs layout-ncol=2}
+
+![Flujo de calor unidimensional.](images/cross-section.png){#fig-1D-heat}
+
+![Cuerda tensada.](images/wave-eq.png){#fig-wave-exmpl }
+
+Aplicaciones de las ecuaciones [-@eq-heat] y [-@eq-wave] [@zill2008].
+:::
+
+## Condiciones iniciales
+Dado que las soluciones de las ecuaciones [-@eq-heat] y [-@eq-wave] dependen del tiempo $t$, es posible especificar lo que ocurre en $t = 0$; es decir, establecer **condiciones iniciales (CI)**. Si $f(x)$ representa la distribución inicial de temperatura en la barra mostrada en la @fig-1D-heat, entonces una solución $u(x, t)$ de [-@eq-heat] debe satisfacer la condición inicial única $u(x, 0) = f(x), \quad 0 < x < L$.
+
+Por otro lado, para una cuerda vibrante podemos especificar tanto su desplazamiento inicial (o forma) $f(x)$ como su velocidad inicial $g(x)$. En términos matemáticos, buscamos una función $u(x, t)$ que satisfaga [-@eq-wave] y las dos condiciones iniciales:
+$$
+u(x, 0) = f(x), \quad \left. \frac{\partial u}{\partial t} \right|_{t=0} = g(x), \quad 0 < x < L.
+$$
+
+Por ejemplo, la cuerda podría ser tensada, como se muestra en la @fig-wave-exmpl, y liberada desde el reposo $(g(x)=0)$.
+
+## Condiciones de frontera
+
+
+
+
+
+
+
+
+
+:::

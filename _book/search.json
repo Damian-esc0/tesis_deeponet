@@ -237,12 +237,111 @@
   {
     "objectID": "initial_values.html#problemas-bien-plantedos",
     "href": "initial_values.html#problemas-bien-plantedos",
-    "title": "4  Problemas de valor inicial",
-    "section": "4.1 Problemas bien plantedos",
-    "text": "4.1 Problemas bien plantedos\nAhora que hemos abordado, hasta cierto punto, la cuestión de cuándo los problemas de valor inicial tienen soluciones únicas, podemos pasar a la segunda consideración importante: cuándo aproximar la solución de un problema de valor inicial. Los problemas de valor inicial obtenidos mediante la observación de fenómenos físicos generalmente solo se aproximan a la situación real, por lo que necesitamos saber si pequeños cambios en el plamteamiento del problema introducen cambios correspondientemente pequeños en la solución.\n\nDefinición 4.3 Se dice que el problema de valor inicial \\[\n\\dfrac{dy}{dt} = f(t,y), \\quad a\\leq t \\leq b, \\quad y(a) = \\alpha,\n\\tag{4.2}\\] es un problema bien planteado si:\n\nExiste una única solución \\(y(t)\\) para el problema, y\nExisten constantes \\(ε_0 &gt; 0\\) y \\(k &gt; 0\\) tales que para cualquier \\(ε\\), con \\(ε_0 &gt; ε &gt; 0\\), siempre que \\(δ(t)\\) sea continua con \\(|δ(t)| &lt; ε\\) para todo \\(t\\) en \\([a, b]\\), y cuando \\(|δ_0| &lt; ε\\), el problema del valor inicial \\[\n\\dfrac{dz}{dt} = f(t,z) + δ(t), \\quad a\\leq t \\leq b, \\quad z(a) = \\alpha + δ_0\n\\tag{4.3}\\] tenga una única solución \\(z(t)\\) que satisface: \\[\n|z(t)-y(t)| &lt; k\\epsilon \\quad \\forall t \\in[a,b]\n\\]\n\n\nEl problema especificado por al Ecuación 4.3 se denomina problema perturbado asociado al problema original Ecuación 4.2. Se asume la posibilidad de que se introduzca un error en el planteamiento de la ecuación diferencial, así como la presencia de un error \\(δ_0\\) en la condición inicial.\nLos métodos numéricos siempre se centrarán en la solución de un problema perturbado, ya que cualquier error de redondeo introducido en la representación perturba el problema original. A menos que el problema original esté bien planteado, hay pocas razones para esperar que la solución numérica de un problema perturbado se aproxime con precisión a la solución del problema original.\n\nTeorema 4.3 Supongamos \\(D = \\{(t, y) | a \\leq t \\leq b \\quad y \\quad  -\\infty &lt; y &lt; \\infty \\}\\). Si \\(f\\) es continua y satisface una condición de Lipschitz en la variable \\(y\\) en el conjunto \\(D\\), entonces el problema de valor inicial \\[\n\\dfrac{dy}{dt} = f(t,y), \\quad a\\leq t \\leq b, \\quad y(a) = \\alpha\n\\] es bien planteado.",
+    "title": "5  Problemas de valor inicial",
+    "section": "5.1 Problemas bien plantedos",
+    "text": "5.1 Problemas bien plantedos\nAhora que hemos abordado, hasta cierto punto, la cuestión de cuándo los problemas de valor inicial tienen soluciones únicas, podemos pasar a la segunda consideración importante: cuándo aproximar la solución de un problema de valor inicial. Los problemas de valor inicial obtenidos mediante la observación de fenómenos físicos generalmente solo se aproximan a la situación real, por lo que necesitamos saber si pequeños cambios en el plamteamiento del problema introducen cambios correspondientemente pequeños en la solución.\n\nDefinición 5.3 Se dice que el problema de valor inicial \\[\n\\dfrac{dy}{dt} = f(t,y), \\quad a\\leq t \\leq b, \\quad y(a) = \\alpha,\n\\tag{5.2}\\] es un problema bien planteado si:\n\nExiste una única solución \\(y(t)\\) para el problema, y\nExisten constantes \\(ε_0 &gt; 0\\) y \\(k &gt; 0\\) tales que para cualquier \\(ε\\), con \\(ε_0 &gt; ε &gt; 0\\), siempre que \\(δ(t)\\) sea continua con \\(|δ(t)| &lt; ε\\) para todo \\(t\\) en \\([a, b]\\), y cuando \\(|δ_0| &lt; ε\\), el problema del valor inicial \\[\n\\dfrac{dz}{dt} = f(t,z) + δ(t), \\quad a\\leq t \\leq b, \\quad z(a) = \\alpha + δ_0\n\\tag{5.3}\\] tenga una única solución \\(z(t)\\) que satisface: \\[\n|z(t)-y(t)| &lt; k\\epsilon \\quad \\forall t \\in[a,b]\n\\]\n\n\nEl problema especificado por al Ecuación 5.3 se denomina problema perturbado asociado al problema original Ecuación 5.2. Se asume la posibilidad de que se introduzca un error en el planteamiento de la ecuación diferencial, así como la presencia de un error \\(δ_0\\) en la condición inicial.\nLos métodos numéricos siempre se centrarán en la solución de un problema perturbado, ya que cualquier error de redondeo introducido en la representación perturba el problema original. A menos que el problema original esté bien planteado, hay pocas razones para esperar que la solución numérica de un problema perturbado se aproxime con precisión a la solución del problema original.\n\nTeorema 5.3 Supongamos \\(D = \\{(t, y) | a \\leq t \\leq b \\quad y \\quad  -\\infty &lt; y &lt; \\infty \\}\\). Si \\(f\\) es continua y satisface una condición de Lipschitz en la variable \\(y\\) en el conjunto \\(D\\), entonces el problema de valor inicial \\[\n\\dfrac{dy}{dt} = f(t,y), \\quad a\\leq t \\leq b, \\quad y(a) = \\alpha\n\\] es bien planteado.",
     "crumbs": [
       "Preliminares",
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Problemas de valor inicial</span>"
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Problemas de valor inicial</span>"
+    ]
+  },
+  {
+    "objectID": "partial_diff_eq.html#ecuación-diferencial-parcial-lineal",
+    "href": "partial_diff_eq.html#ecuación-diferencial-parcial-lineal",
+    "title": "3  Ecuaciones diferenciales parciales",
+    "section": "3.1 Ecuación diferencial parcial lineal",
+    "text": "3.1 Ecuación diferencial parcial lineal\nSi dejamos que \\(u\\) denote la variable dependiente y que \\(x\\) e \\(y\\) representen las variables independientes, entonces la forma general de una ecuación diferencial parcial lineal de segundo orden está dada por:\n\\[\nA \\dfrac{\\partial^2 u}{\\partial x^2} + B \\dfrac{\\partial^2 u}{\\partial x \\, \\partial y} + C \\dfrac{\\partial^2 u}{\\partial y^2} + D \\dfrac{\\partial u}{\\partial x} + E \\dfrac{\\partial u}{\\partial y} + F u = G,\n\\tag{3.1}\\]\ndonde los coeficientes \\(A, B, C, \\dots, G\\) son funciones de \\(x\\) e \\(y\\). Cuando \\(G(x, y) = 0\\), la ecuación 3.1 se denomina homogénea; de lo contrario, es no homogénea. Por ejemplo, las ecuaciones lineales:\n\\[\n\\dfrac{\\partial^2 u}{\\partial x^2} + \\dfrac{\\partial^2 u}{\\partial y^2} = 0 \\quad\\text{y} \\quad \\dfrac{\\partial^2 u}{\\partial x^2} - \\dfrac{\\partial u}{\\partial y} = x y\n\\] son homogénea y no homogénea, respectivamente.",
+    "crumbs": [
+      "Preliminares",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Ecuaciones diferenciales parciales</span>"
+    ]
+  },
+  {
+    "objectID": "partial_diff_eq.html#ecuación-diferencial-parcial-lineal-1",
+    "href": "partial_diff_eq.html#ecuación-diferencial-parcial-lineal-1",
+    "title": "3  Ecuaciones diferenciales parciales",
+    "section": "3.2 ECUACIÓN DIFERENCIAL PARCIAL LINEAL",
+    "text": "3.2 ECUACIÓN DIFERENCIAL PARCIAL LINEAL\nSi dejamos que $u$ denote la variable dependiente y que \\(x\\) e \\(y\\) representen las variables independientes, entonces la forma general de una ecuación diferencial parcial lineal de segundo orden está dada por:\n\\[\nA \\dfrac{\\partial^2 u}{\\partial x^2} + B \\dfrac{\\partial^2 u}{\\partial x \\, \\partial y} + C \\dfrac{\\partial^2 u}{\\partial y^2} + D \\dfrac{\\partial u}{\\partial x} + E \\dfrac{\\partial u}{\\partial y} + F u = G,\n\\tag{3.1}\\]\ndonde los coeficientes $A, B, C, , \\(G\\) son funciones de \\(x\\) e \\(y\\). Cuando \\(G(x, y) = 0\\), la ecuación Ecuación 3.1 se denomina homogénea; de lo contrario, es no homogénea. Por ejemplo, las ecuaciones lineales:\n\\[\n\\dfrac{\\partial^2 u}{\\partial x^2} + \\dfrac{\\partial^2 u}{\\partial y^2} = 0 \\quad\\text{y} \\quad \\dfrac{\\partial^2 u}{\\partial x^2} - \\dfrac{\\partial u}{\\partial y} = x y\n\\] son homogénea y no homogénea, respectivamente.",
+    "crumbs": [
+      "Preliminares",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Ecuaciones diferenciales parciales</span>"
+    ]
+  },
+  {
+    "objectID": "partial_diff_eq.html#solucion-de-una-pde",
+    "href": "partial_diff_eq.html#solucion-de-una-pde",
+    "title": "3  Ecuaciones diferenciales parciales",
+    "section": "3.2 Solucion de una PDE",
+    "text": "3.2 Solucion de una PDE\nUna solución de una ecuación diferencial parcial es una función \\(u(x, y)\\) de dos variables independientes que posee todas las derivadas parciales que aparecen en la ecuación y que satisface dicha ecuación en alguna región del plano \\(xy\\).\nNo es lo habitual examinar los procedimientos para encontrar soluciones generales de ecuaciones diferenciales parciales lineales. No solo porque suele ser difícil obtener una solución general de una EDP lineal de segundo orden, sino que una solución general generalmente no es tan útil en aplicaciones prácticas. Por lo tanto, el enfoque común es el de encontrar soluciones particulares de algunas de las EDPs lineales más importantes, es decir, ecuaciones que aparecen en muchas aplicaciones.",
+    "crumbs": [
+      "Preliminares",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Ecuaciones diferenciales parciales</span>"
+    ]
+  },
+  {
+    "objectID": "partial_diff_eq.html#separación-de-variables",
+    "href": "partial_diff_eq.html#separación-de-variables",
+    "title": "3  Ecuaciones diferenciales parciales",
+    "section": "3.3 Separación de variables",
+    "text": "3.3 Separación de variables\nAunque existen varios métodos que pueden intentarse para encontrar soluciones particulares de una EDP lineal, uno de los métodos más comunes se llama método de separación de variables. En este método buscamos una solución particular de la forma de un producto de una función de \\(x\\) y una función de \\(y\\):\n\\[\nu(x, y) = X(x)Y(y).\n\\]\nCon esta suposición, a veces es posible reducir una EDP lineal en dos variables a dos ecuaciones diferenciales ordinarias (ODEs). Para este fin, observamos que:\n\\[\n\\dfrac{\\partial u}{\\partial x} = X'Y, \\quad\n\\dfrac{\\partial u}{\\partial y} = XY', \\quad\n\\dfrac{\\partial^2 u}{\\partial x^2} = X''Y, \\quad\n\\dfrac{\\partial^2 u}{\\partial y^2} = XY'',\n\\]\ndonde las comillas (primes) denotan derivación ordinaria.",
+    "crumbs": [
+      "Preliminares",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Ecuaciones diferenciales parciales</span>"
+    ]
+  },
+  {
+    "objectID": "partial_diff_eq.html#principio-de-superposición",
+    "href": "partial_diff_eq.html#principio-de-superposición",
+    "title": "3  Ecuaciones diferenciales parciales",
+    "section": "3.4 Principio de superposición",
+    "text": "3.4 Principio de superposición\n\nTeorema 3.1 Si \\(u_1 , u_2 , \\dots , u_k\\) son soluciones de una ecuación diferencial parcial lineal homogénea, entonces la combinación lineal \\[\nu = c_1u_1 + c_2u_2 + \\dots + c_ku_k\n\\] donde las \\(c_1=1,2,\\dots,k\\) son constantes. Es también una solución.\n\nEL teorema 3.1 se puede entender como siempre que tengamos un conjunto infinito de soluciones \\(u_1, u_2, u_3, \\ldots\\) de una ecuación lineal homogénea, podemos construir otra solución \\(u\\) mediante la serie infinita:\n\\[  \nu = \\sum_{k=1}^{\\infty} c_k u_k,  \n\\]\ndonde las constantes \\(c_i\\), con \\(i = 1, 2, \\ldots\\), son coeficientes.",
+    "crumbs": [
+      "Preliminares",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Ecuaciones diferenciales parciales</span>"
+    ]
+  },
+  {
+    "objectID": "boundary_problems.html#ecuaciones-clásicas",
+    "href": "boundary_problems.html#ecuaciones-clásicas",
+    "title": "4  Problemas de valores en la frontera",
+    "section": "4.1 Ecuaciones clásicas",
+    "text": "4.1 Ecuaciones clásicas\nAplicar el método de separación de variables para encontrar soluciones en forma de producto es muy común con las siguientes ecuaciones clásicas de la física matemática:\n\\[  \nk\\frac{\\partial^2 u}{\\partial x^2} = \\frac{\\partial u}{\\partial t}, \\quad k &gt; 0  \n\\tag{4.1}\\]\n\\[  \n\\alpha^2 \\frac{\\partial^2 u}{\\partial x^2} = \\frac{\\partial^2 u}{\\partial t^2}  \n\\tag{4.2}\\]\n\\[  \n\\frac{\\partial^2 u}{\\partial x^2} + \\frac{\\partial^2 u}{\\partial y^2} = 0  \n\\tag{4.3}\\]\no variantes ligeras de estas ecuaciones. Las EDPs 4.1, 4.2 y 4.3 se conocen, respectivamente, como la ecuación del calor unidimensional, la ecuación de onda unidimensional y la forma bidimensional de la ecuación de Laplace. El término “unidimensional” en el caso de las ecuaciones 4.1 y 4.2 se refiere al hecho de que \\(x\\) denota una variable espacial, mientras que \\(t\\) representa el tiempo; “bidimensional” en 4.3 significa que tanto \\(x\\) como \\(y\\) son variables espaciales. Si comparas 4.1-4.3 con la forma lineal en la Definición 3.1 (donde \\(t\\) juega el papel del símbolo \\(y\\)), observarás que la ecuación del calor 4.1 es parabólica, la ecuación de onda 4.2 es hiperbólica y la ecuación de Laplace 4.3 es elíptica.\n\n\n\n\n\n\n\n\n\n\n\n(a) Flujo de calor unidimensional.\n\n\n\n\n\n\n\n\n\n\n\n(b) Cuerda tensada.\n\n\n\n\n\n\n\nFigura 4.1: Aplicaciones de las ecuaciones 4.1 y 4.2 (Zill y Cullen 2008).",
+    "crumbs": [
+      "Preliminares",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Problemas de valores en la frontera</span>"
+    ]
+  },
+  {
+    "objectID": "partial_diff_eq.html",
+    "href": "partial_diff_eq.html",
+    "title": "3  Ecuaciones diferenciales parciales",
+    "section": "",
+    "text": ":::",
+    "crumbs": [
+      "Preliminares",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Ecuaciones diferenciales parciales</span>"
+    ]
+  },
+  {
+    "objectID": "partial_diff_eq.html#clasificación-de-ecuaciones",
+    "href": "partial_diff_eq.html#clasificación-de-ecuaciones",
+    "title": "3  Ecuaciones diferenciales parciales",
+    "section": "3.5 Clasificación de ecuaciones",
+    "text": "3.5 Clasificación de ecuaciones\nUna ecuación diferencial parcial lineal de segundo orden con dos variables independientes y coeficientes constantes puede clasificarse en uno de tres tipos. Esta clasificación depende únicamente de los coeficientes de las derivadas de segundo orden. Por supuesto, asumimos que al menos uno de los coeficientes \\(A\\), \\(B\\) o \\(C\\) es distinto de cero.\n\nDefinición 3.1 La ecuación diferencial parcial lineal de segundo orden \\[\nA \\dfrac{\\partial^2 u}{\\partial x^2} + B \\dfrac{\\partial^2 u}{\\partial x \\, \\partial y} + C \\dfrac{\\partial^2 u}{\\partial y^2} + D \\dfrac{\\partial u}{\\partial x} + E \\dfrac{\\partial u}{\\partial y} + F u = 0,\n\\] donde \\(A,B,C,D,F\\) son constantes reales, se dice que es:\n\nHiperbólica si \\(\\quad B^2-4AC&gt;0\\),\nParabólica si \\(\\quad B^2-4AC=0\\),\nElíptica si \\(\\quad B^2-4AC&lt;0\\).",
+    "crumbs": [
+      "Preliminares",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Ecuaciones diferenciales parciales</span>"
+    ]
+  },
+  {
+    "objectID": "boundary_problems.html#condiciones-iniciales",
+    "href": "boundary_problems.html#condiciones-iniciales",
+    "title": "4  Problemas de valores en la frontera",
+    "section": "4.2 Condiciones iniciales",
+    "text": "4.2 Condiciones iniciales\nDado que las soluciones de las ecuaciones 4.1 y 4.2 dependen del tiempo \\(t\\), es posible especificar lo que ocurre en \\(t = 0\\); es decir, establecer condiciones iniciales (CI). Si \\(f(x)\\) representa la distribución inicial de temperatura en la barra mostrada en la Figura 4.1 (a), entonces una solución \\(u(x, t)\\) de 4.1 debe satisfacer la condición inicial única \\(u(x, 0) = f(x), \\quad 0 &lt; x &lt; L\\).\nPor otro lado, para una cuerda vibrante podemos especificar tanto su desplazamiento inicial (o forma) \\(f(x)\\) como su velocidad inicial \\(g(x)\\). En términos matemáticos, buscamos una función \\(u(x, t)\\) que satisfaga 4.2 y las dos condiciones iniciales: \\[\nu(x, 0) = f(x), \\quad \\left. \\frac{\\partial u}{\\partial t} \\right|_{t=0} = g(x), \\quad 0 &lt; x &lt; L.\n\\]\nPor ejemplo, la cuerda podría ser tensada, como se muestra en la Figura 4.1 (b), y liberada desde el reposo \\((g(x)=0)\\).",
+    "crumbs": [
+      "Preliminares",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Problemas de valores en la frontera</span>"
     ]
   }
 ]

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>4&nbsp; Problemas de valor inicial – Estimación de la temperatura con la ecuacion del Bio-Calor usando DeepONet</title>
+<title>5&nbsp; Problemas de valor inicial – Estimación de la temperatura con la ecuacion del Bio-Calor usando DeepONet</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -50,8 +50,8 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./boundary_conditions.html" rel="next">
-<link href="./partial_diff_eq.html" rel="prev">
+<link href="./pinns.html" rel="next">
+<link href="./boundary_problems.html" rel="prev">
 <link href="./FCFMLOGO.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -134,7 +134,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./partial_diff_eq.html">Preliminares</a></li><li class="breadcrumb-item"><a href="./initial_values.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Problemas de valor inicial</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./partial_diff_eq.html">Preliminares</a></li><li class="breadcrumb-item"><a href="./initial_values.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Problemas de valor inicial</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -223,14 +223,14 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./initial_values.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Problemas de valor inicial</span></span></a>
+  <a href="./boundary_problems.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Problemas de valores en la frontera</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./boundary_conditions.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Condiciones de frontera</span></span></a>
+  <a href="./initial_values.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Problemas de valor inicial</span></span></a>
   </div>
 </li>
       </ul>
@@ -480,9 +480,9 @@ window.Quarto = {
     }
   </script>
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./partial_diff_eq.html">Preliminares</a></li><li class="breadcrumb-item"><a href="./initial_values.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Problemas de valor inicial</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./partial_diff_eq.html">Preliminares</a></li><li class="breadcrumb-item"><a href="./initial_values.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Problemas de valor inicial</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Problemas de valor inicial</span></h1>
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Problemas de valor inicial</span></h1>
 </div>
 
 
@@ -522,34 +522,34 @@ Ejemplo
 </div>
 </div>
 <div id="def-Lip-con" class="theorem definition">
-<p><span class="theorem-title"><strong>Definición 4.1</strong></span> Se dice que una función <span class="math inline">\(f(t,y)\)</span> satisface una <strong>Condición de Lipschitz</strong> en la variable <span class="math inline">\(y\)</span> en un conjunto <span class="math inline">\(D \subset \mathbb{R}^2\)</span> si existe una constante <span class="math inline">\(L&gt;0\)</span> tal que <span class="math display">\[
+<p><span class="theorem-title"><strong>Definición 5.1</strong></span> Se dice que una función <span class="math inline">\(f(t,y)\)</span> satisface una <strong>Condición de Lipschitz</strong> en la variable <span class="math inline">\(y\)</span> en un conjunto <span class="math inline">\(D \subset \mathbb{R}^2\)</span> si existe una constante <span class="math inline">\(L&gt;0\)</span> tal que <span class="math display">\[
 |f(t,y_1) - f(t,y_2)| \leq L|y_1-y_2|
 \]</span></p>
 <p>donde <span class="math inline">\(f(t,y_1) \text{y} f(t,y_2)\)</span> están en <span class="math inline">\(D\)</span>. La constante <span class="math inline">\(L\)</span> es llamada <strong>constante de Lipschitz</strong> para <span class="math inline">\(f\)</span>.</p>
 </div>
 <div id="def-convex-set" class="theorem definition">
-<p><span class="theorem-title"><strong>Definición 4.2</strong></span> Se dice que un conjunto <span class="math inline">\(D \subset \mathbb{R}^2\)</span> es <strong>convexo</strong> si para cualesquiera <span class="math inline">\(f(t,y_1), f(t,y_2) \in D\)</span>, entonces <span class="math inline">\(((1-\lambda)t_1 + \lambda t_2, (1-\lambda)y_1 + \lambda y_2)\)</span> también pertenece a <span class="math inline">\(D\)</span> para cada <span class="math inline">\(\lambda \in[0,1]\)</span>.</p>
+<p><span class="theorem-title"><strong>Definición 5.2</strong></span> Se dice que un conjunto <span class="math inline">\(D \subset \mathbb{R}^2\)</span> es <strong>convexo</strong> si para cualesquiera <span class="math inline">\(f(t,y_1), f(t,y_2) \in D\)</span>, entonces <span class="math inline">\(((1-\lambda)t_1 + \lambda t_2, (1-\lambda)y_1 + \lambda y_2)\)</span> también pertenece a <span class="math inline">\(D\)</span> para cada <span class="math inline">\(\lambda \in[0,1]\)</span>.</p>
 </div>
-<p>En términos geométricos, la <a href="#def-convex-set" class="quarto-xref">Definición&nbsp;<span>4.2</span></a> establece que un conjunto es convexo siempre que, para cualesquiera dos puntos dentro del conjunto, todo el segmento recto entre ellos también pertenezca al conjunto <a href="#fig-convx-set" class="quarto-xref">Figura&nbsp;<span>4.1</span></a>.</p>
+<p>En términos geométricos, la <a href="#def-convex-set" class="quarto-xref">Definición&nbsp;<span>5.2</span></a> establece que un conjunto es convexo siempre que, para cualesquiera dos puntos dentro del conjunto, todo el segmento recto entre ellos también pertenezca al conjunto <a href="#fig-convx-set" class="quarto-xref">Figura&nbsp;<span>5.1</span></a>.</p>
 <div id="fig-convx-set" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-convx-set-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="images/definition_5-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="600">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-convx-set-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;4.1: Ejemplo geométrico de un conjunto <em>convexo</em> y <em>no convexo</em> <span class="citation" data-cites="burden2011">(<a href="references.html#ref-burden2011" role="doc-biblioref">Burden y Faires 2010</a>)</span>.
+Figura&nbsp;5.1: Ejemplo geométrico de un conjunto <em>convexo</em> y <em>no convexo</em> <span class="citation" data-cites="burden2011">(<a href="references.html#ref-burden2011" role="doc-biblioref">Burden y Faires 2010</a>)</span>.
 </figcaption>
 </figure>
 </div>
 <div id="thm-Lib-teo" class="theorem">
-<p><span class="theorem-title"><strong>Teorema 4.1</strong></span> Supongamos que <span class="math inline">\(f(t, y)\)</span> está definida en un conjunto convexo <span class="math inline">\(D \in \mathbb{R}2\)</span>. Si existe una constante <span class="math inline">\(L &gt; 0\)</span> con <span id="eq-Lib-teo"><span class="math display">\[
+<p><span class="theorem-title"><strong>Teorema 5.1</strong></span> Supongamos que <span class="math inline">\(f(t, y)\)</span> está definida en un conjunto convexo <span class="math inline">\(D \in \mathbb{R}2\)</span>. Si existe una constante <span class="math inline">\(L &gt; 0\)</span> con <span id="eq-Lib-teo"><span class="math display">\[
 \left|\dfrac{\partial f}{\partial y}(t,y) \right| \leq L, \quad \text{para todo} (t,y)\in D,
-\tag{4.1}\]</span></span></p>
+\tag{5.1}\]</span></span></p>
 <p>entonces <span class="math inline">\(f\)</span> satisface una condición de Libschitz en <span class="math inline">\(D\)</span> en la variable <span class="math inline">\(y\)</span> con una constante de Libschitz <span class="math inline">\(L\)</span>.</p>
 </div>
-<p>Como se mostrará en el siguiente teorema, suele ser de gran interés determinar si la función involucrada en un problema de valor inicial satisface una condición de Lipschitz en su segunda variable, y la condición <a href="#eq-Lib-teo" class="quarto-xref">Ecuación&nbsp;<span>4.1</span></a> suele ser más fácil de aplicar que la definición. Cabe destacar, sin embargo, que el Teorema <a href="#thm-Lib-teo" class="quarto-xref">Teorema&nbsp;<span>4.1</span></a> solo proporciona condiciones suficientes para que se cumpla una condición de Lipschitz.</p>
+<p>Como se mostrará en el siguiente teorema, suele ser de gran interés determinar si la función involucrada en un problema de valor inicial satisface una condición de Lipschitz en su segunda variable, y la condición <a href="#eq-Lib-teo" class="quarto-xref">Ecuación&nbsp;<span>5.1</span></a> suele ser más fácil de aplicar que la definición. Cabe destacar, sin embargo, que el Teorema <a href="#thm-Lib-teo" class="quarto-xref">Teorema&nbsp;<span>5.1</span></a> solo proporciona condiciones suficientes para que se cumpla una condición de Lipschitz.</p>
 <div id="thm-uniq-sol" class="theorem">
-<p><span class="theorem-title"><strong>Teorema 4.2</strong></span> Supóngase que <span class="math inline">\(D = \{(t, y) | a \leq t \leq b \quad y \quad  -\infty &lt; y &lt; \infty \}\)</span> y que <span class="math inline">\(f (t, y)\)</span> es continua en <span class="math inline">\(D\)</span>. Si <span class="math inline">\(f\)</span> satisface una condición de Lipschitz en <span class="math inline">\(D\)</span> en la variable <span class="math inline">\(y\)</span>, entonces el problema del valor inicial <span class="math display">\[
+<p><span class="theorem-title"><strong>Teorema 5.2</strong></span> Supóngase que <span class="math inline">\(D = \{(t, y) | a \leq t \leq b \quad y \quad  -\infty &lt; y &lt; \infty \}\)</span> y que <span class="math inline">\(f (t, y)\)</span> es continua en <span class="math inline">\(D\)</span>. Si <span class="math inline">\(f\)</span> satisface una condición de Lipschitz en <span class="math inline">\(D\)</span> en la variable <span class="math inline">\(y\)</span>, entonces el problema del valor inicial <span class="math display">\[
 y'(t)= f(t,y), \quad a\leq t \leq b, \quad y(a) = \alpha,
 \]</span></p>
 <p>tiene una solución única <span class="math inline">\(y(t)\)</span> para <span class="math inline">\(a\leq t \leq b\)</span>.</p>
@@ -566,7 +566,7 @@ Ejemplo
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Use el teorema <a href="#thm-uniq-sol" class="quarto-xref">Teorema&nbsp;<span>4.2</span></a> para mostrar que hay una única solución al problema de valor inicial: <span class="math display">\[
+<p>Use el teorema <a href="#thm-uniq-sol" class="quarto-xref">Teorema&nbsp;<span>5.2</span></a> para mostrar que hay una única solución al problema de valor inicial: <span class="math display">\[
 y'(t)= 1 + t\sin(ty), \quad 0\leq t \leq 2, \quad y(0) = 0.
 \]</span> <strong>Solución:</strong> Mantieniendo a <span class="math inline">\(t\)</span> constante y usando el <em>Teorema de valor medio</em> a la función <span class="math display">\[
 f(t,y) = 1 + t\sin(ty),
@@ -574,30 +574,30 @@ f(t,y) = 1 + t\sin(ty),
 \dfrac{f(t,y_2)-f(t,y_1)}{y_2-y_1} = \dfrac{\partial}{\partial y} f(t,\xi) = t^2\cos(\xi t).
 \]</span> De este modo: <span class="math display">\[
 |f(t,y_2)-f(t,y_1)| = |y_2-y_1||t^2\cos(\xi t)| \leq 4|y_2-y_1|,
-\]</span> y <span class="math inline">\(f\)</span> satisface una condición de Lipschitz en la variable y con constante de Lipschitz <span class="math inline">\(L = 4\)</span>. Además, <span class="math inline">\(f(t, y)\)</span> es continua cuando <span class="math inline">\(0 ≤ t ≤ 2\)</span> y <span class="math inline">\(−∞ &lt; y &lt; ∞\)</span>, por lo que el <a href="#thm-uniq-sol" class="quarto-xref">Teorema&nbsp;<span>4.2</span></a> implica que existe una solución única para este problema de valor inicial.</p>
+\]</span> y <span class="math inline">\(f\)</span> satisface una condición de Lipschitz en la variable y con constante de Lipschitz <span class="math inline">\(L = 4\)</span>. Además, <span class="math inline">\(f(t, y)\)</span> es continua cuando <span class="math inline">\(0 ≤ t ≤ 2\)</span> y <span class="math inline">\(−∞ &lt; y &lt; ∞\)</span>, por lo que el <a href="#thm-uniq-sol" class="quarto-xref">Teorema&nbsp;<span>5.2</span></a> implica que existe una solución única para este problema de valor inicial.</p>
 </div>
 </div>
 </div>
-<section id="problemas-bien-plantedos" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="problemas-bien-plantedos"><span class="header-section-number">4.1</span> Problemas bien plantedos</h2>
+<section id="problemas-bien-plantedos" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="problemas-bien-plantedos"><span class="header-section-number">5.1</span> Problemas bien plantedos</h2>
 <p>Ahora que hemos abordado, hasta cierto punto, la cuestión de cuándo los problemas de valor inicial tienen soluciones únicas, podemos pasar a la segunda consideración importante: cuándo aproximar la solución de un problema de valor inicial. Los problemas de valor inicial obtenidos mediante la observación de fenómenos físicos generalmente solo se aproximan a la situación real, por lo que necesitamos saber si pequeños cambios en el plamteamiento del problema introducen cambios correspondientemente pequeños en la solución.</p>
 <div id="def-" class="theorem definition">
-<p><span class="theorem-title"><strong>Definición 4.3</strong></span> Se dice que el problema de valor inicial <span id="eq-original-problem"><span class="math display">\[
+<p><span class="theorem-title"><strong>Definición 5.3</strong></span> Se dice que el problema de valor inicial <span id="eq-original-problem"><span class="math display">\[
 \dfrac{dy}{dt} = f(t,y), \quad a\leq t \leq b, \quad y(a) = \alpha,
-\tag{4.2}\]</span></span> es un <strong>problema bien planteado</strong> si:</p>
+\tag{5.2}\]</span></span> es un <strong>problema bien planteado</strong> si:</p>
 <ul>
 <li>Existe una única solución <span class="math inline">\(y(t)\)</span> para el problema, y</li>
 <li>Existen constantes <span class="math inline">\(ε_0 &gt; 0\)</span> y <span class="math inline">\(k &gt; 0\)</span> tales que para cualquier <span class="math inline">\(ε\)</span>, con <span class="math inline">\(ε_0 &gt; ε &gt; 0\)</span>, siempre que <span class="math inline">\(δ(t)\)</span> sea continua con <span class="math inline">\(|δ(t)| &lt; ε\)</span> para todo <span class="math inline">\(t\)</span> en <span class="math inline">\([a, b]\)</span>, y cuando <span class="math inline">\(|δ_0| &lt; ε\)</span>, el problema del valor inicial <span id="eq-perturbed-rpoblem"><span class="math display">\[
 \dfrac{dz}{dt} = f(t,z) + δ(t), \quad a\leq t \leq b, \quad z(a) = \alpha + δ_0
-\tag{4.3}\]</span></span> tenga una única solución <span class="math inline">\(z(t)\)</span> que satisface: <span class="math display">\[
+\tag{5.3}\]</span></span> tenga una única solución <span class="math inline">\(z(t)\)</span> que satisface: <span class="math display">\[
 |z(t)-y(t)| &lt; k\epsilon \quad \forall t \in[a,b]
 \]</span></li>
 </ul>
 </div>
-<p>El problema especificado por al <a href="#eq-perturbed-rpoblem" class="quarto-xref">Ecuación&nbsp;<span>4.3</span></a> se denomina <strong>problema perturbado</strong> asociado al problema original <a href="#eq-original-problem" class="quarto-xref">Ecuación&nbsp;<span>4.2</span></a>. Se asume la posibilidad de que se introduzca un error en el planteamiento de la ecuación diferencial, así como la presencia de un error <span class="math inline">\(δ_0\)</span> en la condición inicial.</p>
+<p>El problema especificado por al <a href="#eq-perturbed-rpoblem" class="quarto-xref">Ecuación&nbsp;<span>5.3</span></a> se denomina <strong>problema perturbado</strong> asociado al problema original <a href="#eq-original-problem" class="quarto-xref">Ecuación&nbsp;<span>5.2</span></a>. Se asume la posibilidad de que se introduzca un error en el planteamiento de la ecuación diferencial, así como la presencia de un error <span class="math inline">\(δ_0\)</span> en la condición inicial.</p>
 <p>Los métodos numéricos siempre se centrarán en la solución de un problema perturbado, ya que cualquier error de redondeo introducido en la representación perturba el problema original. A menos que el problema original esté bien planteado, hay pocas razones para esperar que la solución numérica de un problema perturbado se aproxime con precisión a la solución del problema original.</p>
 <div id="thm-" class="theorem">
-<p><span class="theorem-title"><strong>Teorema 4.3</strong></span> Supongamos <span class="math inline">\(D = \{(t, y) | a \leq t \leq b \quad y \quad  -\infty &lt; y &lt; \infty \}\)</span>. Si <span class="math inline">\(f\)</span> es continua y satisface una condición de Lipschitz en la variable <span class="math inline">\(y\)</span> en el conjunto <span class="math inline">\(D\)</span>, entonces el problema de valor inicial <span class="math display">\[
+<p><span class="theorem-title"><strong>Teorema 5.3</strong></span> Supongamos <span class="math inline">\(D = \{(t, y) | a \leq t \leq b \quad y \quad  -\infty &lt; y &lt; \infty \}\)</span>. Si <span class="math inline">\(f\)</span> es continua y satisface una condición de Lipschitz en la variable <span class="math inline">\(y\)</span> en el conjunto <span class="math inline">\(D\)</span>, entonces el problema de valor inicial <span class="math display">\[
 \dfrac{dy}{dt} = f(t,y), \quad a\leq t \leq b, \quad y(a) = \alpha
 \]</span> es bien planteado.</p>
 </div>
@@ -1026,13 +1026,13 @@ Burden, Richard L., y J. Douglas Faires. 2010. <span>«Numerical Analysis»</spa
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./partial_diff_eq.html" class="pagination-link" aria-label="Ecuaciones diferenciales parciales">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Ecuaciones diferenciales parciales</span></span>
+      <a href="./boundary_problems.html" class="pagination-link" aria-label="Problemas de valores en la frontera">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Problemas de valores en la frontera</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./boundary_conditions.html" class="pagination-link" aria-label="Condiciones de frontera">
-        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Condiciones de frontera</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./pinns.html" class="pagination-link" aria-label="Physic Informed Neural Networks (PINNs)">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Physic Informed Neural Networks (PINNs)</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
