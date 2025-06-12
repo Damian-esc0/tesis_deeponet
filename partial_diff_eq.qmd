@@ -53,7 +53,7 @@ $$
 donde las $c_1=1,2,\dots,k$ son constantes. Es también una solución.
 :::
 
-EL teorema [-@thm-superposition] se puede entender como *siempre que tengamos un conjunto infinito de soluciones $u_1, u_2, u_3, \ldots$ de una ecuación lineal homogénea, podemos construir otra solución $u$ mediante la serie infinita*:  
+El teorema [-@thm-superposition] se puede entender como: *siempre que tengamos un conjunto infinito de soluciones $u_1, u_2, u_3, \ldots$ de una ecuación lineal homogénea, podemos construir otra solución $u$ mediante la serie infinita*:  
 
 $$  
 u = \sum_{k=1}^{\infty} c_k u_k,  

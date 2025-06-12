@@ -190,6 +190,22 @@
 
 \KOMAoption{captions}{tableheading}
 \makeatletter
+\@ifpackageloaded{tcolorbox}{}{\usepackage[skins,breakable]{tcolorbox}}
+\@ifpackageloaded{fontawesome5}{}{\usepackage{fontawesome5}}
+\definecolor{quarto-callout-color}{HTML}{909090}
+\definecolor{quarto-callout-note-color}{HTML}{0758E5}
+\definecolor{quarto-callout-important-color}{HTML}{CC1914}
+\definecolor{quarto-callout-warning-color}{HTML}{EB9113}
+\definecolor{quarto-callout-tip-color}{HTML}{00A047}
+\definecolor{quarto-callout-caution-color}{HTML}{FC5300}
+\definecolor{quarto-callout-color-frame}{HTML}{acacac}
+\definecolor{quarto-callout-note-color-frame}{HTML}{4582ec}
+\definecolor{quarto-callout-important-color-frame}{HTML}{d9534f}
+\definecolor{quarto-callout-warning-color-frame}{HTML}{f0ad4e}
+\definecolor{quarto-callout-tip-color-frame}{HTML}{02b875}
+\definecolor{quarto-callout-caution-color-frame}{HTML}{fd7e14}
+\makeatother
+\makeatletter
 \@ifpackageloaded{bookmark}{}{\usepackage{bookmark}}
 \makeatother
 \makeatletter
@@ -226,6 +242,17 @@
 \@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
 \floatname{codelisting}{Listado}
 \newcommand*\listoflistings{\listof{codelisting}{Listado de Listados}}
+\usepackage{amsthm}
+\theoremstyle{definition}
+\newtheorem{definition}{Definición}[chapter]
+\theoremstyle{plain}
+\newtheorem{theorem}{Teorema}[chapter]
+\theoremstyle{remark}
+\AtBeginDocument{\renewcommand*{\proofname}{Prueba}}
+\newtheorem*{remark}{Observación}
+\newtheorem*{solution}{Solución}
+\newtheorem{refremark}{Observación}[chapter]
+\newtheorem{refsolution}{Solución}[chapter]
 \makeatother
 \makeatletter
 \makeatother
@@ -447,6 +474,470 @@ Nikolson}\label{aplicacion-de-crank-nikolson}
 método numérico de Crank Nickolson.}
 
 \end{figure}%
+
+\part{Preliminares}
+
+\chapter{Ecuaciones diferenciales
+parciales}\label{ecuaciones-diferenciales-parciales}
+
+Las ecuaciones diferenciales parciales (EDPs), al igual que las
+ecuaciones diferenciales ordinarias (EDOs), se clasifican en lineales y
+no lineales. De forma análoga a una EDO lineal, la variable dependiente
+y sus derivadas parciales en una EDP lineal se elevan únicamente a la
+primera potencia (\citeproc{ref-zill2008}{Zill y Cullen 2008}).
+
+\section{Ecuación diferencial parcial
+lineal}\label{ecuaciuxf3n-diferencial-parcial-lineal}
+
+Si dejamos que \(u\) denote la variable dependiente y que \(x\) e \(y\)
+representen las variables independientes, entonces la forma general de
+una \textbf{ecuación diferencial parcial lineal de segundo orden} está
+dada por:
+
+\begin{equation}\phantomsection\label{eq-LPDE}{
+A \dfrac{\partial^2 u}{\partial x^2} + B \dfrac{\partial^2 u}{\partial x \, \partial y} + C \dfrac{\partial^2 u}{\partial y^2} + D \dfrac{\partial u}{\partial x} + E \dfrac{\partial u}{\partial y} + F u = G,
+}\end{equation}
+
+donde los coeficientes \(A, B, C, \dots, G\) son funciones de \(x\) e
+\(y\). Cuando \(G(x, y) = 0\), la ecuación \ref{eq-LPDE} se denomina
+\textbf{homogénea}; de lo contrario, es \textbf{no homogénea}. Por
+ejemplo, las ecuaciones lineales:
+
+\[
+\dfrac{\partial^2 u}{\partial x^2} + \dfrac{\partial^2 u}{\partial y^2} = 0 \quad\text{y} \quad \dfrac{\partial^2 u}{\partial x^2} - \dfrac{\partial u}{\partial y} = x y
+\] son homogénea y no homogénea, respectivamente.
+
+\section{Solucion de una PDE}\label{solucion-de-una-pde}
+
+Una \textbf{solución} de una ecuación diferencial parcial es una función
+\(u(x, y)\) de dos variables independientes que posee todas las
+derivadas parciales que aparecen en la ecuación y que satisface dicha
+ecuación en alguna región del plano \(xy\).
+
+No es lo habitual examinar los procedimientos para encontrar
+\textbf{soluciones generales} de ecuaciones diferenciales parciales
+lineales. No solo porque suele ser difícil obtener una solución general
+de una EDP lineal de segundo orden, sino que una solución general
+generalmente no es tan útil en aplicaciones prácticas. Por lo tanto, el
+enfoque común es el de encontrar \textbf{soluciones particulares} de
+algunas de las EDPs lineales más importantes, es decir, ecuaciones que
+aparecen en muchas aplicaciones.
+
+\section{Separación de variables}\label{separaciuxf3n-de-variables}
+
+Aunque existen varios métodos que pueden intentarse para encontrar
+soluciones particulares de una EDP lineal, uno de los métodos más
+comunes se llama \textbf{método de separación de variables}. En este
+método buscamos una solución particular de la forma de un
+\emph{producto} de una función de \(x\) y una función de \(y\):
+
+\[
+u(x, y) = X(x)Y(y).
+\]
+
+Con esta suposición, \emph{a veces} es posible reducir una EDP lineal en
+dos variables a dos ecuaciones diferenciales ordinarias (ODEs). Para
+este fin, observamos que:
+
+\[
+\dfrac{\partial u}{\partial x} = X'Y, \quad
+\dfrac{\partial u}{\partial y} = XY', \quad
+\dfrac{\partial^2 u}{\partial x^2} = X''Y, \quad
+\dfrac{\partial^2 u}{\partial y^2} = XY'',
+\]
+
+donde las comillas (\emph{primes}) denotan derivación ordinaria.
+
+\section{Principio de
+superposición}\label{principio-de-superposiciuxf3n}
+
+\begin{theorem}[]\protect\hypertarget{thm-superposition}{}\label{thm-superposition}
+
+Si \(u_1 , u_2 , \dots , u_k\) son soluciones de una ecuación
+diferencial parcial lineal homogénea, entonces la combinación lineal \[
+u = c_1u_1 + c_2u_2 + \dots + c_ku_k
+\] donde las \(c_1=1,2,\dots,k\) son constantes. Es también una
+solución.
+
+\end{theorem}
+
+El teorema \ref{thm-superposition} se puede entender como: \emph{siempre
+que tengamos un conjunto infinito de soluciones
+\(u_1, u_2, u_3, \ldots\) de una ecuación lineal homogénea, podemos
+construir otra solución \(u\) mediante la serie infinita}:
+
+\[  
+u = \sum_{k=1}^{\infty} c_k u_k,  
+\]\\
+donde las constantes \(c_i\), con \(i = 1, 2, \ldots\), son
+coeficientes.
+
+\section{Clasificación de
+ecuaciones}\label{clasificaciuxf3n-de-ecuaciones}
+
+Una ecuación diferencial parcial lineal de segundo orden con dos
+variables independientes y coeficientes constantes puede clasificarse en
+uno de tres tipos. Esta clasificación depende únicamente de los
+coeficientes de las derivadas de segundo orden. Por supuesto, asumimos
+que al menos uno de los coeficientes \(A\), \(B\) o \(C\) es distinto de
+cero.
+
+\begin{definition}[]\protect\hypertarget{def-PDEs-classes}{}\label{def-PDEs-classes}
+
+La ecuación diferencial parcial lineal de segundo orden \[
+A \dfrac{\partial^2 u}{\partial x^2} + B \dfrac{\partial^2 u}{\partial x \, \partial y} + C \dfrac{\partial^2 u}{\partial y^2} + D \dfrac{\partial u}{\partial x} + E \dfrac{\partial u}{\partial y} + F u = 0,
+\] donde \(A,B,C,D,F\) son constantes reales, se dice que es:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Hiperbólica} si \(\quad B^2-4AC>0\),
+\item
+  \textbf{Parabólica} si \(\quad B^2-4AC=0\),
+\item
+  \textbf{Elíptica} si \(\quad B^2-4AC<0\).
+\end{itemize}
+
+\end{definition}
+
+\chapter{Problemas de valores en la
+frontera}\label{problemas-de-valores-en-la-frontera}
+
+Si, por ejemplo, \(u(x, t)\) es una solución de una EDP, donde \(x\)
+representa una dimensión espacial y \(t\) representa el tiempo, entonces
+es posible prescribir el valor de \(u\), o
+\(\frac{\partial u}{\partial x}\), o una combinación lineal de \(u\) y
+\(\frac{\partial u}{\partial x}\) en un valor \(x\) especificado, así
+como prescribir \(u\) y \(\frac{\partial u}{\partial t}\) en un instante
+dado \(t\) (normalmente, \(t=0\)). En otras palabras, un \emph{problema
+de valores en la frontera} puede consistir en una EDP, junto con
+\emph{condiciones de frontera} y \emph{condiciones iniciales}
+(\citeproc{ref-zill2008}{Zill y Cullen 2008}).
+
+\section{Ecuaciones clásicas}\label{ecuaciones-cluxe1sicas}
+
+Aplicar el método de separación de variables para encontrar soluciones
+en forma de producto es muy común con las siguientes \emph{ecuaciones
+clásicas} de la física matemática:
+
+\begin{equation}\phantomsection\label{eq-heat}{  
+k\frac{\partial^2 u}{\partial x^2} = \frac{\partial u}{\partial t}, \quad k > 0  
+}\end{equation}
+
+\begin{equation}\phantomsection\label{eq-wave}{  
+\alpha^2 \frac{\partial^2 u}{\partial x^2} = \frac{\partial^2 u}{\partial t^2}  
+}\end{equation}
+
+\begin{equation}\phantomsection\label{eq-laplace}{  
+\frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2} = 0  
+}\end{equation}
+
+o variantes ligeras de estas ecuaciones. Las EDPs \ref{eq-heat},
+\ref{eq-wave} y \ref{eq-laplace} se conocen, respectivamente, como la
+\emph{ecuación del calor unidimensional}, la \emph{ecuación de onda
+unidimensional} y la \emph{forma bidimensional de la ecuación de
+Laplace}. El término ``unidimensional'' en el caso de las ecuaciones
+\ref{eq-heat} y \ref{eq-wave} se refiere al hecho de que \(x\) denota
+una variable espacial, mientras que \(t\) representa el tiempo;
+``bidimensional'' en \ref{eq-laplace} significa que tanto \(x\) como
+\(y\) son variables espaciales. Si comparas
+\ref{eq-heat}-\ref{eq-laplace} con la forma lineal en la
+Definición~\ref{def-PDEs-classes} (donde \(t\) juega el papel del
+símbolo \(y\)), observarás que la ecuación del calor \ref{eq-heat} es
+parabólica, la ecuación de onda \ref{eq-wave} es hiperbólica y la
+ecuación de Laplace \ref{eq-laplace} es elíptica.
+
+\begin{figure}
+
+\begin{minipage}{0.50\linewidth}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{images/cross-section.png}}
+
+}
+
+\subcaption{\label{fig-1D-heat}Flujo de calor unidimensional.}
+
+\end{minipage}%
+%
+\begin{minipage}{0.50\linewidth}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{images/wave-eq.png}}
+
+}
+
+\subcaption{\label{fig-wave-exmpl}Cuerda tensada.}
+
+\end{minipage}%
+
+\caption{\label{fig-examples-eqs}Aplicaciones de las ecuaciones
+\ref{eq-heat} y \ref{eq-wave} (\citeproc{ref-zill2008}{Zill y Cullen
+2008}).}
+
+\end{figure}%
+
+\section{Condiciones iniciales}\label{condiciones-iniciales}
+
+Dado que las soluciones de las ecuaciones \ref{eq-heat} y \ref{eq-wave}
+dependen del tiempo \(t\), es posible especificar lo que ocurre en
+\(t = 0\); es decir, establecer \textbf{condiciones iniciales (CI)}. Si
+\(f(x)\) representa la distribución inicial de temperatura en la barra
+mostrada en la Figura~\ref{fig-1D-heat}, entonces una solución
+\(u(x, t)\) de \ref{eq-heat} debe satisfacer la condición inicial única
+\(u(x, 0) = f(x), \quad 0 < x < L\).
+
+Por otro lado, para una cuerda vibrante podemos especificar tanto su
+desplazamiento inicial (o forma) \(f(x)\) como su velocidad inicial
+\(g(x)\). En términos matemáticos, buscamos una función \(u(x, t)\) que
+satisfaga \ref{eq-wave} y las dos condiciones iniciales:
+\begin{equation}\phantomsection\label{eq-initail-cond}{
+u(x, 0) = f(x), \quad \left. \frac{\partial u}{\partial t} \right|_{t=0} = g(x), \quad 0 < x < L.
+}\end{equation}
+
+Por ejemplo, la cuerda podría ser tensada, como se muestra en la
+Figura~\ref{fig-wave-exmpl}, y liberada desde el reposo \((g(x)=0)\).
+
+\section{Condiciones de frontera}\label{condiciones-de-frontera}
+
+La cuerda en la Figura~\ref{fig-wave-exmpl} está fija al eje \(x\) en
+\(x=0\) y \(x=L\) para todos los tiempos. Ésto se interpreta a través de
+dos \textbf{condiciones de frontera (CF):} \[
+u(0,t) = 0, \quad u(L,t)=0, \quad t>0.
+\] En éste contexto la función \(f\) en la ec~\ref{eq-initail-cond} es
+continua y, en consecuencia, \(f(0)=0\) y \(f(L)=0\). En general,
+existen tres tipos de condicones de frontera asociadas con las
+ecuaciones \ref{eq-heat}, \ref{eq-wave} y \ref{eq-laplace}. En la
+frontera es posible especificar los valores de \emph{una} de las
+siguientes:
+
+\[
+\text{(i)}\quad u, \qquad \text{(ii)}\quad \dfrac{\partial u}{\partial n},\qquad \text{or}\qquad \text{(iii)}\quad \dfrac{\partial u}{\partial n} + hu,\quad \text{con $h$ constante.}
+\]
+
+Aquí \(\frac{\partial u}{\partial n}\) denota la derivada normal de
+\(u\) (la derivada de \(u\) en dirección perpendicular a la frontera).
+Una condición de frontera del primer tipo (i) es llamada
+\textbf{condición de Dirichlet}; una condición de frontera del segundo
+tipo (ii) es llamada \textbf{condición de Neumann}; y una condición de
+frontera del tercer tipo (iii) es conocida como \textbf{condición de
+Robin}. Por ejemplo, para \(t>0\) una condición típica al extremo
+derecho del cilindro de la Figura~\ref{fig-1D-heat} puede ser:
+
+\[
+\begin{aligned}
+\text{(i)}'   &\quad u(L,t) = u_0, \quad \text{con } u_0 \text{ constante} \\ \\
+\text{(ii)}'  &\quad \left. \dfrac{\partial u}{\partial x} \right|_{x=L} = 0 \\ \\
+\text{(iii)}' &\quad \left. \dfrac{\partial u}{\partial x} \right|_{x=L} = -h(u(L,t)-u_m), \quad \text{con } h>0 \text{ y } u_m \text{ constantes}
+\end{aligned}
+\]
+
+La condición (i)' simplemente establece que el límite \(x=L\) se
+mantiene, por algún medio, a una temperatura constante \(u_0\) durante
+todo el tiempo \(t>0\). La condición (ii)' indica que el contorno
+\(x=L\) está \emph{aislado}. Según la ley empírica de la transferencia
+de calor, el flujo de calor a través del borde (es decir, la cantidad de
+calor por unidad de área por unidad de tiempo conducida a través la
+frontera) es proporcional al valor de la derivada normal
+\(\frac{\partial u}{\partial n}\) de la temperatura \(u\). Por lo tanto,
+cuando el límite \(x=L\) está aislado térmicamente, no fluye calor hacia
+dentro ni hacia fuera de la varilla, por lo que \[
+\left. \dfrac{\partial u}{\partial x} \right|_{x=L} = 0
+\]
+
+\chapter{Problemas de valor inicial}\label{problemas-de-valor-inicial}
+
+Las ecuaciones diferenciales se utilizan para modelar problemas en
+ciencia e ingeniería que implican el cambio de una variable con respecto
+a otra. La mayoría de estos problemas requieren la solución de un
+problema de valor inicial, es decir, la solución de una ecuación
+diferencial que satisface una condición inicial dada.
+
+En situaciones reales comunes, la ecuación diferencial que modela el
+problema es demasiado compleja para resolverse con exactitud, y se
+adopta uno de dos enfoques para aproximar la solución. El primer enfoque
+consiste en modificar el problema simplificando la ecuación diferencial
+a una que pueda resolverse con exactitud y luego utilizar la solución de
+la ecuación simplificada para aproximar la solución del problema
+original. El otro enfoque utiliza métodos para aproximar la solución del
+problema original. Este es el enfoque más común porque los métodos de
+aproximación proporcionan resultados más precisos e información de error
+realista (\citeproc{ref-burden2011}{Burden y Faires 2010}).
+
+\begin{tcolorbox}[enhanced jigsaw, title={Ejemplo}, left=2mm, toprule=.15mm, bottomrule=.15mm, breakable, coltitle=black, leftrule=.75mm, toptitle=1mm, colbacktitle=quarto-callout-caution-color!10!white, opacityback=0, rightrule=.15mm, colback=white, titlerule=0mm, arc=.35mm, opacitybacktitle=0.6, bottomtitle=1mm, colframe=quarto-callout-caution-color-frame]
+
+El movimiento de un péndulo oscilante bajo ciertas suposiciones se
+describe mediante la ecuación diferencial de segundo orden: \[
+\dfrac{d^2 \theta}{d t^2} + \dfrac{g}{L} \sin{\theta} = 0 
+\]
+
+Donde \(L\) es la longitud del péndulo, \(g \approx 9.81 \frac{m}{s^2}\)
+es la constante gravitacional terrestre y \(\theta\) es el ángulo que
+forma el péndulo con la vertical. Si, además, especificamos la posición
+del péndulo al inicio del movimiento, \(\theta(t_0) = \theta_{0}\) , y
+su velocidad en ese punto, \(\theta'(t_0) = \theta'_0\). Tenemos un
+\emph{problema de valor inicial}.
+
+\end{tcolorbox}
+
+\begin{definition}[]\protect\hypertarget{def-Lip-con}{}\label{def-Lip-con}
+
+Se dice que una función \(f(t,y)\) satisface una \textbf{Condición de
+Lipschitz} en la variable \(y\) en un conjunto
+\(D \subset \mathbb{R}^2\) si existe una constante \(L>0\) tal que \[
+|f(t,y_1) - f(t,y_2)| \leq L|y_1-y_2|
+\]
+
+donde \(f(t,y_1) \text{y} f(t,y_2)\) están en \(D\). La constante \(L\)
+es llamada \textbf{constante de Lipschitz} para \(f\).
+
+\end{definition}
+
+\begin{definition}[]\protect\hypertarget{def-convex-set}{}\label{def-convex-set}
+
+Se dice que un conjunto \(D \subset \mathbb{R}^2\) es \textbf{convexo}
+si para cualesquiera \(f(t,y_1), f(t,y_2) \in D\), entonces
+\(((1-\lambda)t_1 + \lambda t_2, (1-\lambda)y_1 + \lambda y_2)\) también
+pertenece a \(D\) para cada \(\lambda \in[0,1]\).
+
+\end{definition}
+
+En términos geométricos, la Definición~\ref{def-convex-set} establece
+que un conjunto es convexo siempre que, para cualesquiera dos puntos
+dentro del conjunto, todo el segmento recto entre ellos también
+pertenezca al conjunto Figura~\ref{fig-convx-set}.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=6.25in,height=\textheight,keepaspectratio]{images/definition_5-2.png}
+
+}
+
+\caption{\label{fig-convx-set}Ejemplo geométrico de un conjunto
+\emph{convexo} y \emph{no convexo} (\citeproc{ref-burden2011}{Burden y
+Faires 2010}).}
+
+\end{figure}%
+
+\begin{theorem}[]\protect\hypertarget{thm-Lib-teo}{}\label{thm-Lib-teo}
+
+Supongamos que \(f(t, y)\) está definida en un conjunto convexo
+\(D \in \mathbb{R}^2\). Si existe una constante \(L > 0\) con
+\begin{equation}\phantomsection\label{eq-Lib-teo}{
+\left|\dfrac{\partial f}{\partial y}(t,y) \right| \leq L, \quad \text{para todo} (t,y)\in D,
+}\end{equation}
+
+entonces \(f\) satisface una condición de Lipschitz en \(D\) en la
+variable \(y\) con una constante de Lipschitz \(L\).
+
+\end{theorem}
+
+Como se mostrará en el siguiente teorema, suele ser de gran interés
+determinar si la función involucrada en un problema de valor inicial
+satisface una condición de Lipschitz en su segunda variable, y la
+condición Ecuación~\ref{eq-Lib-teo} suele ser más fácil de aplicar que
+la definición. Cabe destacar, sin embargo, que el Teorema
+Teorema~\ref{thm-Lib-teo} solo proporciona condiciones suficientes para
+que se cumpla una condición de Lipschitz.
+
+\begin{theorem}[]\protect\hypertarget{thm-uniq-sol}{}\label{thm-uniq-sol}
+
+Supóngase que
+\(D = \{(t, y) | \ \ a \leq t \leq b, \ \  -\infty < y < \infty \}\) y
+que \(f (t, y)\) es continua en \(D\). Si \(f\) satisface una condición
+de Lipschitz en \(D\) en la variable \(y\), entonces el problema del
+valor inicial \[
+y'(t)= f(t,y), \quad a\leq t \leq b, \quad y(a) = \alpha,
+\]
+
+tiene una solución única \(y(t)\) para \(a\leq t \leq b\).
+
+\end{theorem}
+
+\begin{tcolorbox}[enhanced jigsaw, title={Ejemplo}, left=2mm, toprule=.15mm, bottomrule=.15mm, breakable, coltitle=black, leftrule=.75mm, toptitle=1mm, colbacktitle=quarto-callout-caution-color!10!white, opacityback=0, rightrule=.15mm, colback=white, titlerule=0mm, arc=.35mm, opacitybacktitle=0.6, bottomtitle=1mm, colframe=quarto-callout-caution-color-frame]
+
+Use el teorema Teorema~\ref{thm-uniq-sol} para mostrar que hay una única
+solución al problema de valor inicial: \[
+y'(t)= 1 + t\sin(ty), \quad 0\leq t \leq 2, \quad y(0) = 0.
+\] \textbf{Solución:} Mantieniendo a \(t\) constante y usando el
+\emph{Teorema de valor medio} a la función \[
+f(t,y) = 1 + t\sin(ty),
+\] notamos que cuando \(y_1<y_2\), un número \(\xi\) existe en
+\((y_1,y_2)\) tal que: \[
+\dfrac{f(t,y_2)-f(t,y_1)}{y_2-y_1} = \dfrac{\partial}{\partial y} f(t,\xi) = t^2\cos(\xi t).
+\] De este modo: \[
+|f(t,y_2)-f(t,y_1)| = |y_2-y_1||t^2\cos(\xi t)| \leq 4|y_2-y_1|,
+\] y \(f\) satisface una condición de Lipschitz en la variable y con
+constante de Lipschitz \(L = 4\). Además, \(f(t, y)\) es continua cuando
+\(0 ≤ t ≤ 2\) y \(−∞ < y < ∞\), por lo que el Teorema~\ref{thm-uniq-sol}
+implica que existe una solución única para este problema de valor
+inicial.
+
+\end{tcolorbox}
+
+\section{Problemas bien plantedos}\label{problemas-bien-plantedos}
+
+Ahora que hemos abordado, hasta cierto punto, la cuestión de cuándo los
+problemas de valor inicial tienen soluciones únicas, podemos pasar a la
+segunda consideración importante: cuándo aproximar la solución de un
+problema de valor inicial. Los problemas de valor inicial obtenidos
+mediante la observación de fenómenos físicos generalmente solo se
+aproximan a la situación real, por lo que necesitamos saber si pequeños
+cambios en el plamteamiento del problema introducen cambios
+correspondientemente pequeños en la solución.
+
+\begin{definition}[]\protect\hypertarget{def-}{}\label{def-}
+
+Se dice que el problema de valor inicial
+\begin{equation}\phantomsection\label{eq-original-problem}{
+\dfrac{dy}{dt} = f(t,y), \quad a\leq t \leq b, \quad y(a) = \alpha,
+}\end{equation} es un \textbf{problema bien planteado} si:
+
+\begin{itemize}
+\tightlist
+\item
+  Existe una única solución \(y(t)\) para el problema, y
+\item
+  Existen constantes \(ε_0 > 0\) y \(k > 0\) tales que para cualquier
+  \(ε\), con \(ε_0 > ε > 0\), siempre que \(δ(t)\) sea continua con
+  \(|δ(t)| < ε\) para todo \(t\) en \([a, b]\), y cuando \(|δ_0| < ε\),
+  el problema del valor inicial
+  \begin{equation}\phantomsection\label{eq-perturbed-rpoblem}{
+  \dfrac{dz}{dt} = f(t,z) + δ(t), \quad a\leq t \leq b, \quad z(a) = \alpha + δ_0
+  }\end{equation} tenga una única solución \(z(t)\) que satisface: \[
+  |z(t)-y(t)| < k\epsilon \quad \forall t \in[a,b]
+  \]
+\end{itemize}
+
+\end{definition}
+
+El problema especificado por al Ecuación~\ref{eq-perturbed-rpoblem} se
+denomina \textbf{problema perturbado} asociado al problema original
+Ecuación~\ref{eq-original-problem}. Se asume la posibilidad de que se
+introduzca un error en el planteamiento de la ecuación diferencial, así
+como la presencia de un error \(δ_0\) en la condición inicial.
+
+Los métodos numéricos siempre se centrarán en la solución de un problema
+perturbado, ya que cualquier error de redondeo introducido en la
+representación perturba el problema original. A menos que el problema
+original esté bien planteado, hay pocas razones para esperar que la
+solución numérica de un problema perturbado se aproxime con precisión a
+la solución del problema original.
+
+\begin{theorem}[]\protect\hypertarget{thm-}{}\label{thm-}
+
+Supongamos
+\(D = \{(t, y) | \ \ a \leq t \leq b, \ \  -\infty < y < \infty \}\). Si
+\(f\) es continua y satisface una condición de Lipschitz en la variable
+\(y\) en el conjunto \(D\), entonces el problema de valor inicial \[
+\dfrac{dy}{dt} = f(t,y), \quad a\leq t \leq b, \quad y(a) = \alpha
+\] es bien planteado.
+
+\end{theorem}
 
 \part{Redes neuronales}
 
@@ -1190,11 +1681,11 @@ la red neuronal
 \end{Shaded}
 
 \begin{verbatim}
-2025-06-01 23:05:12.632581: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
-2025-06-01 23:05:12.932548: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
-2025-06-01 23:05:12.934534: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+2025-06-09 08:29:57.027191: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
+2025-06-09 08:29:57.382642: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
+2025-06-09 08:29:57.385340: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
 To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
-2025-06-01 23:05:14.083700: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+2025-06-09 08:29:59.317267: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
 Using backend: tensorflow.compat.v1
 Other supported backends: tensorflow, pytorch, jax, paddle.
 paddle supports more examples now and is recommended.
@@ -1207,7 +1698,6 @@ non-resource variables are not supported in the long term
 Setting the default backend to "tensorflow.compat.v1". You can change it in the ~/.deepxde/config.json file or export the DDE_BACKEND environment variable. Valid options are: tensorflow.compat.v1, tensorflow, pytorch, jax, paddle (all lowercase)
 Compiling model...
 Building DeepONetCartesianProd...
-'build' took 0.088712 s
 \end{verbatim}
 
 \begin{verbatim}
@@ -1225,11 +1715,13 @@ Building DeepONetCartesianProd...
 \end{verbatim}
 
 \begin{verbatim}
-'compile' took 14.935261 s
+'build' took 0.213963 s
+
+'compile' took 31.300145 s
 \end{verbatim}
 
 \begin{verbatim}
-2025-06-01 23:05:31.390128: I tensorflow/compiler/mlir/mlir_graph_optimization_pass.cc:375] MLIR V1 optimization pass is not enabled
+2025-06-09 08:30:34.841267: I tensorflow/compiler/mlir/mlir_graph_optimization_pass.cc:375] MLIR V1 optimization pass is not enabled
 \end{verbatim}
 
 \begin{verbatim}
@@ -1248,10 +1740,10 @@ Best model at step 4000:
   test loss: 2.83e-02
   test metric: []
 
-'train' took 44.746532 s
+'train' took 79.419569 s
 
 Compiling model...
-'compile' took 35.116568 s
+'compile' took 64.355368 s
 
 Training model...
 
@@ -1269,7 +1761,7 @@ Best model at step 5026:
   test loss: 2.75e-02
   test metric: []
 
-'train' took 10.789657 s
+'train' took 19.230620 s
 \end{verbatim}
 
 El historial de perdida para el conjunto de entrenamiento es el
@@ -1626,6 +2118,10 @@ partial differential equations with neural networks---A review»}.
 \emph{GAMM-Mitteilungen} 44 (2): e202100006.
 \url{https://doi.org/10.1002/gamm.202100006}.
 
+\bibitem[\citeproctext]{ref-burden2011}
+Burden, Richard L., y J. Douglas Faires. 2010. {«Numerical Analysis»}.
+En \emph{Numerical Analysis}, 9.ª ed., 259-64. Boston, USA: Brooks Cole.
+
 \bibitem[\citeproctext]{ref-dutta2018}
 Dutta, Abhijit, y Gopal Rangarajan. 2018. {«Diffusion in pharmaceutical
 systems: modelling and applications»}. \emph{Journal of Pharmacy and
@@ -1685,6 +2181,11 @@ Yang, Lihong, Xin Wu, Qian Wan, Jian Kong, Rui Liu, y Xiaoxi Liu. 2014.
 {«Pharmaceutical preparation of antibiotics: a review on formulation and
 technique»}. \emph{Asian Journal of Pharmaceutical Sciences} 9 (3):
 145-53. \url{https://doi.org/10.1016/j.ajps.2014.04.001}.
+
+\bibitem[\citeproctext]{ref-zill2008}
+Zill, Dennis G., y Michael R. Cullen. 2008. {«Differential Equations
+with Boundary-Value Problems»}. En, 7.ª ed., 433-42. Belmont, CA:
+Cengage Learning.
 
 \end{CSLReferences}
 

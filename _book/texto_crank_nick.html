@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>5&nbsp; Condiciones de frontera – Estimación de la temperatura con la ecuacion del Bio-Calor usando DeepONet</title>
+<title>5&nbsp; Método de Crank Nickolson – Estimación de la temperatura con la ecuacion del Bio-Calor usando DeepONet</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,7 +20,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -73,6 +93,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -85,7 +134,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./partial_diff_eq.html">Preliminares</a></li><li class="breadcrumb-item"><a href="./boundary_conditions.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Condiciones de frontera</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./partial_diff_eq.html">Preliminares</a></li><li class="breadcrumb-item"><a href="./texto_crank_nick.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Método de Crank Nickolson</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -151,12 +200,6 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introducción</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./metodo-num.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Aplicacion de Crank Nikolson</span></span></a>
-  </div>
-</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
@@ -169,7 +212,13 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./partial_diff_eq.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Ecuaciones diferenciales parciales</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Ecuaciones diferenciales parciales</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./boundary_problems.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Problemas de valores en la frontera</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -180,8 +229,8 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./boundary_conditions.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Condiciones de frontera</span></span></a>
+  <a href="./texto_crank_nick.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Método de Crank Nickolson</span></span></a>
   </div>
 </li>
       </ul>
@@ -249,8 +298,14 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./pred_crank_nick.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Predicciones del método numérico</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./predicciones.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Predicciones del modelo</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Predicciones del modelo</span></span></a>
   </div>
 </li>
       </ul>
@@ -431,9 +486,9 @@ ul.task-list li input[type="checkbox"] {
     }
   </script>
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./partial_diff_eq.html">Preliminares</a></li><li class="breadcrumb-item"><a href="./boundary_conditions.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Condiciones de frontera</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./partial_diff_eq.html">Preliminares</a></li><li class="breadcrumb-item"><a href="./texto_crank_nick.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Método de Crank Nickolson</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Condiciones de frontera</span></h1>
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Método de Crank Nickolson</span></h1>
 </div>
 
 
@@ -451,10 +506,75 @@ ul.task-list li input[type="checkbox"] {
 
 
 <div style="text-align: justify">
-
+<p>Existen métodos implícitos de diferencias finitas para resolver ecuaciones diferenciales parciales parabólicas <a href="boundary_problems.html#eq-heat" class="quarto-xref">ec&nbsp;<span>3.1</span></a>. Estos métodos requieren la resolución de un sistema de ecuaciones para determinar los valores aproximados de <span class="math inline">\(u\)</span> en la línea de tiempo <span class="math inline">\((j + 1)\)</span>. Sin embargo, los métodos implícitos no presentan problemas de inestabilidad <span class="citation" data-cites="zill2008">(<a href="references.html#ref-zill2008" role="doc-biblioref">Zill y Cullen 2008</a>)</span>.</p>
+<p>El algoritmo introducido por <strong>J. Crank</strong> y <strong>P. Nicholson</strong> en 1947 se utiliza principalmente para resolver la ecuación del calor. El algoritmo consiste en sustituir la segunda derivada parcial en <span class="math inline">\(c\frac{\partial^2 u}{\partial x^2} = \frac{\partial u}{\partial t}\)</span> por el promedio de dos cocientes de diferencias centrales, uno evaluado en <span class="math inline">\(t\)</span> y el otro en <span class="math inline">\(t+k\)</span>: <span id="eq-cn-completa"><span class="math display">\[
+\begin{split}
+\dfrac{c}{2}&amp; \left[\dfrac{u(x+h,t)-2u(x,t)+u(x-h,t)}{h^2}\right] + \\
+    + &amp;\dfrac{c}{2} \left[\dfrac{u(x+h,t+k)-2u(x,t+k)+u(x-h,t+k)}{h^2} \right] \\
+            &amp;= \dfrac{1}{k}[u(x,t+k)-u(x,t)]
+\end{split}
+\tag{5.1}\]</span></span></p>
+<p>si se define <span class="math inline">\(\lambda = \frac{ck}{h^2}\)</span> y <span class="math display">\[
+\begin{split}
+u(x+h,t) &amp;=u_{i+1,j}, \quad u(x,t)=u_{ij}, \quad u(x-h,t)=u_{i-1,j}, \\
+u(x+h,t+k) &amp;=u_{i+1,j+1}, \quad u(x,t+k)=u_{i.j+1}, \quad u(x-h,t+k)=u_{i-1,j+1},
+\end{split}
+\]</span></p>
+<p>es posible reescribir a la <a href="#eq-cn-completa" class="quarto-xref">eq&nbsp;<span>5.1</span></a> como: <span id="eq-cn-reducida"><span class="math display">\[
+-u_{i-1,j+1} + \alpha u_{i,j+1} - u_{i+1,j+1} = u_{i+1,j} - \beta u_{ij} + u_{i-1,j},
+\tag{5.2}\]</span></span></p>
+<p>donde <span class="math inline">\(\alpha=2(1+\frac{1}{\lambda})\)</span>, <span class="math inline">\(\beta=2(1-\frac{1}{\lambda})\)</span>, <span class="math inline">\(j=0,1,\dots m-1 \ \ \ \text{e} \ \ \ i=0,1,\dots n-1\)</span>.</p>
+<p>Para cada elección de <span class="math inline">\(j\)</span> la ecuación diferencial <a href="#eq-cn-reducida" class="quarto-xref">eq&nbsp;<span>5.2</span></a> para <span class="math inline">\(i=0,1,\dots n-1\)</span> da <span class="math inline">\(n-1\)</span> ecuaciones en <span class="math inline">\(n-1\)</span> incógnitas <span class="math inline">\(u_{i,j+1}\)</span>. Debido a las condiciones de contorno preestablecidas, los valores de <span class="math inline">\(u_{i, j+1}\)</span> se conocen para <span class="math inline">\(i=0\)</span> y para <span class="math inline">\(i=n\)</span>. Por ejemplo, en el caso <span class="math inline">\(n=4\)</span>, el sistema de ecuaciones para determinar los valores aproximados de <span class="math inline">\(u\)</span> en la línea de tiempo <span class="math inline">\((j+1)\)</span> es:</p>
+<p><span class="math display">\[
+\begin{split}
+-u_{0,j+1} + \alpha u_{1,j+1} - u_{2,j+1} =&amp; u_{2,j} - \beta u_{1,j} + u_{0,j} \\
+-u_{1,j+1} + \alpha u_{2,j+1} - u_{3,j+1} =&amp; u_{3,j} - \beta u_{2,j} + u_{1,j} \\
+-u_{2,j+1} + \alpha u_{3,j+1} - u_{4,j+1} =&amp; u_{4,j} - \beta u_{3,j} + u_{2,j}
+\end{split}
+\]</span></p>
+<p>reordenando se llega a <span id="eq-cn-matrix"><span class="math display">\[
+\begin{matrix}
+\alpha u_{1,j+1} &amp;-&amp; u_{2,j+1}&amp;&amp; &amp;= b_1 \\
+-u_{1,j+1} &amp;+&amp; \alpha u_{2,j+1} &amp;-&amp; u_{3,j+1} &amp;= b_2 \\
+&amp;-&amp;u_{2,j+1} &amp;+&amp; \alpha u_{3,j+1} &amp;= b_3
+\end{matrix}
+\tag{5.3}\]</span></span></p>
+<p>donde <span class="math display">\[
+\begin{align*}
+b_1 &amp;= u_{2,j} - \beta u_{1,j} + u_{0,j} + u_{0,j+1}, \\
+b_2 &amp;= u_{3,j} - \beta u_{2,j} + u_{1,j}, \\
+b_3 &amp;= u_{4,j} - \beta u_{3,j} + u_{2,j} + u_{4,j+1}.
+\end{align*}
+\]</span></p>
+<p>En general, si utilizamos la ecuación diferencial <a href="#eq-cn-reducida" class="quarto-xref">eq&nbsp;<span>5.2</span></a> para determinar valores de <span class="math inline">\(u\)</span> en la línea de tiempo <span class="math inline">\((j -1)\)</span>, es necesario resolver un sistema lineal <span class="math inline">\(\mathbf{AX=B}\)</span>, donde la matriz de coeficientes <span class="math inline">\(\mathbf{A}\)</span> es una <strong>matriz tridiagonal</strong>, <span class="math display">\[
+A =
+\begin{pmatrix}
+\alpha &amp; -1    &amp; 0      &amp; 0      &amp; 0      &amp; \cdots &amp; 0      \\
+-1     &amp; \alpha &amp; -1     &amp; 0      &amp; 0      &amp; \cdots &amp; 0      \\
+0      &amp; -1     &amp; \alpha &amp; -1     &amp; 0      &amp; \cdots &amp; 0      \\
+0      &amp; 0      &amp; -1     &amp; \alpha &amp; -1     &amp; \cdots &amp; 0      \\
+\vdots &amp; \vdots &amp; \vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+0      &amp; 0      &amp; 0      &amp; 0      &amp; 0      &amp; \cdots &amp; \alpha &amp; -1 \\
+0      &amp; 0      &amp; 0      &amp; 0      &amp; 0      &amp; \cdots &amp; -1     &amp; \alpha
+\end{pmatrix},
+\]</span></p>
+<p>y las componentes de la matriz columna <span class="math inline">\(\mathbf{B}\)</span> son <span class="math display">\[
+\begin{align*}
+b_1 &amp;= u_{2,j} - \beta u_{1,j} + u_{0,j} + u_{0,j+1}, \\
+b_2 &amp;= u_{3,j} - \beta u_{2,j} + u_{1,j}, \\
+b_3 &amp;= u_{4,j} - \beta u_{3,j} + u_{2,j}, \\
+    &amp;\vdots \\
+b_{n-1} &amp;= u_{n,j} - \beta u_{n-1,j} + u_{n-2,j} + u_{n,j+1}.
+\end{align*}
+\]</span></p>
 </div>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-zill2008" class="csl-entry" role="listitem">
+Zill, Dennis G., y Michael R. Cullen. 2008. <span>«Differential Equations with Boundary-Value Problems»</span>. En, 7.ª ed., 433-42. Belmont, CA: Cengage Learning.
+</div>
+</div>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -886,4 +1006,4 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/Damian-esc0/tesis_deeponet/edit/main/boundary_conditions.qmd" class="toc-action"><i class="bi bi-github"></i>Editar esta página</a></li><li><a href="https://github.com/Damian-esc0/tesis_deeponet/issues/new" class="toc-action"><i class="bi empty"></i>Informar de un problema</a></li><li><a href="https://github.com/Damian-esc0/tesis_deeponet/blob/main/boundary_conditions.qmd" class="toc-action"><i class="bi empty"></i>Ver el código</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/Damian-esc0/tesis_deeponet/edit/main/texto_crank_nick.qmd" class="toc-action"><i class="bi bi-github"></i>Editar esta página</a></li><li><a href="https://github.com/Damian-esc0/tesis_deeponet/issues/new" class="toc-action"><i class="bi empty"></i>Informar de un problema</a></li><li><a href="https://github.com/Damian-esc0/tesis_deeponet/blob/main/texto_crank_nick.qmd" class="toc-action"><i class="bi empty"></i>Ver el código</a></li></ul></div></div></div></footer></body></html>

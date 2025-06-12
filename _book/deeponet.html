@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>4&nbsp; DeepONet – Estimación de la temperatura con la ecuacion del Bio-Calor usando DeepONet</title>
+<title>7&nbsp; DeepONet – Estimación de la temperatura con la ecuacion del Bio-Calor usando DeepONet</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -134,7 +134,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./pinns.html">Redes neuronales</a></li><li class="breadcrumb-item"><a href="./deeponet.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">DeepONet</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./pinns.html">Redes neuronales</a></li><li class="breadcrumb-item"><a href="./deeponet.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">DeepONet</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -200,16 +200,10 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introducción</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./metodo-num.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Aplicacion de Crank Nikolson</span></span></a>
-  </div>
-</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
- <span class="menu-text">Redes neuronales</span></a>
+ <span class="menu-text">Preliminares</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar sección">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -217,14 +211,49 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./partial_diff_eq.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Ecuaciones diferenciales parciales</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./boundary_problems.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Problemas de valores en la frontera</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./initial_values.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Problemas de valor inicial</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./texto_crank_nick.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Método de Crank Nickolson</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Redes neuronales</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./pinns.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Physic Informed Neural Networks (PINNs)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Physic Informed Neural Networks (PINNs)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./deeponet.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">DeepONet</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">DeepONet</span></span></a>
   </div>
 </li>
       </ul>
@@ -233,21 +262,21 @@ window.Quarto = {
       <div class="sidebar-item-container"> 
             <a href="./PBHE.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Ecuación del Bio-Calor</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Alternar sección">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ecuacion.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Forma de la ecuación</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Forma de la ecuación</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ejemplos.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Modelado del Bio-Calor en Hipertermia</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Modelado del Bio-Calor en Hipertermia</span></span></a>
   </div>
 </li>
       </ul>
@@ -256,21 +285,27 @@ window.Quarto = {
       <div class="sidebar-item-container"> 
             <a href="./estudio_caso.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Estudio de caso</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Alternar sección">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./metodologia.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Metodología</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Metodología</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./pred_crank_nick.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Predicciones del método numérico</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./predicciones.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Predicciones del modelo</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Predicciones del modelo</span></span></a>
   </div>
 </li>
       </ul>
@@ -451,9 +486,9 @@ window.Quarto = {
     }
   </script>
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./pinns.html">Redes neuronales</a></li><li class="breadcrumb-item"><a href="./deeponet.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">DeepONet</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./pinns.html">Redes neuronales</a></li><li class="breadcrumb-item"><a href="./deeponet.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">DeepONet</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">DeepONet</span></h1>
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">DeepONet</span></h1>
 </div>
 
 
@@ -472,8 +507,8 @@ window.Quarto = {
 
 <div style="text-align: justify">
 <p><strong>DeepONet</strong> (Deep Operator Network) es una arquitectura de red neuronal profunda diseñada para aprender operadores no lineales que mapean funciones de entrada a funciones de salida. A diferencia de las redes convencionales que aprenden funciones escalares, DeepONet se enfoca en representar operadores completos, como soluciones de ecuaciones diferenciales, a partir de datos observados o simulaciones numérica <span class="citation" data-cites="lu2021deeponet">(<a href="references.html#ref-lu2021deeponet" role="doc-biblioref">Lu et&nbsp;al. 2021</a>)</span>.</p>
-<section id="arquitectura" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="arquitectura"><span class="header-section-number">4.1</span> Arquitectura</h2>
+<section id="arquitectura" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="arquitectura"><span class="header-section-number">7.1</span> Arquitectura</h2>
 <p>La arquitectura de DeepONet está compuesta por dos redes principales: la red de <em>branch</em> y la red de <em>trunk</em>. La red <em>branch</em> procesa las evaluaciones discretas de la función de entrada (por ejemplo, condiciones iniciales o de frontera), mientras que la red <em>trunk</em> recibe como entrada los puntos del dominio donde se desea evaluar la función de salida. La salida final se obtiene mediante el producto punto de los vectores generados por ambas redes, lo que permite representar operadores complejos con alta generalización a nuevos datos <span class="citation" data-cites="lu2021deeponet">(<a href="references.html#ref-lu2021deeponet" role="doc-biblioref">Lu et&nbsp;al. 2021</a>)</span>.</p>
 <div id="fig-deeponet-arch" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
@@ -481,13 +516,13 @@ window.Quarto = {
 <img src="images/deeponet_architecture.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="600">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-deeponet-arch-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;4.1: <strong>Ilustraciones del planteamiento del problema y arquitectura DeepONet que conducen a una buena generalización. a)</strong> Para que la red aprenda un operador <span class="math inline">\(G : u \rightarrow G(u)\)</span> se necesitan dos entradas <span class="math inline">\([u(x_1), u(x_2), ..., u(x_m)]\)</span> e <span class="math inline">\(y\)</span>. <strong>b)</strong> Ilustración de los datos de entrenamiento. Para cada función de entrada <span class="math inline">\(u\)</span>, se requiere el mismo número de evaluaciones en los mismos sensores dispersos <span class="math inline">\(x_1, x_2, ..., x_m\)</span>. Sin embargo, no se impone ninguna restricción sobre el número ni las ubicaciones para la evaluación de las funciones de salida. <strong>c)</strong> La DeepONet <em>stacked</em> se inspira en el <strong>Teorema de aproximación universal para operadores</strong> y consta de una red <em>Trunk</em> y <span class="math inline">\(p\)</span> redes <em>Branch</em> apiladas. La red cuya construcción se inspira en el mismo teorema es una DeepONet <em>stacked</em> formada al elegir la red <em>Trunk</em> como una red de una capa de ancho <span class="math inline">\(p\)</span> y cada red <em>Branch</em> como una red de una capa oculta de ancho <span class="math inline">\(n\)</span>. <strong>d)</strong> La red DeepONet <em>unstacked</em> se inspira en el <strong>Teorema general de aproximación universal para operadores</strong> y consta de una red <em>Trunk</em> y una red <em>Branch</em>. Una red DeepONet <em>unstacked</em> puede considerarse como una red DeepONet <em>stacked</em>, en la que todas las redes <em>Branch</em> comparten el mismo conjunto de parámetros <span class="citation" data-cites="lu2021deeponet">(<a href="references.html#ref-lu2021deeponet" role="doc-biblioref">Lu et&nbsp;al. 2021</a>)</span>.
+Figura&nbsp;7.1: <strong>Ilustraciones del planteamiento del problema y arquitectura DeepONet que conducen a una buena generalización. a)</strong> Para que la red aprenda un operador <span class="math inline">\(G : u \rightarrow G(u)\)</span> se necesitan dos entradas <span class="math inline">\([u(x_1), u(x_2), ..., u(x_m)]\)</span> e <span class="math inline">\(y\)</span>. <strong>b)</strong> Ilustración de los datos de entrenamiento. Para cada función de entrada <span class="math inline">\(u\)</span>, se requiere el mismo número de evaluaciones en los mismos sensores dispersos <span class="math inline">\(x_1, x_2, ..., x_m\)</span>. Sin embargo, no se impone ninguna restricción sobre el número ni las ubicaciones para la evaluación de las funciones de salida. <strong>c)</strong> La DeepONet <em>stacked</em> se inspira en el <strong>Teorema de aproximación universal para operadores</strong> y consta de una red <em>Trunk</em> y <span class="math inline">\(p\)</span> redes <em>Branch</em> apiladas. La red cuya construcción se inspira en el mismo teorema es una DeepONet <em>stacked</em> formada al elegir la red <em>Trunk</em> como una red de una capa de ancho <span class="math inline">\(p\)</span> y cada red <em>Branch</em> como una red de una capa oculta de ancho <span class="math inline">\(n\)</span>. <strong>d)</strong> La red DeepONet <em>unstacked</em> se inspira en el <strong>Teorema general de aproximación universal para operadores</strong> y consta de una red <em>Trunk</em> y una red <em>Branch</em>. Una red DeepONet <em>unstacked</em> puede considerarse como una red DeepONet <em>stacked</em>, en la que todas las redes <em>Branch</em> comparten el mismo conjunto de parámetros <span class="citation" data-cites="lu2021deeponet">(<a href="references.html#ref-lu2021deeponet" role="doc-biblioref">Lu et&nbsp;al. 2021</a>)</span>.
 </figcaption>
 </figure>
 </div>
 </section>
-<section id="comparación-con-una-pinn" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="comparación-con-una-pinn"><span class="header-section-number">4.2</span> Comparación con una PINN</h2>
+<section id="comparación-con-una-pinn" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="comparación-con-una-pinn"><span class="header-section-number">7.2</span> Comparación con una PINN</h2>
 <p>En contraste con una red PINN convencional (Physics-Informed Neural Network), que resuelve una instancia específica de una ecuación diferencial para un conjunto dado de condiciones, DeepONet aprende el operador general que resuelve muchas instancias a la vez. Mientras que una PINN debe ser reentrenada para cada nuevo problema, DeepONet, una vez entrenado, puede predecir soluciones rápidamente para múltiples condiciones nuevas. Esto lo hace especialmente eficiente en aplicaciones donde se requiere realizar inferencias repetidas, como en control o diseño inverso <span class="citation" data-cites="kumar2024deeponet">(<a href="references.html#ref-kumar2024deeponet" role="doc-biblioref">Kumar et&nbsp;al. 2024</a>)</span>.</p>
 </section>
 </div>
@@ -918,7 +953,7 @@ Lu, Lu, Pengzhan Jin, Guofei Pang, Zhongqiang Zhang, y George Em Karniadakis. 20
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./pinns.html" class="pagination-link" aria-label="Physic Informed Neural Networks (PINNs)">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Physic Informed Neural Networks (PINNs)</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Physic Informed Neural Networks (PINNs)</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

@@ -1,5 +1,5 @@
 ---
-title: Aplicacion de Crank Nikolson
+title: Predicciones del método numérico
 lang: es
 execute: 
   freeze: auto

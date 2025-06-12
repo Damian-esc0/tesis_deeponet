@@ -29,13 +29,13 @@ book:
   chapters:
     - index.qmd
     - intro.qmd
-    - metodo-num.qmd
 
     - part: "Preliminares"
       chapters: 
         - partial_diff_eq.qmd
         - boundary_problems.qmd
         - initial_values.qmd
+        - texto_crank_nick.qmd
 
     - part: "Redes neuronales"
       chapters: 
@@ -50,6 +50,7 @@ book:
     - part: estudio_caso.qmd
       chapters: 
         - metodologia.qmd
+        - pred_crank_nick.qmd
         - predicciones.qmd
 
     - references.qmd
