@@ -20,13 +20,30 @@ Tenindo los anteriores puntos en cuenta, se procedió a abordarlos e implementar
 El lenguaje seleccionado fué Python, a su vez el código se basa enteramente en la librería Deepxde creada por @deepxde la cual está directamente enfocada a resolver ecuaciones diferenciales, se usó además como backend *tensorflow_compat_v1* siendo su elección debida únicamente a la familiarización previa que se tenía con ella. Finalmente el entorno donde se programó y optimizó el código fué en *Google Colab* ya que la potencia de cómputo ofrecida por la plataforma era necesaria para ejecutar el modelo. 
 
 ## Implementación del modelo
-Una vez creado el código que resuelve la ecuación del Bio-Calor, se ajustaron los hiperparámetros tales como cantidad de épocas de entrenamiento, el ratio de aprendizaje, la función de activación y el inicializador en base al trabajo de @medical_rep.
+La implementación del modelo se llevó a cabo en dos etapas clave: **(1) el desarrollo del código base para resolver la ecuación del Bio-Calor mediante DeepXDE**, y **(2) la optimización sistemática de los hiperparámetros**. Para esta última, se siguieron las recomendaciones del estudio de @medical_rep, adaptadas a las particularidades del problema. Se ajustaron parámetros críticos como el número de épocas de entrenamiento (*iterations*), el ratio de aprendizaje (*learning rate*) así como un decaimiento en el mismo dependiente de la itearación actual (*decay*), la función de activación (*elu*) y el esquema de inicialización de pesos (*Glorot uniform*). Estos ajustes se realizaron mediante un proceso iterativo que buscaba minimizar la función de pérdida mientras se mantenía un tiempo de entrenamiento computacionalmente viable.
 
 ## Evaluación del modelo
-Se llevó a cabo una evaluación del modelo al darle como entrada un conjunto de datos que no había visto y posteriormente obtener como salida sus predicciones, con ellas se elaboraron gráficas claras y detalladas de su pronóstico en el intervalo de tiempo y espacio especificados.
+Para validar el desempeño del modelo propuesto, se realizó una evaluación exhaustiva utilizando un *conjunto de datos independiente*, el cual no fue empleado durante las fases de entrenamiento o ajuste de hiperparámetros. Este enfoque garantiza una medición objetiva de la capacidad de generalización del modelo ante datos no vistos.
+
+Las predicciones generadas por el modelo fueron analizadas mediante visualizaciones espaciotemporales, las cuales permiten comparar cualitativamente el comportamiento de las soluciones pronosticadas frente a los rangos físicos y temporales definidos en el problema. En particular, se generaron gráficas de superficies 3D que muestran la evolución de las variables de interés a lo largo del dominio espacial y temporal bajo estudio. Adicionalmente, se incluyeron representaciones de cortes transversales y series temporales en puntos estratégicos para facilitar la interpretación de los resultados.
+
+Cabe destacar que este análisis preliminar se centró en examinar la coherencia física y la estabilidad numérica de las predicciones. Para la evaluación cuantitativa del modelo, se implementó una comparación directa con las soluciones obtenidas mediante el método numérico de **Crank-Nicolson**, resuelto en *Julia* utilizando la librería *DifferentialEquations.jl*.
 
 ## Comparación de resultados
-Los resultados obtenidos de la evaluación del modelo fueron comparados con los del trabajo de @medical_rep para determinar su eficacia predictiva relativa. Se analizaron las fortalezas y debilidades del modelo en función de su desempeño en la predicción de las variables de interés.
+Para evaluar el desempeño predictivo del modelo propuesto, se realizaron dos tipos de comparaciones:
+
+1. Una evaluación cualitativa basada en visualizaciones.
+2. Un análisis cuantitativo mediante métricas de error estandarizadas.
+
+En primer lugar, se llevó a cabo una comparación visual con los resultados reportados en el trabajo de @medical_rep, dado que dicho estudio no incluye datos numéricos tabulados, sino únicamente representaciones gráficas de las soluciones. Esta comparación permitió identificar coincidencias y discrepancias en el comportamiento espaciotemporal de las variables de interés, destacando las fortalezas del modelo propuesto en términos de estabilidad numérica.
+
+En segundo lugar, para una evaluación cuantitativa rigurosa, se compararon las predicciones del modelo con soluciones de referencia generadas mediante el método de Crank-Nicolson, implementado en Julia utilizando la librería DifferentialEquations.jl. La comparación se realizó sobre una malla uniforme de 26×26 puntos en el cuadrado de $[0,1]\times[0,1]$, calculando para cada instante de tiempo relevante las siguientes métricas:
+
+- Error Absoluto Medio (MAE)
+- Error Absoluto Máximo (MaxAE)
+- Error L2 (norma euclidiana)
+
+Estos criterios permitieron cuantificar no solo la precisión global del modelo, sino también sus desviaciones locales más significativas, particularmente en regiones con alta variabilidad espacial. Los resultados detallados de este análisis, junto con una discusión sobre la eficiencia computacional relativa entre ambos métodos, se presentan en la @tbl-errores.
 
 ## Análisis y conclusión
 Finalmente, se realizó un análisis detallado de los resultados obtenidos para extraer conclusiones significativas. Se proporcionaron recomendaciones basadas en los hallazgos del estudio, lo que permitió establecer un marco para interpretaciones analíticas profundas y recomendaciones bien fundamentadas en la sección de conclusiones del estudio.

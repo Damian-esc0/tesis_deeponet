@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>11&nbsp; Predicciones del modelo – Estimación de la temperatura con la ecuacion del Bio-Calor usando DeepONet</title>
+<title>12&nbsp; Predicciones del modelo – Estimación de la temperatura con la ecuacion del Bio-Calor usando DeepONet</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -86,7 +86,7 @@ div.csl-indent {
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./references.html" rel="next">
-<link href="./metodologia.html" rel="prev">
+<link href="./pred_crank_nick.html" rel="prev">
 <link href="./FCFMLOGO.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -188,7 +188,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./estudio_caso.html">Estudio de caso</a></li><li class="breadcrumb-item"><a href="./predicciones.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Predicciones del modelo</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./estudio_caso.html">Estudio de caso</a></li><li class="breadcrumb-item"><a href="./predicciones.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Predicciones del modelo</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -254,12 +254,6 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introducción</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./metodo-num.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Aplicacion de Crank Nikolson</span></span></a>
-  </div>
-</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
@@ -272,19 +266,25 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./partial_diff_eq.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Ecuaciones diferenciales parciales</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Ecuaciones diferenciales parciales</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./boundary_problems.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Problemas de valores en la frontera</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Problemas de valores en la frontera</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./initial_values.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Problemas de valor inicial</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Problemas de valor inicial</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./texto_crank_nick.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Método de Crank Nickolson</span></span></a>
   </div>
 </li>
       </ul>
@@ -352,8 +352,14 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./pred_crank_nick.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Predicciones del método numérico</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./predicciones.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Predicciones del modelo</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Predicciones del modelo</span></span></a>
   </div>
 </li>
       </ul>
@@ -374,7 +380,7 @@ window.Quarto = {
     <h2 id="toc-title">Tabla de contenidos</h2>
    
   <ul>
-  <li><a href="#comparación-con-el-método-de-crank-nickolson" id="toc-comparación-con-el-método-de-crank-nickolson" class="nav-link active" data-scroll-target="#comparación-con-el-método-de-crank-nickolson"><span class="header-section-number">11.1</span> Comparación con el método de Crank Nickolson</a></li>
+  <li><a href="#comparación-con-el-método-de-crank-nickolson" id="toc-comparación-con-el-método-de-crank-nickolson" class="nav-link active" data-scroll-target="#comparación-con-el-método-de-crank-nickolson"><span class="header-section-number">12.1</span> Comparación con el método de Crank Nickolson</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/Damian-esc0/tesis_deeponet/edit/main/predicciones.qmd" class="toc-action"><i class="bi bi-github"></i>Editar esta página</a></li><li><a href="https://github.com/Damian-esc0/tesis_deeponet/issues/new" class="toc-action"><i class="bi empty"></i>Informar de un problema</a></li><li><a href="https://github.com/Damian-esc0/tesis_deeponet/blob/main/predicciones.qmd" class="toc-action"><i class="bi empty"></i>Ver el código</a></li></ul></div></nav>
     </div>
@@ -540,9 +546,9 @@ window.Quarto = {
     }
   </script>
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./estudio_caso.html">Estudio de caso</a></li><li class="breadcrumb-item"><a href="./predicciones.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Predicciones del modelo</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./estudio_caso.html">Estudio de caso</a></li><li class="breadcrumb-item"><a href="./predicciones.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Predicciones del modelo</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Predicciones del modelo</span></h1>
+<h1 class="title"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Predicciones del modelo</span></h1>
 </div>
 
 
@@ -909,7 +915,7 @@ if (outputEl) {{
                         })                };                });            </script>        </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-training_loss-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;11.1: Historial de pérdida en el entrenamiento de la red neuronal.
+Figura&nbsp;12.1: Historial de pérdida en el entrenamiento de la red neuronal.
 </figcaption>
 </figure>
 </div>
@@ -985,7 +991,7 @@ if (outputEl) {{
                         })                };                });            </script>        </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-test_loss-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;11.2: Historial de pérdida en el conjunto de prueba de la red neuronal.
+Figura&nbsp;12.2: Historial de pérdida en el conjunto de prueba de la red neuronal.
 </figcaption>
 </figure>
 </div>
@@ -1050,7 +1056,7 @@ Figura&nbsp;11.2: Historial de pérdida en el conjunto de prueba de la red neuro
 <div id="tbl-data-model" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-message="false" data-execution_count="9">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-data-model-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabla&nbsp;11.1: Predicciones de la red neuronal.
+Tabla&nbsp;12.1: Predicciones de la red neuronal.
 </figcaption>
 <div aria-describedby="tbl-data-model-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output cell-output-display">
@@ -1210,7 +1216,7 @@ Loading ITables v2.3.0 from the internet...
 <img src="predicciones_files/figure-html/fig-my_results-output-1.png" width="1978" height="497" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-my_results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;11.3: Predicciones de la red neuronal a distintos tiempos.
+Figura&nbsp;12.3: Predicciones de la red neuronal a distintos tiempos.
 </figcaption>
 </figure>
 </div>
@@ -1222,13 +1228,13 @@ Figura&nbsp;11.3: Predicciones de la red neuronal a distintos tiempos.
 <img src="images/results_paper.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="550">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-results_fnn-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;11.4: Resultados reportados por <span class="citation" data-cites="medical_rep">Alessio Borgi (<a href="references.html#ref-medical_rep" role="doc-biblioref">2023</a>)</span> en el caso 2D.
+Figura&nbsp;12.4: Resultados reportados por <span class="citation" data-cites="medical_rep">Alessio Borgi (<a href="references.html#ref-medical_rep" role="doc-biblioref">2023</a>)</span> en el caso 2D.
 </figcaption>
 </figure>
 </div>
 </div>
-<section id="comparación-con-el-método-de-crank-nickolson" class="level2" data-number="11.1">
-<h2 data-number="11.1" class="anchored" data-anchor-id="comparación-con-el-método-de-crank-nickolson"><span class="header-section-number">11.1</span> Comparación con el método de Crank Nickolson</h2>
+<section id="comparación-con-el-método-de-crank-nickolson" class="level2" data-number="12.1">
+<h2 data-number="12.1" class="anchored" data-anchor-id="comparación-con-el-método-de-crank-nickolson"><span class="header-section-number">12.1</span> Comparación con el método de Crank Nickolson</h2>
 <p>Para tener un valor numérico con el cual conocer al veracidad del modelo se comparó con las predicciones del método de Crank Nickolson</p>
 <div id="c8b13ce3" class="cell" data-execution_count="11">
 <details class="code-fold">
@@ -1306,7 +1312,7 @@ Figura&nbsp;11.4: Resultados reportados por <span class="citation" data-cites="m
 <div id="tbl-errores" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="12">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-errores-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabla&nbsp;11.2: Errores de la red neuronal.
+Tabla&nbsp;12.2: Errores de la red neuronal.
 </figcaption>
 <div aria-describedby="tbl-errores-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output cell-output-stdout">
@@ -1745,8 +1751,8 @@ Alessio Borgi, Alessandro De Luca, Eugenio Bugli. 2023. <span>«<span>BioHeat PI
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./metodologia.html" class="pagination-link" aria-label="Metodología">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Metodología</span></span>
+      <a href="./pred_crank_nick.html" class="pagination-link" aria-label="Predicciones del método numérico">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Predicciones del método numérico</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
