@@ -5,7 +5,18 @@ execute:
   freeze: auto
 ---
 ::: {style="text-align: justify"}
-Conforme se ha referido previamente, se creó el modelo utilizando Deepxde como base. Resulta relevante descatacar que se empleó la versión 1.10.1 de dicha librería. A continuación se presenta el código fuente de la red neuronal
+Conforme se ha referido previamente, el desarrollo del modelo predictivo se realizó utilizando el framework DeepXDE (versión 1.10.1) con backend de TensorFlow 1.x (configurado mediante tensorflow.compat.v1). Para asegurar reproducibilidad, se fijó la semilla aleatoria en 123 a nivel de DeepXDE, TensorFlow y NumPy. La red neuronal se implementó como un DeepONetCartesianProd con la siguiente estructura especializada:
+
+- Rama (*branch*)
+    - Capa de entrada: (num_sensors + 1)² = 25 neuronas.
+    - 3 capas ocultas de 20 neuronas cada una.
+- Tronco (*trunk*)
+    - Capa de entrada: 3 neuronas (coordenadas espaciotemporales x, y, t).
+    - Misma configuración de capas ocultas que la rama.
+- Hiperparámetros clave
+    - Función de activación: ELU (Exponential Linear Unit).
+    - Inicialización de pesos: Glorot normal.
+    - Optimizador: Adam con tasa de aprendizaje inicial de 2×10⁻³ y decaimiento exponencial (decay_rate=0.05 cada 1000 pasos).
 ```{python}
 import deepxde as dde
 import numpy as np
@@ -43,8 +54,8 @@ t_initial, t_final = 0.0, 1.0
 
 # Dataset configuration
 pts_dom = 10
-pts_bc = 20
-pts_ic = 60
+pts_bc = 25
+pts_ic = 55
 num_test = 25
 
 # Sensor grid and function space
@@ -58,7 +69,7 @@ AF = "elu"
 k_initializer = "Glorot normal"
 
 # Training parameters
-num_iterations = 5000
+num_iterations = 1000
 learning_rate = 2e-3
 decay_rate = 0.05
 decay_steps = 1000
@@ -200,7 +211,33 @@ model.compile("L-BFGS")
 losshistory, train_state = model.train()
 ```
 
-El historial de perdida para el conjunto de entrenamiento es el siguiente:
+## Gráficas de pérdida del modelo
+El proceso de entrenamiento del modelo se monitoreó mediante el seguimiento detallado de cinco componentes de pérdida, cada una asociada a restricciones físicas y matemáticas específicas del problema:
+
+1. Pérdida residual de la EDP
+    - Función: Mide el cumplimiento de la ecuación de Bio-Calor en el dominio interior.
+    - Importancia: Garantiza que la solución aprendida satisfaga la física subyacente.
+    - Comportamiento esperado: Debe converger a valores cercanos a cero (típicamente < 1e-3).
+
+2. Pérdida de condición inicial
+    - Función: Controla la precisión en t=0.
+    - Importancia: Asegura coherencia con el estado inicial del sistema.
+    - Patrón típico: Suele ser la primera en converger por su carácter puntual.
+
+3. Pérdida de frontera izquierda (Dirichlet)
+    - Función: Evalúa el cumplimiento de condiciones de valor prescrito.
+    - Relevancia: Mantiene valores fijos en bordes específicos.
+    - Convergencia: Normalmente rápida por ser restrictiva.
+
+4. Pérdida de frontera derecha (Neumann)
+    - Función: Verifica gradientes normales en esta frontera
+    - Dificultad característica: Puede mostrar oscilaciones iniciales
+
+5. Pérdida de fronteras superior/inferior (Neumann)
+    - Función: Controla condiciones de flujo en estos bordes
+    - Complejidad: En problemas 2D/3D suele ser la última en estabilizarse
+
+### Perdida para el conjunto de entrenamiento
 ```{python}
 #| output: false
 
@@ -265,8 +302,7 @@ fig_train.write_image("images/fig-training_loss.png", width=800, height=600)
 :::
 
 
-
-El historial de perdida para el conjunto de prueba es el siguiente:
+### Pérdida para el conjunto de prueba
 ```{python}
 #| output: false
 
@@ -331,8 +367,17 @@ fig_test.write_image("images/fig-test_loss.png", width=800, height=600)
 ![Gráfica de la perdida en el conjunto de prueba.](images/fig-test_loss.png){#fig-loss_test fig-align="center"}
 :::
 
-Para guardar los datos y porteriormente graficar, se uso el modelo para predecir los valores en el cuadrado de $[0,1]\times[0,1]$ dividiendo sus lados en 51 segementos equiespaciados a los tiempos $t=[0.0,0.25,0.50,0.75,1.0]$.
+## Guardado de datos
+Para permitir la comparación cuantitativa con el método de Crank-Nicolson y facilitar la generación de visualizaciones consistentes, se exportaron las predicciones del modelo neuronal en formato CSV. El proceso consistió en:
 
+1. Generación de la malla de evaluación:
+    - Dominio espacial: Cuadrado unitario [0,1] × [0,1].
+    - Discretización: 26 segmentos equiespaciados en cada eje (x, y).
+    - Puntos totales: 676 (26 × 26)
+    - Tiempos evaluados: t = [0.0, 0.25, 0.50, 0.75, 1.0].
+2. Estructura del archivo:
+    - Coordenadas espacio-temporales (t, x, y) para cada punto de la grilla 26×26.
+    - Valores de la solución en los tiempos de interés.
 ```{python}
 import pandas as pd
 # Lista de tiempos
@@ -371,7 +416,8 @@ df.to_csv(ruta, index=False)
 ```
 
 ::: {.content-visible when-format="html"}
-Se presentan los datos de las predicciones
+### Visualización interactiva
+Para facilitar el análisis exploratorio de las predicciones generadas por el modelo DeepONet, se implementó una tabla dinámica interactiva mediante la librería itables (versión 1.5.2), que extiende las funcionalidades de Pandas para su visualización.
 ```{python}
 #| label: tbl-data-model
 #| tbl-cap: "Predicciones de la red neuronal."
@@ -386,15 +432,20 @@ options.maxBytes = 0
 show(df, paging=True,
         ordering=True,
         searching = False,
-        scrollY="300px",
+        scrollY="350px",
         buttons=["pageLength", "csv", "excel"],
-        lengthMenu=[5, 10, 25, 50],
+        lengthMenu=[10, 25, 50, 100],
         classes="display nowrap cell-border"
         )
 ```
 :::
 
-A continuación, los valores predichos por la red neuronal a tiempos antes mencionados. 
+
+## Comparativa visual de las predicciones
+Esta sección presenta un análisis cualitativo de los resultados mediante la comparación directa entre las predicciones del modelo y las soluciones reportadas en el estudio de @medical_rep. La visualización paralela permite evaluar:
+
+- Dominio espacial: Cuadrado unitario [0,1] × [0,1] con malla 26×26.
+- Escala de colores: Mapa térmico viridis (consistente en ambas columnas).
 ```{python}
 #| label: fig-my_results
 #| fig-cap: "Predicciones de la red neuronal a distintos tiempos."
@@ -431,7 +482,7 @@ for i, t_val in enumerate(times):
     surf = ax.plot_surface(
         Y_vals, X_vals, Z_vals,
         rstride=1, cstride=1,
-        cmap="viridis",
+        cmap="YlGnBu",
         edgecolor="none",
         antialiased=True
     )
@@ -453,8 +504,8 @@ plt.show()
 ![Resultados reportados por @medical_rep en el caso 2D.](images/results_paper.png){#fig-results_fnn fig-align="center" width="550"}
 :::
 
-## Comparación con el método de Crank Nickolson
-Para tener un valor numérico con el cual conocer al veracidad del modelo se comparó con las predicciones del método de Crank Nickolson
+## Validación Cuantitativa frente al Método de Crank-Nicolson
+Para evaluar numéricamente la precisión del modelo DeepONet, se realizó una comparación sistemática con soluciones de referencia generadas mediante el método de Crank-Nicolson. Este enfoque proporciona una métrica objetiva de la exactitud del modelo, más allá de la inspección visual.
 
 ```{python}
 import os
@@ -530,11 +581,17 @@ error_results.to_csv(output_path, index=False)
 
 ```{python}
 #| label: tbl-errores
-#| tbl-cap: "Errores de la red neuronal."
+#| tbl-cap: "Error del modelo DeepONet respecto a Crank-Nicolson."
 #| echo: false
 from tabulate import tabulate
 
 # Convertir a formato markdown para mejor visualización
-error_table = tabulate(error_results, headers='keys', tablefmt='pipe', showindex=False)
+error_table = tabulate(
+    error_results,
+    headers=['Tiempo', 'MAE', 'MaxAE', 'Error L2'],
+    tablefmt='pipe',
+    floatfmt=".3f",
+    showindex=False
+)
 print(error_table)
 ```

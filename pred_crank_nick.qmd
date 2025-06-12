@@ -5,6 +5,7 @@ execute:
   freeze: auto
 ---
 
+Para validar los resultados del modelo propuesto, se implementó el método de Crank-Nicolson en Julia utilizando la librería *DifferentialEquations.jl*. El método se resolvió sobre una malla refinada de 51×51 puntos para garantizar alta precisión en la solución numérica, calculando las predicciones en los tiempos clave: t = [0.0, 0.25, 0.50, 0.75, 1.0]. En la @fig-met-crank-nick se muestran las cinco gráficas generadas, las cuales ilustran la evolución temporal de la solución en el dominio de estudio.
 ```{julia}
 #| output: false
 using DifferentialEquations, LinearAlgebra
@@ -25,17 +26,17 @@ a₁ = t_f / (α * L^2)
 a₂ = t_f * c_b / (ρ * c)
 a₃ = (t_f * Q) / (ρ * c * (T_M - T_a))
 
-# --- MALLA ESPACIAL ---------------------------------------------------------
+# --- MALLA ESPACIAL --------------------------------------------------------
 Nx, Ny = 51, 51
 dx, dy = 1.0 / (Nx - 1), 1.0 / (Ny - 1)
 x = range(0, 1, length=Nx)
 y = range(0, 1, length=Ny)
 N = Nx * Ny  # total de puntos
 
-# --- CONDICIÓN INICIAL ------------------------------------------------------
+# --- CONDICIÓN INICIAL ----------------------------------------------------
 u0 = zeros(N)
 
-# --- SISTEMA DE EDOs DEL PDE ------------------------------------------------
+# --- SISTEMA DE EDOs DEL PDE ----------------------------------------------
 function f!(du, u, _, τ)
     U = reshape(u, Nx, Ny)
     D = similar(U)
@@ -64,13 +65,13 @@ function f!(du, u, _, τ)
     du .= vec(D)
 end
 
-# --- RESOLVER PDE ---------------------------------------------------------
+# --- RESOLVER PDE -------------------------------------------------------
 τspan = (0.0, 1.0)
 prob = ODEProblem(f!, u0, τspan)
 taus = [0.0, 0.25, 0.5, 0.75, 1.0]
 sol = solve(prob, Trapezoid(), dt=8e-4, saveat=taus)
 
-# --- PROCESAR SOLUCIÓN EN GRILLA REDUCIDA ---------------------------------
+# --- PROCESAR SOLUCIÓN EN GRILLA REDUCIDA -------------------------------
 idxs = 1:2:Nx  # índices para submuestreo
 npts = length(idxs)^2 * length(taus)
 
@@ -92,7 +93,7 @@ end
 
 df = DataFrame(time=times, X=Xs, Y=Ys, Theta=Thetas)
 
-# --- GUARDAR CSV ------------------------------------------------------------
+# --- GUARDAR CSV ----------------------------------------------------------
 ruta = "data"
 CSV.write(joinpath(ruta, "crank_nick.csv"), df)
 ```
@@ -129,16 +130,16 @@ for t in times
     push!(solutions, Θ)
 end
 
-# --- DETERMINAR ESCALA GLOBAL DE COLORES -----------------------------------
+# --- DETERMINAR ESCALA GLOBAL DE COLORES ---------------------------------
 zmin = minimum([minimum(u) for u in solutions])
 zmax = maximum([maximum(u) for u in solutions])
 
-# --- GRAFICAR EN LAYOUT 3x2 ------------------------------------------------
+# --- GRAFICAR EN LAYOUT 3x2 ----------------------------------------------
 p = plot(layout = (3, 2), size = (800, 900))
 
 for (i, (t, Θ)) in enumerate(zip(times, solutions))
     surface!(
-        p, y_vals, x_vals, Θ;  # transpuesta para que coincidan con x, y
+        p, y_vals, x_vals, Θ;
         camera = (45,30),
         xlabel = "Y",
         ylabel = "X",
@@ -152,10 +153,24 @@ for (i, (t, Θ)) in enumerate(zip(times, solutions))
 end
 
 # Eliminar ejes y contenido del subplot 6
-plot!(p[6], framestyle = :none, grid = false, xticks = false, yticks = false)
+plot!(p[6], framestyle = :none,
+            grid = false,
+            xticks = false,
+            yticks = false)
 close("all")
 
 display(p)
 ```
 
+## Guardado de datos
+Con el objetivo de optimizar el proceso de comparación cuantitativa con el modelo de redes neuronales, se exportó un subconjunto representativo de los resultados. Aunque la simulación original utilizó una malla de 51×51 puntos, se almacenaron únicamente los valores correspondientes a una grilla de 26×26 puntos. Esta decisión se basó en:
 
+1. Suficiencia estadística: La densidad de puntos conserva los patrones espaciales críticos.
+2. Eficiencia computacional: Reduce el tamaño del archivo sin perder información relevante.
+
+Los datos se guardaron en un archivo CSV estructurado con las siguientes columnas:
+
+- Coordenadas espacio-temporales (t, x, y) para cada punto de la grilla 26×26.
+- Valores de la solución en los tiempos de interés.
+
+Este archivo permitió calcular de manera estandarizada las métricas de error (MAE, MaxAE, error L2) en la sección de comparación de resultados.
