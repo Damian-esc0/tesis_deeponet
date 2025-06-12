@@ -539,13 +539,11 @@ u(x+h,t+k) &amp;=u_{i+1,j+1}, \quad u(x,t+k)=u_{i.j+1}, \quad u(x-h,t+k)=u_{i-1,
 &amp;-&amp;u_{2,j+1} &amp;+&amp; \alpha u_{3,j+1} &amp;= b_3
 \end{matrix}
 \tag{5.3}\]</span></span></p>
-<p>donde <span class="math display">\[
-\begin{align*}
+<p>donde <span class="math display">\[\begin{align*}
 b_1 &amp;= u_{2,j} - \beta u_{1,j} + u_{0,j} + u_{0,j+1}, \\
 b_2 &amp;= u_{3,j} - \beta u_{2,j} + u_{1,j}, \\
 b_3 &amp;= u_{4,j} - \beta u_{3,j} + u_{2,j} + u_{4,j+1}.
-\end{align*}
-\]</span></p>
+\end{align*}\]</span></p>
 <p>En general, si utilizamos la ecuación diferencial <a href="#eq-cn-reducida" class="quarto-xref">eq&nbsp;<span>5.2</span></a> para determinar valores de <span class="math inline">\(u\)</span> en la línea de tiempo <span class="math inline">\((j -1)\)</span>, es necesario resolver un sistema lineal <span class="math inline">\(\mathbf{AX=B}\)</span>, donde la matriz de coeficientes <span class="math inline">\(\mathbf{A}\)</span> es una <strong>matriz tridiagonal</strong>, <span class="math display">\[
 A =
 \begin{pmatrix}
@@ -558,15 +556,14 @@ A =
 0      &amp; 0      &amp; 0      &amp; 0      &amp; 0      &amp; \cdots &amp; -1     &amp; \alpha
 \end{pmatrix},
 \]</span></p>
-<p>y las componentes de la matriz columna <span class="math inline">\(\mathbf{B}\)</span> son <span class="math display">\[
-\begin{align*}
+<p>y las componentes de la matriz columna <span class="math inline">\(\mathbf{B}\)</span> son</p>
+<p><span class="math display">\[\begin{align*}
 b_1 &amp;= u_{2,j} - \beta u_{1,j} + u_{0,j} + u_{0,j+1}, \\
 b_2 &amp;= u_{3,j} - \beta u_{2,j} + u_{1,j}, \\
 b_3 &amp;= u_{4,j} - \beta u_{3,j} + u_{2,j}, \\
     &amp;\vdots \\
 b_{n-1} &amp;= u_{n,j} - \beta u_{n-1,j} + u_{n-2,j} + u_{n,j+1}.
-\end{align*}
-\]</span></p>
+\end{align*}\]</span></p>
 </div>
 
 

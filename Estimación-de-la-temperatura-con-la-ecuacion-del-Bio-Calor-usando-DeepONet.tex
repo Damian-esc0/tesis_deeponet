@@ -243,10 +243,10 @@
 \floatname{codelisting}{Listado}
 \newcommand*\listoflistings{\listof{codelisting}{Listado de Listados}}
 \usepackage{amsthm}
-\theoremstyle{definition}
-\newtheorem{definition}{Definición}[chapter]
 \theoremstyle{plain}
 \newtheorem{theorem}{Teorema}[chapter]
+\theoremstyle{definition}
+\newtheorem{definition}{Definición}[chapter]
 \theoremstyle{remark}
 \AtBeginDocument{\renewcommand*{\proofname}{Prueba}}
 \newtheorem*{remark}{Observación}
@@ -302,178 +302,6 @@ Aquí irá el resumen de la tesis.
 \bookmarksetup{startatroot}
 
 \chapter{Introducción}\label{introducciuxf3n}
-
-\bookmarksetup{startatroot}
-
-\chapter{Aplicacion de Crank
-Nikolson}\label{aplicacion-de-crank-nikolson}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\ImportTok{using} \BuiltInTok{DifferentialEquations}\NormalTok{, }\BuiltInTok{LinearAlgebra}
-\ImportTok{using} \BuiltInTok{DataFrames}\NormalTok{, }\BuiltInTok{CSV}
-
-\CommentTok{\# {-}{-}{-} PARÁMETROS FÍSICOS Y DIMENSIONALES {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
-\NormalTok{ρ, c  }\OperatorTok{=} \FloatTok{1050.0}\NormalTok{, }\FloatTok{3639.0}                        \CommentTok{\# densidad, calor específico }
-\NormalTok{k\_eff }\OperatorTok{=} \FloatTok{5.0}                                   \CommentTok{\# conductividad}
-\NormalTok{t\_f   }\OperatorTok{=} \FloatTok{1800.0}                                \CommentTok{\# tiempo final }
-\NormalTok{L     }\OperatorTok{=} \FloatTok{0.05}                                  \CommentTok{\# longitud del dominio}
-\NormalTok{c\_b   }\OperatorTok{=} \FloatTok{3825.0}                                \CommentTok{\# coef. perfusión}
-\NormalTok{Q     }\OperatorTok{=} \FloatTok{0.0}                                   \CommentTok{\# fuente térmica}
-\NormalTok{T\_M, T\_a }\OperatorTok{=} \FloatTok{45.0}\NormalTok{, }\FloatTok{37.0}                         \CommentTok{\# temp máxima, temp ambiente}
-
-\CommentTok{\# {-}{-}{-} COEFICIENTES ADIMENSIONALES {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
-\NormalTok{α }\OperatorTok{=}\NormalTok{ ρ }\OperatorTok{*}\NormalTok{ c }\OperatorTok{/}\NormalTok{ k\_eff}
-\NormalTok{a₁ }\OperatorTok{=}\NormalTok{ t\_f }\OperatorTok{/}\NormalTok{ (α }\OperatorTok{*}\NormalTok{ L}\OperatorTok{\^{}}\FloatTok{2}\NormalTok{)}
-\NormalTok{a₂ }\OperatorTok{=}\NormalTok{ t\_f }\OperatorTok{*}\NormalTok{ c\_b }\OperatorTok{/}\NormalTok{ (ρ }\OperatorTok{*}\NormalTok{ c)}
-\NormalTok{a₃ }\OperatorTok{=}\NormalTok{ (t\_f }\OperatorTok{*}\NormalTok{ Q) }\OperatorTok{/}\NormalTok{ (ρ }\OperatorTok{*}\NormalTok{ c }\OperatorTok{*}\NormalTok{ (T\_M }\OperatorTok{{-}}\NormalTok{ T\_a))}
-
-\CommentTok{\# {-}{-}{-} MALLA ESPACIAL {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
-\NormalTok{Nx, Ny }\OperatorTok{=} \FloatTok{51}\NormalTok{, }\FloatTok{51}
-\NormalTok{dx, dy }\OperatorTok{=} \FloatTok{1.0} \OperatorTok{/}\NormalTok{ (Nx }\OperatorTok{{-}} \FloatTok{1}\NormalTok{), }\FloatTok{1.0} \OperatorTok{/}\NormalTok{ (Ny }\OperatorTok{{-}} \FloatTok{1}\NormalTok{)}
-\NormalTok{x }\OperatorTok{=} \FunctionTok{range}\NormalTok{(}\FloatTok{0}\NormalTok{, }\FloatTok{1}\NormalTok{, length}\OperatorTok{=}\NormalTok{Nx)}
-\NormalTok{y }\OperatorTok{=} \FunctionTok{range}\NormalTok{(}\FloatTok{0}\NormalTok{, }\FloatTok{1}\NormalTok{, length}\OperatorTok{=}\NormalTok{Ny)}
-\NormalTok{N }\OperatorTok{=}\NormalTok{ Nx }\OperatorTok{*}\NormalTok{ Ny  }\CommentTok{\# total de puntos}
-
-\CommentTok{\# {-}{-}{-} CONDICIÓN INICIAL {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
-\NormalTok{u0 }\OperatorTok{=} \FunctionTok{zeros}\NormalTok{(N)}
-
-\CommentTok{\# {-}{-}{-} SISTEMA DE EDOs DEL PDE {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
-\KeywordTok{function} \FunctionTok{f!}\NormalTok{(du, u, \_, τ)}
-\NormalTok{    U }\OperatorTok{=} \FunctionTok{reshape}\NormalTok{(u, Nx, Ny)}
-\NormalTok{    D }\OperatorTok{=} \FunctionTok{similar}\NormalTok{(U)}
-    \PreprocessorTok{@inbounds} \ControlFlowTok{for}\NormalTok{ i }\KeywordTok{in} \FloatTok{1}\OperatorTok{:}\NormalTok{Nx, j }\KeywordTok{in} \FloatTok{1}\OperatorTok{:}\NormalTok{Ny}
-        \CommentTok{\# Derivadas segunda en x}
-\NormalTok{        d2x }\OperatorTok{=} \ControlFlowTok{if}\NormalTok{ i }\OperatorTok{==} \FloatTok{1}
-\NormalTok{            (U[}\FloatTok{2}\NormalTok{, j] }\OperatorTok{{-}} \FloatTok{0}\NormalTok{) }\OperatorTok{/}\NormalTok{ dx}\OperatorTok{\^{}}\FloatTok{2}
-        \ControlFlowTok{elseif}\NormalTok{ i }\OperatorTok{==}\NormalTok{ Nx}
-\NormalTok{            U\_ghost }\OperatorTok{=}\NormalTok{ U[Nx, j] }\OperatorTok{+}\NormalTok{ τ }\OperatorTok{*}\NormalTok{ dx}
-\NormalTok{            (U\_ghost }\OperatorTok{{-}} \FloatTok{2}\NormalTok{U[Nx, j] }\OperatorTok{+}\NormalTok{ U[Nx}\OperatorTok{{-}}\FloatTok{1}\NormalTok{, j]) }\OperatorTok{/}\NormalTok{ dx}\OperatorTok{\^{}}\FloatTok{2}
-        \ControlFlowTok{else}
-\NormalTok{            (U[i}\OperatorTok{+}\FloatTok{1}\NormalTok{, j] }\OperatorTok{{-}} \FloatTok{2}\NormalTok{U[i, j] }\OperatorTok{+}\NormalTok{ U[i}\OperatorTok{{-}}\FloatTok{1}\NormalTok{, j]) }\OperatorTok{/}\NormalTok{ dx}\OperatorTok{\^{}}\FloatTok{2}
-        \ControlFlowTok{end}
-
-        \CommentTok{\# Derivadas segunda en y}
-\NormalTok{        d2y }\OperatorTok{=} \ControlFlowTok{if}\NormalTok{ j }\OperatorTok{==} \FloatTok{1}
-\NormalTok{            (U[i, }\FloatTok{2}\NormalTok{] }\OperatorTok{{-}}\NormalTok{ U[i, }\FloatTok{1}\NormalTok{]) }\OperatorTok{/}\NormalTok{ dy}\OperatorTok{\^{}}\FloatTok{2}
-        \ControlFlowTok{elseif}\NormalTok{ j }\OperatorTok{==}\NormalTok{ Ny}
-\NormalTok{            (U[i, Ny}\OperatorTok{{-}}\FloatTok{1}\NormalTok{] }\OperatorTok{{-}}\NormalTok{ U[i, Ny]) }\OperatorTok{/}\NormalTok{ dy}\OperatorTok{\^{}}\FloatTok{2}
-        \ControlFlowTok{else}
-\NormalTok{            (U[i, j}\OperatorTok{+}\FloatTok{1}\NormalTok{] }\OperatorTok{{-}} \FloatTok{2}\NormalTok{U[i, j] }\OperatorTok{+}\NormalTok{ U[i, j}\OperatorTok{{-}}\FloatTok{1}\NormalTok{]) }\OperatorTok{/}\NormalTok{ dy}\OperatorTok{\^{}}\FloatTok{2}
-        \ControlFlowTok{end}
-
-\NormalTok{        D[i, j] }\OperatorTok{=}\NormalTok{ (d2x }\OperatorTok{+}\NormalTok{ d2y }\OperatorTok{{-}}\NormalTok{ a₂ }\OperatorTok{*}\NormalTok{ U[i, j] }\OperatorTok{+}\NormalTok{ a₃) }\OperatorTok{/}\NormalTok{ a₁}
-    \ControlFlowTok{end}
-\NormalTok{    du }\OperatorTok{.=} \FunctionTok{vec}\NormalTok{(D)}
-\KeywordTok{end}
-
-\CommentTok{\# {-}{-}{-} RESOLVER PDE {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
-\NormalTok{τspan }\OperatorTok{=}\NormalTok{ (}\FloatTok{0.0}\NormalTok{, }\FloatTok{1.0}\NormalTok{)}
-\NormalTok{prob }\OperatorTok{=} \FunctionTok{ODEProblem}\NormalTok{(f!, u0, τspan)}
-\NormalTok{taus }\OperatorTok{=}\NormalTok{ [}\FloatTok{0.0}\NormalTok{, }\FloatTok{0.25}\NormalTok{, }\FloatTok{0.5}\NormalTok{, }\FloatTok{0.75}\NormalTok{, }\FloatTok{1.0}\NormalTok{]}
-\NormalTok{sol }\OperatorTok{=} \FunctionTok{solve}\NormalTok{(prob, }\FunctionTok{Trapezoid}\NormalTok{(), dt}\OperatorTok{=}\FloatTok{8e{-}4}\NormalTok{, saveat}\OperatorTok{=}\NormalTok{taus)}
-
-\CommentTok{\# {-}{-}{-} PROCESAR SOLUCIÓN EN GRILLA REDUCIDA {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
-\NormalTok{idxs }\OperatorTok{=} \FloatTok{1}\OperatorTok{:}\FloatTok{2}\OperatorTok{:}\NormalTok{Nx  }\CommentTok{\# índices para submuestreo}
-\NormalTok{npts }\OperatorTok{=} \FunctionTok{length}\NormalTok{(idxs)}\OperatorTok{\^{}}\FloatTok{2} \OperatorTok{*} \FunctionTok{length}\NormalTok{(taus)}
-
-\CommentTok{\# Preasignar vectores para crear el DataFrame}
-\NormalTok{times }\OperatorTok{=} \DataTypeTok{Float64}\NormalTok{[]}
-\NormalTok{Xs }\OperatorTok{=} \DataTypeTok{Float64}\NormalTok{[]}
-\NormalTok{Ys }\OperatorTok{=} \DataTypeTok{Float64}\NormalTok{[]}
-\NormalTok{Thetas }\OperatorTok{=} \DataTypeTok{Float64}\NormalTok{[]}
-
-\ControlFlowTok{for}\NormalTok{ (k, τ) }\KeywordTok{in} \FunctionTok{enumerate}\NormalTok{(taus)}
-\NormalTok{    Θ }\OperatorTok{=} \FunctionTok{reshape}\NormalTok{(}\FunctionTok{sol}\NormalTok{(τ), Nx, Ny)}
-    \ControlFlowTok{for}\NormalTok{ j }\KeywordTok{in}\NormalTok{ idxs, i }\KeywordTok{in}\NormalTok{ idxs}
-        \FunctionTok{push!}\NormalTok{(times, τ)}
-        \FunctionTok{push!}\NormalTok{(Xs, x[i])}
-        \FunctionTok{push!}\NormalTok{(Ys, y[j])}
-        \FunctionTok{push!}\NormalTok{(Thetas, Θ[i, j])}
-    \ControlFlowTok{end}
-\ControlFlowTok{end}
-
-\NormalTok{df }\OperatorTok{=} \FunctionTok{DataFrame}\NormalTok{(time}\OperatorTok{=}\NormalTok{times, X}\OperatorTok{=}\NormalTok{Xs, Y}\OperatorTok{=}\NormalTok{Ys, Theta}\OperatorTok{=}\NormalTok{Thetas)}
-
-\CommentTok{\# {-}{-}{-} GUARDAR CSV {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
-\NormalTok{ruta }\OperatorTok{=} \StringTok{"data"}
-\NormalTok{CSV.}\FunctionTok{write}\NormalTok{(}\FunctionTok{joinpath}\NormalTok{(ruta, }\StringTok{"crank\_nick.csv"}\NormalTok{), df)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\ImportTok{using} \BuiltInTok{DataFrames}\NormalTok{, }\BuiltInTok{CSV}\NormalTok{, }\BuiltInTok{Plots}\NormalTok{, }\BuiltInTok{Statistics}
-\FunctionTok{pyplot}\NormalTok{()}
-
-\CommentTok{\# {-}{-}{-} OBTENER VALORES ÚNICOS Y ORDENADOS DE X, Y, TIME {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
-\NormalTok{x\_vals }\OperatorTok{=} \FunctionTok{sort}\NormalTok{(}\FunctionTok{unique}\NormalTok{(df.X))}
-\NormalTok{y\_vals }\OperatorTok{=} \FunctionTok{sort}\NormalTok{(}\FunctionTok{unique}\NormalTok{(df.Y))}
-\NormalTok{times }\OperatorTok{=} \FunctionTok{sort}\NormalTok{(}\FunctionTok{unique}\NormalTok{(df.time))  }\CommentTok{\# tiempos}
-
-\NormalTok{Nx, Ny }\OperatorTok{=} \FunctionTok{length}\NormalTok{(x\_vals), }\FunctionTok{length}\NormalTok{(y\_vals)}
-
-\CommentTok{\# {-}{-}{-} RECONSTRUIR MATRICES 2D DE THETA PARA CADA TIEMPO {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
-\NormalTok{solutions }\OperatorTok{=}\NormalTok{ []}
-
-\ControlFlowTok{for}\NormalTok{ t }\KeywordTok{in}\NormalTok{ times}
-\NormalTok{    dft }\OperatorTok{=} \FunctionTok{filter}\NormalTok{(}\OperatorTok{:}\NormalTok{time }\OperatorTok{=\textgreater{}} \OperatorTok{==}\NormalTok{(t), df)}
-
-    \CommentTok{\# Crear matriz vacía}
-\NormalTok{    Θ }\OperatorTok{=} \FunctionTok{fill}\NormalTok{(}\ConstantTok{NaN}\NormalTok{, Nx, Ny)}
-
-    \CommentTok{\# Llenar la matriz con los valores correspondientes}
-    \ControlFlowTok{for}\NormalTok{ row }\KeywordTok{in} \FunctionTok{eachrow}\NormalTok{(dft)}
-\NormalTok{        ix }\OperatorTok{=} \FunctionTok{findfirst}\NormalTok{(}\OperatorTok{==}\NormalTok{(row.X), x\_vals)}
-\NormalTok{        iy }\OperatorTok{=} \FunctionTok{findfirst}\NormalTok{(}\OperatorTok{==}\NormalTok{(row.Y), y\_vals)}
-\NormalTok{        Θ[ix, iy] }\OperatorTok{=}\NormalTok{ row.Theta}
-    \ControlFlowTok{end}
-
-    \FunctionTok{push!}\NormalTok{(solutions, Θ)}
-\ControlFlowTok{end}
-
-\CommentTok{\# {-}{-}{-} DETERMINAR ESCALA GLOBAL DE COLORES {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
-\NormalTok{zmin }\OperatorTok{=} \FunctionTok{minimum}\NormalTok{([}\FunctionTok{minimum}\NormalTok{(u) for u }\KeywordTok{in}\NormalTok{ solutions])}
-\NormalTok{zmax }\OperatorTok{=} \FunctionTok{maximum}\NormalTok{([}\FunctionTok{maximum}\NormalTok{(u) for u }\KeywordTok{in}\NormalTok{ solutions])}
-
-\CommentTok{\# {-}{-}{-} GRAFICAR EN LAYOUT 3x2 {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
-\NormalTok{p }\OperatorTok{=} \FunctionTok{plot}\NormalTok{(layout }\OperatorTok{=}\NormalTok{ (}\FloatTok{3}\NormalTok{, }\FloatTok{2}\NormalTok{), size }\OperatorTok{=}\NormalTok{ (}\FloatTok{800}\NormalTok{, }\FloatTok{900}\NormalTok{))}
-
-\ControlFlowTok{for}\NormalTok{ (i, (t, Θ)) }\KeywordTok{in} \FunctionTok{enumerate}\NormalTok{(}\FunctionTok{zip}\NormalTok{(times, solutions))}
-    \FunctionTok{surface!}\NormalTok{(}
-\NormalTok{        p, y\_vals, x\_vals, Θ;  }\CommentTok{\# transpuesta para que coincidan con x, y}
-\NormalTok{        camera }\OperatorTok{=}\NormalTok{ (}\FloatTok{45}\NormalTok{,}\FloatTok{30}\NormalTok{),}
-\NormalTok{        xlabel }\OperatorTok{=} \StringTok{"Y"}\NormalTok{,}
-\NormalTok{        ylabel }\OperatorTok{=} \StringTok{"X"}\NormalTok{,}
-\NormalTok{        zlabel }\OperatorTok{=} \StringTok{"T   "}\NormalTok{,}
-\NormalTok{        title }\OperatorTok{=} \StringTok{"t = }\SpecialCharTok{$}\NormalTok{(t)}\StringTok{"}\NormalTok{,}
-\NormalTok{        subplot }\OperatorTok{=}\NormalTok{ i,}
-\NormalTok{        c }\OperatorTok{=} \OperatorTok{:}\NormalTok{thermal,}
-\NormalTok{        clim }\OperatorTok{=}\NormalTok{ (zmin, zmax),}
-\NormalTok{        legend }\OperatorTok{=} \ConstantTok{false}
-\NormalTok{    )}
-\ControlFlowTok{end}
-
-\CommentTok{\# Eliminar ejes y contenido del subplot 6}
-\FunctionTok{plot!}\NormalTok{(p[}\FloatTok{6}\NormalTok{], framestyle }\OperatorTok{=} \OperatorTok{:}\NormalTok{none, grid }\OperatorTok{=} \ConstantTok{false}\NormalTok{, xticks }\OperatorTok{=} \ConstantTok{false}\NormalTok{, yticks }\OperatorTok{=} \ConstantTok{false}\NormalTok{)}
-\FunctionTok{close}\NormalTok{(}\StringTok{"all"}\NormalTok{)}
-
-\FunctionTok{display}\NormalTok{(p)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}[H]
-
-\centering{
-
-\pandocbounded{\includegraphics[keepaspectratio]{index_files/mediabag/metodo-num_files/figure-pdf/fig-met-crank-nick-output-1.pdf}}
-
-}
-
-\caption{\label{fig-met-crank-nick}Resultados obtenidos mediante el
-método numérico de Crank Nickolson.}
-
-\end{figure}%
 
 \part{Preliminares}
 
@@ -684,7 +512,7 @@ ecuación de Laplace \ref{eq-laplace} es elíptica.
 Dado que las soluciones de las ecuaciones \ref{eq-heat} y \ref{eq-wave}
 dependen del tiempo \(t\), es posible especificar lo que ocurre en
 \(t = 0\); es decir, establecer \textbf{condiciones iniciales (CI)}. Si
-\(f(x)\) representa la distribución inicial de temperatura en la barra
+\(f(x)\) representa la distribución inicial de temperatura en la varilla
 mostrada en la Figura~\ref{fig-1D-heat}, entonces una solución
 \(u(x, t)\) de \ref{eq-heat} debe satisfacer la condición inicial única
 \(u(x, 0) = f(x), \quad 0 < x < L\).
@@ -724,15 +552,13 @@ Una condición de frontera del primer tipo (i) es llamada
 tipo (ii) es llamada \textbf{condición de Neumann}; y una condición de
 frontera del tercer tipo (iii) es conocida como \textbf{condición de
 Robin}. Por ejemplo, para \(t>0\) una condición típica al extremo
-derecho del cilindro de la Figura~\ref{fig-1D-heat} puede ser:
+derecho de la varilla de la Figura~\ref{fig-1D-heat} puede ser:
 
-\[
-\begin{aligned}
-\text{(i)}'   &\quad u(L,t) = u_0, \quad \text{con } u_0 \text{ constante} \\ \\
-\text{(ii)}'  &\quad \left. \dfrac{\partial u}{\partial x} \right|_{x=L} = 0 \\ \\
-\text{(iii)}' &\quad \left. \dfrac{\partial u}{\partial x} \right|_{x=L} = -h(u(L,t)-u_m), \quad \text{con } h>0 \text{ y } u_m \text{ constantes}
-\end{aligned}
-\]
+\begin{align*}
+  \text{(i)}'   &\quad u(L,t) = u_0, \text{  con } u_0 \text{ constante} \\ \\
+  \text{(ii)}'  &\quad \left. \dfrac{\partial u}{\partial x} \right|_{x=L} = 0 \\ \\
+  \text{(iii)}' &\quad \left. \dfrac{\partial u}{\partial x} \right|_{x=L} = -h(u(L,t)-u_m),\text{  con } h>0 \text{ y } u_m \text{ constantes}
+\end{align*}
 
 La condición (i)' simplemente establece que el límite \(x=L\) se
 mantiene, por algún medio, a una temperatura constante \(u_0\) durante
@@ -744,12 +570,32 @@ frontera) es proporcional al valor de la derivada normal
 \(\frac{\partial u}{\partial n}\) de la temperatura \(u\). Por lo tanto,
 cuando el límite \(x=L\) está aislado térmicamente, no fluye calor hacia
 dentro ni hacia fuera de la varilla, por lo que \[
-\left. \dfrac{\partial u}{\partial x} \right|_{x=L} = 0
+\left. \dfrac{\partial u}{\partial x} \right|_{x=L} = 0.
+\]
+
+Es posible interpretar (iii)' como que el calor se pierde del extremo
+derecho de la varilla al estar en contacto con un medio, como el aire o
+el agua, que se mantiene a temperatura constante. Según la ley de
+enfriamiento de Newton, el flujo de calor hacia afuera de la varilla es
+proporcional a la diferencia entre la temperatura \(u(L, t)\) en la
+frontera y la temperatura \(u_m\) del medio circundante. Se observa que
+si se pierde calor por el extremo izquierdo de la varilla, la condición
+de contorno es \[
+\left. \dfrac{\partial u}{\partial x} \right|_{x=0} = h(u(0,t)-u_m).
+\] El cambio de signo respecto de (iii)' corresponde con el supuesto de
+que la varilla está a una temperatura más alta que el medio que rodea
+los extremos, de modo que \(u(0, t) > u_m\) y \(u(L, t) > u_m\). Para
+\(x=0\) y \(x=L\), las pendientes \(u_x(0, t)\) y \(u_x(L, t)\) deben
+ser positivas y negativas, respectivamente.
+
+Por supuesto, en los extremos de la varilla se pueden especificar
+diferentes condiciones al mismo tiempo. Por ejemplo, podríamos tener \[
+\left. \dfrac{\partial u}{\partial x} \right|_{x=0} =0 \quad \text{y} \qquad u(L,t)=u_0, \quad t>0.
 \]
 
 \chapter{Problemas de valor inicial}\label{problemas-de-valor-inicial}
 
-Las ecuaciones diferenciales se utilizan para modelar problemas en
+Las ecuaciones diferenciales son utilizadas para modelar problemas en
 ciencia e ingeniería que implican el cambio de una variable con respecto
 a otra. La mayoría de estos problemas requieren la solución de un
 problema de valor inicial, es decir, la solución de una ecuación
@@ -766,7 +612,7 @@ problema original. Este es el enfoque más común porque los métodos de
 aproximación proporcionan resultados más precisos e información de error
 realista (\citeproc{ref-burden2011}{Burden y Faires 2010}).
 
-\begin{tcolorbox}[enhanced jigsaw, title={Ejemplo}, left=2mm, toprule=.15mm, bottomrule=.15mm, breakable, coltitle=black, leftrule=.75mm, toptitle=1mm, colbacktitle=quarto-callout-caution-color!10!white, opacityback=0, rightrule=.15mm, colback=white, titlerule=0mm, arc=.35mm, opacitybacktitle=0.6, bottomtitle=1mm, colframe=quarto-callout-caution-color-frame]
+\begin{tcolorbox}[enhanced jigsaw, toptitle=1mm, coltitle=black, left=2mm, breakable, opacityback=0, colbacktitle=quarto-callout-caution-color!10!white, bottomtitle=1mm, titlerule=0mm, colframe=quarto-callout-caution-color-frame, toprule=.15mm, title={Ejemplo}, rightrule=.15mm, bottomrule=.15mm, arc=.35mm, opacitybacktitle=0.6, leftrule=.75mm, colback=white]
 
 El movimiento de un péndulo oscilante bajo ciertas suposiciones se
 describe mediante la ecuación diferencial de segundo orden: \[
@@ -781,6 +627,10 @@ su velocidad en ese punto, \(\theta'(t_0) = \theta'_0\). Tenemos un
 \emph{problema de valor inicial}.
 
 \end{tcolorbox}
+
+Para dar una idea más clara acerca de los problemas de valor inicial
+Burden y Faires (\citeproc{ref-burden2011}{2010}) brinda las siguientes
+definicones y teoremas:
 
 \begin{definition}[]\protect\hypertarget{def-Lip-con}{}\label{def-Lip-con}
 
@@ -839,10 +689,10 @@ variable \(y\) con una constante de Lipschitz \(L\).
 Como se mostrará en el siguiente teorema, suele ser de gran interés
 determinar si la función involucrada en un problema de valor inicial
 satisface una condición de Lipschitz en su segunda variable, y la
-condición Ecuación~\ref{eq-Lib-teo} suele ser más fácil de aplicar que
-la definición. Cabe destacar, sin embargo, que el Teorema
-Teorema~\ref{thm-Lib-teo} solo proporciona condiciones suficientes para
-que se cumpla una condición de Lipschitz.
+condición \ref{eq-Lib-teo} suele ser más fácil de aplicar que la
+definición. Cabe destacar, sin embargo, que el Teorema~\ref{thm-Lib-teo}
+solo proporciona condiciones suficientes para que se cumpla una
+condición de Lipschitz.
 
 \begin{theorem}[]\protect\hypertarget{thm-uniq-sol}{}\label{thm-uniq-sol}
 
@@ -858,7 +708,7 @@ tiene una solución única \(y(t)\) para \(a\leq t \leq b\).
 
 \end{theorem}
 
-\begin{tcolorbox}[enhanced jigsaw, title={Ejemplo}, left=2mm, toprule=.15mm, bottomrule=.15mm, breakable, coltitle=black, leftrule=.75mm, toptitle=1mm, colbacktitle=quarto-callout-caution-color!10!white, opacityback=0, rightrule=.15mm, colback=white, titlerule=0mm, arc=.35mm, opacitybacktitle=0.6, bottomtitle=1mm, colframe=quarto-callout-caution-color-frame]
+\begin{tcolorbox}[enhanced jigsaw, toptitle=1mm, coltitle=black, left=2mm, breakable, opacityback=0, colbacktitle=quarto-callout-caution-color!10!white, bottomtitle=1mm, titlerule=0mm, colframe=quarto-callout-caution-color-frame, toprule=.15mm, title={Ejemplo}, rightrule=.15mm, bottomrule=.15mm, arc=.35mm, opacitybacktitle=0.6, leftrule=.75mm, colback=white]
 
 Use el teorema Teorema~\ref{thm-uniq-sol} para mostrar que hay una única
 solución al problema de valor inicial: \[
@@ -888,9 +738,15 @@ problema de valor inicial. Los problemas de valor inicial obtenidos
 mediante la observación de fenómenos físicos generalmente solo se
 aproximan a la situación real, por lo que necesitamos saber si pequeños
 cambios en el plamteamiento del problema introducen cambios
-correspondientemente pequeños en la solución.
+correspondientemente pequeños en la solución
+(\citeproc{ref-burden2011}{Burden y Faires 2010}).
 
-\begin{definition}[]\protect\hypertarget{def-}{}\label{def-}
+A continiación se presentan otras definiciones así como teoremas que
+brindaŕan un conocimiento más sólido acerca de los problemas bien
+planteados. Se usará como referencia a Burden y Faires
+(\citeproc{ref-burden2011}{2010}).
+
+\begin{definition}[]\protect\hypertarget{def-well-posed}{}\label{def-well-posed}
 
 Se dice que el problema de valor inicial
 \begin{equation}\phantomsection\label{eq-original-problem}{
@@ -903,13 +759,13 @@ Se dice que el problema de valor inicial
   Existe una única solución \(y(t)\) para el problema, y
 \item
   Existen constantes \(ε_0 > 0\) y \(k > 0\) tales que para cualquier
-  \(ε\), con \(ε_0 > ε > 0\), siempre que \(δ(t)\) sea continua con
-  \(|δ(t)| < ε\) para todo \(t\) en \([a, b]\), y cuando \(|δ_0| < ε\),
-  el problema del valor inicial
-  \begin{equation}\phantomsection\label{eq-perturbed-rpoblem}{
+  \(\varepsilon\), con \(\varepsilon_0 > \varepsilon > 0\), siempre que
+  \(δ(t)\) sea continua con \(|δ(t)| < \varepsilon\) para todo \(t\) en
+  \([a, b]\), y cuando \(|δ_0| < \varepsilon\), el problema del valor
+  inicial \begin{equation}\phantomsection\label{eq-perturbed-rpoblem}{
   \dfrac{dz}{dt} = f(t,z) + δ(t), \quad a\leq t \leq b, \quad z(a) = \alpha + δ_0
   }\end{equation} tenga una única solución \(z(t)\) que satisface: \[
-  |z(t)-y(t)| < k\epsilon \quad \forall t \in[a,b]
+  |z(t)-y(t)| < k\varepsilon \quad \forall t \in[a,b]
   \]
 \end{itemize}
 
@@ -928,7 +784,7 @@ original esté bien planteado, hay pocas razones para esperar que la
 solución numérica de un problema perturbado se aproxime con precisión a
 la solución del problema original.
 
-\begin{theorem}[]\protect\hypertarget{thm-}{}\label{thm-}
+\begin{theorem}[]\protect\hypertarget{thm-well-posed}{}\label{thm-well-posed}
 
 Supongamos
 \(D = \{(t, y) | \ \ a \leq t \leq b, \ \  -\infty < y < \infty \}\). Si
@@ -938,6 +794,149 @@ Supongamos
 \] es bien planteado.
 
 \end{theorem}
+
+\begin{tcolorbox}[enhanced jigsaw, toptitle=1mm, coltitle=black, left=2mm, breakable, opacityback=0, colbacktitle=quarto-callout-caution-color!10!white, bottomtitle=1mm, titlerule=0mm, colframe=quarto-callout-caution-color-frame, toprule=.15mm, title={Ejemplo}, rightrule=.15mm, bottomrule=.15mm, arc=.35mm, opacitybacktitle=0.6, leftrule=.75mm, colback=white]
+
+Demostrar que el problema de valor inicial\\
+\[
+\frac{dy}{dt} = y - t^2 + 1, \quad 0 \leq t \leq 2, \quad y(0) = 0.5,
+\]
+
+está bien planteado en el dominio
+\(D = \{(t, y) \mid \ \ 0 \leq t \leq 2 \ \ \text{ y } \ \ -\infty < y < \infty \}\).
+
+\textbf{Solución:} Dado que\\
+\begin{equation}\phantomsection\label{eq-1-exm}{
+\left| \frac{\partial (y - t^2 + 1)}{\partial y} \right| = |1| = 1,
+}\end{equation}
+
+el Teorema~\ref{thm-Lib-teo} implica que la función
+\(f(t, y) = y - t^2 + 1\) satisface una condición de Lipschitz en \(y\)
+sobre \(D\) con constante de Lipschitz igual a 1. Además, como \(f\) es
+continua en \(D\), el Teorema~\ref{thm-well-posed} garantiza que el
+problema está bien planteado.
+
+A modo de ilustración, consideremos ahora la solución del problema
+perturbado:\\
+\begin{equation}\phantomsection\label{eq-2-exm}{
+\frac{dz}{dt} = z - t^2 + 1 + \delta, \quad 0 \leq t \leq 2, \quad z(0) = 0.5 + \delta_0,
+}\end{equation}
+
+donde \(\delta\) y \(\delta_0\) son constantes pequeñas, las soluciones
+respectivas de las ecuaciones \ref{eq-1-exm} y \ref{eq-2-exm} son:
+
+\begin{align*}
+y(t) &= (t + 1)^2 - 0.5e^t \\ \\
+z(t) &= (t + 1)^2 + (\delta + \delta_0 - 0.5)e^t - \delta
+\end{align*}
+
+Sea \(\varepsilon\) un número positivo. Si \(|\delta| < \varepsilon\) y
+\(|\delta_0| < \varepsilon\), entonces \[
+|y(t) - z(t)| = |(\delta + \delta_0)e^t - \delta| \leq |\delta + \delta_0|e^2 + |\delta| \leq (2e^2 + 1)\varepsilon,
+\]
+
+para todo \(t\). Esta desigualdad demuestra que \ref{eq-1-exm} está bien
+planteado, con una constante de estabilidad
+\(k(\varepsilon) = 2e^2 + 1\) para cualquier \(\varepsilon > 0\).
+
+\end{tcolorbox}
+
+\chapter{Método de Crank Nickolson}\label{muxe9todo-de-crank-nickolson}
+
+Existen métodos implícitos de diferencias finitas para resolver
+ecuaciones diferenciales parciales parabólicas ec~\ref{eq-heat}. Estos
+métodos requieren la resolución de un sistema de ecuaciones para
+determinar los valores aproximados de \(u\) en la línea de tiempo
+\((j + 1)\). Sin embargo, los métodos implícitos no presentan problemas
+de inestabilidad (\citeproc{ref-zill2008}{Zill y Cullen 2008}).
+
+El algoritmo introducido por \textbf{J. Crank} y \textbf{P. Nicholson}
+en 1947 se utiliza principalmente para resolver la ecuación del calor.
+El algoritmo consiste en sustituir la segunda derivada parcial en
+\(c\frac{\partial^2 u}{\partial x^2} = \frac{\partial u}{\partial t}\)
+por el promedio de dos cocientes de diferencias centrales, uno evaluado
+en \(t\) y el otro en \(t+k\):
+\begin{equation}\phantomsection\label{eq-cn-completa}{
+\begin{split}
+\dfrac{c}{2}& \left[\dfrac{u(x+h,t)-2u(x,t)+u(x-h,t)}{h^2}\right] + \\
+    + &\dfrac{c}{2} \left[\dfrac{u(x+h,t+k)-2u(x,t+k)+u(x-h,t+k)}{h^2} \right] \\
+            &= \dfrac{1}{k}[u(x,t+k)-u(x,t)]
+\end{split}
+}\end{equation}
+
+si se define \(\lambda = \frac{ck}{h^2}\) y \[
+\begin{split}
+u(x+h,t) &=u_{i+1,j}, \quad u(x,t)=u_{ij}, \quad u(x-h,t)=u_{i-1,j}, \\
+u(x+h,t+k) &=u_{i+1,j+1}, \quad u(x,t+k)=u_{i.j+1}, \quad u(x-h,t+k)=u_{i-1,j+1},
+\end{split}
+\]
+
+es posible reescribir a la eq~\ref{eq-cn-completa} como:
+\begin{equation}\phantomsection\label{eq-cn-reducida}{
+-u_{i-1,j+1} + \alpha u_{i,j+1} - u_{i+1,j+1} = u_{i+1,j} - \beta u_{ij} + u_{i-1,j},
+}\end{equation}
+
+donde \(\alpha=2(1+\frac{1}{\lambda})\),
+\(\beta=2(1-\frac{1}{\lambda})\),
+\(j=0,1,\dots m-1 \ \ \ \text{e} \ \ \ i=0,1,\dots n-1\).
+
+Para cada elección de \(j\) la ecuación diferencial
+eq~\ref{eq-cn-reducida} para \(i=0,1,\dots n-1\) da \(n-1\) ecuaciones
+en \(n-1\) incógnitas \(u_{i,j+1}\). Debido a las condiciones de
+contorno preestablecidas, los valores de \(u_{i, j+1}\) se conocen para
+\(i=0\) y para \(i=n\). Por ejemplo, en el caso \(n=4\), el sistema de
+ecuaciones para determinar los valores aproximados de \(u\) en la línea
+de tiempo \((j+1)\) es:
+
+\[
+\begin{split}
+-u_{0,j+1} + \alpha u_{1,j+1} - u_{2,j+1} =& u_{2,j} - \beta u_{1,j} + u_{0,j} \\
+-u_{1,j+1} + \alpha u_{2,j+1} - u_{3,j+1} =& u_{3,j} - \beta u_{2,j} + u_{1,j} \\
+-u_{2,j+1} + \alpha u_{3,j+1} - u_{4,j+1} =& u_{4,j} - \beta u_{3,j} + u_{2,j}
+\end{split}
+\]
+
+reordenando se llega a
+\begin{equation}\phantomsection\label{eq-cn-matrix}{
+\begin{matrix}
+\alpha u_{1,j+1} &-& u_{2,j+1}&& &= b_1 \\
+-u_{1,j+1} &+& \alpha u_{2,j+1} &-& u_{3,j+1} &= b_2 \\
+&-&u_{2,j+1} &+& \alpha u_{3,j+1} &= b_3
+\end{matrix}
+}\end{equation}
+
+donde \begin{align*}
+b_1 &= u_{2,j} - \beta u_{1,j} + u_{0,j} + u_{0,j+1}, \\
+b_2 &= u_{3,j} - \beta u_{2,j} + u_{1,j}, \\
+b_3 &= u_{4,j} - \beta u_{3,j} + u_{2,j} + u_{4,j+1}.
+\end{align*}
+
+En general, si utilizamos la ecuación diferencial
+eq~\ref{eq-cn-reducida} para determinar valores de \(u\) en la línea de
+tiempo \((j -1)\), es necesario resolver un sistema lineal
+\(\mathbf{AX=B}\), donde la matriz de coeficientes \(\mathbf{A}\) es una
+\textbf{matriz tridiagonal}, \[
+A = 
+\begin{pmatrix}
+\alpha & -1    & 0      & 0      & 0      & \cdots & 0      \\
+-1     & \alpha & -1     & 0      & 0      & \cdots & 0      \\
+0      & -1     & \alpha & -1     & 0      & \cdots & 0      \\
+0      & 0      & -1     & \alpha & -1     & \cdots & 0      \\
+\vdots & \vdots & \vdots & \vdots & \vdots & \ddots & \vdots \\
+0      & 0      & 0      & 0      & 0      & \cdots & \alpha & -1 \\
+0      & 0      & 0      & 0      & 0      & \cdots & -1     & \alpha
+\end{pmatrix},
+\]
+
+y las componentes de la matriz columna \(\mathbf{B}\) son
+
+\begin{align*}
+b_1 &= u_{2,j} - \beta u_{1,j} + u_{0,j} + u_{0,j+1}, \\
+b_2 &= u_{3,j} - \beta u_{2,j} + u_{1,j}, \\
+b_3 &= u_{4,j} - \beta u_{3,j} + u_{2,j}, \\
+    &\vdots \\
+b_{n-1} &= u_{n,j} - \beta u_{n-1,j} + u_{n-2,j} + u_{n,j+1}.
+\end{align*}
 
 \part{Redes neuronales}
 
@@ -1442,27 +1441,94 @@ ejecutar el modelo.
 
 \section{Implementación del modelo}\label{implementaciuxf3n-del-modelo}
 
-Una vez creado el código que resuelve la ecuación del Bio-Calor, se
-ajustaron los hiperparámetros tales como cantidad de épocas de
-entrenamiento, el ratio de aprendizaje, la función de activación y el
-inicializador en base al trabajo de Alessio Borgi
-(\citeproc{ref-medical_rep}{2023}).
+La implementación del modelo se llevó a cabo en dos etapas clave:
+\textbf{(1) el desarrollo del código base para resolver la ecuación del
+Bio-Calor mediante DeepXDE}, y \textbf{(2) la optimización sistemática
+de los hiperparámetros}. Para esta última, se siguieron las
+recomendaciones del estudio de Alessio Borgi
+(\citeproc{ref-medical_rep}{2023}), adaptadas a las particularidades del
+problema. Se ajustaron parámetros críticos como el número de épocas de
+entrenamiento (\emph{iterations}), el ratio de aprendizaje
+(\emph{learning rate}) así como un decaimiento en el mismo dependiente
+de la itearación actual (\emph{decay}), la función de activación
+(\emph{elu}) y el esquema de inicialización de pesos (\emph{Glorot
+uniform}). Estos ajustes se realizaron mediante un proceso iterativo que
+buscaba minimizar la función de pérdida mientras se mantenía un tiempo
+de entrenamiento computacionalmente viable.
 
 \section{Evaluación del modelo}\label{evaluaciuxf3n-del-modelo}
 
-Se llevó a cabo una evaluación del modelo al darle como entrada un
-conjunto de datos que no había visto y posteriormente obtener como
-salida sus predicciones, con ellas se elaboraron gráficas claras y
-detalladas de su pronóstico en el intervalo de tiempo y espacio
-especificados.
+Para validar el desempeño del modelo propuesto, se realizó una
+evaluación exhaustiva utilizando un \emph{conjunto de datos
+independiente}, el cual no fue empleado durante las fases de
+entrenamiento o ajuste de hiperparámetros. Este enfoque garantiza una
+medición objetiva de la capacidad de generalización del modelo ante
+datos no vistos.
+
+Las predicciones generadas por el modelo fueron analizadas mediante
+visualizaciones espaciotemporales, las cuales permiten comparar
+cualitativamente el comportamiento de las soluciones pronosticadas
+frente a los rangos físicos y temporales definidos en el problema. En
+particular, se generaron gráficas de superficies 3D que muestran la
+evolución de las variables de interés a lo largo del dominio espacial y
+temporal bajo estudio. Adicionalmente, se incluyeron representaciones de
+cortes transversales y series temporales en puntos estratégicos para
+facilitar la interpretación de los resultados.
+
+Cabe destacar que este análisis preliminar se centró en examinar la
+coherencia física y la estabilidad numérica de las predicciones. Para la
+evaluación cuantitativa del modelo, se implementó una comparación
+directa con las soluciones obtenidas mediante el método numérico de
+\textbf{Crank-Nicolson}, resuelto en \emph{Julia} utilizando la librería
+\emph{DifferentialEquations.jl}.
 
 \section{Comparación de resultados}\label{comparaciuxf3n-de-resultados}
 
-Los resultados obtenidos de la evaluación del modelo fueron comparados
-con los del trabajo de Alessio Borgi (\citeproc{ref-medical_rep}{2023})
-para determinar su eficacia predictiva relativa. Se analizaron las
-fortalezas y debilidades del modelo en función de su desempeño en la
-predicción de las variables de interés.
+Para evaluar el desempeño predictivo del modelo propuesto, se realizaron
+dos tipos de comparaciones:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Una evaluación cualitativa basada en visualizaciones.
+\item
+  Un análisis cuantitativo mediante métricas de error estandarizadas.
+\end{enumerate}
+
+En primer lugar, se llevó a cabo una comparación visual con los
+resultados reportados en el trabajo de Alessio Borgi
+(\citeproc{ref-medical_rep}{2023}), dado que dicho estudio no incluye
+datos numéricos tabulados, sino únicamente representaciones gráficas de
+las soluciones. Esta comparación permitió identificar coincidencias y
+discrepancias en el comportamiento espaciotemporal de las variables de
+interés, destacando las fortalezas del modelo propuesto en términos de
+estabilidad numérica.
+
+En segundo lugar, para una evaluación cuantitativa rigurosa, se
+compararon las predicciones del modelo con soluciones de referencia
+generadas mediante el método de Crank-Nicolson, implementado en Julia
+utilizando la librería DifferentialEquations.jl. La comparación se
+realizó sobre una malla uniforme de 26×26 puntos en el cuadrado de
+\([0,1]\times[0,1]\), calculando para cada instante de tiempo relevante
+las siguientes métricas:
+
+\begin{itemize}
+\tightlist
+\item
+  Error Absoluto Medio (MAE)
+\item
+  Error Absoluto Máximo (MaxAE)
+\item
+  Error L2 (norma euclidiana)
+\end{itemize}
+
+Estos criterios permitieron cuantificar no solo la precisión global del
+modelo, sino también sus desviaciones locales más significativas,
+particularmente en regiones con alta variabilidad espacial. Los
+resultados detallados de este análisis, junto con una discusión sobre la
+eficiencia computacional relativa entre ambos métodos, se presentan en
+la Tabla~\ref{tbl-errores}.
 
 \section{Análisis y conclusión}\label{anuxe1lisis-y-conclusiuxf3n}
 
@@ -1477,12 +1543,267 @@ Este enfoque metodológico proporcionó una base sólida para los
 resultados obtenidos, asegurando la integridad y la calidad del análisis
 realizado en el estudio.
 
+\chapter{Predicciones del método
+numérico}\label{predicciones-del-muxe9todo-numuxe9rico}
+
+Para validar los resultados del modelo propuesto, se implementó el
+método de Crank-Nicolson en Julia utilizando la librería
+\emph{DifferentialEquations.jl}. El método se resolvió sobre una malla
+refinada de 51×51 puntos para garantizar alta precisión en la solución
+numérica, calculando las predicciones en los tiempos clave: t = {[}0.0,
+0.25, 0.50, 0.75, 1.0{]}. En la Figura~\ref{fig-met-crank-nick} se
+muestran las cinco gráficas generadas, las cuales ilustran la evolución
+temporal de la solución en el dominio de estudio.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{using} \BuiltInTok{DifferentialEquations}\NormalTok{, }\BuiltInTok{LinearAlgebra}
+\ImportTok{using} \BuiltInTok{DataFrames}\NormalTok{, }\BuiltInTok{CSV}
+
+\CommentTok{\# {-}{-}{-} PARÁMETROS FÍSICOS Y DIMENSIONALES {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+\NormalTok{ρ, c  }\OperatorTok{=} \FloatTok{1050.0}\NormalTok{, }\FloatTok{3639.0}                        \CommentTok{\# densidad, calor específico }
+\NormalTok{k\_eff }\OperatorTok{=} \FloatTok{5.0}                                   \CommentTok{\# conductividad}
+\NormalTok{t\_f   }\OperatorTok{=} \FloatTok{1800.0}                                \CommentTok{\# tiempo final }
+\NormalTok{L     }\OperatorTok{=} \FloatTok{0.05}                                  \CommentTok{\# longitud del dominio}
+\NormalTok{c\_b   }\OperatorTok{=} \FloatTok{3825.0}                                \CommentTok{\# coef. perfusión}
+\NormalTok{Q     }\OperatorTok{=} \FloatTok{0.0}                                   \CommentTok{\# fuente térmica}
+\NormalTok{T\_M, T\_a }\OperatorTok{=} \FloatTok{45.0}\NormalTok{, }\FloatTok{37.0}                         \CommentTok{\# temp máxima, temp ambiente}
+
+\CommentTok{\# {-}{-}{-} COEFICIENTES ADIMENSIONALES {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+\NormalTok{α }\OperatorTok{=}\NormalTok{ ρ }\OperatorTok{*}\NormalTok{ c }\OperatorTok{/}\NormalTok{ k\_eff}
+\NormalTok{a₁ }\OperatorTok{=}\NormalTok{ t\_f }\OperatorTok{/}\NormalTok{ (α }\OperatorTok{*}\NormalTok{ L}\OperatorTok{\^{}}\FloatTok{2}\NormalTok{)}
+\NormalTok{a₂ }\OperatorTok{=}\NormalTok{ t\_f }\OperatorTok{*}\NormalTok{ c\_b }\OperatorTok{/}\NormalTok{ (ρ }\OperatorTok{*}\NormalTok{ c)}
+\NormalTok{a₃ }\OperatorTok{=}\NormalTok{ (t\_f }\OperatorTok{*}\NormalTok{ Q) }\OperatorTok{/}\NormalTok{ (ρ }\OperatorTok{*}\NormalTok{ c }\OperatorTok{*}\NormalTok{ (T\_M }\OperatorTok{{-}}\NormalTok{ T\_a))}
+
+\CommentTok{\# {-}{-}{-} MALLA ESPACIAL {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+\NormalTok{Nx, Ny }\OperatorTok{=} \FloatTok{51}\NormalTok{, }\FloatTok{51}
+\NormalTok{dx, dy }\OperatorTok{=} \FloatTok{1.0} \OperatorTok{/}\NormalTok{ (Nx }\OperatorTok{{-}} \FloatTok{1}\NormalTok{), }\FloatTok{1.0} \OperatorTok{/}\NormalTok{ (Ny }\OperatorTok{{-}} \FloatTok{1}\NormalTok{)}
+\NormalTok{x }\OperatorTok{=} \FunctionTok{range}\NormalTok{(}\FloatTok{0}\NormalTok{, }\FloatTok{1}\NormalTok{, length}\OperatorTok{=}\NormalTok{Nx)}
+\NormalTok{y }\OperatorTok{=} \FunctionTok{range}\NormalTok{(}\FloatTok{0}\NormalTok{, }\FloatTok{1}\NormalTok{, length}\OperatorTok{=}\NormalTok{Ny)}
+\NormalTok{N }\OperatorTok{=}\NormalTok{ Nx }\OperatorTok{*}\NormalTok{ Ny  }\CommentTok{\# total de puntos}
+
+\CommentTok{\# {-}{-}{-} CONDICIÓN INICIAL {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+\NormalTok{u0 }\OperatorTok{=} \FunctionTok{zeros}\NormalTok{(N)}
+
+\CommentTok{\# {-}{-}{-} SISTEMA DE EDOs DEL PDE {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+\KeywordTok{function} \FunctionTok{f!}\NormalTok{(du, u, \_, τ)}
+\NormalTok{    U }\OperatorTok{=} \FunctionTok{reshape}\NormalTok{(u, Nx, Ny)}
+\NormalTok{    D }\OperatorTok{=} \FunctionTok{similar}\NormalTok{(U)}
+    \PreprocessorTok{@inbounds} \ControlFlowTok{for}\NormalTok{ i }\KeywordTok{in} \FloatTok{1}\OperatorTok{:}\NormalTok{Nx, j }\KeywordTok{in} \FloatTok{1}\OperatorTok{:}\NormalTok{Ny}
+        \CommentTok{\# Derivadas segunda en x}
+\NormalTok{        d2x }\OperatorTok{=} \ControlFlowTok{if}\NormalTok{ i }\OperatorTok{==} \FloatTok{1}
+\NormalTok{            (U[}\FloatTok{2}\NormalTok{, j] }\OperatorTok{{-}} \FloatTok{0}\NormalTok{) }\OperatorTok{/}\NormalTok{ dx}\OperatorTok{\^{}}\FloatTok{2}
+        \ControlFlowTok{elseif}\NormalTok{ i }\OperatorTok{==}\NormalTok{ Nx}
+\NormalTok{            U\_ghost }\OperatorTok{=}\NormalTok{ U[Nx, j] }\OperatorTok{+}\NormalTok{ τ }\OperatorTok{*}\NormalTok{ dx}
+\NormalTok{            (U\_ghost }\OperatorTok{{-}} \FloatTok{2}\NormalTok{U[Nx, j] }\OperatorTok{+}\NormalTok{ U[Nx}\OperatorTok{{-}}\FloatTok{1}\NormalTok{, j]) }\OperatorTok{/}\NormalTok{ dx}\OperatorTok{\^{}}\FloatTok{2}
+        \ControlFlowTok{else}
+\NormalTok{            (U[i}\OperatorTok{+}\FloatTok{1}\NormalTok{, j] }\OperatorTok{{-}} \FloatTok{2}\NormalTok{U[i, j] }\OperatorTok{+}\NormalTok{ U[i}\OperatorTok{{-}}\FloatTok{1}\NormalTok{, j]) }\OperatorTok{/}\NormalTok{ dx}\OperatorTok{\^{}}\FloatTok{2}
+        \ControlFlowTok{end}
+
+        \CommentTok{\# Derivadas segunda en y}
+\NormalTok{        d2y }\OperatorTok{=} \ControlFlowTok{if}\NormalTok{ j }\OperatorTok{==} \FloatTok{1}
+\NormalTok{            (U[i, }\FloatTok{2}\NormalTok{] }\OperatorTok{{-}}\NormalTok{ U[i, }\FloatTok{1}\NormalTok{]) }\OperatorTok{/}\NormalTok{ dy}\OperatorTok{\^{}}\FloatTok{2}
+        \ControlFlowTok{elseif}\NormalTok{ j }\OperatorTok{==}\NormalTok{ Ny}
+\NormalTok{            (U[i, Ny}\OperatorTok{{-}}\FloatTok{1}\NormalTok{] }\OperatorTok{{-}}\NormalTok{ U[i, Ny]) }\OperatorTok{/}\NormalTok{ dy}\OperatorTok{\^{}}\FloatTok{2}
+        \ControlFlowTok{else}
+\NormalTok{            (U[i, j}\OperatorTok{+}\FloatTok{1}\NormalTok{] }\OperatorTok{{-}} \FloatTok{2}\NormalTok{U[i, j] }\OperatorTok{+}\NormalTok{ U[i, j}\OperatorTok{{-}}\FloatTok{1}\NormalTok{]) }\OperatorTok{/}\NormalTok{ dy}\OperatorTok{\^{}}\FloatTok{2}
+        \ControlFlowTok{end}
+
+\NormalTok{        D[i, j] }\OperatorTok{=}\NormalTok{ (d2x }\OperatorTok{+}\NormalTok{ d2y }\OperatorTok{{-}}\NormalTok{ a₂ }\OperatorTok{*}\NormalTok{ U[i, j] }\OperatorTok{+}\NormalTok{ a₃) }\OperatorTok{/}\NormalTok{ a₁}
+    \ControlFlowTok{end}
+\NormalTok{    du }\OperatorTok{.=} \FunctionTok{vec}\NormalTok{(D)}
+\KeywordTok{end}
+
+\CommentTok{\# {-}{-}{-} RESOLVER PDE {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+\NormalTok{τspan }\OperatorTok{=}\NormalTok{ (}\FloatTok{0.0}\NormalTok{, }\FloatTok{1.0}\NormalTok{)}
+\NormalTok{prob }\OperatorTok{=} \FunctionTok{ODEProblem}\NormalTok{(f!, u0, τspan)}
+\NormalTok{taus }\OperatorTok{=}\NormalTok{ [}\FloatTok{0.0}\NormalTok{, }\FloatTok{0.25}\NormalTok{, }\FloatTok{0.5}\NormalTok{, }\FloatTok{0.75}\NormalTok{, }\FloatTok{1.0}\NormalTok{]}
+\NormalTok{sol }\OperatorTok{=} \FunctionTok{solve}\NormalTok{(prob, }\FunctionTok{Trapezoid}\NormalTok{(), dt}\OperatorTok{=}\FloatTok{8e{-}4}\NormalTok{, saveat}\OperatorTok{=}\NormalTok{taus)}
+
+\CommentTok{\# {-}{-}{-} PROCESAR SOLUCIÓN EN GRILLA REDUCIDA {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+\NormalTok{idxs }\OperatorTok{=} \FloatTok{1}\OperatorTok{:}\FloatTok{2}\OperatorTok{:}\NormalTok{Nx  }\CommentTok{\# índices para submuestreo}
+\NormalTok{npts }\OperatorTok{=} \FunctionTok{length}\NormalTok{(idxs)}\OperatorTok{\^{}}\FloatTok{2} \OperatorTok{*} \FunctionTok{length}\NormalTok{(taus)}
+
+\CommentTok{\# Preasignar vectores para crear el DataFrame}
+\NormalTok{times }\OperatorTok{=} \DataTypeTok{Float64}\NormalTok{[]}
+\NormalTok{Xs }\OperatorTok{=} \DataTypeTok{Float64}\NormalTok{[]}
+\NormalTok{Ys }\OperatorTok{=} \DataTypeTok{Float64}\NormalTok{[]}
+\NormalTok{Thetas }\OperatorTok{=} \DataTypeTok{Float64}\NormalTok{[]}
+
+\ControlFlowTok{for}\NormalTok{ (k, τ) }\KeywordTok{in} \FunctionTok{enumerate}\NormalTok{(taus)}
+\NormalTok{    Θ }\OperatorTok{=} \FunctionTok{reshape}\NormalTok{(}\FunctionTok{sol}\NormalTok{(τ), Nx, Ny)}
+    \ControlFlowTok{for}\NormalTok{ j }\KeywordTok{in}\NormalTok{ idxs, i }\KeywordTok{in}\NormalTok{ idxs}
+        \FunctionTok{push!}\NormalTok{(times, τ)}
+        \FunctionTok{push!}\NormalTok{(Xs, x[i])}
+        \FunctionTok{push!}\NormalTok{(Ys, y[j])}
+        \FunctionTok{push!}\NormalTok{(Thetas, Θ[i, j])}
+    \ControlFlowTok{end}
+\ControlFlowTok{end}
+
+\NormalTok{df }\OperatorTok{=} \FunctionTok{DataFrame}\NormalTok{(time}\OperatorTok{=}\NormalTok{times, X}\OperatorTok{=}\NormalTok{Xs, Y}\OperatorTok{=}\NormalTok{Ys, Theta}\OperatorTok{=}\NormalTok{Thetas)}
+
+\CommentTok{\# {-}{-}{-} GUARDAR CSV {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+\NormalTok{ruta }\OperatorTok{=} \StringTok{"data"}
+\NormalTok{CSV.}\FunctionTok{write}\NormalTok{(}\FunctionTok{joinpath}\NormalTok{(ruta, }\StringTok{"crank\_nick.csv"}\NormalTok{), df)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{using} \BuiltInTok{DataFrames}\NormalTok{, }\BuiltInTok{CSV}\NormalTok{, }\BuiltInTok{Plots}\NormalTok{, }\BuiltInTok{Statistics}
+\FunctionTok{pyplot}\NormalTok{()}
+
+\CommentTok{\# {-}{-}{-} OBTENER VALORES ÚNICOS Y ORDENADOS DE X, Y, TIME {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+\NormalTok{x\_vals }\OperatorTok{=} \FunctionTok{sort}\NormalTok{(}\FunctionTok{unique}\NormalTok{(df.X))}
+\NormalTok{y\_vals }\OperatorTok{=} \FunctionTok{sort}\NormalTok{(}\FunctionTok{unique}\NormalTok{(df.Y))}
+\NormalTok{times }\OperatorTok{=} \FunctionTok{sort}\NormalTok{(}\FunctionTok{unique}\NormalTok{(df.time))  }\CommentTok{\# tiempos}
+
+\NormalTok{Nx, Ny }\OperatorTok{=} \FunctionTok{length}\NormalTok{(x\_vals), }\FunctionTok{length}\NormalTok{(y\_vals)}
+
+\CommentTok{\# {-}{-}{-} RECONSTRUIR MATRICES 2D DE THETA PARA CADA TIEMPO {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+\NormalTok{solutions }\OperatorTok{=}\NormalTok{ []}
+
+\ControlFlowTok{for}\NormalTok{ t }\KeywordTok{in}\NormalTok{ times}
+\NormalTok{    dft }\OperatorTok{=} \FunctionTok{filter}\NormalTok{(}\OperatorTok{:}\NormalTok{time }\OperatorTok{=\textgreater{}} \OperatorTok{==}\NormalTok{(t), df)}
+
+    \CommentTok{\# Crear matriz vacía}
+\NormalTok{    Θ }\OperatorTok{=} \FunctionTok{fill}\NormalTok{(}\ConstantTok{NaN}\NormalTok{, Nx, Ny)}
+
+    \CommentTok{\# Llenar la matriz con los valores correspondientes}
+    \ControlFlowTok{for}\NormalTok{ row }\KeywordTok{in} \FunctionTok{eachrow}\NormalTok{(dft)}
+\NormalTok{        ix }\OperatorTok{=} \FunctionTok{findfirst}\NormalTok{(}\OperatorTok{==}\NormalTok{(row.X), x\_vals)}
+\NormalTok{        iy }\OperatorTok{=} \FunctionTok{findfirst}\NormalTok{(}\OperatorTok{==}\NormalTok{(row.Y), y\_vals)}
+\NormalTok{        Θ[ix, iy] }\OperatorTok{=}\NormalTok{ row.Theta}
+    \ControlFlowTok{end}
+
+    \FunctionTok{push!}\NormalTok{(solutions, Θ)}
+\ControlFlowTok{end}
+
+\CommentTok{\# {-}{-}{-} DETERMINAR ESCALA GLOBAL DE COLORES {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+\NormalTok{zmin }\OperatorTok{=} \FunctionTok{minimum}\NormalTok{([}\FunctionTok{minimum}\NormalTok{(u) for u }\KeywordTok{in}\NormalTok{ solutions])}
+\NormalTok{zmax }\OperatorTok{=} \FunctionTok{maximum}\NormalTok{([}\FunctionTok{maximum}\NormalTok{(u) for u }\KeywordTok{in}\NormalTok{ solutions])}
+
+\CommentTok{\# {-}{-}{-} GRAFICAR EN LAYOUT 3x2 {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+\NormalTok{p }\OperatorTok{=} \FunctionTok{plot}\NormalTok{(layout }\OperatorTok{=}\NormalTok{ (}\FloatTok{3}\NormalTok{, }\FloatTok{2}\NormalTok{), size }\OperatorTok{=}\NormalTok{ (}\FloatTok{800}\NormalTok{, }\FloatTok{900}\NormalTok{))}
+
+\ControlFlowTok{for}\NormalTok{ (i, (t, Θ)) }\KeywordTok{in} \FunctionTok{enumerate}\NormalTok{(}\FunctionTok{zip}\NormalTok{(times, solutions))}
+    \FunctionTok{surface!}\NormalTok{(}
+\NormalTok{        p, y\_vals, x\_vals, Θ;}
+\NormalTok{        camera }\OperatorTok{=}\NormalTok{ (}\FloatTok{45}\NormalTok{,}\FloatTok{30}\NormalTok{),}
+\NormalTok{        xlabel }\OperatorTok{=} \StringTok{"Y"}\NormalTok{,}
+\NormalTok{        ylabel }\OperatorTok{=} \StringTok{"X"}\NormalTok{,}
+\NormalTok{        zlabel }\OperatorTok{=} \StringTok{"T   "}\NormalTok{,}
+\NormalTok{        title }\OperatorTok{=} \StringTok{"t = }\SpecialCharTok{$}\NormalTok{(t)}\StringTok{"}\NormalTok{,}
+\NormalTok{        subplot }\OperatorTok{=}\NormalTok{ i,}
+\NormalTok{        c }\OperatorTok{=} \OperatorTok{:}\NormalTok{thermal,}
+\NormalTok{        clim }\OperatorTok{=}\NormalTok{ (zmin, zmax),}
+\NormalTok{        legend }\OperatorTok{=} \ConstantTok{false}
+\NormalTok{    )}
+\ControlFlowTok{end}
+
+\CommentTok{\# Eliminar ejes y contenido del subplot 6}
+\FunctionTok{plot!}\NormalTok{(p[}\FloatTok{6}\NormalTok{], framestyle }\OperatorTok{=} \OperatorTok{:}\NormalTok{none,}
+\NormalTok{            grid }\OperatorTok{=} \ConstantTok{false}\NormalTok{,}
+\NormalTok{            xticks }\OperatorTok{=} \ConstantTok{false}\NormalTok{,}
+\NormalTok{            yticks }\OperatorTok{=} \ConstantTok{false}\NormalTok{)}
+\FunctionTok{close}\NormalTok{(}\StringTok{"all"}\NormalTok{)}
+
+\FunctionTok{display}\NormalTok{(p)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{index_files/mediabag/pred_crank_nick_files/figure-pdf/fig-met-crank-nick-output-1.pdf}}
+
+}
+
+\caption{\label{fig-met-crank-nick}Resultados obtenidos mediante el
+método numérico de Crank Nickolson.}
+
+\end{figure}%
+
+\section{Guardado de datos}\label{guardado-de-datos}
+
+Con el objetivo de optimizar el proceso de comparación cuantitativa con
+el modelo de redes neuronales, se exportó un subconjunto representativo
+de los resultados. Aunque la simulación original utilizó una malla de
+51×51 puntos, se almacenaron únicamente los valores correspondientes a
+una grilla de 26×26 puntos. Esta decisión se basó en:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Suficiencia estadística: La densidad de puntos conserva los patrones
+  espaciales críticos.
+\item
+  Eficiencia computacional: Reduce el tamaño del archivo sin perder
+  información relevante.
+\end{enumerate}
+
+Los datos se guardaron en un archivo CSV estructurado con las siguientes
+columnas:
+
+\begin{itemize}
+\tightlist
+\item
+  Coordenadas espacio-temporales (t, x, y) para cada punto de la grilla
+  26×26.
+\item
+  Valores de la solución en los tiempos de interés.
+\end{itemize}
+
+Este archivo permitió calcular de manera estandarizada las métricas de
+error (MAE, MaxAE, error L2) en la sección de comparación de resultados.
+
 \chapter{Predicciones del modelo}\label{predicciones-del-modelo}
 
-Conforme se ha referido previamente, se creó el modelo utilizando
-Deepxde como base. Resulta relevante descatacar que se empleó la versión
-1.10.1 de dicha librería. A continuación se presenta el código fuente de
-la red neuronal
+Conforme se ha referido previamente, el desarrollo del modelo predictivo
+se realizó utilizando el framework DeepXDE (versión 1.10.1) con backend
+de TensorFlow 1.x (configurado mediante tensorflow.compat.v1). Para
+asegurar reproducibilidad, se fijó la semilla aleatoria en 123 a nivel
+de DeepXDE, TensorFlow y NumPy. La red neuronal se implementó como un
+DeepONetCartesianProd con la siguiente estructura especializada:
+
+\begin{itemize}
+\tightlist
+\item
+  Rama (\emph{branch})
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Capa de entrada: (num\_sensors + 1)² = 25 neuronas.
+  \item
+    3 capas ocultas de 20 neuronas cada una.
+  \end{itemize}
+\item
+  Tronco (\emph{trunk})
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Capa de entrada: 3 neuronas (coordenadas espaciotemporales x, y, t).
+  \item
+    Misma configuración de capas ocultas que la rama.
+  \end{itemize}
+\item
+  Hiperparámetros clave
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Función de activación: ELU (Exponential Linear Unit).
+  \item
+    Inicialización de pesos: Glorot normal.
+  \item
+    Optimizador: Adam con tasa de aprendizaje inicial de 2×10⁻³ y
+    decaimiento exponencial (decay\_rate=0.05 cada 1000 pasos).
+  \end{itemize}
+\end{itemize}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1522,8 +1843,8 @@ la red neuronal
 
 \CommentTok{\# Dataset configuration}
 \NormalTok{pts\_dom }\OperatorTok{=} \DecValTok{10}
-\NormalTok{pts\_bc }\OperatorTok{=} \DecValTok{20}
-\NormalTok{pts\_ic }\OperatorTok{=} \DecValTok{60}
+\NormalTok{pts\_bc }\OperatorTok{=} \DecValTok{25}
+\NormalTok{pts\_ic }\OperatorTok{=} \DecValTok{55}
 \NormalTok{num\_test }\OperatorTok{=} \DecValTok{25}
 
 \CommentTok{\# Sensor grid and function space}
@@ -1537,7 +1858,7 @@ la red neuronal
 \NormalTok{k\_initializer }\OperatorTok{=} \StringTok{"Glorot normal"}
 
 \CommentTok{\# Training parameters}
-\NormalTok{num\_iterations }\OperatorTok{=} \DecValTok{5000}
+\NormalTok{num\_iterations }\OperatorTok{=} \DecValTok{1000}
 \NormalTok{learning\_rate }\OperatorTok{=} \FloatTok{2e{-}3}
 \NormalTok{decay\_rate }\OperatorTok{=} \FloatTok{0.05}
 \NormalTok{decay\_steps }\OperatorTok{=} \DecValTok{1000}
@@ -1681,11 +2002,11 @@ la red neuronal
 \end{Shaded}
 
 \begin{verbatim}
-2025-06-09 08:29:57.027191: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
-2025-06-09 08:29:57.382642: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
-2025-06-09 08:29:57.385340: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+2025-06-12 13:26:35.717421: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
+2025-06-12 13:26:35.841244: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
+2025-06-12 13:26:35.843668: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
 To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
-2025-06-09 08:29:59.317267: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+2025-06-12 13:26:36.730371: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
 Using backend: tensorflow.compat.v1
 Other supported backends: tensorflow, pytorch, jax, paddle.
 paddle supports more examples now and is recommended.
@@ -1698,6 +2019,7 @@ non-resource variables are not supported in the long term
 Setting the default backend to "tensorflow.compat.v1". You can change it in the ~/.deepxde/config.json file or export the DDE_BACKEND environment variable. Valid options are: tensorflow.compat.v1, tensorflow, pytorch, jax, paddle (all lowercase)
 Compiling model...
 Building DeepONetCartesianProd...
+'build' took 0.087442 s
 \end{verbatim}
 
 \begin{verbatim}
@@ -1715,57 +2037,123 @@ Building DeepONetCartesianProd...
 \end{verbatim}
 
 \begin{verbatim}
-'build' took 0.213963 s
-
-'compile' took 31.300145 s
+'compile' took 15.491822 s
 \end{verbatim}
 
 \begin{verbatim}
-2025-06-09 08:30:34.841267: I tensorflow/compiler/mlir/mlir_graph_optimization_pass.cc:375] MLIR V1 optimization pass is not enabled
+2025-06-12 13:26:53.904235: I tensorflow/compiler/mlir/mlir_graph_optimization_pass.cc:375] MLIR V1 optimization pass is not enabled
 \end{verbatim}
 
 \begin{verbatim}
 Training model...
 
 Step      Train loss                                            Test loss                                             Test metric
-0         [2.57e+00, 4.03e-01, 4.13e-01, 6.71e-01, 1.05e+00]    [1.57e+00, 1.57e-01, 3.45e-01, 5.19e-01, 3.07e-01]    []  
-1000      [3.97e-03, 3.15e-03, 3.81e-04, 2.63e-02, 1.86e-04]    [6.39e-03, 3.24e-03, 9.14e-04, 2.74e-02, 4.08e-04]    []  
-2000      [1.23e-03, 1.01e-03, 1.47e-04, 2.58e-02, 7.37e-05]    [4.01e-03, 1.03e-03, 6.52e-04, 2.66e-02, 1.18e-04]    []  
-3000      [8.29e-04, 3.99e-04, 7.91e-05, 2.57e-02, 2.38e-05]    [2.42e-03, 4.65e-04, 2.78e-04, 2.62e-02, 3.38e-05]    []  
-4000      [5.37e-04, 2.03e-04, 1.58e-05, 2.57e-02, 1.80e-05]    [1.68e-03, 2.84e-04, 1.84e-04, 2.61e-02, 2.77e-05]    []  
-5000      [7.10e-04, 1.83e-04, 5.25e-05, 2.57e-02, 1.42e-05]    [1.56e-03, 2.36e-04, 2.04e-04, 2.59e-02, 2.56e-05]    []  
+0         [2.13e+00, 2.30e-01, 2.85e-01, 6.87e-01, 6.91e-01]    [3.30e+00, 2.78e-01, 4.39e-01, 1.03e+00, 6.38e-01]    []  
+1000      [3.11e-03, 2.58e-03, 5.22e-04, 6.89e-02, 1.74e-04]    [1.34e-02, 2.74e-03, 2.06e-03, 7.10e-02, 3.39e-04]    []  
 
-Best model at step 4000:
-  train loss: 2.65e-02
-  test loss: 2.83e-02
+Best model at step 1000:
+  train loss: 7.52e-02
+  test loss: 8.95e-02
   test metric: []
 
-'train' took 79.419569 s
+'train' took 16.273812 s
 
 Compiling model...
-'compile' took 64.355368 s
+'compile' took 35.302252 s
 
 Training model...
 
 Step      Train loss                                            Test loss                                             Test metric
-5000      [7.10e-04, 1.83e-04, 5.25e-05, 2.57e-02, 1.42e-05]    [1.56e-03, 2.36e-04, 2.04e-04, 2.59e-02, 2.56e-05]    []  
+1000      [3.11e-03, 2.58e-03, 5.22e-04, 6.89e-02, 1.74e-04]    [1.34e-02, 2.74e-03, 2.06e-03, 7.10e-02, 3.39e-04]    []  
 INFO:tensorflow:Optimization terminated with:
   Message: CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH
-  Objective function value: 0.026141
-  Number of iterations: 8
-  Number of functions evaluations: 26
-5026      [3.07e-04, 1.54e-04, 7.77e-06, 2.57e-02, 1.13e-05]    [1.12e-03, 2.11e-04, 1.40e-04, 2.60e-02, 2.05e-05]    []  
+  Objective function value: 0.075200
+  Number of iterations: 5
+  Number of functions evaluations: 32
+1032      [3.09e-03, 2.57e-03, 5.22e-04, 6.88e-02, 1.74e-04]    [1.36e-02, 2.72e-03, 2.17e-03, 7.09e-02, 3.23e-04]    []  
 
-Best model at step 5026:
-  train loss: 2.61e-02
-  test loss: 2.75e-02
+Best model at step 1032:
+  train loss: 7.52e-02
+  test loss: 8.98e-02
   test metric: []
 
-'train' took 19.230620 s
+'train' took 11.039115 s
 \end{verbatim}
 
-El historial de perdida para el conjunto de entrenamiento es el
-siguiente:
+\section{Gráficas de pérdida del
+modelo}\label{gruxe1ficas-de-puxe9rdida-del-modelo}
+
+El proceso de entrenamiento del modelo se monitoreó mediante el
+seguimiento detallado de cinco componentes de pérdida, cada una asociada
+a restricciones físicas y matemáticas específicas del problema:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Pérdida residual de la EDP
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Función: Mide el cumplimiento de la ecuación de Bio-Calor en el
+    dominio interior.
+  \item
+    Importancia: Garantiza que la solución aprendida satisfaga la física
+    subyacente.
+  \item
+    Comportamiento esperado: Debe converger a valores cercanos a cero
+    (típicamente \textless{} 1e-3).
+  \end{itemize}
+\item
+  Pérdida de condición inicial
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Función: Controla la precisión en t=0.
+  \item
+    Importancia: Asegura coherencia con el estado inicial del sistema.
+  \item
+    Patrón típico: Suele ser la primera en converger por su carácter
+    puntual.
+  \end{itemize}
+\item
+  Pérdida de frontera izquierda (Dirichlet)
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Función: Evalúa el cumplimiento de condiciones de valor prescrito.
+  \item
+    Relevancia: Mantiene valores fijos en bordes específicos.
+  \item
+    Convergencia: Normalmente rápida por ser restrictiva.
+  \end{itemize}
+\item
+  Pérdida de frontera derecha (Neumann)
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Función: Verifica gradientes normales en esta frontera
+  \item
+    Dificultad característica: Puede mostrar oscilaciones iniciales
+  \end{itemize}
+\item
+  Pérdida de fronteras superior/inferior (Neumann)
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Función: Controla condiciones de flujo en estos bordes
+  \item
+    Complejidad: En problemas 2D/3D suele ser la última en estabilizarse
+  \end{itemize}
+\end{enumerate}
+
+\subsection{Perdida para el conjunto de
+entrenamiento}\label{perdida-para-el-conjunto-de-entrenamiento}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1819,7 +2207,8 @@ entrenamiento.}
 
 \end{figure}%
 
-El historial de perdida para el conjunto de prueba es el siguiente:
+\subsection{Pérdida para el conjunto de
+prueba}\label{puxe9rdida-para-el-conjunto-de-prueba}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1873,10 +2262,42 @@ prueba.}
 
 \end{figure}%
 
-Para guardar los datos y porteriormente graficar, se uso el modelo para
-predecir los valores en el cuadrado de \([0,1]\times[0,1]\) dividiendo
-sus lados en 51 segementos equiespaciados a los tiempos
-\(t=[0.0,0.25,0.50,0.75,1.0]\).
+\section{Guardado de datos}\label{guardado-de-datos-1}
+
+Para permitir la comparación cuantitativa con el método de
+Crank-Nicolson y facilitar la generación de visualizaciones
+consistentes, se exportaron las predicciones del modelo neuronal en
+formato CSV. El proceso consistió en:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Generación de la malla de evaluación:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Dominio espacial: Cuadrado unitario {[}0,1{]} × {[}0,1{]}.
+  \item
+    Discretización: 26 segmentos equiespaciados en cada eje (x, y).
+  \item
+    Puntos totales: 676 (26 × 26)
+  \item
+    Tiempos evaluados: t = {[}0.0, 0.25, 0.50, 0.75, 1.0{]}.
+  \end{itemize}
+\item
+  Estructura del archivo:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Coordenadas espacio-temporales (t, x, y) para cada punto de la
+    grilla 26×26.
+  \item
+    Valores de la solución en los tiempos de interés.
+  \end{itemize}
+\end{enumerate}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1916,8 +2337,24 @@ sus lados en 51 segementos equiespaciados a los tiempos
 \end{Highlighting}
 \end{Shaded}
 
-A continuación, los valores predichos por la red neuronal a tiempos
-antes mencionados.
+\section{Comparativa visual de las
+predicciones}\label{comparativa-visual-de-las-predicciones}
+
+Esta sección presenta un análisis cualitativo de los resultados mediante
+la comparación directa entre las predicciones del modelo y las
+soluciones reportadas en el estudio de Alessio Borgi
+(\citeproc{ref-medical_rep}{2023}). La visualización paralela permite
+evaluar:
+
+\begin{itemize}
+\tightlist
+\item
+  Dominio espacial: Cuadrado unitario {[}0,1{]} × {[}0,1{]} con malla
+  26×26.
+\item
+  Escala de colores: Mapa térmico viridis (consistente en ambas
+  columnas).
+\end{itemize}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1953,7 +2390,7 @@ antes mencionados.
 \NormalTok{    surf }\OperatorTok{=}\NormalTok{ ax.plot\_surface(}
 \NormalTok{        Y\_vals, X\_vals, Z\_vals,}
 \NormalTok{        rstride}\OperatorTok{=}\DecValTok{1}\NormalTok{, cstride}\OperatorTok{=}\DecValTok{1}\NormalTok{,}
-\NormalTok{        cmap}\OperatorTok{=}\StringTok{"viridis"}\NormalTok{,}
+\NormalTok{        cmap}\OperatorTok{=}\StringTok{"YlGnBu"}\NormalTok{,}
 \NormalTok{        edgecolor}\OperatorTok{=}\StringTok{"none"}\NormalTok{,}
 \NormalTok{        antialiased}\OperatorTok{=}\VariableTok{True}
 \NormalTok{    )}
@@ -1998,11 +2435,14 @@ distintos tiempos.}
 
 \end{figure}%
 
-\section{Comparación con el método de Crank
-Nickolson}\label{comparaciuxf3n-con-el-muxe9todo-de-crank-nickolson}
+\section{Validación Cuantitativa frente al Método de
+Crank-Nicolson}\label{validaciuxf3n-cuantitativa-frente-al-muxe9todo-de-crank-nicolson}
 
-Para tener un valor numérico con el cual conocer al veracidad del modelo
-se comparó con las predicciones del método de Crank Nickolson
+Para evaluar numéricamente la precisión del modelo DeepONet, se realizó
+una comparación sistemática con soluciones de referencia generadas
+mediante el método de Crank-Nicolson. Este enfoque proporciona una
+métrica objetiva de la exactitud del modelo, más allá de la inspección
+visual.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2079,18 +2519,19 @@ se comparó con las predicciones del método de Crank Nickolson
 
 \begin{table}
 
-\caption{\label{tbl-errores}Errores de la red neuronal.}
+\caption{\label{tbl-errores}Error del modelo DeepONet respecto a
+Crank-Nicolson.}
 
 \centering{
 
 \begin{verbatim}
-|   time |   mean_absolute_error |   max_absolute_error |   l2_error |
-|-------:|----------------------:|---------------------:|-----------:|
-|   0    |             0.0148105 |            0.0410959 |   0.434828 |
-|   0.25 |             0.0287047 |            0.0814783 |   0.970444 |
-|   0.5  |             0.0111502 |            0.0181923 |   0.326239 |
-|   0.75 |             0.0392763 |            0.123815  |   1.3829   |
-|   1    |             0.100083  |            0.273261  |   3.33132  |
+|   Tiempo |   MAE |   MaxAE |   Error L2 |
+|---------:|------:|--------:|-----------:|
+|    0.000 | 0.049 |   0.133 |      1.500 |
+|    0.250 | 0.054 |   0.152 |      1.844 |
+|    0.500 | 0.039 |   0.071 |      1.107 |
+|    0.750 | 0.020 |   0.061 |      0.653 |
+|    1.000 | 0.065 |   0.201 |      2.214 |
 \end{verbatim}
 
 }

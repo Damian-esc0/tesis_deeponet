@@ -51,13 +51,11 @@ $$
 $$ {#eq-cn-matrix}
 
 donde
-$$
 \begin{align*}
 b_1 &= u_{2,j} - \beta u_{1,j} + u_{0,j} + u_{0,j+1}, \\
 b_2 &= u_{3,j} - \beta u_{2,j} + u_{1,j}, \\
 b_3 &= u_{4,j} - \beta u_{3,j} + u_{2,j} + u_{4,j+1}.
 \end{align*}
-$$
 
 En general, si utilizamos la ecuación diferencial [eq @eq-cn-reducida]  para determinar valores de $u$ en la línea de tiempo $(j -1)$, es necesario resolver un sistema lineal $\mathbf{AX=B}$, donde la matriz de coeficientes $\mathbf{A}$ es una **matriz tridiagonal**,
 $$
@@ -74,7 +72,7 @@ A =
 $$
 
 y las componentes de la matriz columna $\mathbf{B}$ son
-$$
+
 \begin{align*}
 b_1 &= u_{2,j} - \beta u_{1,j} + u_{0,j} + u_{0,j+1}, \\
 b_2 &= u_{3,j} - \beta u_{2,j} + u_{1,j}, \\
@@ -82,5 +80,4 @@ b_3 &= u_{4,j} - \beta u_{3,j} + u_{2,j}, \\
     &\vdots \\
 b_{n-1} &= u_{n,j} - \beta u_{n-1,j} + u_{n-2,j} + u_{n,j+1}.
 \end{align*}
-$$
 :::

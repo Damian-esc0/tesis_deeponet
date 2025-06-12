@@ -502,7 +502,7 @@ plt.show()
 
 
 ![Resultados reportados por @medical_rep en el caso 2D.](images/results_paper.png){#fig-results_fnn fig-align="center" width="550"}
-:::
+
 
 ## Validación Cuantitativa frente al Método de Crank-Nicolson
 Para evaluar numéricamente la precisión del modelo DeepONet, se realizó una comparación sistemática con soluciones de referencia generadas mediante el método de Crank-Nicolson. Este enfoque proporciona una métrica objetiva de la exactitud del modelo, más allá de la inspección visual.
@@ -595,3 +595,5 @@ error_table = tabulate(
 )
 print(error_table)
 ```
+
+:::

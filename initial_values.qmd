@@ -139,12 +139,10 @@ $$  {#eq-2-exm}
 
 donde $\delta$ y $\delta_0$ son constantes pequeñas, las soluciones respectivas de las ecuaciones [-@eq-1-exm] y [-@eq-2-exm] son:
 
-$$
-\begin{aligned}
+\begin{align*}
 y(t) &= (t + 1)^2 - 0.5e^t \\ \\
 z(t) &= (t + 1)^2 + (\delta + \delta_0 - 0.5)e^t - \delta
-\end{aligned}
-$$
+\end{align*}
 
 Sea $\varepsilon$ un número positivo. Si $|\delta| < \varepsilon$ y $|\delta_0| < \varepsilon$, entonces
 $$

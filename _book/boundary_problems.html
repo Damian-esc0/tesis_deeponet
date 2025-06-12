@@ -573,13 +573,11 @@ u(0,t) = 0, \quad u(L,t)=0, \quad t&gt;0.
 \text{(i)}\quad u, \qquad \text{(ii)}\quad \dfrac{\partial u}{\partial n},\qquad \text{or}\qquad \text{(iii)}\quad \dfrac{\partial u}{\partial n} + hu,\quad \text{con $h$ constante.}
 \]</span></p>
 <p>Aquí <span class="math inline">\(\frac{\partial u}{\partial n}\)</span> denota la derivada normal de <span class="math inline">\(u\)</span> (la derivada de <span class="math inline">\(u\)</span> en dirección perpendicular a la frontera). Una condición de frontera del primer tipo (i) es llamada <strong>condición de Dirichlet</strong>; una condición de frontera del segundo tipo (ii) es llamada <strong>condición de Neumann</strong>; y una condición de frontera del tercer tipo (iii) es conocida como <strong>condición de Robin</strong>. Por ejemplo, para <span class="math inline">\(t&gt;0\)</span> una condición típica al extremo derecho de la varilla de la <a href="#fig-1D-heat" class="quarto-xref">Figura&nbsp;<span>3.1 (a)</span></a> puede ser:</p>
-<p><span class="math display">\[
-\begin{aligned}
-\text{(i)}'   &amp;\quad u(L,t) = u_0, \quad \text{con } u_0 \text{ constante} \\ \\
-\text{(ii)}'  &amp;\quad \left. \dfrac{\partial u}{\partial x} \right|_{x=L} = 0 \\ \\
-\text{(iii)}' &amp;\quad \left. \dfrac{\partial u}{\partial x} \right|_{x=L} = -h(u(L,t)-u_m), \quad \text{con } h&gt;0 \text{ y } u_m \text{ constantes}
-\end{aligned}
-\]</span></p>
+<p><span class="math display">\[\begin{align*}
+  \text{(i)}'   &amp;\quad u(L,t) = u_0, \text{  con } u_0 \text{ constante} \\ \\
+  \text{(ii)}'  &amp;\quad \left. \dfrac{\partial u}{\partial x} \right|_{x=L} = 0 \\ \\
+  \text{(iii)}' &amp;\quad \left. \dfrac{\partial u}{\partial x} \right|_{x=L} = -h(u(L,t)-u_m),\text{  con } h&gt;0 \text{ y } u_m \text{ constantes}
+\end{align*}\]</span></p>
 <p>La condición (i)’ simplemente establece que el límite <span class="math inline">\(x=L\)</span> se mantiene, por algún medio, a una temperatura constante <span class="math inline">\(u_0\)</span> durante todo el tiempo <span class="math inline">\(t&gt;0\)</span>. La condición (ii)’ indica que el contorno <span class="math inline">\(x=L\)</span> está <em>aislado</em>. Según la ley empírica de la transferencia de calor, el flujo de calor a través del borde (es decir, la cantidad de calor por unidad de área por unidad de tiempo conducida a través la frontera) es proporcional al valor de la derivada normal <span class="math inline">\(\frac{\partial u}{\partial n}\)</span> de la temperatura <span class="math inline">\(u\)</span>. Por lo tanto, cuando el límite <span class="math inline">\(x=L\)</span> está aislado térmicamente, no fluye calor hacia dentro ni hacia fuera de la varilla, por lo que <span class="math display">\[
 \left. \dfrac{\partial u}{\partial x} \right|_{x=L} = 0.
 \]</span></p>

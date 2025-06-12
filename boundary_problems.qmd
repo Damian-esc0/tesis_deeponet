@@ -56,13 +56,12 @@ $$
 
 Aquí $\frac{\partial u}{\partial n}$ denota la derivada normal de $u$ (la derivada de $u$ en dirección perpendicular a la frontera). Una condición de frontera del primer tipo (i) es llamada **condición de Dirichlet**; una condición de frontera del segundo tipo (ii) es llamada **condición de Neumann**; y una condición de frontera del tercer tipo (iii) es conocida como **condición de Robin**. Por ejemplo, para $t>0$ una condición típica al extremo derecho de la varilla de la @fig-1D-heat puede ser:
 
-$$
-\begin{aligned}
-\text{(i)}'   &\quad u(L,t) = u_0, \quad \text{con } u_0 \text{ constante} \\ \\
-\text{(ii)}'  &\quad \left. \dfrac{\partial u}{\partial x} \right|_{x=L} = 0 \\ \\
-\text{(iii)}' &\quad \left. \dfrac{\partial u}{\partial x} \right|_{x=L} = -h(u(L,t)-u_m), \quad \text{con } h>0 \text{ y } u_m \text{ constantes}
-\end{aligned}
-$$
+
+\begin{align*}
+  \text{(i)}'   &\quad u(L,t) = u_0, \text{  con } u_0 \text{ constante} \\ \\
+  \text{(ii)}'  &\quad \left. \dfrac{\partial u}{\partial x} \right|_{x=L} = 0 \\ \\
+  \text{(iii)}' &\quad \left. \dfrac{\partial u}{\partial x} \right|_{x=L} = -h(u(L,t)-u_m),\text{  con } h>0 \text{ y } u_m \text{ constantes}
+\end{align*}
 
 La condición (i)' simplemente establece que el límite $x=L$ se mantiene, por algún medio, a una temperatura constante $u_0$ durante todo el tiempo $t>0$. La condición (ii)' indica que el contorno $x=L$ está *aislado*. Según la ley empírica de la transferencia de calor, el flujo de calor a través del borde (es decir, la cantidad de calor por unidad de área por unidad de tiempo conducida a través la frontera) es proporcional al valor de la derivada normal $\frac{\partial u}{\partial n}$ de la temperatura $u$. Por lo tanto, cuando el límite $x=L$ está aislado térmicamente, no fluye calor hacia dentro ni hacia fuera de la varilla, por lo que
 $$
