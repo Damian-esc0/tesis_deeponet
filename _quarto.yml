@@ -51,7 +51,8 @@ book:
       chapters: 
         - metodologia.qmd
         - pred_crank_nick.qmd
-        - predicciones.qmd
+        - model_don.qmd
+        - comparaciones.qmd
 
     - references.qmd
 

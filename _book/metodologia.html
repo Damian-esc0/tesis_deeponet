@@ -304,8 +304,14 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./predicciones.html" class="sidebar-item-text sidebar-link">
+  <a href="./model_don.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Predicciones del modelo</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./comparaciones.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Comparación de resultados</span></span></a>
   </div>
 </li>
       </ul>
@@ -522,7 +528,7 @@ window.Quarto = {
 </section>
 <section id="implementación-del-modelo" class="level2" data-number="10.3">
 <h2 data-number="10.3" class="anchored" data-anchor-id="implementación-del-modelo"><span class="header-section-number">10.3</span> Implementación del modelo</h2>
-<p>La implementación del modelo se llevó a cabo en dos etapas clave: <strong>(1) el desarrollo del código base para resolver la ecuación del Bio-Calor mediante DeepXDE</strong>, y <strong>(2) la optimización sistemática de los hiperparámetros</strong>. Para esta última, se siguieron las recomendaciones del estudio de <span class="citation" data-cites="medical_rep">Alessio Borgi (<a href="references.html#ref-medical_rep" role="doc-biblioref">2023</a>)</span>, adaptadas a las particularidades del problema. Se ajustaron parámetros críticos como el número de épocas de entrenamiento (<em>iterations</em>), el ratio de aprendizaje (<em>learning rate</em>) así como un decaimiento en el mismo dependiente de la itearación actual (<em>decay</em>), la función de activación (<em>elu</em>) y el esquema de inicialización de pesos (<em>Glorot uniform</em>). Estos ajustes se realizaron mediante un proceso iterativo que buscaba minimizar la función de pérdida mientras se mantenía un tiempo de entrenamiento computacionalmente viable.</p>
+<p>La implementación del modelo se llevó a cabo en dos etapas clave: <strong>(1) el desarrollo del código base para resolver la ecuación del Bio-Calor mediante DeepXDE</strong>, y <strong>(2) la optimización sistemática de los hiperparámetros</strong>. Para esta última, se siguieron las recomendaciones del estudio de <span class="citation" data-cites="medical_rep">Alessio Borgi (<a href="references.html#ref-medical_rep" role="doc-biblioref">2023</a>)</span>, adaptadas a las particularidades del problema. Se ajustaron parámetros críticos como el número de épocas de entrenamiento (<em>iterations</em>), el ratio de aprendizaje (<em>learning rate</em>) así como un decaimiento en el mismo dependiente de la itearación actual (<em>decay</em>), la función de activación (<em>elu</em>) y el esquema de inicialización de pesos (<em>Glorot normal</em>). Estos ajustes se realizaron mediante un proceso iterativo que buscaba minimizar la función de pérdida mientras se mantenía un tiempo de entrenamiento computacionalmente viable.</p>
 </section>
 <section id="evaluación-del-modelo" class="level2" data-number="10.4">
 <h2 data-number="10.4" class="anchored" data-anchor-id="evaluación-del-modelo"><span class="header-section-number">10.4</span> Evaluación del modelo</h2>
@@ -544,7 +550,7 @@ window.Quarto = {
 <li>Error Absoluto Máximo (MaxAE)</li>
 <li>Error L2 (norma euclidiana)</li>
 </ul>
-<p>Estos criterios permitieron cuantificar no solo la precisión global del modelo, sino también sus desviaciones locales más significativas, particularmente en regiones con alta variabilidad espacial. Los resultados detallados de este análisis, junto con una discusión sobre la eficiencia computacional relativa entre ambos métodos, se presentan en la <a href="predicciones.html#tbl-errores" class="quarto-xref">Tabla&nbsp;<span>12.2</span></a>.</p>
+<p>Estos criterios permitieron cuantificar no solo la precisión global del modelo, sino también sus desviaciones locales más significativas, particularmente en regiones con alta variabilidad espacial. Los resultados detallados de este análisis, junto con una discusión sobre la eficiencia computacional relativa entre ambos métodos, se presentan en la <a href="comparaciones.html#tbl-errores" class="quarto-xref">Tabla&nbsp;<span>13.1</span></a>.</p>
 </section>
 <section id="análisis-y-conclusión" class="level2" data-number="10.6">
 <h2 data-number="10.6" class="anchored" data-anchor-id="análisis-y-conclusión"><span class="header-section-number">10.6</span> Análisis y conclusión</h2>
