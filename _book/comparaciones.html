@@ -311,7 +311,7 @@ div.csl-indent {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./model_don.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Predicciones del modelo</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Métricas del modelo</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -520,11 +520,13 @@ div.csl-indent {
 <div style="text-align: justify">
 <section id="comparativa-visual-de-las-predicciones" class="level2" data-number="13.1">
 <h2 data-number="13.1" class="anchored" data-anchor-id="comparativa-visual-de-las-predicciones"><span class="header-section-number">13.1</span> Comparativa visual de las predicciones</h2>
-<p>Esta sección presenta un análisis cualitativo de los resultados mediante la comparación directa entre las predicciones del modelo y las soluciones reportadas en el estudio de <span class="citation" data-cites="medical_rep">Alessio Borgi (<a href="references.html#ref-medical_rep" role="doc-biblioref">2023</a>)</span>. La visualización paralela permite evaluar:</p>
+<p>Esta sección presenta un análisis cualitativo de los resultados mediante la comparación directa entre las predicciones del modelo, las soluciones reportadas en el estudio de <span class="citation" data-cites="medical_rep">Alessio Borgi (<a href="references.html#ref-medical_rep" role="doc-biblioref">2023</a>)</span> y las obtenidas mediante el método de Crank Nickolson. La visualización paralela permite evaluar:</p>
 <ul>
 <li>Dominio espacial: Cuadrado unitario [0,1] × [0,1] con malla 26×26.</li>
 <li>Escala de colores: Mapa térmico viridis (consistente en ambas columnas).</li>
 </ul>
+<section id="modelo-contra-resultados-de-medical_rep" class="level3" data-number="13.1.1">
+<h3 data-number="13.1.1" class="anchored" data-anchor-id="modelo-contra-resultados-de-medical_rep"><span class="header-section-number">13.1.1</span> Modelo contra resultados de <span class="citation" data-cites="medical_rep">Alessio Borgi (<a href="references.html#ref-medical_rep" role="doc-biblioref">2023</a>)</span></h3>
 <div id="cell-fig-my_results" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Código</summary>
@@ -587,7 +589,7 @@ div.csl-indent {
 <div id="fig-my_results" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-my_results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="comparaciones_files/figure-html/fig-my_results-output-1.png" width="1682" height="428" class="figure-img">
+<img src="comparaciones_files/figure-html/fig-my_results-output-1.png" width="1683" height="428" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-my_results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figura&nbsp;13.1: Predicciones de la red neuronal a distintos tiempos.
@@ -607,180 +609,89 @@ Figura&nbsp;13.2: Resultados reportados por <span class="citation" data-cites="m
 </figure>
 </div>
 </section>
-<section id="validación-cuantitativa-frente-al-método-de-crank-nicolson" class="level2" data-number="13.2">
-<h2 data-number="13.2" class="anchored" data-anchor-id="validación-cuantitativa-frente-al-método-de-crank-nicolson"><span class="header-section-number">13.2</span> Validación Cuantitativa frente al Método de Crank-Nicolson</h2>
-<p>Para evaluar numéricamente la precisión del modelo DeepONet, se realizó una comparación sistemática con soluciones de referencia generadas mediante el método de Crank-Nicolson. Este enfoque proporciona una métrica objetiva de la exactitud del modelo, más allá de la inspección visual.</p>
-<div id="6421e8d7" class="cell" data-execution_count="2">
+<section id="modelo-contra-método-numérico" class="level3" data-number="13.1.2">
+<h3 data-number="13.1.2" class="anchored" data-anchor-id="modelo-contra-método-numérico"><span class="header-section-number">13.1.2</span> Modelo contra método numérico</h3>
+<div id="cell-fig-met-num-vs-model" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Código</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir los tiempos a evaluar</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>times <span class="op">=</span> [<span class="fl">0.0</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="fl">1.0</span>]</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Rutas de los archivos (modificar según sea necesario)</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>crank_nick_path <span class="op">=</span> <span class="st">"data/crank_nick.csv"</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>model_don_path <span class="op">=</span> <span class="st">"data/model_DoN.csv"</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>output_path <span class="op">=</span> <span class="st">"data/error_comparison.csv"</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Cargar los datos</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> load_data(file_path):</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> pd.read_csv(file_path)</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">FileNotFoundError</span>:</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Error: No se encontró el archivo </span><span class="sc">{</span>file_path<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">None</span></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Error al cargar </span><span class="sc">{</span>file_path<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span><span class="bu">str</span>(e)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">None</span></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>crank_nick_data <span class="op">=</span> load_data(crank_nick_path)</span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>model_don_data <span class="op">=</span> load_data(model_don_path)</span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> crank_nick_data <span class="kw">is</span> <span class="va">None</span> <span class="kw">or</span> model_don_data <span class="kw">is</span> <span class="va">None</span>:</span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    exit()</span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Función para calcular errores</span></span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_errors(true_data, pred_data, times):</span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>    results <span class="op">=</span> []</span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> time <span class="kw">in</span> times:</span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Filtrar datos por tiempo</span></span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>        true_subset <span class="op">=</span> true_data[true_data[<span class="st">'time'</span>] <span class="op">==</span> time]</span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>        pred_subset <span class="op">=</span> pred_data[pred_data[<span class="st">'time'</span>] <span class="op">==</span> time]</span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">len</span>(true_subset) <span class="op">==</span> <span class="dv">0</span> <span class="kw">or</span> <span class="bu">len</span>(pred_subset) <span class="op">==</span> <span class="dv">0</span>:</span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"Advertencia: No hay datos para tiempo t=</span><span class="sc">{</span>time<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>            <span class="cf">continue</span></span>
-<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Verificar que las dimensiones coincidan</span></span>
-<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">len</span>(true_subset) <span class="op">!=</span> <span class="bu">len</span>(pred_subset):</span>
-<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"Advertencia: Número de puntos no coincide para t=</span><span class="sc">{</span>time<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>            min_len <span class="op">=</span> <span class="bu">min</span>(<span class="bu">len</span>(true_subset), <span class="bu">len</span>(pred_subset))</span>
-<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>            true_subset <span class="op">=</span> true_subset.iloc[:min_len]</span>
-<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>            pred_subset <span class="op">=</span> pred_subset.iloc[:min_len]</span>
-<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Calcular errores para Theta</span></span>
-<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>        theta_true <span class="op">=</span> true_subset[<span class="st">'Theta'</span>].values</span>
-<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>        theta_pred <span class="op">=</span> pred_subset[<span class="st">'Theta'</span>].values</span>
-<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>        absolute_error <span class="op">=</span> np.<span class="bu">abs</span>(theta_true <span class="op">-</span> theta_pred)</span>
-<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>        l2_error <span class="op">=</span> np.sqrt(np.<span class="bu">sum</span>((theta_true <span class="op">-</span> theta_pred)<span class="op">**</span><span class="dv">2</span>))</span>
-<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>        results.append({</span>
-<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>            <span class="st">'time'</span>: time,</span>
-<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>            <span class="st">'mean_absolute_error'</span>: np.mean(absolute_error),</span>
-<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>            <span class="st">'max_absolute_error'</span>: np.<span class="bu">max</span>(absolute_error),</span>
-<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>            <span class="st">'l2_error'</span>: l2_error</span>
-<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>        })</span>
-<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pd.DataFrame(results)</span>
-<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular errores</span></span>
-<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>error_results <span class="op">=</span> calculate_errors(crank_nick_data, model_don_data, times)</span>
-<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a><span class="co"># Guardar resultados</span></span>
-<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>error_results.to_csv(output_path, index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div id="tbl-errores" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="3">
-<figure class="quarto-float quarto-float-tbl figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-errores-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabla&nbsp;13.1: Error del modelo DeepONet respecto a Crank-Nicolson.
-</figcaption>
-<div aria-describedby="tbl-errores-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output cell-output-stdout">
-<pre><code>|   Tiempo |   MAE |   MaxAE |   Error L2 |
-|---------:|------:|--------:|-----------:|
-|    0.000 | 0.049 |   0.133 |      1.500 |
-|    0.250 | 0.054 |   0.152 |      1.844 |
-|    0.500 | 0.039 |   0.071 |      1.107 |
-|    0.750 | 0.020 |   0.061 |      0.653 |
-|    1.000 | 0.065 |   0.201 |      2.214 |</code></pre>
-</div>
-</div>
-</figure>
-</div>
-<section id="método-numérico-contra-modelo" class="level3" data-number="13.2.1">
-<h3 data-number="13.2.1" class="anchored" data-anchor-id="método-numérico-contra-modelo"><span class="header-section-number">13.2.1</span> Método numérico contra modelo</h3>
-<div id="cell-fig-met-num-vs-model" class="cell" data-execution_count="4">
-<details class="code-fold">
-<summary>Código</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Determinar los límites comunes para el colorbar</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>min_temp <span class="op">=</span> <span class="bu">min</span>(model_don_data[<span class="st">'Theta'</span>].<span class="bu">min</span>(), crank_nick_data[<span class="st">'Theta'</span>].<span class="bu">min</span>())</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>max_temp <span class="op">=</span> <span class="bu">max</span>(model_don_data[<span class="st">'Theta'</span>].<span class="bu">max</span>(), crank_nick_data[<span class="st">'Theta'</span>].<span class="bu">max</span>())</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear figura con subplots 3D en 2 filas y 5 columnas</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">22</span>, <span class="dv">12</span>))</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>axes <span class="op">=</span> []</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear los subplots</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>):  <span class="co"># 2 filas</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">5</span>):  <span class="co"># 5 columnas</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>        axes.append(fig.add_subplot(<span class="dv">2</span>, <span class="dv">5</span>, i<span class="op">*</span><span class="dv">5</span> <span class="op">+</span> j <span class="op">+</span> <span class="dv">1</span>, projection<span class="op">=</span><span class="st">'3d'</span>))</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>axes <span class="op">=</span> np.array(axes).reshape(<span class="dv">2</span>, <span class="dv">5</span>)  <span class="co"># Convertir a matriz 2x5 para acceder fácilmente</span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Añadir títulos generales para cada fila</span></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>fig.text(<span class="fl">0.5</span>, <span class="fl">0.92</span>, <span class="st">"Predicciones modelo DON"</span>, ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'center'</span>, fontsize<span class="op">=</span><span class="dv">14</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>fig.text(<span class="fl">0.5</span>, <span class="fl">0.56</span>, <span class="st">"Predicciones método numérico"</span>, ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'center'</span>, fontsize<span class="op">=</span><span class="dv">14</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Función para graficar un dataframe en una fila específica</span></span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_dataframe(df, row, num_points, cmap<span class="op">=</span><span class="st">"viridis"</span>):</span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    surf_list <span class="op">=</span> []</span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> col, t_val <span class="kw">in</span> <span class="bu">enumerate</span>(times):</span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>        ax <span class="op">=</span> axes[row, col]</span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Filtrar por tiempo actual</span></span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>        df_t <span class="op">=</span> df[df[<span class="st">"time"</span>] <span class="op">==</span> t_val]</span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Obtener los valores de X, Y, Theta</span></span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>        X_vals <span class="op">=</span> df_t[<span class="st">"X"</span>].values.reshape((num_points, num_points))</span>
-<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>        Y_vals <span class="op">=</span> df_t[<span class="st">"Y"</span>].values.reshape((num_points, num_points))</span>
-<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>        Z_vals <span class="op">=</span> df_t[<span class="st">"Theta"</span>].values.reshape((num_points, num_points))</span>
-<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Dibujar la superficie con límites comunes</span></span>
-<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>        surf <span class="op">=</span> ax.plot_surface(</span>
-<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>            Y_vals, X_vals, Z_vals,</span>
-<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>            rstride<span class="op">=</span><span class="dv">1</span>, cstride<span class="op">=</span><span class="dv">1</span>,</span>
-<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>            cmap<span class="op">=</span>cmap,</span>
-<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>            edgecolor<span class="op">=</span><span class="st">"none"</span>,</span>
-<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>            antialiased<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>            vmin<span class="op">=</span>min_temp,</span>
-<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>            vmax<span class="op">=</span>max_temp</span>
-<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>        surf_list.append(surf)</span>
-<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>        ax.set_title(<span class="ss">f"Time = </span><span class="sc">{</span>t_val<span class="sc">:.2f}</span><span class="ss"> s"</span>, pad<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>        ax.set_xlabel(<span class="st">"Y"</span>, labelpad<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>        ax.set_ylabel(<span class="st">"X"</span>, labelpad<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>        ax.set_zlabel(<span class="st">"T [K]"</span>, labelpad<span class="op">=</span><span class="dv">10</span>, rotation<span class="op">=</span><span class="dv">90</span>)</span>
-<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> surf_list</span>
-<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a><span class="co"># Asumimos que el grid es regular para ambos dataframes</span></span>
-<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>num_points <span class="op">=</span> <span class="bu">int</span>(np.sqrt(model_don_data[model_don_data[<span class="st">"time"</span>] <span class="op">==</span> times[<span class="dv">0</span>]].shape[<span class="dv">0</span>]))</span>
-<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficar el primer dataframe en la fila superior</span></span>
-<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>surf_model_don <span class="op">=</span> plot_dataframe(model_don_data, <span class="dv">0</span>, num_points)</span>
-<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficar el segundo dataframe en la fila inferior</span></span>
-<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>surf_crank_nick <span class="op">=</span> plot_dataframe(crank_nick_data, <span class="dv">1</span>, num_points)</span>
-<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a><span class="co"># Añadir barra de color común en la parte inferior</span></span>
-<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a>cbar <span class="op">=</span> fig.colorbar(surf_crank_nick[<span class="op">-</span><span class="dv">1</span>], ax<span class="op">=</span>axes.ravel().tolist(),</span>
-<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a>                    use_gridspec<span class="op">=</span><span class="va">True</span>, orientation<span class="op">=</span><span class="st">'horizontal'</span>,</span>
-<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a>                    pad<span class="op">=</span><span class="fl">0.05</span>, aspect<span class="op">=</span><span class="dv">90</span>, shrink<span class="op">=</span><span class="fl">0.9</span>)</span>
-<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a>cbar.set_label(<span class="st">'Temperatura [K]'</span>, labelpad<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>crank_nick_data <span class="op">=</span> pd.read_csv(<span class="vs">r'data/crank_nick</span><span class="dv">.</span><span class="vs">csv'</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>model_don_data <span class="op">=</span> pd.read_csv(<span class="vs">r'data/model_DoN</span><span class="dv">.</span><span class="vs">csv'</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Determinar los límites comunes para el colorbar</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>min_temp <span class="op">=</span> <span class="bu">min</span>(model_don_data[<span class="st">'Theta'</span>].<span class="bu">min</span>(), crank_nick_data[<span class="st">'Theta'</span>].<span class="bu">min</span>())</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>max_temp <span class="op">=</span> <span class="bu">max</span>(model_don_data[<span class="st">'Theta'</span>].<span class="bu">max</span>(), crank_nick_data[<span class="st">'Theta'</span>].<span class="bu">max</span>())</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear figura con subplots 3D en 2 filas y 5 columnas</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">22</span>, <span class="dv">12</span>))</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>axes <span class="op">=</span> []</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear los subplots</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>):  <span class="co"># 2 filas</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">5</span>):  <span class="co"># 5 columnas</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        axes.append(fig.add_subplot(<span class="dv">2</span>, <span class="dv">5</span>, i<span class="op">*</span><span class="dv">5</span> <span class="op">+</span> j <span class="op">+</span> <span class="dv">1</span>, projection<span class="op">=</span><span class="st">'3d'</span>))</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>axes <span class="op">=</span> np.array(axes).reshape(<span class="dv">2</span>, <span class="dv">5</span>)  <span class="co"># Convertir a matriz 2x5 para acceder fácilmente</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Añadir títulos generales para cada fila</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>fig.text(<span class="fl">0.5</span>, <span class="fl">0.92</span>, <span class="st">"Predicciones modelo DON"</span>, ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'center'</span>, fontsize<span class="op">=</span><span class="dv">14</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>fig.text(<span class="fl">0.5</span>, <span class="fl">0.56</span>, <span class="st">"Predicciones método numérico"</span>, ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'center'</span>, fontsize<span class="op">=</span><span class="dv">14</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Función para graficar un dataframe en una fila específica</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_dataframe(df, row, num_points, cmap<span class="op">=</span><span class="st">"viridis"</span>):</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    surf_list <span class="op">=</span> []</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> col, t_val <span class="kw">in</span> <span class="bu">enumerate</span>(times):</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>        ax <span class="op">=</span> axes[row, col]</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Filtrar por tiempo actual</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>        df_t <span class="op">=</span> df[df[<span class="st">"time"</span>] <span class="op">==</span> t_val]</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Obtener los valores de X, Y, Theta</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>        X_vals <span class="op">=</span> df_t[<span class="st">"X"</span>].values.reshape((num_points, num_points))</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>        Y_vals <span class="op">=</span> df_t[<span class="st">"Y"</span>].values.reshape((num_points, num_points))</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>        Z_vals <span class="op">=</span> df_t[<span class="st">"Theta"</span>].values.reshape((num_points, num_points))</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Dibujar la superficie con límites comunes</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>        surf <span class="op">=</span> ax.plot_surface(</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>            Y_vals, X_vals, Z_vals,</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>            rstride<span class="op">=</span><span class="dv">1</span>, cstride<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>            cmap<span class="op">=</span>cmap,</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>            edgecolor<span class="op">=</span><span class="st">"none"</span>,</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>            antialiased<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>            vmin<span class="op">=</span>min_temp,</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>            vmax<span class="op">=</span>max_temp</span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>        surf_list.append(surf)</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>        ax.set_title(<span class="ss">f"Time = </span><span class="sc">{</span>t_val<span class="sc">:.2f}</span><span class="ss"> s"</span>, pad<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>        ax.set_xlabel(<span class="st">"Y"</span>, labelpad<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>        ax.set_ylabel(<span class="st">"X"</span>, labelpad<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>        ax.set_zlabel(<span class="st">"T [K]"</span>, labelpad<span class="op">=</span><span class="dv">10</span>, rotation<span class="op">=</span><span class="dv">90</span>)</span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> surf_list</span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a><span class="co"># Asumimos que el grid es regular para ambos dataframes</span></span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>num_points <span class="op">=</span> <span class="bu">int</span>(np.sqrt(model_don_data[model_don_data[<span class="st">"time"</span>] <span class="op">==</span> times[<span class="dv">0</span>]].shape[<span class="dv">0</span>]))</span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficar el primer dataframe en la fila superior</span></span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>surf_model_don <span class="op">=</span> plot_dataframe(model_don_data, <span class="dv">0</span>, num_points)</span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficar el segundo dataframe en la fila inferior</span></span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>surf_crank_nick <span class="op">=</span> plot_dataframe(crank_nick_data, <span class="dv">1</span>, num_points)</span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a><span class="co"># Añadir barra de color común en la parte inferior</span></span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>cbar <span class="op">=</span> fig.colorbar(surf_crank_nick[<span class="op">-</span><span class="dv">1</span>], ax<span class="op">=</span>axes.ravel().tolist(),</span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a>                    use_gridspec<span class="op">=</span><span class="va">True</span>, orientation<span class="op">=</span><span class="st">'horizontal'</span>,</span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>                    pad<span class="op">=</span><span class="fl">0.05</span>, aspect<span class="op">=</span><span class="dv">90</span>, shrink<span class="op">=</span><span class="fl">0.9</span>)</span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>cbar.set_label(<span class="st">'Temperatura [K]'</span>, labelpad<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="fig-met-num-vs-model" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-met-num-vs-model-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="comparaciones_files/figure-html/fig-met-num-vs-model-output-1.png" width="1682" height="894" class="figure-img">
+<img src="comparaciones_files/figure-html/fig-met-num-vs-model-output-1.png" width="1683" height="894" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-met-num-vs-model-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figura&nbsp;13.3: Contraste de las predicciones entre el método de Crank Nikolson y el modelo para cada tiempo.
@@ -790,8 +701,76 @@ Figura&nbsp;13.3: Contraste de las predicciones entre el método de Crank Nikols
 </div>
 </div>
 </section>
-<section id="gráficas-de-error-absoluto" class="level3" data-number="13.2.2">
-<h3 data-number="13.2.2" class="anchored" data-anchor-id="gráficas-de-error-absoluto"><span class="header-section-number">13.2.2</span> Gráficas de error absoluto</h3>
+</section>
+<section id="validación-cuantitativa-frente-al-método-de-crank-nicolson" class="level2" data-number="13.2">
+<h2 data-number="13.2" class="anchored" data-anchor-id="validación-cuantitativa-frente-al-método-de-crank-nicolson"><span class="header-section-number">13.2</span> Validación Cuantitativa frente al Método de Crank-Nicolson</h2>
+<p>Para evaluar numéricamente la precisión del modelo DeepONet, se realizó una comparación sistemática con soluciones de referencia generadas mediante el método de Crank-Nicolson. Este enfoque proporciona una métrica objetiva de la exactitud del modelo, más allá de la inspección visual.</p>
+<div id="fad01cf2" class="cell" data-execution_count="3">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Función para calcular errores</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_errors(true_data, pred_data, times):</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    results <span class="op">=</span> []</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> time <span class="kw">in</span> times:</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Filtrar datos por tiempo</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>        true_subset <span class="op">=</span> true_data[true_data[<span class="st">'time'</span>] <span class="op">==</span> time]</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        pred_subset <span class="op">=</span> pred_data[pred_data[<span class="st">'time'</span>] <span class="op">==</span> time]</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">len</span>(true_subset) <span class="op">==</span> <span class="dv">0</span> <span class="kw">or</span> <span class="bu">len</span>(pred_subset) <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"Advertencia: No hay datos para tiempo t=</span><span class="sc">{</span>time<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>            <span class="cf">continue</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Verificar que las dimensiones coincidan</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">len</span>(true_subset) <span class="op">!=</span> <span class="bu">len</span>(pred_subset):</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"Advertencia: Número de puntos no coincide para t=</span><span class="sc">{</span>time<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>            min_len <span class="op">=</span> <span class="bu">min</span>(<span class="bu">len</span>(true_subset), <span class="bu">len</span>(pred_subset))</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>            true_subset <span class="op">=</span> true_subset.iloc[:min_len]</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>            pred_subset <span class="op">=</span> pred_subset.iloc[:min_len]</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Calcular errores para Theta</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>        theta_true <span class="op">=</span> true_subset[<span class="st">'Theta'</span>].values</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>        theta_pred <span class="op">=</span> pred_subset[<span class="st">'Theta'</span>].values</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>        absolute_error <span class="op">=</span> np.<span class="bu">abs</span>(theta_true <span class="op">-</span> theta_pred)</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>        l2_error <span class="op">=</span> np.sqrt(np.<span class="bu">sum</span>((theta_true <span class="op">-</span> theta_pred)<span class="op">**</span><span class="dv">2</span>))</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>        results.append({</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>            <span class="st">'time'</span>: time,</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>            <span class="st">'mean_absolute_error'</span>: np.mean(absolute_error),</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>            <span class="st">'max_absolute_error'</span>: np.<span class="bu">max</span>(absolute_error),</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>            <span class="st">'l2_error'</span>: l2_error</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>        })</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pd.DataFrame(results)</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular errores</span></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>error_results <span class="op">=</span> calculate_errors(crank_nick_data, model_don_data, times)</span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a><span class="co"># Guardar resultados</span></span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>error_results.to_csv(<span class="st">"data/error_comparison.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="tbl-errores" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="4">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-errores-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabla&nbsp;13.1: Error del modelo DeepONet respecto a Crank-Nicolson.
+</figcaption>
+<div aria-describedby="tbl-errores-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output cell-output-stdout">
+<pre><code>|   Tiempo |   MAE |   MaxAE |   Error L2 |
+|---------:|------:|--------:|-----------:|
+|    0.000 | 0.017 |   0.064 |      0.560 |
+|    0.250 | 0.068 |   0.172 |      2.202 |
+|    0.500 | 0.053 |   0.102 |      1.581 |
+|    0.750 | 0.011 |   0.039 |      0.343 |
+|    1.000 | 0.067 |   0.200 |      2.305 |</code></pre>
+</div>
+</div>
+</figure>
+</div>
+<section id="gráficas-de-error-absoluto" class="level3" data-number="13.2.1">
+<h3 data-number="13.2.1" class="anchored" data-anchor-id="gráficas-de-error-absoluto"><span class="header-section-number">13.2.1</span> Gráficas de error absoluto</h3>
 <div id="cell-fig-abs-errors" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Código</summary>
@@ -1284,8 +1263,8 @@ Alessio Borgi, Alessandro De Luca, Eugenio Bugli. 2023. <span>«<span>BioHeat PI
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./model_don.html" class="pagination-link" aria-label="Predicciones del modelo">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Predicciones del modelo</span></span>
+      <a href="./model_don.html" class="pagination-link" aria-label="Métricas del modelo">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Métricas del modelo</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

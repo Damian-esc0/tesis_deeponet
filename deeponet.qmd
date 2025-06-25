@@ -14,6 +14,114 @@ La arquitectura de DeepONet está compuesta por dos redes principales: la red de
 
 ![**Ilustraciones del planteamiento del problema y arquitectura DeepONet que conducen a una buena generalización. a)** Para que la red aprenda un operador $G : u \rightarrow G(u)$ se necesitan dos entradas $[u(x_1), u(x_2), ..., u(x_m)]$ e $y$. **b)** Ilustración de los datos de entrenamiento. Para cada función de entrada $u$, se requiere el mismo número de evaluaciones en los mismos sensores dispersos $x_1, x_2, ..., x_m$. Sin embargo, no se impone ninguna restricción sobre el número ni las ubicaciones para la evaluación de las funciones de salida. **c)** La DeepONet *stacked* se inspira en el **Teorema de aproximación universal para operadores** y consta de una red *Trunk* y $p$ redes *Branch* apiladas. La red cuya construcción se inspira en el mismo teorema es una DeepONet *stacked* formada al elegir la red *Trunk* como una red de una capa de ancho $p$ y cada red *Branch* como una red de una capa oculta de ancho $n$. **d)** La red DeepONet *unstacked* se inspira en el **Teorema general de aproximación universal para operadores** y consta de una red *Trunk* y una red *Branch*. Una red DeepONet *unstacked* puede considerarse como una red DeepONet *stacked*, en la que todas las redes *Branch* comparten el mismo conjunto de parámetros [@lu2021deeponet].](images/deeponet_architecture.png){#fig-deeponet-arch fig-align="center" width="600"}
 
+## Ejemplo de resolución de un operador usando DeepONet
+Se resolverá el operador
+$$
+G: f\rightarrow u
+$$
+
+para el problema unidemensional de Poisson:
+$$
+u''(x) = f(x), \quad x\in[0,1]
+$$
+
+con la condición de frontera de Dirichlet
+$$
+u(0)=u(1)=0
+$$
+
+el término $f$ representa a una función continua arbitraria.
+
+```{python}
+import deepxde as dde
+import matplotlib.pyplot as plt
+import numpy as np
+
+
+# Poisson equation: -u_xx = f
+def equation(x, y, f):
+    dy_xx = dde.grad.hessian(y, x)
+    return -dy_xx - f
+
+# Domain is interval [0, 1]
+geom = dde.geometry.Interval(0, 1)
+
+# Zero Dirichlet BC
+def u_boundary(_):
+    return 0
+
+def boundary(_, on_boundary):
+    return on_boundary
+
+bc = dde.icbc.DirichletBC(geom, u_boundary, boundary)
+
+# Define PDE
+pde = dde.data.PDE(geom, equation, bc, num_domain=100, num_boundary=2)
+
+# Function space for f(x) are polynomials
+degree = 3
+space = dde.data.PowerSeries(N=degree + 1)
+
+# Choose evaluation points
+num_eval_points = 10
+evaluation_points = geom.uniform_points(num_eval_points, boundary=True)
+
+# Define PDE operator
+pde_op = dde.data.PDEOperatorCartesianProd(
+    pde,
+    space,
+    evaluation_points,
+    num_function=100,
+    num_test=20
+)
+
+# Setup DeepONet
+dim_x = 1
+p = 32
+net = dde.nn.DeepONetCartesianProd(
+    [num_eval_points, 32, p],
+    [dim_x, 32, p],
+    activation="tanh",
+    kernel_initializer="Glorot normal",
+)
+
+# Define and train model
+model = dde.Model(pde_op, net)
+dde.optimizers.set_LBFGS_options(maxiter=1000)
+model.compile("L-BFGS")
+model.train()
+
+# Plot realisations of f(x)
+n = 3
+features = space.random(n)
+fx = space.eval_batch(features, evaluation_points)
+
+x = geom.uniform_points(100, boundary=True)
+y = model.predict((fx, x))
+
+# Setup figure
+fig = plt.figure(figsize=(7, 8))
+plt.subplot(2, 1, 1)
+plt.title("Ecuación de Poisson: término f(x) y solución u(x)")
+plt.ylabel("f(x)")
+z = np.zeros_like(x)
+plt.plot(x, z, "k-", alpha=0.1)
+
+# Plot source term f(x)
+for i in range(n):
+    plt.plot(evaluation_points, fx[i], "--")
+
+# Plot solution u(x)
+plt.subplot(2, 1, 2)
+plt.ylabel("u(x)")
+plt.plot(x, z, "k-", alpha=0.1)
+for i in range(n):
+    plt.plot(x, y[i], "-")
+plt.xlabel("x")
+
+plt.show()
+```
+
 
 ## Comparación con una PINN
 En contraste con una red PINN convencional (Physics-Informed Neural Network), que resuelve una instancia específica de una ecuación diferencial para un conjunto dado de condiciones, DeepONet aprende el operador general que resuelve muchas instancias a la vez. Mientras que una PINN debe ser reentrenada para cada nuevo problema, DeepONet, una vez entrenado, puede predecir soluciones rápidamente para múltiples condiciones nuevas. Esto lo hace especialmente eficiente en aplicaciones donde se requiere realizar inferencias repetidas, como en control o diseño inverso [@kumar2024deeponet].

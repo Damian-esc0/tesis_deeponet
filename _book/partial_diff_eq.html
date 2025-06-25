@@ -305,7 +305,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./model_don.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Predicciones del modelo</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Métricas del modelo</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -512,14 +512,14 @@ window.Quarto = {
 
 
 <div style="text-align: justify">
-<p>Las ecuaciones diferenciales parciales (EDPs), al igual que las ecuaciones diferenciales ordinarias (EDOs), se clasifican en lineales y no lineales. De forma análoga a una EDO lineal, la variable dependiente y sus derivadas parciales en una EDP lineal se elevan únicamente a la primera potencia <span class="citation" data-cites="zill2008">(<a href="references.html#ref-zill2008" role="doc-biblioref">Zill y Cullen 2008</a>)</span>.</p>
+<p>Las ecuaciones diferenciales parciales (EDPs), al igual que las ecuaciones diferenciales ordinarias (EDOs), se clasifican en lineales y no lineales. De forma análoga a una EDO lineal, la variable dependiente y sus derivadas parciales en una EDP lineal se elevan únicamente a la primera potencia <span class="citation" data-cites="zill2008">(<a href="#ref-zill2008" role="doc-biblioref">Zill y Cullen 2008</a>)</span>.</p>
 <section id="ecuación-diferencial-parcial-lineal" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="ecuación-diferencial-parcial-lineal"><span class="header-section-number">2.1</span> Ecuación diferencial parcial lineal</h2>
 <p>Si dejamos que <span class="math inline">\(u\)</span> denote la variable dependiente y que <span class="math inline">\(x\)</span> e <span class="math inline">\(y\)</span> representen las variables independientes, entonces la forma general de una <strong>ecuación diferencial parcial lineal de segundo orden</strong> está dada por:</p>
 <p><span id="eq-LPDE"><span class="math display">\[
 A \dfrac{\partial^2 u}{\partial x^2} + B \dfrac{\partial^2 u}{\partial x \, \partial y} + C \dfrac{\partial^2 u}{\partial y^2} + D \dfrac{\partial u}{\partial x} + E \dfrac{\partial u}{\partial y} + F u = G,
 \tag{2.1}\]</span></span></p>
-<p>donde los coeficientes <span class="math inline">\(A, B, C, \dots, G\)</span> son funciones de <span class="math inline">\(x\)</span> e <span class="math inline">\(y\)</span>. Cuando <span class="math inline">\(G(x, y) = 0\)</span>, la ecuación <a href="#eq-LPDE" class="quarto-xref"><span>2.1</span></a> se denomina <strong>homogénea</strong>; de lo contrario, es <strong>no homogénea</strong>. Por ejemplo, las ecuaciones lineales:</p>
+<p>donde los coeficientes <span class="math inline">\(A, B, C, \dots, G\)</span> son funciones de <span class="math inline">\(x\)</span> e <span class="math inline">\(y\)</span>. Cuando <span class="math inline">\(G(x, y) = 0\)</span>, la ecuación <a href="#eq-LPDE" class="quarto-xref"><span class="quarto-unresolved-ref ref-noprefix">eq-LPDE</span></a> se denomina <strong>homogénea</strong>; de lo contrario, es <strong>no homogénea</strong>. Por ejemplo, las ecuaciones lineales:</p>
 <p><span class="math display">\[
 \dfrac{\partial^2 u}{\partial x^2} + \dfrac{\partial^2 u}{\partial y^2} = 0 \quad\text{y} \quad \dfrac{\partial^2 u}{\partial x^2} - \dfrac{\partial u}{\partial y} = x y
 \]</span> son homogénea y no homogénea, respectivamente.</p>
@@ -551,7 +551,7 @@ u(x, y) = X(x)Y(y).
 u = c_1u_1 + c_2u_2 + \dots + c_ku_k
 \]</span> donde las <span class="math inline">\(c_1=1,2,\dots,k\)</span> son constantes. Es también una solución.</p>
 </div>
-<p>El teorema <a href="#thm-superposition" class="quarto-xref"><span>2.1</span></a> se puede entender como: <em>siempre que tengamos un conjunto infinito de soluciones <span class="math inline">\(u_1, u_2, u_3, \ldots\)</span> de una ecuación lineal homogénea, podemos construir otra solución <span class="math inline">\(u\)</span> mediante la serie infinita</em>:</p>
+<p>El teorema <a href="#thm-superposition" class="quarto-xref"><span class="quarto-unresolved-ref ref-noprefix">thm-superposition</span></a> se puede entender como: <em>siempre que tengamos un conjunto infinito de soluciones <span class="math inline">\(u_1, u_2, u_3, \ldots\)</span> de una ecuación lineal homogénea, podemos construir otra solución <span class="math inline">\(u\)</span> mediante la serie infinita</em>:</p>
 <p><span class="math display">\[  
 u = \sum_{k=1}^{\infty} c_k u_k,  
 \]</span><br>
@@ -574,7 +574,7 @@ A \dfrac{\partial^2 u}{\partial x^2} + B \dfrac{\partial^2 u}{\partial x \, \par
 </div>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-zill2008" class="csl-entry" role="listitem">
 Zill, Dennis G., y Michael R. Cullen. 2008. <span>«Differential Equations with Boundary-Value Problems»</span>. En, 7.ª ed., 433-42. Belmont, CA: Cengage Learning.
 </div>

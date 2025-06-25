@@ -1,5 +1,5 @@
 ---
-title: Predicciones del modelo
+title: Métricas del modelo
 lang: es
 execute: 
   freeze: auto

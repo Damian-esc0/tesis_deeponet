@@ -305,7 +305,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./model_don.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Predicciones del modelo</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Métricas del modelo</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -513,7 +513,7 @@ window.Quarto = {
 
 <div style="text-align: justify">
 <p>Las ecuaciones diferenciales son utilizadas para modelar problemas en ciencia e ingeniería que implican el cambio de una variable con respecto a otra. La mayoría de estos problemas requieren la solución de un problema de valor inicial, es decir, la solución de una ecuación diferencial que satisface una condición inicial dada.</p>
-<p>En situaciones reales comunes, la ecuación diferencial que modela el problema es demasiado compleja para resolverse con exactitud, y se adopta uno de dos enfoques para aproximar la solución. El primer enfoque consiste en modificar el problema simplificando la ecuación diferencial a una que pueda resolverse con exactitud y luego utilizar la solución de la ecuación simplificada para aproximar la solución del problema original. El otro enfoque utiliza métodos para aproximar la solución del problema original. Este es el enfoque más común porque los métodos de aproximación proporcionan resultados más precisos e información de error realista <span class="citation" data-cites="burden2011">(<a href="references.html#ref-burden2011" role="doc-biblioref">Burden y Faires 2010</a>)</span>.</p>
+<p>En situaciones reales comunes, la ecuación diferencial que modela el problema es demasiado compleja para resolverse con exactitud, y se adopta uno de dos enfoques para aproximar la solución. El primer enfoque consiste en modificar el problema simplificando la ecuación diferencial a una que pueda resolverse con exactitud y luego utilizar la solución de la ecuación simplificada para aproximar la solución del problema original. El otro enfoque utiliza métodos para aproximar la solución del problema original. Este es el enfoque más común porque los métodos de aproximación proporcionan resultados más precisos e información de error realista <span class="citation" data-cites="burden2011">(<a href="#ref-burden2011" role="doc-biblioref">Burden y Faires 2010</a>)</span>.</p>
 <div class="callout callout-style-default callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -533,7 +533,7 @@ Ejemplo
 </div>
 </div>
 </div>
-<p>Para dar una idea más clara acerca de los problemas de valor inicial <span class="citation" data-cites="burden2011">Burden y Faires (<a href="references.html#ref-burden2011" role="doc-biblioref">2010</a>)</span> brinda las siguientes definicones y teoremas:</p>
+<p>Para dar una idea más clara acerca de los problemas de valor inicial <span class="citation" data-cites="burden2011">Burden y Faires (<a href="#ref-burden2011" role="doc-biblioref">2010</a>)</span> brinda las siguientes definicones y teoremas:</p>
 <div id="def-Lip-con" class="theorem definition">
 <p><span class="theorem-title"><strong>Definición 4.1</strong></span> Se dice que una función <span class="math inline">\(f(t,y)\)</span> satisface una <strong>Condición de Lipschitz</strong> en la variable <span class="math inline">\(y\)</span> en un conjunto <span class="math inline">\(D \subset \mathbb{R}^2\)</span> si existe una constante <span class="math inline">\(L&gt;0\)</span> tal que <span class="math display">\[
 |f(t,y_1) - f(t,y_2)| \leq L|y_1-y_2|
@@ -543,14 +543,14 @@ Ejemplo
 <div id="def-convex-set" class="theorem definition">
 <p><span class="theorem-title"><strong>Definición 4.2</strong></span> Se dice que un conjunto <span class="math inline">\(D \subset \mathbb{R}^2\)</span> es <strong>convexo</strong> si para cualesquiera <span class="math inline">\(f(t,y_1), f(t,y_2) \in D\)</span>, entonces <span class="math inline">\(((1-\lambda)t_1 + \lambda t_2, (1-\lambda)y_1 + \lambda y_2)\)</span> también pertenece a <span class="math inline">\(D\)</span> para cada <span class="math inline">\(\lambda \in[0,1]\)</span>.</p>
 </div>
-<p>En términos geométricos, la <a href="#def-convex-set" class="quarto-xref">Definición&nbsp;<span>4.2</span></a> establece que un conjunto es convexo siempre que, para cualesquiera dos puntos dentro del conjunto, todo el segmento recto entre ellos también pertenezca al conjunto <a href="#fig-convx-set" class="quarto-xref">Figura&nbsp;<span>4.1</span></a>.</p>
+<p>En términos geométricos, la <a href="#def-convex-set" class="quarto-xref">Definición&nbsp;<span class="quarto-unresolved-ref">def-convex-set</span></a> establece que un conjunto es convexo siempre que, para cualesquiera dos puntos dentro del conjunto, todo el segmento recto entre ellos también pertenezca al conjunto <a href="#fig-convx-set" class="quarto-xref">Figura&nbsp;<span class="quarto-unresolved-ref">fig-convx-set</span></a>.</p>
 <div id="fig-convx-set" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-convx-set-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="images/definition_5-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="600">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-convx-set-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;4.1: Ejemplo geométrico de un conjunto <em>convexo</em> y <em>no convexo</em> <span class="citation" data-cites="burden2011">(<a href="references.html#ref-burden2011" role="doc-biblioref">Burden y Faires 2010</a>)</span>.
+Figura&nbsp;4.1: Ejemplo geométrico de un conjunto <em>convexo</em> y <em>no convexo</em> <span class="citation" data-cites="burden2011">(<a href="#ref-burden2011" role="doc-biblioref">Burden y Faires 2010</a>)</span>.
 </figcaption>
 </figure>
 </div>
@@ -560,7 +560,7 @@ Figura&nbsp;4.1: Ejemplo geométrico de un conjunto <em>convexo</em> y <em>no co
 \tag{4.1}\]</span></span></p>
 <p>entonces <span class="math inline">\(f\)</span> satisface una condición de Lipschitz en <span class="math inline">\(D\)</span> en la variable <span class="math inline">\(y\)</span> con una constante de Lipschitz <span class="math inline">\(L\)</span>.</p>
 </div>
-<p>Como se mostrará en el siguiente teorema, suele ser de gran interés determinar si la función involucrada en un problema de valor inicial satisface una condición de Lipschitz en su segunda variable, y la condición <a href="#eq-Lib-teo" class="quarto-xref"><span>4.1</span></a> suele ser más fácil de aplicar que la definición. Cabe destacar, sin embargo, que el <a href="#thm-Lib-teo" class="quarto-xref">Teorema&nbsp;<span>4.1</span></a> solo proporciona condiciones suficientes para que se cumpla una condición de Lipschitz.</p>
+<p>Como se mostrará en el siguiente teorema, suele ser de gran interés determinar si la función involucrada en un problema de valor inicial satisface una condición de Lipschitz en su segunda variable, y la condición <a href="#eq-Lib-teo" class="quarto-xref"><span class="quarto-unresolved-ref ref-noprefix">eq-Lib-teo</span></a> suele ser más fácil de aplicar que la definición. Cabe destacar, sin embargo, que el <a href="#thm-Lib-teo" class="quarto-xref">Teorema&nbsp;<span class="quarto-unresolved-ref">thm-Lib-teo</span></a> solo proporciona condiciones suficientes para que se cumpla una condición de Lipschitz.</p>
 <div id="thm-uniq-sol" class="theorem">
 <p><span class="theorem-title"><strong>Teorema 4.2</strong></span> Supóngase que <span class="math inline">\(D = \{(t, y) | \ \ a \leq t \leq b, \ \  -\infty &lt; y &lt; \infty \}\)</span> y que <span class="math inline">\(f (t, y)\)</span> es continua en <span class="math inline">\(D\)</span>. Si <span class="math inline">\(f\)</span> satisface una condición de Lipschitz en <span class="math inline">\(D\)</span> en la variable <span class="math inline">\(y\)</span>, entonces el problema del valor inicial <span class="math display">\[
 y'(t)= f(t,y), \quad a\leq t \leq b, \quad y(a) = \alpha,
@@ -579,7 +579,7 @@ Ejemplo
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Use el teorema <a href="#thm-uniq-sol" class="quarto-xref">Teorema&nbsp;<span>4.2</span></a> para mostrar que hay una única solución al problema de valor inicial: <span class="math display">\[
+<p>Use el teorema <a href="#thm-uniq-sol" class="quarto-xref">Teorema&nbsp;<span class="quarto-unresolved-ref">thm-uniq-sol</span></a> para mostrar que hay una única solución al problema de valor inicial: <span class="math display">\[
 y'(t)= 1 + t\sin(ty), \quad 0\leq t \leq 2, \quad y(0) = 0.
 \]</span> <strong>Solución:</strong> Mantieniendo a <span class="math inline">\(t\)</span> constante y usando el <em>Teorema de valor medio</em> a la función <span class="math display">\[
 f(t,y) = 1 + t\sin(ty),
@@ -587,14 +587,14 @@ f(t,y) = 1 + t\sin(ty),
 \dfrac{f(t,y_2)-f(t,y_1)}{y_2-y_1} = \dfrac{\partial}{\partial y} f(t,\xi) = t^2\cos(\xi t).
 \]</span> De este modo: <span class="math display">\[
 |f(t,y_2)-f(t,y_1)| = |y_2-y_1||t^2\cos(\xi t)| \leq 4|y_2-y_1|,
-\]</span> y <span class="math inline">\(f\)</span> satisface una condición de Lipschitz en la variable y con constante de Lipschitz <span class="math inline">\(L = 4\)</span>. Además, <span class="math inline">\(f(t, y)\)</span> es continua cuando <span class="math inline">\(0 ≤ t ≤ 2\)</span> y <span class="math inline">\(−∞ &lt; y &lt; ∞\)</span>, por lo que el <a href="#thm-uniq-sol" class="quarto-xref">Teorema&nbsp;<span>4.2</span></a> implica que existe una solución única para este problema de valor inicial.</p>
+\]</span> y <span class="math inline">\(f\)</span> satisface una condición de Lipschitz en la variable y con constante de Lipschitz <span class="math inline">\(L = 4\)</span>. Además, <span class="math inline">\(f(t, y)\)</span> es continua cuando <span class="math inline">\(0 ≤ t ≤ 2\)</span> y <span class="math inline">\(−∞ &lt; y &lt; ∞\)</span>, por lo que el <a href="#thm-uniq-sol" class="quarto-xref">Teorema&nbsp;<span class="quarto-unresolved-ref">thm-uniq-sol</span></a> implica que existe una solución única para este problema de valor inicial.</p>
 </div>
 </div>
 </div>
 <section id="problemas-bien-plantedos" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="problemas-bien-plantedos"><span class="header-section-number">4.1</span> Problemas bien plantedos</h2>
-<p>Ahora que hemos abordado, hasta cierto punto, la cuestión de cuándo los problemas de valor inicial tienen soluciones únicas, podemos pasar a la segunda consideración importante: cuándo aproximar la solución de un problema de valor inicial. Los problemas de valor inicial obtenidos mediante la observación de fenómenos físicos generalmente solo se aproximan a la situación real, por lo que necesitamos saber si pequeños cambios en el plamteamiento del problema introducen cambios correspondientemente pequeños en la solución <span class="citation" data-cites="burden2011">(<a href="references.html#ref-burden2011" role="doc-biblioref">Burden y Faires 2010</a>)</span>.</p>
-<p>A continiación se presentan otras definiciones así como teoremas que brindaŕan un conocimiento más sólido acerca de los problemas bien planteados. Se usará como referencia a <span class="citation" data-cites="burden2011">Burden y Faires (<a href="references.html#ref-burden2011" role="doc-biblioref">2010</a>)</span>.</p>
+<p>Ahora que hemos abordado, hasta cierto punto, la cuestión de cuándo los problemas de valor inicial tienen soluciones únicas, podemos pasar a la segunda consideración importante: cuándo aproximar la solución de un problema de valor inicial. Los problemas de valor inicial obtenidos mediante la observación de fenómenos físicos generalmente solo se aproximan a la situación real, por lo que necesitamos saber si pequeños cambios en el plamteamiento del problema introducen cambios correspondientemente pequeños en la solución <span class="citation" data-cites="burden2011">(<a href="#ref-burden2011" role="doc-biblioref">Burden y Faires 2010</a>)</span>.</p>
+<p>A continiación se presentan otras definiciones así como teoremas que brindaŕan un conocimiento más sólido acerca de los problemas bien planteados. Se usará como referencia a <span class="citation" data-cites="burden2011">Burden y Faires (<a href="#ref-burden2011" role="doc-biblioref">2010</a>)</span>.</p>
 <div id="def-well-posed" class="theorem definition">
 <p><span class="theorem-title"><strong>Definición 4.3</strong></span> Se dice que el problema de valor inicial <span id="eq-original-problem"><span class="math display">\[
 \dfrac{dy}{dt} = f(t,y), \quad a\leq t \leq b, \quad y(a) = \alpha,
@@ -608,7 +608,7 @@ f(t,y) = 1 + t\sin(ty),
 \]</span></li>
 </ul>
 </div>
-<p>El problema especificado por al <a href="#eq-perturbed-rpoblem" class="quarto-xref">Ecuación&nbsp;<span>4.3</span></a> se denomina <strong>problema perturbado</strong> asociado al problema original <a href="#eq-original-problem" class="quarto-xref">Ecuación&nbsp;<span>4.2</span></a>. Se asume la posibilidad de que se introduzca un error en el planteamiento de la ecuación diferencial, así como la presencia de un error <span class="math inline">\(δ_0\)</span> en la condición inicial.</p>
+<p>El problema especificado por al <a href="#eq-perturbed-rpoblem" class="quarto-xref">Ecuación&nbsp;<span class="quarto-unresolved-ref">eq-perturbed-rpoblem</span></a> se denomina <strong>problema perturbado</strong> asociado al problema original <a href="#eq-original-problem" class="quarto-xref">Ecuación&nbsp;<span class="quarto-unresolved-ref">eq-original-problem</span></a>. Se asume la posibilidad de que se introduzca un error en el planteamiento de la ecuación diferencial, así como la presencia de un error <span class="math inline">\(δ_0\)</span> en la condición inicial.</p>
 <p>Los métodos numéricos siempre se centrarán en la solución de un problema perturbado, ya que cualquier error de redondeo introducido en la representación perturba el problema original. A menos que el problema original esté bien planteado, hay pocas razones para esperar que la solución numérica de un problema perturbado se aproxime con precisión a la solución del problema original.</p>
 <div id="thm-well-posed" class="theorem">
 <p><span class="theorem-title"><strong>Teorema 4.3</strong></span> Supongamos <span class="math inline">\(D = \{(t, y) | \ \ a \leq t \leq b, \ \  -\infty &lt; y &lt; \infty \}\)</span>. Si <span class="math inline">\(f\)</span> es continua y satisface una condición de Lipschitz en la variable <span class="math inline">\(y\)</span> en el conjunto <span class="math inline">\(D\)</span>, entonces el problema de valor inicial <span class="math display">\[
@@ -636,12 +636,12 @@ Ejemplo
 <span id="eq-1-exm"><span class="math display">\[
 \left| \frac{\partial (y - t^2 + 1)}{\partial y} \right| = |1| = 1,
 \tag{4.4}\]</span></span></p>
-<p>el <a href="#thm-Lib-teo" class="quarto-xref">Teorema&nbsp;<span>4.1</span></a> implica que la función <span class="math inline">\(f(t, y) = y - t^2 + 1\)</span> satisface una condición de Lipschitz en <span class="math inline">\(y\)</span> sobre <span class="math inline">\(D\)</span> con constante de Lipschitz igual a 1. Además, como <span class="math inline">\(f\)</span> es continua en <span class="math inline">\(D\)</span>, el <a href="#thm-well-posed" class="quarto-xref">Teorema&nbsp;<span>4.3</span></a> garantiza que el problema está bien planteado.</p>
+<p>el <a href="#thm-Lib-teo" class="quarto-xref">Teorema&nbsp;<span class="quarto-unresolved-ref">thm-Lib-teo</span></a> implica que la función <span class="math inline">\(f(t, y) = y - t^2 + 1\)</span> satisface una condición de Lipschitz en <span class="math inline">\(y\)</span> sobre <span class="math inline">\(D\)</span> con constante de Lipschitz igual a 1. Además, como <span class="math inline">\(f\)</span> es continua en <span class="math inline">\(D\)</span>, el <a href="#thm-well-posed" class="quarto-xref">Teorema&nbsp;<span class="quarto-unresolved-ref">thm-well-posed</span></a> garantiza que el problema está bien planteado.</p>
 <p>A modo de ilustración, consideremos ahora la solución del problema perturbado:<br>
 <span id="eq-2-exm"><span class="math display">\[
 \frac{dz}{dt} = z - t^2 + 1 + \delta, \quad 0 \leq t \leq 2, \quad z(0) = 0.5 + \delta_0,
 \tag{4.5}\]</span></span></p>
-<p>donde <span class="math inline">\(\delta\)</span> y <span class="math inline">\(\delta_0\)</span> son constantes pequeñas, las soluciones respectivas de las ecuaciones <a href="#eq-1-exm" class="quarto-xref"><span>4.4</span></a> y <a href="#eq-2-exm" class="quarto-xref"><span>4.5</span></a> son:</p>
+<p>donde <span class="math inline">\(\delta\)</span> y <span class="math inline">\(\delta_0\)</span> son constantes pequeñas, las soluciones respectivas de las ecuaciones <a href="#eq-1-exm" class="quarto-xref"><span class="quarto-unresolved-ref ref-noprefix">eq-1-exm</span></a> y <a href="#eq-2-exm" class="quarto-xref"><span class="quarto-unresolved-ref ref-noprefix">eq-2-exm</span></a> son:</p>
 <p><span class="math display">\[\begin{align*}
 y(t) &amp;= (t + 1)^2 - 0.5e^t \\ \\
 z(t) &amp;= (t + 1)^2 + (\delta + \delta_0 - 0.5)e^t - \delta
@@ -649,7 +649,7 @@ z(t) &amp;= (t + 1)^2 + (\delta + \delta_0 - 0.5)e^t - \delta
 <p>Sea <span class="math inline">\(\varepsilon\)</span> un número positivo. Si <span class="math inline">\(|\delta| &lt; \varepsilon\)</span> y <span class="math inline">\(|\delta_0| &lt; \varepsilon\)</span>, entonces <span class="math display">\[
 |y(t) - z(t)| = |(\delta + \delta_0)e^t - \delta| \leq |\delta + \delta_0|e^2 + |\delta| \leq (2e^2 + 1)\varepsilon,
 \]</span></p>
-<p>para todo <span class="math inline">\(t\)</span>. Esta desigualdad demuestra que <a href="#eq-1-exm" class="quarto-xref"><span>4.4</span></a> está bien planteado, con una constante de estabilidad <span class="math inline">\(k(\varepsilon) = 2e^2 + 1\)</span> para cualquier <span class="math inline">\(\varepsilon &gt; 0\)</span>.</p>
+<p>para todo <span class="math inline">\(t\)</span>. Esta desigualdad demuestra que <a href="#eq-1-exm" class="quarto-xref"><span class="quarto-unresolved-ref ref-noprefix">eq-1-exm</span></a> está bien planteado, con una constante de estabilidad <span class="math inline">\(k(\varepsilon) = 2e^2 + 1\)</span> para cualquier <span class="math inline">\(\varepsilon &gt; 0\)</span>.</p>
 </div>
 </div>
 </div>
@@ -657,7 +657,7 @@ z(t) &amp;= (t + 1)^2 + (\delta + \delta_0 - 0.5)e^t - \delta
 </div>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-burden2011" class="csl-entry" role="listitem">
 Burden, Richard L., y J. Douglas Faires. 2010. <span>«Numerical Analysis»</span>. En <em>Numerical Analysis</em>, 9.ª ed., 259-64. Boston, USA: Brooks Cole.
 </div>

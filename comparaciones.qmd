@@ -7,10 +7,12 @@ execute:
 ::: {style="text-align: justify"}
 
 ## Comparativa visual de las predicciones
-Esta sección presenta un análisis cualitativo de los resultados mediante la comparación directa entre las predicciones del modelo y las soluciones reportadas en el estudio de @medical_rep. La visualización paralela permite evaluar:
+Esta sección presenta un análisis cualitativo de los resultados mediante la comparación directa entre las predicciones del modelo, las soluciones reportadas en el estudio de @medical_rep y las obtenidas mediante el método de Crank Nickolson. La visualización paralela permite evaluar:
 
 - Dominio espacial: Cuadrado unitario [0,1] × [0,1] con malla 26×26.
 - Escala de colores: Mapa térmico viridis (consistente en ambas columnas).
+
+### Modelo contra resultados de @medical_rep
 ```{python}
 #| label: fig-my_results
 #| fig-cap: "Predicciones de la red neuronal a distintos tiempos."
@@ -73,103 +75,13 @@ plt.show()
 
 ![Resultados reportados por @medical_rep en el caso 2D.](images/results_paper.png){#fig-results_fnn fig-align="center" width="550"}
 
-
-## Validación Cuantitativa frente al Método de Crank-Nicolson
-Para evaluar numéricamente la precisión del modelo DeepONet, se realizó una comparación sistemática con soluciones de referencia generadas mediante el método de Crank-Nicolson. Este enfoque proporciona una métrica objetiva de la exactitud del modelo, más allá de la inspección visual.
-
-```{python}
-import os
-
-# Definir los tiempos a evaluar
-times = [0.0, 0.25, 0.5, 0.75, 1.0]
-
-# Rutas de los archivos (modificar según sea necesario)
-crank_nick_path = "data/crank_nick.csv"
-model_don_path = "data/model_DoN.csv"
-output_path = "data/error_comparison.csv"
-
-# Cargar los datos
-def load_data(file_path):
-    try:
-        return pd.read_csv(file_path)
-    except FileNotFoundError:
-        print(f"Error: No se encontró el archivo {file_path}")
-        return None
-    except Exception as e:
-        print(f"Error al cargar {file_path}: {str(e)}")
-        return None
-
-crank_nick_data = load_data(crank_nick_path)
-model_don_data = load_data(model_don_path)
-
-if crank_nick_data is None or model_don_data is None:
-    exit()
-
-# Función para calcular errores
-def calculate_errors(true_data, pred_data, times):
-    results = []
-    
-    for time in times:
-        # Filtrar datos por tiempo
-        true_subset = true_data[true_data['time'] == time]
-        pred_subset = pred_data[pred_data['time'] == time]
-        
-        if len(true_subset) == 0 or len(pred_subset) == 0:
-            print(f"Advertencia: No hay datos para tiempo t={time}")
-            continue
-        
-        # Verificar que las dimensiones coincidan
-        if len(true_subset) != len(pred_subset):
-            print(f"Advertencia: Número de puntos no coincide para t={time}")
-            min_len = min(len(true_subset), len(pred_subset))
-            true_subset = true_subset.iloc[:min_len]
-            pred_subset = pred_subset.iloc[:min_len]
-        
-        # Calcular errores para Theta
-        theta_true = true_subset['Theta'].values
-        theta_pred = pred_subset['Theta'].values
-        
-        absolute_error = np.abs(theta_true - theta_pred)
-        l2_error = np.sqrt(np.sum((theta_true - theta_pred)**2))
-        
-        results.append({
-            'time': time,
-            'mean_absolute_error': np.mean(absolute_error),
-            'max_absolute_error': np.max(absolute_error),
-            'l2_error': l2_error
-        })
-    
-    return pd.DataFrame(results)
-
-# Calcular errores
-error_results = calculate_errors(crank_nick_data, model_don_data, times)
-
-# Guardar resultados
-error_results.to_csv(output_path, index=False)
-```
-
-
-```{python}
-#| label: tbl-errores
-#| tbl-cap: "Error del modelo DeepONet respecto a Crank-Nicolson."
-#| echo: false
-from tabulate import tabulate
-
-# Convertir a formato markdown para mejor visualización
-error_table = tabulate(
-    error_results,
-    headers=['Tiempo', 'MAE', 'MaxAE', 'Error L2'],
-    tablefmt='pipe',
-    floatfmt=".3f",
-    showindex=False
-)
-print(error_table)
-```
-
-### Método numérico contra modelo
+### Modelo contra método numérico
 ```{python}
 #| label: fig-met-num-vs-model
 #| fig-cap: "Contraste de las predicciones entre el método de Crank Nikolson y el modelo para cada tiempo."
+
+crank_nick_data = pd.read_csv(r'data/crank_nick.csv')
+model_don_data = pd.read_csv(r'data/model_DoN.csv')
 
 # Determinar los límites comunes para el colorbar
 min_temp = min(model_don_data['Theta'].min(), crank_nick_data['Theta'].min())
@@ -242,6 +154,71 @@ cbar.set_label('Temperatura [K]', labelpad=10)
 plt.show()
 ```
 
+
+## Validación Cuantitativa frente al Método de Crank-Nicolson
+Para evaluar numéricamente la precisión del modelo DeepONet, se realizó una comparación sistemática con soluciones de referencia generadas mediante el método de Crank-Nicolson. Este enfoque proporciona una métrica objetiva de la exactitud del modelo, más allá de la inspección visual.
+
+```{python}
+# Función para calcular errores
+def calculate_errors(true_data, pred_data, times):
+    results = []
+    
+    for time in times:
+        # Filtrar datos por tiempo
+        true_subset = true_data[true_data['time'] == time]
+        pred_subset = pred_data[pred_data['time'] == time]
+        
+        if len(true_subset) == 0 or len(pred_subset) == 0:
+            print(f"Advertencia: No hay datos para tiempo t={time}")
+            continue
+        
+        # Verificar que las dimensiones coincidan
+        if len(true_subset) != len(pred_subset):
+            print(f"Advertencia: Número de puntos no coincide para t={time}")
+            min_len = min(len(true_subset), len(pred_subset))
+            true_subset = true_subset.iloc[:min_len]
+            pred_subset = pred_subset.iloc[:min_len]
+        
+        # Calcular errores para Theta
+        theta_true = true_subset['Theta'].values
+        theta_pred = pred_subset['Theta'].values
+        
+        absolute_error = np.abs(theta_true - theta_pred)
+        l2_error = np.sqrt(np.sum((theta_true - theta_pred)**2))
+        
+        results.append({
+            'time': time,
+            'mean_absolute_error': np.mean(absolute_error),
+            'max_absolute_error': np.max(absolute_error),
+            'l2_error': l2_error
+        })
+    
+    return pd.DataFrame(results)
+
+# Calcular errores
+error_results = calculate_errors(crank_nick_data, model_don_data, times)
+
+# Guardar resultados
+error_results.to_csv("data/error_comparison.csv", index=False)
+```
+
+
+```{python}
+#| label: tbl-errores
+#| tbl-cap: "Error del modelo DeepONet respecto a Crank-Nicolson."
+#| echo: false
+from tabulate import tabulate
+
+# Convertir a formato markdown para mejor visualización
+error_table = tabulate(
+    error_results,
+    headers=['Tiempo', 'MAE', 'MaxAE', 'Error L2'],
+    tablefmt='pipe',
+    floatfmt=".3f",
+    showindex=False
+)
+print(error_table)
+```
 
 ### Gráficas de error absoluto
 ```{python}
