@@ -515,7 +515,7 @@ window.Quarto = {
 <p>En esta sección se describe el enfoque metodológico utilizado para evaluar la efectividad de una PINN utilizando una arquitectura DeepONet con el objetivo de resolver la ecuacion del Bio-Calor. El proceso metodológico se divide en las siguientes etapas:</p>
 <section id="aportaciones-del-modelo" class="level2" data-number="10.1">
 <h2 data-number="10.1" class="anchored" data-anchor-id="aportaciones-del-modelo"><span class="header-section-number">10.1</span> Aportaciones del modelo</h2>
-<p>Ya que se parte del trabajo de <span class="citation" data-cites="medical_rep">Alessio Borgi (<a href="#ref-medical_rep" role="doc-biblioref">2023</a>)</span>, se examinó que dos de los puntos a mejorar de la red neuronal que plantearon son:</p>
+<p>Ya que se parte del trabajo de <span class="citation" data-cites="medical_rep">Alessio Borgi (<a href="references.html#ref-medical_rep" role="doc-biblioref">2023</a>)</span>, se examinó que dos de los puntos a mejorar de la red neuronal que plantearon son:</p>
 <ol type="1">
 <li>Desarrollar nuevas arquitecturas para la red neuronal y explorar nuevas configuraciones</li>
 <li>Combinar las fortalezas de los algoritmos de optimización Adam y L-BFGS para mejorar la velocidad de convergencia y la precisión</li>
@@ -524,11 +524,11 @@ window.Quarto = {
 </section>
 <section id="diseño-del-modelo" class="level2" data-number="10.2">
 <h2 data-number="10.2" class="anchored" data-anchor-id="diseño-del-modelo"><span class="header-section-number">10.2</span> Diseño del modelo</h2>
-<p>El lenguaje seleccionado fué Python, a su vez el código se basa enteramente en la librería Deepxde creada por <span class="citation" data-cites="deepxde">Lu et&nbsp;al. (<a href="#ref-deepxde" role="doc-biblioref">2021</a>)</span> la cual está directamente enfocada a resolver ecuaciones diferenciales, se usó además como backend <em>tensorflow_compat_v1</em> siendo su elección debida únicamente a la familiarización previa que se tenía con ella. Finalmente el entorno donde se programó y optimizó el código fué en <em>Google Colab</em> ya que la potencia de cómputo ofrecida por la plataforma era necesaria para ejecutar el modelo.</p>
+<p>El lenguaje seleccionado fué Python, a su vez el código se basa enteramente en la librería Deepxde creada por <span class="citation" data-cites="deepxde">Lu et&nbsp;al. (<a href="references.html#ref-deepxde" role="doc-biblioref">2021</a>)</span> la cual está directamente enfocada a resolver ecuaciones diferenciales, se usó además como backend <em>tensorflow_compat_v1</em> siendo su elección debida únicamente a la familiarización previa que se tenía con ella. Finalmente el entorno donde se programó y optimizó el código fué en <em>Google Colab</em> ya que la potencia de cómputo ofrecida por la plataforma era necesaria para ejecutar el modelo.</p>
 </section>
 <section id="implementación-del-modelo" class="level2" data-number="10.3">
 <h2 data-number="10.3" class="anchored" data-anchor-id="implementación-del-modelo"><span class="header-section-number">10.3</span> Implementación del modelo</h2>
-<p>La implementación del modelo se llevó a cabo en dos etapas clave: <strong>(1) el desarrollo del código base para resolver la ecuación del Bio-Calor mediante DeepXDE</strong>, y <strong>(2) la optimización sistemática de los hiperparámetros</strong>. Para esta última, se siguieron las recomendaciones del estudio de <span class="citation" data-cites="medical_rep">Alessio Borgi (<a href="#ref-medical_rep" role="doc-biblioref">2023</a>)</span>, adaptadas a las particularidades del problema. Se ajustaron parámetros críticos como el número de épocas de entrenamiento (<em>iterations</em>), el ratio de aprendizaje (<em>learning rate</em>) así como un decaimiento en el mismo dependiente de la itearación actual (<em>decay</em>), la función de activación (<em>elu</em>) y el esquema de inicialización de pesos (<em>Glorot normal</em>). Estos ajustes se realizaron mediante un proceso iterativo que buscaba minimizar la función de pérdida mientras se mantenía un tiempo de entrenamiento computacionalmente viable.</p>
+<p>La implementación del modelo se llevó a cabo en dos etapas clave: <strong>(1) el desarrollo del código base para resolver la ecuación del Bio-Calor mediante DeepXDE</strong>, y <strong>(2) la optimización sistemática de los hiperparámetros</strong>. Para esta última, se siguieron las recomendaciones del estudio de <span class="citation" data-cites="medical_rep">Alessio Borgi (<a href="references.html#ref-medical_rep" role="doc-biblioref">2023</a>)</span>, adaptadas a las particularidades del problema. Se ajustaron parámetros críticos como el número de épocas de entrenamiento (<em>iterations</em>), el ratio de aprendizaje (<em>learning rate</em>) así como un decaimiento en el mismo dependiente de la itearación actual (<em>decay</em>), la función de activación (<em>elu</em>) y el esquema de inicialización de pesos (<em>Glorot normal</em>). Estos ajustes se realizaron mediante un proceso iterativo que buscaba minimizar la función de pérdida mientras se mantenía un tiempo de entrenamiento computacionalmente viable.</p>
 </section>
 <section id="evaluación-del-modelo" class="level2" data-number="10.4">
 <h2 data-number="10.4" class="anchored" data-anchor-id="evaluación-del-modelo"><span class="header-section-number">10.4</span> Evaluación del modelo</h2>
@@ -543,14 +543,14 @@ window.Quarto = {
 <li>Una evaluación cualitativa basada en visualizaciones.</li>
 <li>Un análisis cuantitativo mediante métricas de error estandarizadas.</li>
 </ol>
-<p>En primer lugar, se llevó a cabo una comparación visual con los resultados reportados en el trabajo de <span class="citation" data-cites="medical_rep">Alessio Borgi (<a href="#ref-medical_rep" role="doc-biblioref">2023</a>)</span>, dado que dicho estudio no incluye datos numéricos tabulados, sino únicamente representaciones gráficas de las soluciones. Esta comparación permitió identificar coincidencias y discrepancias en el comportamiento espaciotemporal de las variables de interés, destacando las fortalezas del modelo propuesto en términos de estabilidad numérica.</p>
+<p>En primer lugar, se llevó a cabo una comparación visual con los resultados reportados en el trabajo de <span class="citation" data-cites="medical_rep">Alessio Borgi (<a href="references.html#ref-medical_rep" role="doc-biblioref">2023</a>)</span>, dado que dicho estudio no incluye datos numéricos tabulados, sino únicamente representaciones gráficas de las soluciones. Esta comparación permitió identificar coincidencias y discrepancias en el comportamiento espaciotemporal de las variables de interés, destacando las fortalezas del modelo propuesto en términos de estabilidad numérica.</p>
 <p>En segundo lugar, para una evaluación cuantitativa rigurosa, se compararon las predicciones del modelo con soluciones de referencia generadas mediante el método de Crank-Nicolson, implementado en Julia utilizando la librería DifferentialEquations.jl. La comparación se realizó sobre una malla uniforme de 26×26 puntos en el cuadrado de <span class="math inline">\([0,1]\times[0,1]\)</span>, calculando para cada instante de tiempo relevante las siguientes métricas:</p>
 <ul>
 <li>Error Absoluto Medio (MAE)</li>
 <li>Error Absoluto Máximo (MaxAE)</li>
 <li>Error L2 (norma euclidiana)</li>
 </ul>
-<p>Estos criterios permitieron cuantificar no solo la precisión global del modelo, sino también sus desviaciones locales más significativas, particularmente en regiones con alta variabilidad espacial. Los resultados detallados de este análisis, junto con una discusión sobre la eficiencia computacional relativa entre ambos métodos, se presentan en la <a href="#tbl-errores" class="quarto-xref">Tabla&nbsp;<span class="quarto-unresolved-ref">tbl-errores</span></a>.</p>
+<p>Estos criterios permitieron cuantificar no solo la precisión global del modelo, sino también sus desviaciones locales más significativas, particularmente en regiones con alta variabilidad espacial. Los resultados detallados de este análisis, junto con una discusión sobre la eficiencia computacional relativa entre ambos métodos, se presentan en la <a href="comparaciones.html#tbl-errores" class="quarto-xref">Tabla&nbsp;<span>13.1</span></a>.</p>
 </section>
 <section id="análisis-y-conclusión" class="level2" data-number="10.6">
 <h2 data-number="10.6" class="anchored" data-anchor-id="análisis-y-conclusión"><span class="header-section-number">10.6</span> Análisis y conclusión</h2>
@@ -560,7 +560,7 @@ window.Quarto = {
 </div>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
 <div id="ref-medical_rep" class="csl-entry" role="listitem">
 Alessio Borgi, Alessandro De Luca, Eugenio Bugli. 2023. <span>«<span>BioHeat PINNs: Temperature Estimation with Bio-Heat Equation using Physics-Informed Neural Networks</span>»</span>. <a href="https://github.com/alessioborgi/BioHeat_PINNs/tree/main?tab=readme-ov-file#bioheat-pinns-temperature-estimation-with-bio-heat-equation-using-physics-informed-neural-networks">https://github.com/alessioborgi/BioHeat_PINNs/tree/main?tab=readme-ov-file#bioheat-pinns-temperature-estimation-with-bio-heat-equation-using-physics-informed-neural-networks</a>.
 </div>

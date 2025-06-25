@@ -612,7 +612,7 @@ problema original. Este es el enfoque más común porque los métodos de
 aproximación proporcionan resultados más precisos e información de error
 realista (\citeproc{ref-burden2011}{Burden y Faires 2010}).
 
-\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, bottomtitle=1mm, colback=white, left=2mm, breakable, colbacktitle=quarto-callout-caution-color!10!white, colframe=quarto-callout-caution-color-frame, opacitybacktitle=0.6, rightrule=.15mm, toptitle=1mm, leftrule=.75mm, titlerule=0mm, title={Ejemplo}, arc=.35mm, toprule=.15mm, opacityback=0, coltitle=black]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, toprule=.15mm, colbacktitle=quarto-callout-caution-color!10!white, title={Ejemplo}, breakable, toptitle=1mm, bottomrule=.15mm, colback=white, bottomtitle=1mm, rightrule=.15mm, opacitybacktitle=0.6, colframe=quarto-callout-caution-color-frame, titlerule=0mm, arc=.35mm, coltitle=black, leftrule=.75mm, opacityback=0]
 
 El movimiento de un péndulo oscilante bajo ciertas suposiciones se
 describe mediante la ecuación diferencial de segundo orden: \[
@@ -708,7 +708,7 @@ tiene una solución única \(y(t)\) para \(a\leq t \leq b\).
 
 \end{theorem}
 
-\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, bottomtitle=1mm, colback=white, left=2mm, breakable, colbacktitle=quarto-callout-caution-color!10!white, colframe=quarto-callout-caution-color-frame, opacitybacktitle=0.6, rightrule=.15mm, toptitle=1mm, leftrule=.75mm, titlerule=0mm, title={Ejemplo}, arc=.35mm, toprule=.15mm, opacityback=0, coltitle=black]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, toprule=.15mm, colbacktitle=quarto-callout-caution-color!10!white, title={Ejemplo}, breakable, toptitle=1mm, bottomrule=.15mm, colback=white, bottomtitle=1mm, rightrule=.15mm, opacitybacktitle=0.6, colframe=quarto-callout-caution-color-frame, titlerule=0mm, arc=.35mm, coltitle=black, leftrule=.75mm, opacityback=0]
 
 Use el teorema Teorema~\ref{thm-uniq-sol} para mostrar que hay una única
 solución al problema de valor inicial: \[
@@ -795,7 +795,7 @@ Supongamos
 
 \end{theorem}
 
-\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, bottomtitle=1mm, colback=white, left=2mm, breakable, colbacktitle=quarto-callout-caution-color!10!white, colframe=quarto-callout-caution-color-frame, opacitybacktitle=0.6, rightrule=.15mm, toptitle=1mm, leftrule=.75mm, titlerule=0mm, title={Ejemplo}, arc=.35mm, toprule=.15mm, opacityback=0, coltitle=black]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, toprule=.15mm, colbacktitle=quarto-callout-caution-color!10!white, title={Ejemplo}, breakable, toptitle=1mm, bottomrule=.15mm, colback=white, bottomtitle=1mm, rightrule=.15mm, opacitybacktitle=0.6, colframe=quarto-callout-caution-color-frame, titlerule=0mm, arc=.35mm, coltitle=black, leftrule=.75mm, opacityback=0]
 
 Demostrar que el problema de valor inicial\\
 \[
@@ -1022,6 +1022,164 @@ los mejores parámetros \(\mathbb{\theta^*}\) minimizando la pérdida
 
 \end{figure}%
 
+\section{Ejemplo de resolución de la ecuación de Burger 1D con
+deepxde}\label{ejemplo-de-resoluciuxf3n-de-la-ecuaciuxf3n-de-burger-1d-con-deepxde}
+
+Dada la ecuación: \[
+\dfrac{\partial u}{\partial t} + u\dfrac{\partial u}{\partial x} = v\dfrac{\partial^2 u}{\partial x^2} \quad, x \in[-1,1], \ t\in[0,1]
+\]
+
+con la condición de frontera de Dirichlet y condición inicial: \[
+u(-1,t) = u(1,t) = 0, \quad u(x,0)=-\sin(\pi x)
+\]
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ deepxde }\ImportTok{as}\NormalTok{ dde}
+\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
+
+
+\KeywordTok{def}\NormalTok{ gen\_testdata():}
+\NormalTok{    data }\OperatorTok{=}\NormalTok{ np.load(}\StringTok{"data/Burgers.npz"}\NormalTok{)}
+\NormalTok{    t, x, exact }\OperatorTok{=}\NormalTok{ data[}\StringTok{"t"}\NormalTok{], data[}\StringTok{"x"}\NormalTok{], data[}\StringTok{"usol"}\NormalTok{].T}
+\NormalTok{    xx, tt }\OperatorTok{=}\NormalTok{ np.meshgrid(x, t)}
+\NormalTok{    X }\OperatorTok{=}\NormalTok{ np.vstack((np.ravel(xx), np.ravel(tt))).T}
+\NormalTok{    y }\OperatorTok{=}\NormalTok{ exact.flatten()[:, }\VariableTok{None}\NormalTok{]}
+    \ControlFlowTok{return}\NormalTok{ X, y}
+
+
+\KeywordTok{def}\NormalTok{ pde(x, y):}
+\NormalTok{    dy\_x }\OperatorTok{=}\NormalTok{ dde.grad.jacobian(y, x, i}\OperatorTok{=}\DecValTok{0}\NormalTok{, j}\OperatorTok{=}\DecValTok{0}\NormalTok{)}
+\NormalTok{    dy\_t }\OperatorTok{=}\NormalTok{ dde.grad.jacobian(y, x, i}\OperatorTok{=}\DecValTok{0}\NormalTok{, j}\OperatorTok{=}\DecValTok{1}\NormalTok{)}
+\NormalTok{    dy\_xx }\OperatorTok{=}\NormalTok{ dde.grad.hessian(y, x, i}\OperatorTok{=}\DecValTok{0}\NormalTok{, j}\OperatorTok{=}\DecValTok{0}\NormalTok{)}
+    \ControlFlowTok{return}\NormalTok{ dy\_t }\OperatorTok{+}\NormalTok{ y }\OperatorTok{*}\NormalTok{ dy\_x }\OperatorTok{{-}} \FloatTok{0.01} \OperatorTok{/}\NormalTok{ np.pi }\OperatorTok{*}\NormalTok{ dy\_xx}
+
+
+\NormalTok{geom }\OperatorTok{=}\NormalTok{ dde.geometry.Interval(}\OperatorTok{{-}}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+\NormalTok{timedomain }\OperatorTok{=}\NormalTok{ dde.geometry.TimeDomain(}\DecValTok{0}\NormalTok{, }\FloatTok{0.99}\NormalTok{)}
+\NormalTok{geomtime }\OperatorTok{=}\NormalTok{ dde.geometry.GeometryXTime(geom, timedomain)}
+
+\NormalTok{bc }\OperatorTok{=}\NormalTok{ dde.icbc.DirichletBC(geomtime, }\KeywordTok{lambda}\NormalTok{ x: }\DecValTok{0}\NormalTok{, }\KeywordTok{lambda}\NormalTok{ \_, on\_boundary: on\_boundary)}
+\NormalTok{ic }\OperatorTok{=}\NormalTok{ dde.icbc.IC(}
+\NormalTok{    geomtime, }\KeywordTok{lambda}\NormalTok{ x: }\OperatorTok{{-}}\NormalTok{np.sin(np.pi }\OperatorTok{*}\NormalTok{ x[:, }\DecValTok{0}\NormalTok{:}\DecValTok{1}\NormalTok{]), }\KeywordTok{lambda}\NormalTok{ \_, on\_initial: on\_initial}
+\NormalTok{)}
+
+\NormalTok{data }\OperatorTok{=}\NormalTok{ dde.data.TimePDE(}
+\NormalTok{    geomtime, pde, [bc, ic],}
+\NormalTok{    num\_domain}\OperatorTok{=}\DecValTok{2540}\NormalTok{,}
+\NormalTok{    num\_boundary}\OperatorTok{=}\DecValTok{80}\NormalTok{,}
+\NormalTok{    num\_initial}\OperatorTok{=}\DecValTok{160}\NormalTok{,}
+\NormalTok{    num\_test}\OperatorTok{=}\DecValTok{300}
+\NormalTok{)}
+\NormalTok{net }\OperatorTok{=}\NormalTok{ dde.nn.FNN([}\DecValTok{2}\NormalTok{] }\OperatorTok{+}\NormalTok{ [}\DecValTok{20}\NormalTok{] }\OperatorTok{*} \DecValTok{3} \OperatorTok{+}\NormalTok{ [}\DecValTok{1}\NormalTok{], }\StringTok{"tanh"}\NormalTok{, }\StringTok{"Glorot normal"}\NormalTok{)}
+\NormalTok{model }\OperatorTok{=}\NormalTok{ dde.Model(data, net)}
+
+\NormalTok{model.}\BuiltInTok{compile}\NormalTok{(}\StringTok{"adam"}\NormalTok{, lr}\OperatorTok{=}\FloatTok{1e{-}3}\NormalTok{)}
+\NormalTok{model.train(iterations}\OperatorTok{=}\DecValTok{5000}\NormalTok{)}
+\NormalTok{model.}\BuiltInTok{compile}\NormalTok{(}\StringTok{"L{-}BFGS"}\NormalTok{)}
+\NormalTok{losshistory, train\_state }\OperatorTok{=}\NormalTok{ model.train()}
+\NormalTok{dde.saveplot(losshistory, train\_state, issave}\OperatorTok{=}\VariableTok{False}\NormalTok{, isplot}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+
+\NormalTok{X, y\_true }\OperatorTok{=}\NormalTok{ gen\_testdata()}
+\NormalTok{y\_pred }\OperatorTok{=}\NormalTok{ model.predict(X)}
+\NormalTok{f }\OperatorTok{=}\NormalTok{ model.predict(X, operator}\OperatorTok{=}\NormalTok{pde)}
+\BuiltInTok{print}\NormalTok{(}\StringTok{"Mean residual:"}\NormalTok{, np.mean(np.absolute(f)))}
+\BuiltInTok{print}\NormalTok{(}\StringTok{"L2 relative error:"}\NormalTok{, dde.metrics.l2\_relative\_error(y\_true, y\_pred))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+2025-06-25 15:55:47.861593: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
+2025-06-25 15:55:47.908201: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
+2025-06-25 15:55:47.909072: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2025-06-25 15:55:48.764102: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+Using backend: tensorflow.compat.v1
+Other supported backends: tensorflow, pytorch, jax, paddle.
+paddle supports more examples now and is recommended.
+\end{verbatim}
+
+\begin{verbatim}
+WARNING:tensorflow:From /home/damian/.local/lib/python3.8/site-packages/tensorflow/python/compat/v2_compat.py:107: disable_resource_variables (from tensorflow.python.ops.variable_scope) is deprecated and will be removed in a future version.
+Instructions for updating:
+non-resource variables are not supported in the long term
+Compiling model...
+Building feed-forward neural network...
+'build' took 0.045695 s
+\end{verbatim}
+
+\begin{verbatim}
+/home/damian/.local/lib/python3.8/site-packages/deepxde/nn/tensorflow_compat_v1/fnn.py:116: UserWarning:
+
+`tf.layers.dense` is deprecated and will be removed in a future version. Please use `tf.keras.layers.Dense` instead.
+\end{verbatim}
+
+\begin{verbatim}
+'compile' took 0.365102 s
+
+Training model...
+
+Step      Train loss                        Test loss                         Test metric
+0         [2.03e-01, 5.38e-02, 5.46e-01]    [1.97e-01, 5.38e-02, 5.46e-01]    []  
+\end{verbatim}
+
+\begin{verbatim}
+2025-06-25 15:55:50.306423: I tensorflow/compiler/mlir/mlir_graph_optimization_pass.cc:375] MLIR V1 optimization pass is not enabled
+\end{verbatim}
+
+\begin{verbatim}
+1000      [4.10e-02, 1.67e-03, 6.36e-02]    [4.39e-02, 1.67e-03, 6.36e-02]    []  
+2000      [3.14e-02, 1.44e-04, 4.50e-02]    [5.51e-02, 1.44e-04, 4.50e-02]    []  
+3000      [2.06e-02, 7.27e-05, 3.10e-02]    [1.08e-01, 7.27e-05, 3.10e-02]    []  
+4000      [6.45e-03, 8.74e-05, 5.17e-03]    [1.69e-02, 8.74e-05, 5.17e-03]    []  
+5000      [3.00e-03, 2.28e-05, 2.00e-03]    [5.79e-03, 2.28e-05, 2.00e-03]    []  
+
+Best model at step 5000:
+  train loss: 5.02e-03
+  test loss: 7.81e-03
+  test metric: []
+
+'train' took 36.179496 s
+
+Compiling model...
+'compile' took 0.178539 s
+
+Training model...
+
+Step      Train loss                        Test loss                         Test metric
+5000      [3.00e-03, 2.28e-05, 2.00e-03]    [5.79e-03, 2.28e-05, 2.00e-03]    []  
+6000      [2.76e-04, 1.85e-06, 2.06e-04]    [2.76e-04, 1.85e-06, 2.06e-04]        
+7000      [1.42e-04, 3.94e-07, 9.28e-05]    [1.42e-04, 3.94e-07, 9.28e-05]        
+8000      [8.45e-05, 4.89e-07, 3.93e-05]    [8.45e-05, 4.89e-07, 3.93e-05]        
+9000      [4.75e-05, 2.75e-07, 1.35e-05]    [4.75e-05, 2.75e-07, 1.35e-05]        
+10000     [2.71e-05, 1.15e-07, 6.31e-06]    [2.71e-05, 1.15e-07, 6.31e-06]        
+11000     [1.70e-05, 1.59e-07, 2.59e-06]    [1.70e-05, 1.59e-07, 2.59e-06]        
+12000     [1.13e-05, 7.90e-08, 1.77e-06]    [1.13e-05, 7.90e-08, 1.77e-06]        
+13000     [9.05e-06, 5.33e-08, 1.09e-06]    [9.05e-06, 5.33e-08, 1.09e-06]        
+INFO:tensorflow:Optimization terminated with:
+  Message: CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH
+  Objective function value: 0.000009
+  Number of iterations: 7837
+  Number of functions evaluations: 8507
+13507     [7.79e-06, 5.75e-08, 7.62e-07]    [3.06e-02, 5.75e-08, 7.62e-07]    []  
+
+Best model at step 13507:
+  train loss: 8.61e-06
+  test loss: 3.06e-02
+  test metric: []
+
+'train' took 88.146945 s
+\end{verbatim}
+
+\pandocbounded{\includegraphics[keepaspectratio]{pinns_files/figure-pdf/cell-2-output-7.pdf}}
+
+\pandocbounded{\includegraphics[keepaspectratio]{pinns_files/figure-pdf/cell-2-output-8.pdf}}
+
+\begin{verbatim}
+Mean residual: 0.003893385
+L2 relative error: 0.017751091603930687
+\end{verbatim}
+
 \section{Comparación con Redes Neuronales
 Tradicionales}\label{comparaciuxf3n-con-redes-neuronales-tradicionales}
 
@@ -1095,6 +1253,180 @@ comparten el mismo conjunto de parámetros
 (\citeproc{ref-lu2021deeponet}{Lu, Jin, et~al. 2021}).}
 
 \end{figure}%
+
+\section{Ejemplo de resolución de un operador usando
+DeepONet}\label{ejemplo-de-resoluciuxf3n-de-un-operador-usando-deeponet}
+
+Se resolverá el operador \[
+G: f\rightarrow u
+\]
+
+para el problema unidemensional de Poisson: \[
+u''(x) = f(x), \quad x\in[0,1]
+\]
+
+con la condición de frontera de Dirichlet \[
+u(0)=u(1)=0
+\]
+
+el término \(f\) representa a una función continua arbitraria.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ deepxde }\ImportTok{as}\NormalTok{ dde}
+\ImportTok{import}\NormalTok{ matplotlib.pyplot }\ImportTok{as}\NormalTok{ plt}
+\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
+
+
+\CommentTok{\# Poisson equation: {-}u\_xx = f}
+\KeywordTok{def}\NormalTok{ equation(x, y, f):}
+\NormalTok{    dy\_xx }\OperatorTok{=}\NormalTok{ dde.grad.hessian(y, x)}
+    \ControlFlowTok{return} \OperatorTok{{-}}\NormalTok{dy\_xx }\OperatorTok{{-}}\NormalTok{ f}
+
+\CommentTok{\# Domain is interval [0, 1]}
+\NormalTok{geom }\OperatorTok{=}\NormalTok{ dde.geometry.Interval(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+
+\CommentTok{\# Zero Dirichlet BC}
+\KeywordTok{def}\NormalTok{ u\_boundary(\_):}
+    \ControlFlowTok{return} \DecValTok{0}
+
+\KeywordTok{def}\NormalTok{ boundary(\_, on\_boundary):}
+    \ControlFlowTok{return}\NormalTok{ on\_boundary}
+
+\NormalTok{bc }\OperatorTok{=}\NormalTok{ dde.icbc.DirichletBC(geom, u\_boundary, boundary)}
+
+\CommentTok{\# Define PDE}
+\NormalTok{pde }\OperatorTok{=}\NormalTok{ dde.data.PDE(geom, equation, bc, num\_domain}\OperatorTok{=}\DecValTok{100}\NormalTok{, num\_boundary}\OperatorTok{=}\DecValTok{2}\NormalTok{)}
+
+\CommentTok{\# Function space for f(x) are polynomials}
+\NormalTok{degree }\OperatorTok{=} \DecValTok{3}
+\NormalTok{space }\OperatorTok{=}\NormalTok{ dde.data.PowerSeries(N}\OperatorTok{=}\NormalTok{degree }\OperatorTok{+} \DecValTok{1}\NormalTok{)}
+
+\CommentTok{\# Choose evaluation points}
+\NormalTok{num\_eval\_points }\OperatorTok{=} \DecValTok{10}
+\NormalTok{evaluation\_points }\OperatorTok{=}\NormalTok{ geom.uniform\_points(num\_eval\_points, boundary}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+
+\CommentTok{\# Define PDE operator}
+\NormalTok{pde\_op }\OperatorTok{=}\NormalTok{ dde.data.PDEOperatorCartesianProd(}
+\NormalTok{    pde,}
+\NormalTok{    space,}
+\NormalTok{    evaluation\_points,}
+\NormalTok{    num\_function}\OperatorTok{=}\DecValTok{100}\NormalTok{,}
+\NormalTok{    num\_test}\OperatorTok{=}\DecValTok{20}
+\NormalTok{)}
+
+\CommentTok{\# Setup DeepONet}
+\NormalTok{dim\_x }\OperatorTok{=} \DecValTok{1}
+\NormalTok{p }\OperatorTok{=} \DecValTok{32}
+\NormalTok{net }\OperatorTok{=}\NormalTok{ dde.nn.DeepONetCartesianProd(}
+\NormalTok{    [num\_eval\_points, }\DecValTok{32}\NormalTok{, p],}
+\NormalTok{    [dim\_x, }\DecValTok{32}\NormalTok{, p],}
+\NormalTok{    activation}\OperatorTok{=}\StringTok{"tanh"}\NormalTok{,}
+\NormalTok{    kernel\_initializer}\OperatorTok{=}\StringTok{"Glorot normal"}\NormalTok{,}
+\NormalTok{)}
+
+\CommentTok{\# Define and train model}
+\NormalTok{model }\OperatorTok{=}\NormalTok{ dde.Model(pde\_op, net)}
+\NormalTok{dde.optimizers.set\_LBFGS\_options(maxiter}\OperatorTok{=}\DecValTok{1000}\NormalTok{)}
+\NormalTok{model.}\BuiltInTok{compile}\NormalTok{(}\StringTok{"L{-}BFGS"}\NormalTok{)}
+\NormalTok{model.train()}
+
+\CommentTok{\# Plot realisations of f(x)}
+\NormalTok{n }\OperatorTok{=} \DecValTok{3}
+\NormalTok{features }\OperatorTok{=}\NormalTok{ space.random(n)}
+\NormalTok{fx }\OperatorTok{=}\NormalTok{ space.eval\_batch(features, evaluation\_points)}
+
+\NormalTok{x }\OperatorTok{=}\NormalTok{ geom.uniform\_points(}\DecValTok{100}\NormalTok{, boundary}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+\NormalTok{y }\OperatorTok{=}\NormalTok{ model.predict((fx, x))}
+
+\CommentTok{\# Setup figure}
+\NormalTok{fig }\OperatorTok{=}\NormalTok{ plt.figure(figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{7}\NormalTok{, }\DecValTok{8}\NormalTok{))}
+\NormalTok{plt.subplot(}\DecValTok{2}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+\NormalTok{plt.title(}\StringTok{"Ecuación de Poisson: término f(x) y solución u(x)"}\NormalTok{)}
+\NormalTok{plt.ylabel(}\StringTok{"f(x)"}\NormalTok{)}
+\NormalTok{z }\OperatorTok{=}\NormalTok{ np.zeros\_like(x)}
+\NormalTok{plt.plot(x, z, }\StringTok{"k{-}"}\NormalTok{, alpha}\OperatorTok{=}\FloatTok{0.1}\NormalTok{)}
+
+\CommentTok{\# Plot source term f(x)}
+\ControlFlowTok{for}\NormalTok{ i }\KeywordTok{in} \BuiltInTok{range}\NormalTok{(n):}
+\NormalTok{    plt.plot(evaluation\_points, fx[i], }\StringTok{"{-}{-}"}\NormalTok{)}
+
+\CommentTok{\# Plot solution u(x)}
+\NormalTok{plt.subplot(}\DecValTok{2}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{)}
+\NormalTok{plt.ylabel(}\StringTok{"u(x)"}\NormalTok{)}
+\NormalTok{plt.plot(x, z, }\StringTok{"k{-}"}\NormalTok{, alpha}\OperatorTok{=}\FloatTok{0.1}\NormalTok{)}
+\ControlFlowTok{for}\NormalTok{ i }\KeywordTok{in} \BuiltInTok{range}\NormalTok{(n):}
+\NormalTok{    plt.plot(x, y[i], }\StringTok{"{-}"}\NormalTok{)}
+\NormalTok{plt.xlabel(}\StringTok{"x"}\NormalTok{)}
+
+\NormalTok{plt.show()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+2025-06-25 15:58:00.806415: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
+2025-06-25 15:58:00.864478: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
+2025-06-25 15:58:00.865325: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2025-06-25 15:58:01.689938: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+Using backend: tensorflow.compat.v1
+Other supported backends: tensorflow, pytorch, jax, paddle.
+paddle supports more examples now and is recommended.
+\end{verbatim}
+
+\begin{verbatim}
+WARNING:tensorflow:From /home/damian/.local/lib/python3.8/site-packages/tensorflow/python/compat/v2_compat.py:107: disable_resource_variables (from tensorflow.python.ops.variable_scope) is deprecated and will be removed in a future version.
+Instructions for updating:
+non-resource variables are not supported in the long term
+Compiling model...
+Building DeepONetCartesianProd...
+'build' took 0.053998 s
+\end{verbatim}
+
+\begin{verbatim}
+/home/damian/.local/lib/python3.8/site-packages/deepxde/nn/tensorflow_compat_v1/deeponet.py:549: UserWarning:
+
+`tf.layers.dense` is deprecated and will be removed in a future version. Please use `tf.keras.layers.Dense` instead.
+
+/home/damian/.local/lib/python3.8/site-packages/deepxde/nn/tensorflow_compat_v1/deeponet.py:556: UserWarning:
+
+`tf.layers.dense` is deprecated and will be removed in a future version. Please use `tf.keras.layers.Dense` instead.
+
+/home/damian/.local/lib/python3.8/site-packages/deepxde/nn/tensorflow_compat_v1/deeponet.py:570: UserWarning:
+
+`tf.layers.dense` is deprecated and will be removed in a future version. Please use `tf.keras.layers.Dense` instead.
+\end{verbatim}
+
+\begin{verbatim}
+'compile' took 16.498563 s
+\end{verbatim}
+
+\begin{verbatim}
+2025-06-25 15:58:19.638744: I tensorflow/compiler/mlir/mlir_graph_optimization_pass.cc:375] MLIR V1 optimization pass is not enabled
+\end{verbatim}
+
+\begin{verbatim}
+Training model...
+
+Step      Train loss              Test loss               Test metric
+0         [3.90e-01, 4.61e-02]    [4.48e-01, 7.08e-02]    []  
+1000      [2.74e-06, 1.95e-07]    [2.79e-06, 1.76e-07]        
+INFO:tensorflow:Optimization terminated with:
+  Message: STOP: TOTAL NO. of ITERATIONS REACHED LIMIT
+  Objective function value: 0.000003
+  Number of iterations: 1000
+  Number of functions evaluations: 1061
+1061      [2.48e-06, 1.48e-07]    [2.71e-06, 1.63e-07]    []  
+
+Best model at step 1061:
+  train loss: 2.62e-06
+  test loss: 2.88e-06
+  test metric: []
+
+'train' took 32.643402 s
+\end{verbatim}
+
+\pandocbounded{\includegraphics[keepaspectratio]{deeponet_files/figure-pdf/cell-2-output-7.pdf}}
 
 \section{Comparación con una PINN}\label{comparaciuxf3n-con-una-pinn}
 
@@ -1452,7 +1784,7 @@ entrenamiento (\emph{iterations}), el ratio de aprendizaje
 (\emph{learning rate}) así como un decaimiento en el mismo dependiente
 de la itearación actual (\emph{decay}), la función de activación
 (\emph{elu}) y el esquema de inicialización de pesos (\emph{Glorot
-uniform}). Estos ajustes se realizaron mediante un proceso iterativo que
+normal}). Estos ajustes se realizaron mediante un proceso iterativo que
 buscaba minimizar la función de pérdida mientras se mantenía un tiempo
 de entrenamiento computacionalmente viable.
 
@@ -1759,7 +2091,7 @@ columnas:
 Este archivo permitió calcular de manera estandarizada las métricas de
 error (MAE, MaxAE, error L2) en la sección de comparación de resultados.
 
-\chapter{Predicciones del modelo}\label{predicciones-del-modelo}
+\chapter{Métricas del modelo}\label{muxe9tricas-del-modelo}
 
 Conforme se ha referido previamente, el desarrollo del modelo predictivo
 se realizó utilizando el framework DeepXDE (versión 1.10.1) con backend
@@ -1858,7 +2190,7 @@ DeepONetCartesianProd con la siguiente estructura especializada:
 \NormalTok{k\_initializer }\OperatorTok{=} \StringTok{"Glorot normal"}
 
 \CommentTok{\# Training parameters}
-\NormalTok{num\_iterations }\OperatorTok{=} \DecValTok{1000}
+\NormalTok{num\_iterations }\OperatorTok{=} \DecValTok{5000}
 \NormalTok{learning\_rate }\OperatorTok{=} \FloatTok{2e{-}3}
 \NormalTok{decay\_rate }\OperatorTok{=} \FloatTok{0.05}
 \NormalTok{decay\_steps }\OperatorTok{=} \DecValTok{1000}
@@ -2002,11 +2334,11 @@ DeepONetCartesianProd con la siguiente estructura especializada:
 \end{Shaded}
 
 \begin{verbatim}
-2025-06-12 13:26:35.717421: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
-2025-06-12 13:26:35.841244: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
-2025-06-12 13:26:35.843668: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+2025-06-25 15:59:06.992646: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
+2025-06-25 15:59:07.045297: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
+2025-06-25 15:59:07.046419: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
 To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
-2025-06-12 13:26:36.730371: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+2025-06-25 15:59:07.911547: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
 Using backend: tensorflow.compat.v1
 Other supported backends: tensorflow, pytorch, jax, paddle.
 paddle supports more examples now and is recommended.
@@ -2019,7 +2351,7 @@ non-resource variables are not supported in the long term
 Setting the default backend to "tensorflow.compat.v1". You can change it in the ~/.deepxde/config.json file or export the DDE_BACKEND environment variable. Valid options are: tensorflow.compat.v1, tensorflow, pytorch, jax, paddle (all lowercase)
 Compiling model...
 Building DeepONetCartesianProd...
-'build' took 0.087442 s
+'build' took 0.088748 s
 \end{verbatim}
 
 \begin{verbatim}
@@ -2037,11 +2369,11 @@ Building DeepONetCartesianProd...
 \end{verbatim}
 
 \begin{verbatim}
-'compile' took 15.491822 s
+'compile' took 14.967762 s
 \end{verbatim}
 
 \begin{verbatim}
-2025-06-12 13:26:53.904235: I tensorflow/compiler/mlir/mlir_graph_optimization_pass.cc:375] MLIR V1 optimization pass is not enabled
+2025-06-25 15:59:24.600128: I tensorflow/compiler/mlir/mlir_graph_optimization_pass.cc:375] MLIR V1 optimization pass is not enabled
 \end{verbatim}
 
 \begin{verbatim}
@@ -2050,34 +2382,38 @@ Training model...
 Step      Train loss                                            Test loss                                             Test metric
 0         [2.13e+00, 2.30e-01, 2.85e-01, 6.87e-01, 6.91e-01]    [3.30e+00, 2.78e-01, 4.39e-01, 1.03e+00, 6.38e-01]    []  
 1000      [3.11e-03, 2.58e-03, 5.22e-04, 6.89e-02, 1.74e-04]    [1.34e-02, 2.74e-03, 2.06e-03, 7.10e-02, 3.39e-04]    []  
+2000      [3.09e-03, 1.09e-03, 1.89e-04, 6.85e-02, 5.77e-05]    [1.14e-02, 1.18e-03, 9.29e-04, 6.94e-02, 1.10e-04]    []  
+3000      [9.30e-04, 5.82e-04, 1.27e-05, 6.83e-02, 2.02e-05]    [7.56e-03, 7.20e-04, 5.66e-04, 6.89e-02, 8.23e-05]    []  
+4000      [3.17e-03, 4.59e-04, 2.08e-04, 6.82e-02, 1.82e-05]    [6.66e-03, 6.02e-04, 5.99e-04, 6.86e-02, 5.63e-05]    []  
+5000      [3.66e-04, 3.11e-04, 3.68e-05, 6.82e-02, 7.74e-06]    [6.75e-03, 3.82e-04, 6.64e-04, 6.86e-02, 1.75e-05]    []  
 
-Best model at step 1000:
-  train loss: 7.52e-02
-  test loss: 8.95e-02
+Best model at step 5000:
+  train loss: 6.90e-02
+  test loss: 7.65e-02
   test metric: []
 
-'train' took 16.273812 s
+'train' took 44.766442 s
 
 Compiling model...
-'compile' took 35.302252 s
+'compile' took 33.439356 s
 
 Training model...
 
 Step      Train loss                                            Test loss                                             Test metric
-1000      [3.11e-03, 2.58e-03, 5.22e-04, 6.89e-02, 1.74e-04]    [1.34e-02, 2.74e-03, 2.06e-03, 7.10e-02, 3.39e-04]    []  
+5000      [3.66e-04, 3.11e-04, 3.68e-05, 6.82e-02, 7.74e-06]    [6.75e-03, 3.82e-04, 6.64e-04, 6.86e-02, 1.75e-05]    []  
 INFO:tensorflow:Optimization terminated with:
   Message: CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH
-  Objective function value: 0.075200
-  Number of iterations: 5
-  Number of functions evaluations: 32
-1032      [3.09e-03, 2.57e-03, 5.22e-04, 6.88e-02, 1.74e-04]    [1.36e-02, 2.72e-03, 2.17e-03, 7.09e-02, 3.23e-04]    []  
+  Objective function value: 0.068749
+  Number of iterations: 8
+  Number of functions evaluations: 44
+5044      [1.97e-04, 3.33e-04, 1.37e-05, 6.82e-02, 7.14e-06]    [5.67e-03, 3.98e-04, 5.57e-04, 6.86e-02, 1.81e-05]    []  
 
-Best model at step 1032:
-  train loss: 7.52e-02
-  test loss: 8.98e-02
+Best model at step 5044:
+  train loss: 6.87e-02
+  test loss: 7.52e-02
   test metric: []
 
-'train' took 11.039115 s
+'train' took 10.900959 s
 \end{verbatim}
 
 \section{Gráficas de pérdida del
@@ -2337,14 +2673,17 @@ formato CSV. El proceso consistió en:
 \end{Highlighting}
 \end{Shaded}
 
+\chapter{Comparación de
+resultados}\label{comparaciuxf3n-de-resultados-1}
+
 \section{Comparativa visual de las
 predicciones}\label{comparativa-visual-de-las-predicciones}
 
 Esta sección presenta un análisis cualitativo de los resultados mediante
-la comparación directa entre las predicciones del modelo y las
-soluciones reportadas en el estudio de Alessio Borgi
-(\citeproc{ref-medical_rep}{2023}). La visualización paralela permite
-evaluar:
+la comparación directa entre las predicciones del modelo, las soluciones
+reportadas en el estudio de Alessio Borgi
+(\citeproc{ref-medical_rep}{2023}) y las obtenidas mediante el método de
+Crank Nickolson. La visualización paralela permite evaluar:
 
 \begin{itemize}
 \tightlist
@@ -2356,25 +2695,36 @@ evaluar:
   columnas).
 \end{itemize}
 
+\subsection{\texorpdfstring{Modelo contra resultados de Alessio Borgi
+(\citeproc{ref-medical_rep}{2023})}{Modelo contra resultados de Alessio Borgi (2023)}}\label{modelo-contra-resultados-de-medical_rep}
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \ImportTok{import}\NormalTok{ matplotlib.pyplot }\ImportTok{as}\NormalTok{ plt}
 \ImportTok{from}\NormalTok{ mpl\_toolkits.mplot3d }\ImportTok{import}\NormalTok{ Axes3D}
 \ImportTok{import}\NormalTok{ matplotlib.gridspec }\ImportTok{as}\NormalTok{ gridspec}
+\ImportTok{import}\NormalTok{ pandas }\ImportTok{as}\NormalTok{ pd}
+\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
 
-\CommentTok{\# Crear una figura y layout con GridSpec}
-\NormalTok{ncols }\OperatorTok{=} \BuiltInTok{len}\NormalTok{(times)}
-\NormalTok{fig }\OperatorTok{=}\NormalTok{ plt.figure(figsize}\OperatorTok{=}\NormalTok{((}\DecValTok{5} \OperatorTok{*}\NormalTok{ ncols) }\OperatorTok{+} \DecValTok{1}\NormalTok{, }\DecValTok{6}\NormalTok{))}
-\NormalTok{gs }\OperatorTok{=}\NormalTok{ gridspec.GridSpec(}\DecValTok{2}\NormalTok{, ncols, height\_ratios}\OperatorTok{=}\NormalTok{[}\DecValTok{10}\NormalTok{, }\DecValTok{1}\NormalTok{], hspace}\OperatorTok{=}\FloatTok{0.3}\NormalTok{)}
+\CommentTok{\# Lista de tiempos}
+\NormalTok{times }\OperatorTok{=}\NormalTok{ [}\FloatTok{0.0}\NormalTok{, }\FloatTok{0.25}\NormalTok{, }\FloatTok{0.5}\NormalTok{, }\FloatTok{0.75}\NormalTok{, }\FloatTok{1.0}\NormalTok{]}
+
+\CommentTok{\# Cargar el dataframe}
+\NormalTok{df }\OperatorTok{=}\NormalTok{ pd.read\_csv(}\VerbatimStringTok{r\textquotesingle{}data/model\_DoN}\DecValTok{.}\VerbatimStringTok{csv\textquotesingle{}}\NormalTok{)  }
+
+\CommentTok{\# Crear figura con subplots 3D en 1 fila y 5 columnas}
+\NormalTok{fig, axes }\OperatorTok{=}\NormalTok{ plt.subplots(nrows}\OperatorTok{=}\DecValTok{1}\NormalTok{, ncols}\OperatorTok{=}\BuiltInTok{len}\NormalTok{(times), }
+\NormalTok{                        figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{22}\NormalTok{, }\DecValTok{6}\NormalTok{),}
+\NormalTok{                        subplot\_kw}\OperatorTok{=}\NormalTok{\{}\StringTok{\textquotesingle{}projection\textquotesingle{}}\NormalTok{: }\StringTok{\textquotesingle{}3d\textquotesingle{}}\NormalTok{\})}
+
+\CommentTok{\# Asumimos que el grid es regular}
+\NormalTok{num\_points }\OperatorTok{=} \BuiltInTok{int}\NormalTok{(np.sqrt(df[df[}\StringTok{"time"}\NormalTok{] }\OperatorTok{==}\NormalTok{ times[}\DecValTok{0}\NormalTok{]].shape[}\DecValTok{0}\NormalTok{]))}
 
 \CommentTok{\# Lista para almacenar los objetos surface}
 \NormalTok{surf\_list }\OperatorTok{=}\NormalTok{ []}
 
-\CommentTok{\# Asumimos que el grid es regular, así que podemos inferir la forma}
-\NormalTok{num\_points }\OperatorTok{=} \BuiltInTok{int}\NormalTok{(np.sqrt(df[df[}\StringTok{"time"}\NormalTok{] }\OperatorTok{==}\NormalTok{ times[}\DecValTok{0}\NormalTok{]].shape[}\DecValTok{0}\NormalTok{]))}
-
 \CommentTok{\# Reordenar para graficar}
-\ControlFlowTok{for}\NormalTok{ i, t\_val }\KeywordTok{in} \BuiltInTok{enumerate}\NormalTok{(times):}
+\ControlFlowTok{for}\NormalTok{ i, (t\_val, ax) }\KeywordTok{in} \BuiltInTok{enumerate}\NormalTok{(}\BuiltInTok{zip}\NormalTok{(times, axes)):}
     \CommentTok{\# Filtrar por tiempo actual}
 \NormalTok{    df\_t }\OperatorTok{=}\NormalTok{ df[df[}\StringTok{"time"}\NormalTok{] }\OperatorTok{==}\NormalTok{ t\_val]}
 
@@ -2382,9 +2732,6 @@ evaluar:
 \NormalTok{    X\_vals }\OperatorTok{=}\NormalTok{ df\_t[}\StringTok{"X"}\NormalTok{].values.reshape((num\_points, num\_points))}
 \NormalTok{    Y\_vals }\OperatorTok{=}\NormalTok{ df\_t[}\StringTok{"Y"}\NormalTok{].values.reshape((num\_points, num\_points))}
 \NormalTok{    Z\_vals }\OperatorTok{=}\NormalTok{ df\_t[}\StringTok{"Theta"}\NormalTok{].values.reshape((num\_points, num\_points))}
-
-    \CommentTok{\# Subgráfico 3D}
-\NormalTok{    ax }\OperatorTok{=}\NormalTok{ fig.add\_subplot(gs[}\DecValTok{0}\NormalTok{, i], projection}\OperatorTok{=}\StringTok{"3d"}\NormalTok{)}
 
     \CommentTok{\# Dibujar la superficie}
 \NormalTok{    surf }\OperatorTok{=}\NormalTok{ ax.plot\_surface(}
@@ -2396,14 +2743,15 @@ evaluar:
 \NormalTok{    )}
 \NormalTok{    surf\_list.append(surf)}
 
-\NormalTok{    ax.set\_title(}\SpecialStringTok{f"Time = }\SpecialCharTok{\{}\NormalTok{t\_val}\SpecialCharTok{:.2f\}}\SpecialStringTok{ s"}\NormalTok{)}
-\NormalTok{    ax.set\_xlabel(}\StringTok{"Y"}\NormalTok{)}
-\NormalTok{    ax.set\_ylabel(}\StringTok{"X"}\NormalTok{)}
-\NormalTok{    ax.set\_zlabel(}\StringTok{"T[K]"}\NormalTok{, labelpad}\OperatorTok{=}\DecValTok{5}\NormalTok{, rotation}\OperatorTok{=}\DecValTok{90}\NormalTok{)}
+\NormalTok{    ax.set\_title(}\SpecialStringTok{f"Time = }\SpecialCharTok{\{}\NormalTok{t\_val}\SpecialCharTok{:.2f\}}\SpecialStringTok{ s"}\NormalTok{, pad}\OperatorTok{=}\DecValTok{10}\NormalTok{)}
+\NormalTok{    ax.set\_xlabel(}\StringTok{"Y"}\NormalTok{, labelpad}\OperatorTok{=}\DecValTok{10}\NormalTok{)}
+\NormalTok{    ax.set\_ylabel(}\StringTok{"X"}\NormalTok{, labelpad}\OperatorTok{=}\DecValTok{10}\NormalTok{)}
+\NormalTok{    ax.set\_zlabel(}\StringTok{"T [K]"}\NormalTok{, labelpad}\OperatorTok{=}\DecValTok{10}\NormalTok{, rotation}\OperatorTok{=}\DecValTok{90}\NormalTok{)}
 
-\CommentTok{\# Barra de color común}
-\NormalTok{cbar\_ax }\OperatorTok{=}\NormalTok{ fig.add\_subplot(gs[}\DecValTok{1}\NormalTok{, :])}
-\NormalTok{fig.colorbar(surf\_list[}\OperatorTok{{-}}\DecValTok{1}\NormalTok{], cax}\OperatorTok{=}\NormalTok{cbar\_ax, orientation}\OperatorTok{=}\StringTok{"horizontal"}\NormalTok{)}
+
+\CommentTok{\# Añadir barra de color común}
+\NormalTok{cbar }\OperatorTok{=}\NormalTok{ fig.colorbar(surf\_list[}\OperatorTok{{-}}\DecValTok{1}\NormalTok{], ax}\OperatorTok{=}\NormalTok{axes, shrink}\OperatorTok{=}\FloatTok{0.9}\NormalTok{, aspect}\OperatorTok{=}\DecValTok{90}\NormalTok{, pad}\OperatorTok{=}\FloatTok{0.1}\NormalTok{, orientation}\OperatorTok{=}\StringTok{\textquotesingle{}horizontal\textquotesingle{}}\NormalTok{)}
+\NormalTok{cbar.set\_label(}\StringTok{\textquotesingle{}Temperatura [K]\textquotesingle{}}\NormalTok{)}
 
 \NormalTok{plt.show()}
 \end{Highlighting}
@@ -2413,7 +2761,7 @@ evaluar:
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{predicciones_files/figure-pdf/fig-my_results-output-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{comparaciones_files/figure-pdf/fig-my_results-output-1.pdf}}
 
 }
 
@@ -2435,6 +2783,99 @@ distintos tiempos.}
 
 \end{figure}%
 
+\subsection{Modelo contra método
+numérico}\label{modelo-contra-muxe9todo-numuxe9rico}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{crank\_nick\_data }\OperatorTok{=}\NormalTok{ pd.read\_csv(}\VerbatimStringTok{r\textquotesingle{}data/crank\_nick}\DecValTok{.}\VerbatimStringTok{csv\textquotesingle{}}\NormalTok{)}
+\NormalTok{model\_don\_data }\OperatorTok{=}\NormalTok{ pd.read\_csv(}\VerbatimStringTok{r\textquotesingle{}data/model\_DoN}\DecValTok{.}\VerbatimStringTok{csv\textquotesingle{}}\NormalTok{)}
+
+\CommentTok{\# Determinar los límites comunes para el colorbar}
+\NormalTok{min\_temp }\OperatorTok{=} \BuiltInTok{min}\NormalTok{(model\_don\_data[}\StringTok{\textquotesingle{}Theta\textquotesingle{}}\NormalTok{].}\BuiltInTok{min}\NormalTok{(), crank\_nick\_data[}\StringTok{\textquotesingle{}Theta\textquotesingle{}}\NormalTok{].}\BuiltInTok{min}\NormalTok{())}
+\NormalTok{max\_temp }\OperatorTok{=} \BuiltInTok{max}\NormalTok{(model\_don\_data[}\StringTok{\textquotesingle{}Theta\textquotesingle{}}\NormalTok{].}\BuiltInTok{max}\NormalTok{(), crank\_nick\_data[}\StringTok{\textquotesingle{}Theta\textquotesingle{}}\NormalTok{].}\BuiltInTok{max}\NormalTok{())}
+
+\CommentTok{\# Crear figura con subplots 3D en 2 filas y 5 columnas}
+\NormalTok{fig }\OperatorTok{=}\NormalTok{ plt.figure(figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{22}\NormalTok{, }\DecValTok{12}\NormalTok{))}
+\NormalTok{axes }\OperatorTok{=}\NormalTok{ []}
+
+\CommentTok{\# Crear los subplots}
+\ControlFlowTok{for}\NormalTok{ i }\KeywordTok{in} \BuiltInTok{range}\NormalTok{(}\DecValTok{2}\NormalTok{):  }\CommentTok{\# 2 filas}
+    \ControlFlowTok{for}\NormalTok{ j }\KeywordTok{in} \BuiltInTok{range}\NormalTok{(}\DecValTok{5}\NormalTok{):  }\CommentTok{\# 5 columnas}
+\NormalTok{        axes.append(fig.add\_subplot(}\DecValTok{2}\NormalTok{, }\DecValTok{5}\NormalTok{, i}\OperatorTok{*}\DecValTok{5} \OperatorTok{+}\NormalTok{ j }\OperatorTok{+} \DecValTok{1}\NormalTok{, projection}\OperatorTok{=}\StringTok{\textquotesingle{}3d\textquotesingle{}}\NormalTok{))}
+
+\NormalTok{axes }\OperatorTok{=}\NormalTok{ np.array(axes).reshape(}\DecValTok{2}\NormalTok{, }\DecValTok{5}\NormalTok{)  }\CommentTok{\# Convertir a matriz 2x5 para acceder fácilmente}
+
+\CommentTok{\# Añadir títulos generales para cada fila}
+\NormalTok{fig.text(}\FloatTok{0.5}\NormalTok{, }\FloatTok{0.92}\NormalTok{, }\StringTok{"Predicciones modelo DON"}\NormalTok{, ha}\OperatorTok{=}\StringTok{\textquotesingle{}center\textquotesingle{}}\NormalTok{, va}\OperatorTok{=}\StringTok{\textquotesingle{}center\textquotesingle{}}\NormalTok{, fontsize}\OperatorTok{=}\DecValTok{14}\NormalTok{, fontweight}\OperatorTok{=}\StringTok{\textquotesingle{}bold\textquotesingle{}}\NormalTok{)}
+\NormalTok{fig.text(}\FloatTok{0.5}\NormalTok{, }\FloatTok{0.56}\NormalTok{, }\StringTok{"Predicciones método numérico"}\NormalTok{, ha}\OperatorTok{=}\StringTok{\textquotesingle{}center\textquotesingle{}}\NormalTok{, va}\OperatorTok{=}\StringTok{\textquotesingle{}center\textquotesingle{}}\NormalTok{, fontsize}\OperatorTok{=}\DecValTok{14}\NormalTok{, fontweight}\OperatorTok{=}\StringTok{\textquotesingle{}bold\textquotesingle{}}\NormalTok{)}
+
+\CommentTok{\# Función para graficar un dataframe en una fila específica}
+\KeywordTok{def}\NormalTok{ plot\_dataframe(df, row, num\_points, cmap}\OperatorTok{=}\StringTok{"viridis"}\NormalTok{):}
+\NormalTok{    surf\_list }\OperatorTok{=}\NormalTok{ []}
+    \ControlFlowTok{for}\NormalTok{ col, t\_val }\KeywordTok{in} \BuiltInTok{enumerate}\NormalTok{(times):}
+\NormalTok{        ax }\OperatorTok{=}\NormalTok{ axes[row, col]}
+        
+        \CommentTok{\# Filtrar por tiempo actual}
+\NormalTok{        df\_t }\OperatorTok{=}\NormalTok{ df[df[}\StringTok{"time"}\NormalTok{] }\OperatorTok{==}\NormalTok{ t\_val]}
+
+        \CommentTok{\# Obtener los valores de X, Y, Theta}
+\NormalTok{        X\_vals }\OperatorTok{=}\NormalTok{ df\_t[}\StringTok{"X"}\NormalTok{].values.reshape((num\_points, num\_points))}
+\NormalTok{        Y\_vals }\OperatorTok{=}\NormalTok{ df\_t[}\StringTok{"Y"}\NormalTok{].values.reshape((num\_points, num\_points))}
+\NormalTok{        Z\_vals }\OperatorTok{=}\NormalTok{ df\_t[}\StringTok{"Theta"}\NormalTok{].values.reshape((num\_points, num\_points))}
+
+        \CommentTok{\# Dibujar la superficie con límites comunes}
+\NormalTok{        surf }\OperatorTok{=}\NormalTok{ ax.plot\_surface(}
+\NormalTok{            Y\_vals, X\_vals, Z\_vals,}
+\NormalTok{            rstride}\OperatorTok{=}\DecValTok{1}\NormalTok{, cstride}\OperatorTok{=}\DecValTok{1}\NormalTok{,}
+\NormalTok{            cmap}\OperatorTok{=}\NormalTok{cmap,}
+\NormalTok{            edgecolor}\OperatorTok{=}\StringTok{"none"}\NormalTok{,}
+\NormalTok{            antialiased}\OperatorTok{=}\VariableTok{True}\NormalTok{,}
+\NormalTok{            vmin}\OperatorTok{=}\NormalTok{min\_temp,}
+\NormalTok{            vmax}\OperatorTok{=}\NormalTok{max\_temp}
+\NormalTok{        )}
+\NormalTok{        surf\_list.append(surf)}
+
+\NormalTok{        ax.set\_title(}\SpecialStringTok{f"Time = }\SpecialCharTok{\{}\NormalTok{t\_val}\SpecialCharTok{:.2f\}}\SpecialStringTok{ s"}\NormalTok{, pad}\OperatorTok{=}\DecValTok{10}\NormalTok{)}
+\NormalTok{        ax.set\_xlabel(}\StringTok{"Y"}\NormalTok{, labelpad}\OperatorTok{=}\DecValTok{10}\NormalTok{)}
+\NormalTok{        ax.set\_ylabel(}\StringTok{"X"}\NormalTok{, labelpad}\OperatorTok{=}\DecValTok{10}\NormalTok{)}
+\NormalTok{        ax.set\_zlabel(}\StringTok{"T [K]"}\NormalTok{, labelpad}\OperatorTok{=}\DecValTok{10}\NormalTok{, rotation}\OperatorTok{=}\DecValTok{90}\NormalTok{)}
+    
+    \ControlFlowTok{return}\NormalTok{ surf\_list}
+
+\CommentTok{\# Asumimos que el grid es regular para ambos dataframes}
+\NormalTok{num\_points }\OperatorTok{=} \BuiltInTok{int}\NormalTok{(np.sqrt(model\_don\_data[model\_don\_data[}\StringTok{"time"}\NormalTok{] }\OperatorTok{==}\NormalTok{ times[}\DecValTok{0}\NormalTok{]].shape[}\DecValTok{0}\NormalTok{]))}
+
+\CommentTok{\# Graficar el primer dataframe en la fila superior}
+\NormalTok{surf\_model\_don }\OperatorTok{=}\NormalTok{ plot\_dataframe(model\_don\_data, }\DecValTok{0}\NormalTok{, num\_points)}
+
+\CommentTok{\# Graficar el segundo dataframe en la fila inferior}
+\NormalTok{surf\_crank\_nick }\OperatorTok{=}\NormalTok{ plot\_dataframe(crank\_nick\_data, }\DecValTok{1}\NormalTok{, num\_points)}
+
+\CommentTok{\# Añadir barra de color común en la parte inferior}
+\NormalTok{cbar }\OperatorTok{=}\NormalTok{ fig.colorbar(surf\_crank\_nick[}\OperatorTok{{-}}\DecValTok{1}\NormalTok{], ax}\OperatorTok{=}\NormalTok{axes.ravel().tolist(),}
+\NormalTok{                    use\_gridspec}\OperatorTok{=}\VariableTok{True}\NormalTok{, orientation}\OperatorTok{=}\StringTok{\textquotesingle{}horizontal\textquotesingle{}}\NormalTok{,}
+\NormalTok{                    pad}\OperatorTok{=}\FloatTok{0.05}\NormalTok{, aspect}\OperatorTok{=}\DecValTok{90}\NormalTok{, shrink}\OperatorTok{=}\FloatTok{0.9}\NormalTok{)}
+\NormalTok{cbar.set\_label(}\StringTok{\textquotesingle{}Temperatura [K]\textquotesingle{}}\NormalTok{, labelpad}\OperatorTok{=}\DecValTok{10}\NormalTok{)}
+
+
+\NormalTok{plt.show()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{comparaciones_files/figure-pdf/fig-met-num-vs-model-output-1.pdf}}
+
+}
+
+\caption{\label{fig-met-num-vs-model}Contraste de las predicciones entre
+el método de Crank Nikolson y el modelo para cada tiempo.}
+
+\end{figure}%
+
 \section{Validación Cuantitativa frente al Método de
 Crank-Nicolson}\label{validaciuxf3n-cuantitativa-frente-al-muxe9todo-de-crank-nicolson}
 
@@ -2446,33 +2887,6 @@ visual.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\ImportTok{import}\NormalTok{ os}
-
-\CommentTok{\# Definir los tiempos a evaluar}
-\NormalTok{times }\OperatorTok{=}\NormalTok{ [}\FloatTok{0.0}\NormalTok{, }\FloatTok{0.25}\NormalTok{, }\FloatTok{0.5}\NormalTok{, }\FloatTok{0.75}\NormalTok{, }\FloatTok{1.0}\NormalTok{]}
-
-\CommentTok{\# Rutas de los archivos (modificar según sea necesario)}
-\NormalTok{crank\_nick\_path }\OperatorTok{=} \StringTok{"data/crank\_nick.csv"}
-\NormalTok{model\_don\_path }\OperatorTok{=} \StringTok{"data/model\_DoN.csv"}
-\NormalTok{output\_path }\OperatorTok{=} \StringTok{"data/error\_comparison.csv"}
-
-\CommentTok{\# Cargar los datos}
-\KeywordTok{def}\NormalTok{ load\_data(file\_path):}
-    \ControlFlowTok{try}\NormalTok{:}
-        \ControlFlowTok{return}\NormalTok{ pd.read\_csv(file\_path)}
-    \ControlFlowTok{except} \PreprocessorTok{FileNotFoundError}\NormalTok{:}
-        \BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Error: No se encontró el archivo }\SpecialCharTok{\{}\NormalTok{file\_path}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
-        \ControlFlowTok{return} \VariableTok{None}
-    \ControlFlowTok{except} \PreprocessorTok{Exception} \ImportTok{as}\NormalTok{ e:}
-        \BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Error al cargar }\SpecialCharTok{\{}\NormalTok{file\_path}\SpecialCharTok{\}}\SpecialStringTok{: }\SpecialCharTok{\{}\BuiltInTok{str}\NormalTok{(e)}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
-        \ControlFlowTok{return} \VariableTok{None}
-
-\NormalTok{crank\_nick\_data }\OperatorTok{=}\NormalTok{ load\_data(crank\_nick\_path)}
-\NormalTok{model\_don\_data }\OperatorTok{=}\NormalTok{ load\_data(model\_don\_path)}
-
-\ControlFlowTok{if}\NormalTok{ crank\_nick\_data }\KeywordTok{is} \VariableTok{None} \KeywordTok{or}\NormalTok{ model\_don\_data }\KeywordTok{is} \VariableTok{None}\NormalTok{:}
-\NormalTok{    exit()}
-
 \CommentTok{\# Función para calcular errores}
 \KeywordTok{def}\NormalTok{ calculate\_errors(true\_data, pred\_data, times):}
 \NormalTok{    results }\OperatorTok{=}\NormalTok{ []}
@@ -2513,7 +2927,7 @@ visual.
 \NormalTok{error\_results }\OperatorTok{=}\NormalTok{ calculate\_errors(crank\_nick\_data, model\_don\_data, times)}
 
 \CommentTok{\# Guardar resultados}
-\NormalTok{error\_results.to\_csv(output\_path, index}\OperatorTok{=}\VariableTok{False}\NormalTok{)}
+\NormalTok{error\_results.to\_csv(}\StringTok{"data/error\_comparison.csv"}\NormalTok{, index}\OperatorTok{=}\VariableTok{False}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2527,16 +2941,86 @@ Crank-Nicolson.}
 \begin{verbatim}
 |   Tiempo |   MAE |   MaxAE |   Error L2 |
 |---------:|------:|--------:|-----------:|
-|    0.000 | 0.049 |   0.133 |      1.500 |
-|    0.250 | 0.054 |   0.152 |      1.844 |
-|    0.500 | 0.039 |   0.071 |      1.107 |
-|    0.750 | 0.020 |   0.061 |      0.653 |
-|    1.000 | 0.065 |   0.201 |      2.214 |
+|    0.000 | 0.017 |   0.064 |      0.560 |
+|    0.250 | 0.068 |   0.172 |      2.202 |
+|    0.500 | 0.053 |   0.102 |      1.581 |
+|    0.750 | 0.011 |   0.039 |      0.343 |
+|    1.000 | 0.067 |   0.200 |      2.305 |
 \end{verbatim}
 
 }
 
 \end{table}%
+
+\subsection{Gráficas de error
+absoluto}\label{gruxe1ficas-de-error-absoluto}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Calcular el error absoluto entre los dos dataframes}
+\NormalTok{error\_data }\OperatorTok{=}\NormalTok{ model\_don\_data.copy()}
+\NormalTok{error\_data[}\StringTok{\textquotesingle{}error\textquotesingle{}}\NormalTok{] }\OperatorTok{=}\NormalTok{ np.}\BuiltInTok{abs}\NormalTok{(crank\_nick\_data[}\StringTok{\textquotesingle{}Theta\textquotesingle{}}\NormalTok{] }\OperatorTok{{-}}\NormalTok{ model\_don\_data[}\StringTok{\textquotesingle{}Theta\textquotesingle{}}\NormalTok{])}
+
+\CommentTok{\# Crear figura con 3 filas y 2 columnas}
+\NormalTok{fig, axes }\OperatorTok{=}\NormalTok{ plt.subplots(nrows}\OperatorTok{=}\DecValTok{1}\NormalTok{, ncols}\OperatorTok{=}\DecValTok{5}\NormalTok{, figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{22}\NormalTok{, }\DecValTok{6}\NormalTok{))}
+\NormalTok{axes }\OperatorTok{=}\NormalTok{ axes.ravel()  }\CommentTok{\# Convertir a array 1D para fácil acceso}
+
+\CommentTok{\# Asumir que el grid es regular}
+\NormalTok{num\_points }\OperatorTok{=} \BuiltInTok{int}\NormalTok{(np.sqrt(error\_data[error\_data[}\StringTok{"time"}\NormalTok{] }\OperatorTok{==}\NormalTok{ times[}\DecValTok{0}\NormalTok{]].shape[}\DecValTok{0}\NormalTok{]))}
+
+\CommentTok{\# Configuración común para los mapas de calor}
+\NormalTok{plot\_kwargs }\OperatorTok{=}\NormalTok{ \{}
+    \StringTok{\textquotesingle{}cmap\textquotesingle{}}\NormalTok{: }\StringTok{\textquotesingle{}hot\_r\textquotesingle{}}\NormalTok{,}
+    \StringTok{\textquotesingle{}shading\textquotesingle{}}\NormalTok{: }\StringTok{\textquotesingle{}auto\textquotesingle{}}\NormalTok{,}
+    \StringTok{\textquotesingle{}vmin\textquotesingle{}}\NormalTok{: error\_data[}\StringTok{\textquotesingle{}error\textquotesingle{}}\NormalTok{].}\BuiltInTok{min}\NormalTok{(),}
+    \StringTok{\textquotesingle{}vmax\textquotesingle{}}\NormalTok{: error\_data[}\StringTok{\textquotesingle{}error\textquotesingle{}}\NormalTok{].}\BuiltInTok{max}\NormalTok{()}
+\NormalTok{\}}
+\CommentTok{\# Lista para guardar los gráficos}
+\NormalTok{abs\_errors\_pc }\OperatorTok{=}\NormalTok{ []}
+
+\CommentTok{\# Crear los subplots}
+\ControlFlowTok{for}\NormalTok{ i, t\_val }\KeywordTok{in} \BuiltInTok{enumerate}\NormalTok{(times):}
+\NormalTok{    ax }\OperatorTok{=}\NormalTok{ axes[i]}
+    
+    \CommentTok{\# Filtrar por tiempo actual}
+\NormalTok{    df\_t }\OperatorTok{=}\NormalTok{ error\_data[error\_data[}\StringTok{"time"}\NormalTok{] }\OperatorTok{==}\NormalTok{ t\_val]}
+    
+    \CommentTok{\# Obtener valores y reshape}
+\NormalTok{    X\_vals }\OperatorTok{=}\NormalTok{ df\_t[}\StringTok{"X"}\NormalTok{].values.reshape((num\_points, num\_points))}
+\NormalTok{    Y\_vals }\OperatorTok{=}\NormalTok{ df\_t[}\StringTok{"Y"}\NormalTok{].values.reshape((num\_points, num\_points))}
+\NormalTok{    error\_vals }\OperatorTok{=}\NormalTok{ df\_t[}\StringTok{"error"}\NormalTok{].values.reshape((num\_points, num\_points))}
+    
+    \CommentTok{\# Crear mapa de calor}
+\NormalTok{    pc }\OperatorTok{=}\NormalTok{ ax.pcolormesh(X\_vals, Y\_vals, error\_vals, }\OperatorTok{**}\NormalTok{plot\_kwargs)}
+    
+    \CommentTok{\# Configuración de ejes}
+\NormalTok{    ax.set\_title(}\SpecialStringTok{f"Tiempo = }\SpecialCharTok{\{}\NormalTok{t\_val}\SpecialCharTok{:.2f\}}\SpecialStringTok{ s"}\NormalTok{, pad}\OperatorTok{=}\DecValTok{10}\NormalTok{)}
+\NormalTok{    ax.set\_xlabel(}\StringTok{"X"}\NormalTok{)}
+\NormalTok{    ax.set\_ylabel(}\StringTok{"Y"}\NormalTok{)}
+\NormalTok{    ax.set\_aspect(}\StringTok{\textquotesingle{}equal\textquotesingle{}}\NormalTok{)}
+
+\NormalTok{    abs\_errors\_pc.append(pc)}
+
+\NormalTok{cbar }\OperatorTok{=}\NormalTok{ fig.colorbar(abs\_errors\_pc[}\OperatorTok{{-}}\DecValTok{1}\NormalTok{], ax}\OperatorTok{=}\NormalTok{axes, use\_gridspec}\OperatorTok{=}\VariableTok{True}\NormalTok{, shrink}\OperatorTok{=}\FloatTok{0.9}\NormalTok{, aspect}\OperatorTok{=}\DecValTok{90}\NormalTok{, pad}\OperatorTok{=}\FloatTok{0.1}\NormalTok{, orientation}\OperatorTok{=}\StringTok{\textquotesingle{}horizontal\textquotesingle{}}\NormalTok{)}
+\NormalTok{cbar.set\_label(}\StringTok{\textquotesingle{}Error absoluto [K]\textquotesingle{}}\NormalTok{)}
+
+\CommentTok{\# Mostrar el gráfico}
+\NormalTok{plt.show()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{comparaciones_files/figure-pdf/fig-abs-errors-output-1.pdf}}
+
+}
+
+\caption{\label{fig-abs-errors}Errores absolutos entre el método de
+Crank Nikolson y el modelo para cada tiempo.}
+
+\end{figure}%
 
 \bookmarksetup{startatroot}
 
