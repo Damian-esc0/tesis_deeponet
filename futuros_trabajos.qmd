@@ -1,0 +1,14 @@
+---
+title: Futuros trabajos de investigación
+lang: es
+execute: 
+  freeze: auto
+---
+
+::: {style="text-align: justify"}
+
+
+
+
+
+:::

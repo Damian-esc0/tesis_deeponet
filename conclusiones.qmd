@@ -1,0 +1,18 @@
+---
+title: Conclusiones
+lang: es
+execute: 
+  freeze: auto
+---
+
+::: {style="text-align: justify"}
+El presente trabajo ha abordado la complejidad de resolver una ecuación diferencial parcial dependiente del tiempo en dos dimensiones espaciales a través de una red neuronal con la arquitectura DeepONet, asimismo se obtuvieron predicciones para el cuadrado de $[0,1]\times[0,1]$. Los hiperparámetros de la red se fueron variando para obtener la mejor configuración, usando como base los resultados obtenidos por @medical_rep. Los resultados obtenidos mediante la comparación con el método de Crank Nickolson demostraron que la red neuronal se aproxima con un mínimo del 1.1% y un máximo del 6.7% para el error medio absoluto, y cometiendo un error mínimo del 6.4% y máximo del 20% para el error máximo absoluto.
+
+Los errores obtenidos demuestran la eficacia del modelo para converger a la condición inicial, pues tal como se aprecia en la @fig-abs-errors, a medida que la ecuación evoluciona en el tiempo, las predicciones entre el método numérico y la red neuronal divergen. Aunque esto es probable que se deba a la naturaleza del método de Crank Nickolson, pues un pequeño error al inicio ocasionaría que conforme evoluciona la función, ésta cada vez se aleje más del valor real. Desafortunadamente no se cuenta con una base de datos que sirva como conjunto de validación por lo que no se puede asegurar que los resultados del método numérico sean los más óptimos para tomar como referencia.
+
+
+
+
+
+
+:::

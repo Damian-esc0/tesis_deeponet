@@ -243,10 +243,10 @@
 \floatname{codelisting}{Listado}
 \newcommand*\listoflistings{\listof{codelisting}{Listado de Listados}}
 \usepackage{amsthm}
-\theoremstyle{definition}
-\newtheorem{definition}{Definición}[chapter]
 \theoremstyle{plain}
 \newtheorem{theorem}{Teorema}[chapter]
+\theoremstyle{definition}
+\newtheorem{definition}{Definición}[chapter]
 \theoremstyle{remark}
 \AtBeginDocument{\renewcommand*{\proofname}{Prueba}}
 \newtheorem*{remark}{Observación}
@@ -264,7 +264,7 @@
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same}
 \hypersetup{
-  pdftitle={Estimación de la temperatura con la ecuacion del Bio-Calor usando DeepONet},
+  pdftitle={Estimación de la temperatura con la ecuación del Bio-Calor usando DeepONet},
   pdfauthor={Francisco Damián Escobar Candelaria; Yofre Hernán García Gómez},
   pdflang={es},
   colorlinks=true,
@@ -275,7 +275,7 @@
   pdfcreator={LaTeX via pandoc}}
 
 
-\title{Estimación de la temperatura con la ecuacion del Bio-Calor usando
+\title{Estimación de la temperatura con la ecuación del Bio-Calor usando
 DeepONet}
 \author{Francisco Damián Escobar Candelaria \and Yofre Hernán García
 Gómez}
@@ -612,7 +612,7 @@ problema original. Este es el enfoque más común porque los métodos de
 aproximación proporcionan resultados más precisos e información de error
 realista (\citeproc{ref-burden2011}{Burden y Faires 2010}).
 
-\begin{tcolorbox}[enhanced jigsaw, leftrule=.75mm, toprule=.15mm, toptitle=1mm, rightrule=.15mm, breakable, opacitybacktitle=0.6, arc=.35mm, bottomrule=.15mm, left=2mm, colbacktitle=quarto-callout-caution-color!10!white, title={Ejemplo}, colframe=quarto-callout-caution-color-frame, colback=white, titlerule=0mm, bottomtitle=1mm, opacityback=0, coltitle=black]
+\begin{tcolorbox}[enhanced jigsaw, opacityback=0, leftrule=.75mm, colbacktitle=quarto-callout-caution-color!10!white, titlerule=0mm, left=2mm, breakable, toprule=.15mm, opacitybacktitle=0.6, colback=white, title={Ejemplo}, rightrule=.15mm, bottomrule=.15mm, colframe=quarto-callout-caution-color-frame, bottomtitle=1mm, toptitle=1mm, arc=.35mm, coltitle=black]
 
 El movimiento de un péndulo oscilante bajo ciertas suposiciones se
 describe mediante la ecuación diferencial de segundo orden: \[
@@ -708,7 +708,7 @@ tiene una solución única \(y(t)\) para \(a\leq t \leq b\).
 
 \end{theorem}
 
-\begin{tcolorbox}[enhanced jigsaw, leftrule=.75mm, toprule=.15mm, toptitle=1mm, rightrule=.15mm, breakable, opacitybacktitle=0.6, arc=.35mm, bottomrule=.15mm, left=2mm, colbacktitle=quarto-callout-caution-color!10!white, title={Ejemplo}, colframe=quarto-callout-caution-color-frame, colback=white, titlerule=0mm, bottomtitle=1mm, opacityback=0, coltitle=black]
+\begin{tcolorbox}[enhanced jigsaw, opacityback=0, leftrule=.75mm, colbacktitle=quarto-callout-caution-color!10!white, titlerule=0mm, left=2mm, breakable, toprule=.15mm, opacitybacktitle=0.6, colback=white, title={Ejemplo}, rightrule=.15mm, bottomrule=.15mm, colframe=quarto-callout-caution-color-frame, bottomtitle=1mm, toptitle=1mm, arc=.35mm, coltitle=black]
 
 Use el teorema Teorema~\ref{thm-uniq-sol} para mostrar que hay una única
 solución al problema de valor inicial: \[
@@ -795,7 +795,7 @@ Supongamos
 
 \end{theorem}
 
-\begin{tcolorbox}[enhanced jigsaw, leftrule=.75mm, toprule=.15mm, toptitle=1mm, rightrule=.15mm, breakable, opacitybacktitle=0.6, arc=.35mm, bottomrule=.15mm, left=2mm, colbacktitle=quarto-callout-caution-color!10!white, title={Ejemplo}, colframe=quarto-callout-caution-color-frame, colback=white, titlerule=0mm, bottomtitle=1mm, opacityback=0, coltitle=black]
+\begin{tcolorbox}[enhanced jigsaw, opacityback=0, leftrule=.75mm, colbacktitle=quarto-callout-caution-color!10!white, titlerule=0mm, left=2mm, breakable, toprule=.15mm, opacitybacktitle=0.6, colback=white, title={Ejemplo}, rightrule=.15mm, bottomrule=.15mm, colframe=quarto-callout-caution-color-frame, bottomtitle=1mm, toptitle=1mm, arc=.35mm, coltitle=black]
 
 Demostrar que el problema de valor inicial\\
 \[
@@ -3022,6 +3022,39 @@ absoluto}\label{gruxe1ficas-de-error-absoluto}
 Crank Nikolson y el modelo para cada tiempo.}
 
 \end{figure}%
+
+\bookmarksetup{startatroot}
+
+\chapter{Conclusiones}\label{conclusiones}
+
+El presente trabajo ha abordado la complejidad de resolver una ecuación
+diferencial parcial dependiente del tiempo en dos dimensiones espaciales
+a través de una red neuronal con la arquitectura DeepONet, asimismo se
+obtuvieron predicciones para el cuadrado de \([0,1]\times[0,1]\). Los
+hiperparámetros de la red se fueron variando para obtener la mejor
+configuración, usando como base los resultados obtenidos por Alessio
+Borgi (\citeproc{ref-medical_rep}{2023}). Los resultados obtenidos
+mediante la comparación con el método de Crank Nickolson demostraron que
+la red neuronal se aproxima con un mínimo del 1.1\% y un máximo del
+6.7\% para el error medio absoluto, y cometiendo un error mínimo del
+6.4\% y máximo del 20\% para el error máximo absoluto.
+
+Los errores obtenidos demuestran la eficacia del modelo para converger a
+la condición inicial, pues tal como se aprecia en la
+Figura~\ref{fig-abs-errors}, a medida que la ecuación evoluciona en el
+tiempo, las predicciones entre el método numérico y la red neuronal
+divergen. Aunque esto es probable que se deba a la naturaleza del método
+de Crank Nickolson, pues un pequeño error al inicio ocasionaría que
+conforme evoluciona la función, ésta cada vez se aleje más del valor
+real. Desafortunadamente no se cuenta con una base de datos que sirva
+como conjunto de validación por lo que no se puede asegurar que los
+resultados del método numérico sean los más óptimos para tomar como
+referencia.
+
+\bookmarksetup{startatroot}
+
+\chapter{Futuros trabajos de
+investigación}\label{futuros-trabajos-de-investigaciuxf3n}
 
 \bookmarksetup{startatroot}
 

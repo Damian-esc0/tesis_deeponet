@@ -13,7 +13,7 @@ website:
     hypothesis: true
 
 book:
-  title: "Estimación de la temperatura con la ecuacion del Bio-Calor usando DeepONet"
+  title: "Estimación de la temperatura con la ecuación del Bio-Calor usando DeepONet"
   reader-mode: true
   language: es
   date: "04/21/2025"
@@ -28,6 +28,7 @@ book:
     search: true
   repo-url: https://github.com/Damian-esc0/tesis_deeponet
   repo-actions: [edit, issue, source]
+  page-navigation: true 
   chapters:
     - index.qmd
     - intro.qmd
@@ -55,8 +56,15 @@ book:
         - pred_crank_nick.qmd
         - model_don.qmd
         - comparaciones.qmd
+    
+    - conclusiones.qmd
+
+    - futuros_trabajos.qmd
 
     - references.qmd
+
+comments: 
+  hypothesis: True
 
 bibliography: references.bib
 
@@ -76,7 +84,6 @@ format:
     code-fold: true
     code-copy: true
 
-  
   pdf:
     lang: es
     documentclass: scrreprt

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>10&nbsp; Metodología – Estimación de la temperatura con la ecuación del Bio-Calor usando DeepONet</title>
+<title>15&nbsp; Futuros trabajos de investigación – Estimación de la temperatura con la ecuación del Bio-Calor usando DeepONet</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,27 +20,7 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-  margin-bottom: 0em;
-}
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -50,8 +30,8 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./pred_crank_nick.html" rel="next">
-<link href="./estudio_caso.html" rel="prev">
+<link href="./references.html" rel="next">
+<link href="./conclusiones.html" rel="prev">
 <link href="./FCFMLOGO.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -99,35 +79,6 @@ div.csl-indent {
   });
 </script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 </head>
 
@@ -140,7 +91,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./estudio_caso.html">Estudio de caso</a></li><li class="breadcrumb-item"><a href="./metodologia.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Metodología</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./futuros_trabajos.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Futuros trabajos de investigación</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -298,7 +249,7 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./metodologia.html" class="sidebar-item-text sidebar-link active">
+  <a href="./metodologia.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Metodología</span></span></a>
   </div>
 </li>
@@ -330,7 +281,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./futuros_trabajos.html" class="sidebar-item-text sidebar-link">
+  <a href="./futuros_trabajos.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Futuros trabajos de investigación</span></span></a>
   </div>
 </li>
@@ -510,9 +461,9 @@ window.Quarto = {
     }
   </script>
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./estudio_caso.html">Estudio de caso</a></li><li class="breadcrumb-item"><a href="./metodologia.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Metodología</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Metodología</span></h1>
+<h1 class="title"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Futuros trabajos de investigación</span></h1>
 </div>
 
 
@@ -530,62 +481,10 @@ window.Quarto = {
 
 
 <div style="text-align: justify">
-<p>En esta sección se describe el enfoque metodológico utilizado para evaluar la efectividad de una PINN utilizando una arquitectura DeepONet con el objetivo de resolver la ecuacion del Bio-Calor. El proceso metodológico se divide en las siguientes etapas:</p>
-<section id="aportaciones-del-modelo" class="level2" data-number="10.1">
-<h2 data-number="10.1" class="anchored" data-anchor-id="aportaciones-del-modelo"><span class="header-section-number">10.1</span> Aportaciones del modelo</h2>
-<p>Ya que se parte del trabajo de <span class="citation" data-cites="medical_rep">Alessio Borgi (<a href="references.html#ref-medical_rep" role="doc-biblioref">2023</a>)</span>, se examinó que dos de los puntos a mejorar de la red neuronal que plantearon son:</p>
-<ol type="1">
-<li>Desarrollar nuevas arquitecturas para la red neuronal y explorar nuevas configuraciones</li>
-<li>Combinar las fortalezas de los algoritmos de optimización Adam y L-BFGS para mejorar la velocidad de convergencia y la precisión</li>
-</ol>
-<p>Tenindo los anteriores puntos en cuenta, se procedió a abordarlos e implementarlos dentro del diseño del modelo.</p>
-</section>
-<section id="diseño-del-modelo" class="level2" data-number="10.2">
-<h2 data-number="10.2" class="anchored" data-anchor-id="diseño-del-modelo"><span class="header-section-number">10.2</span> Diseño del modelo</h2>
-<p>El lenguaje seleccionado fué Python, a su vez el código se basa enteramente en la librería Deepxde creada por <span class="citation" data-cites="deepxde">Lu et&nbsp;al. (<a href="references.html#ref-deepxde" role="doc-biblioref">2021</a>)</span> la cual está directamente enfocada a resolver ecuaciones diferenciales, se usó además como backend <em>tensorflow_compat_v1</em> siendo su elección debida únicamente a la familiarización previa que se tenía con ella. Finalmente el entorno donde se programó y optimizó el código fué en <em>Google Colab</em> ya que la potencia de cómputo ofrecida por la plataforma era necesaria para ejecutar el modelo.</p>
-</section>
-<section id="implementación-del-modelo" class="level2" data-number="10.3">
-<h2 data-number="10.3" class="anchored" data-anchor-id="implementación-del-modelo"><span class="header-section-number">10.3</span> Implementación del modelo</h2>
-<p>La implementación del modelo se llevó a cabo en dos etapas clave: <strong>(1) el desarrollo del código base para resolver la ecuación del Bio-Calor mediante DeepXDE</strong>, y <strong>(2) la optimización sistemática de los hiperparámetros</strong>. Para esta última, se siguieron las recomendaciones del estudio de <span class="citation" data-cites="medical_rep">Alessio Borgi (<a href="references.html#ref-medical_rep" role="doc-biblioref">2023</a>)</span>, adaptadas a las particularidades del problema. Se ajustaron parámetros críticos como el número de épocas de entrenamiento (<em>iterations</em>), el ratio de aprendizaje (<em>learning rate</em>) así como un decaimiento en el mismo dependiente de la itearación actual (<em>decay</em>), la función de activación (<em>elu</em>) y el esquema de inicialización de pesos (<em>Glorot normal</em>). Estos ajustes se realizaron mediante un proceso iterativo que buscaba minimizar la función de pérdida mientras se mantenía un tiempo de entrenamiento computacionalmente viable.</p>
-</section>
-<section id="evaluación-del-modelo" class="level2" data-number="10.4">
-<h2 data-number="10.4" class="anchored" data-anchor-id="evaluación-del-modelo"><span class="header-section-number">10.4</span> Evaluación del modelo</h2>
-<p>Para validar el desempeño del modelo propuesto, se realizó una evaluación exhaustiva utilizando un <em>conjunto de datos independiente</em>, el cual no fue empleado durante las fases de entrenamiento o ajuste de hiperparámetros. Este enfoque garantiza una medición objetiva de la capacidad de generalización del modelo ante datos no vistos.</p>
-<p>Las predicciones generadas por el modelo fueron analizadas mediante visualizaciones espaciotemporales, las cuales permiten comparar cualitativamente el comportamiento de las soluciones pronosticadas frente a los rangos físicos y temporales definidos en el problema. En particular, se generaron gráficas de superficies 3D que muestran la evolución de las variables de interés a lo largo del dominio espacial y temporal bajo estudio. Adicionalmente, se incluyeron representaciones de cortes transversales y series temporales en puntos estratégicos para facilitar la interpretación de los resultados.</p>
-<p>Cabe destacar que este análisis preliminar se centró en examinar la coherencia física y la estabilidad numérica de las predicciones. Para la evaluación cuantitativa del modelo, se implementó una comparación directa con las soluciones obtenidas mediante el método numérico de <strong>Crank-Nicolson</strong>, resuelto en <em>Julia</em> utilizando la librería <em>DifferentialEquations.jl</em>.</p>
-</section>
-<section id="comparación-de-resultados" class="level2" data-number="10.5">
-<h2 data-number="10.5" class="anchored" data-anchor-id="comparación-de-resultados"><span class="header-section-number">10.5</span> Comparación de resultados</h2>
-<p>Para evaluar el desempeño predictivo del modelo propuesto, se realizaron dos tipos de comparaciones:</p>
-<ol type="1">
-<li>Una evaluación cualitativa basada en visualizaciones.</li>
-<li>Un análisis cuantitativo mediante métricas de error estandarizadas.</li>
-</ol>
-<p>En primer lugar, se llevó a cabo una comparación visual con los resultados reportados en el trabajo de <span class="citation" data-cites="medical_rep">Alessio Borgi (<a href="references.html#ref-medical_rep" role="doc-biblioref">2023</a>)</span>, dado que dicho estudio no incluye datos numéricos tabulados, sino únicamente representaciones gráficas de las soluciones. Esta comparación permitió identificar coincidencias y discrepancias en el comportamiento espaciotemporal de las variables de interés, destacando las fortalezas del modelo propuesto en términos de estabilidad numérica.</p>
-<p>En segundo lugar, para una evaluación cuantitativa rigurosa, se compararon las predicciones del modelo con soluciones de referencia generadas mediante el método de Crank-Nicolson, implementado en Julia utilizando la librería DifferentialEquations.jl. La comparación se realizó sobre una malla uniforme de 26×26 puntos en el cuadrado de <span class="math inline">\([0,1]\times[0,1]\)</span>, calculando para cada instante de tiempo relevante las siguientes métricas:</p>
-<ul>
-<li>Error Absoluto Medio (MAE)</li>
-<li>Error Absoluto Máximo (MaxAE)</li>
-<li>Error L2 (norma euclidiana)</li>
-</ul>
-<p>Estos criterios permitieron cuantificar no solo la precisión global del modelo, sino también sus desviaciones locales más significativas, particularmente en regiones con alta variabilidad espacial. Los resultados detallados de este análisis, junto con una discusión sobre la eficiencia computacional relativa entre ambos métodos, se presentan en la <a href="comparaciones.html#tbl-errores" class="quarto-xref">Tabla&nbsp;<span>13.1</span></a>.</p>
-</section>
-<section id="análisis-y-conclusión" class="level2" data-number="10.6">
-<h2 data-number="10.6" class="anchored" data-anchor-id="análisis-y-conclusión"><span class="header-section-number">10.6</span> Análisis y conclusión</h2>
-<p>Finalmente, se realizó un análisis detallado de los resultados obtenidos para extraer conclusiones significativas. Se proporcionaron recomendaciones basadas en los hallazgos del estudio, lo que permitió establecer un marco para interpretaciones analíticas profundas y recomendaciones bien fundamentadas en la sección de conclusiones del estudio.</p>
-<p>Este enfoque metodológico proporcionó una base sólida para los resultados obtenidos, asegurando la integridad y la calidad del análisis realizado en el estudio.</p>
-</section>
+
 </div>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
-<div id="ref-medical_rep" class="csl-entry" role="listitem">
-Alessio Borgi, Alessandro De Luca, Eugenio Bugli. 2023. <span>«<span>BioHeat PINNs: Temperature Estimation with Bio-Heat Equation using Physics-Informed Neural Networks</span>»</span>. <a href="https://github.com/alessioborgi/BioHeat_PINNs/tree/main?tab=readme-ov-file#bioheat-pinns-temperature-estimation-with-bio-heat-equation-using-physics-informed-neural-networks">https://github.com/alessioborgi/BioHeat_PINNs/tree/main?tab=readme-ov-file#bioheat-pinns-temperature-estimation-with-bio-heat-equation-using-physics-informed-neural-networks</a>.
-</div>
-<div id="ref-deepxde" class="csl-entry" role="listitem">
-Lu, Lu, Xuhui Meng, Zhiping Mao, y George Em Karniadakis. 2021. <span>«<span>DeepXDE</span>: A deep learning library for solving differential equations»</span>. <em>SIAM Review</em> 63 (1): 208-28. <a href="https://doi.org/10.1137/19M1274067">https://doi.org/10.1137/19M1274067</a>.
-</div>
-</div>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -1002,13 +901,13 @@ Lu, Lu, Xuhui Meng, Zhiping Mao, y George Em Karniadakis. 2021. <span>«<span>De
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./estudio_caso.html" class="pagination-link" aria-label="Estudio de caso">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Estudio de caso</span>
+      <a href="./conclusiones.html" class="pagination-link" aria-label="Conclusiones">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Conclusiones</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./pred_crank_nick.html" class="pagination-link" aria-label="Predicciones del método numérico">
-        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Predicciones del método numérico</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./references.html" class="pagination-link" aria-label="Referencias">
+        <span class="nav-page-text">Referencias</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -1017,4 +916,4 @@ Lu, Lu, Xuhui Meng, Zhiping Mao, y George Em Karniadakis. 2021. <span>«<span>De
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/Damian-esc0/tesis_deeponet/edit/main/metodologia.qmd" class="toc-action"><i class="bi bi-github"></i>Editar esta página</a></li><li><a href="https://github.com/Damian-esc0/tesis_deeponet/issues/new" class="toc-action"><i class="bi empty"></i>Informar de un problema</a></li><li><a href="https://github.com/Damian-esc0/tesis_deeponet/blob/main/metodologia.qmd" class="toc-action"><i class="bi empty"></i>Ver el código</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/Damian-esc0/tesis_deeponet/edit/main/futuros_trabajos.qmd" class="toc-action"><i class="bi bi-github"></i>Editar esta página</a></li><li><a href="https://github.com/Damian-esc0/tesis_deeponet/issues/new" class="toc-action"><i class="bi empty"></i>Informar de un problema</a></li><li><a href="https://github.com/Damian-esc0/tesis_deeponet/blob/main/futuros_trabajos.qmd" class="toc-action"><i class="bi empty"></i>Ver el código</a></li></ul></div></div></div></footer></body></html>
