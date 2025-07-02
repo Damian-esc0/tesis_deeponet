@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>3&nbsp; Problemas de valores en la frontera – Estimación de la temperatura con la ecuación del Bio-Calor usando DeepONet</title>
+<title>4&nbsp; Problemas de valores en la frontera – Estimación de la temperatura con la ecuación del Bio-Calor usando DeepONet</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -140,7 +140,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./partial_diff_eq.html">Preliminares</a></li><li class="breadcrumb-item"><a href="./boundary_problems.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Problemas de valores en la frontera</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./partial_diff_eq.html">Preliminares</a></li><li class="breadcrumb-item"><a href="./boundary_problems.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Problemas de valores en la frontera</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -206,6 +206,12 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introducción</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./objetivos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Objetivos</span></span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
@@ -218,25 +224,25 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./partial_diff_eq.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Ecuaciones diferenciales parciales</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Ecuaciones diferenciales parciales</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./boundary_problems.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Problemas de valores en la frontera</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Problemas de valores en la frontera</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./initial_values.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Problemas de valor inicial</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Problemas de valor inicial</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./texto_crank_nick.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Método de Crank Nickolson</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Método de Crank Nickolson</span></span></a>
   </div>
 </li>
       </ul>
@@ -253,13 +259,13 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./pinns.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Physic Informed Neural Networks (PINNs)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Physic Informed Neural Networks (PINNs)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./deeponet.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">DeepONet</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">DeepONet</span></span></a>
   </div>
 </li>
       </ul>
@@ -276,13 +282,13 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ecuacion.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Forma de la ecuación</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Forma de la ecuación</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ejemplos.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Modelado del Bio-Calor en Hipertermia</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Modelado del Bio-Calor en Hipertermia</span></span></a>
   </div>
 </li>
       </ul>
@@ -299,25 +305,25 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./metodologia.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Metodología</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Metodología</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./pred_crank_nick.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Predicciones del método numérico</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Predicciones del método numérico</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./model_don.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Métricas del modelo</span></span></a>
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Métricas del modelo</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./comparaciones.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Comparación de resultados</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Comparación de resultados</span></span></a>
   </div>
 </li>
       </ul>
@@ -325,13 +331,13 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./conclusiones.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Conclusiones</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Conclusiones</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./futuros_trabajos.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Futuros trabajos de investigación</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Futuros trabajos de investigación</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -510,9 +516,9 @@ window.Quarto = {
     }
   </script>
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./partial_diff_eq.html">Preliminares</a></li><li class="breadcrumb-item"><a href="./boundary_problems.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Problemas de valores en la frontera</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./partial_diff_eq.html">Preliminares</a></li><li class="breadcrumb-item"><a href="./boundary_problems.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Problemas de valores en la frontera</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Problemas de valores en la frontera</span></h1>
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Problemas de valores en la frontera</span></h1>
 </div>
 
 
@@ -531,19 +537,19 @@ window.Quarto = {
 
 <div style="text-align: justify">
 <p>Si, por ejemplo, <span class="math inline">\(u(x, t)\)</span> es una solución de una EDP, donde <span class="math inline">\(x\)</span> representa una dimensión espacial y <span class="math inline">\(t\)</span> representa el tiempo, entonces es posible prescribir el valor de <span class="math inline">\(u\)</span>, o <span class="math inline">\(\frac{\partial u}{\partial x}\)</span>, o una combinación lineal de <span class="math inline">\(u\)</span> y <span class="math inline">\(\frac{\partial u}{\partial x}\)</span> en un valor <span class="math inline">\(x\)</span> especificado, así como prescribir <span class="math inline">\(u\)</span> y <span class="math inline">\(\frac{\partial u}{\partial t}\)</span> en un instante dado <span class="math inline">\(t\)</span> (normalmente, <span class="math inline">\(t=0\)</span>). En otras palabras, un <em>problema de valores en la frontera</em> puede consistir en una EDP, junto con <em>condiciones de frontera</em> y <em>condiciones iniciales</em> <span class="citation" data-cites="zill2008">(<a href="references.html#ref-zill2008" role="doc-biblioref">Zill y Cullen 2008</a>)</span>.</p>
-<section id="ecuaciones-clásicas" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="ecuaciones-clásicas"><span class="header-section-number">3.1</span> Ecuaciones clásicas</h2>
+<section id="ecuaciones-clásicas" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="ecuaciones-clásicas"><span class="header-section-number">4.1</span> Ecuaciones clásicas</h2>
 <p>Aplicar el método de separación de variables para encontrar soluciones en forma de producto es muy común con las siguientes <em>ecuaciones clásicas</em> de la física matemática:</p>
 <p><span id="eq-heat"><span class="math display">\[  
 k\frac{\partial^2 u}{\partial x^2} = \frac{\partial u}{\partial t}, \quad k &gt; 0  
-\tag{3.1}\]</span></span></p>
+\tag{4.1}\]</span></span></p>
 <p><span id="eq-wave"><span class="math display">\[  
 \alpha^2 \frac{\partial^2 u}{\partial x^2} = \frac{\partial^2 u}{\partial t^2}  
-\tag{3.2}\]</span></span></p>
+\tag{4.2}\]</span></span></p>
 <p><span id="eq-laplace"><span class="math display">\[  
 \frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2} = 0  
-\tag{3.3}\]</span></span></p>
-<p>o variantes ligeras de estas ecuaciones. Las EDPs <a href="#eq-heat" class="quarto-xref"><span>3.1</span></a>, <a href="#eq-wave" class="quarto-xref"><span>3.2</span></a> y <a href="#eq-laplace" class="quarto-xref"><span>3.3</span></a> se conocen, respectivamente, como la <em>ecuación del calor unidimensional</em>, la <em>ecuación de onda unidimensional</em> y la <em>forma bidimensional de la ecuación de Laplace</em>. El término “unidimensional” en el caso de las ecuaciones <a href="#eq-heat" class="quarto-xref"><span>3.1</span></a> y <a href="#eq-wave" class="quarto-xref"><span>3.2</span></a> se refiere al hecho de que <span class="math inline">\(x\)</span> denota una variable espacial, mientras que <span class="math inline">\(t\)</span> representa el tiempo; “bidimensional” en <a href="#eq-laplace" class="quarto-xref"><span>3.3</span></a> significa que tanto <span class="math inline">\(x\)</span> como <span class="math inline">\(y\)</span> son variables espaciales. Si comparas <a href="#eq-heat" class="quarto-xref"><span>3.1</span></a>-<a href="#eq-laplace" class="quarto-xref"><span>3.3</span></a> con la forma lineal en la <a href="partial_diff_eq.html#def-PDEs-classes" class="quarto-xref">Definición&nbsp;<span>2.1</span></a> (donde <span class="math inline">\(t\)</span> juega el papel del símbolo <span class="math inline">\(y\)</span>), observarás que la ecuación del calor <a href="#eq-heat" class="quarto-xref"><span>3.1</span></a> es parabólica, la ecuación de onda <a href="#eq-wave" class="quarto-xref"><span>3.2</span></a> es hiperbólica y la ecuación de Laplace <a href="#eq-laplace" class="quarto-xref"><span>3.3</span></a> es elíptica.</p>
+\tag{4.3}\]</span></span></p>
+<p>o variantes ligeras de estas ecuaciones. Las EDPs <a href="#eq-heat" class="quarto-xref"><span>4.1</span></a>, <a href="#eq-wave" class="quarto-xref"><span>4.2</span></a> y <a href="#eq-laplace" class="quarto-xref"><span>4.3</span></a> se conocen, respectivamente, como la <em>ecuación del calor unidimensional</em>, la <em>ecuación de onda unidimensional</em> y la <em>forma bidimensional de la ecuación de Laplace</em>. El término “unidimensional” en el caso de las ecuaciones <a href="#eq-heat" class="quarto-xref"><span>4.1</span></a> y <a href="#eq-wave" class="quarto-xref"><span>4.2</span></a> se refiere al hecho de que <span class="math inline">\(x\)</span> denota una variable espacial, mientras que <span class="math inline">\(t\)</span> representa el tiempo; “bidimensional” en <a href="#eq-laplace" class="quarto-xref"><span>4.3</span></a> significa que tanto <span class="math inline">\(x\)</span> como <span class="math inline">\(y\)</span> son variables espaciales. Si comparas <a href="#eq-heat" class="quarto-xref"><span>4.1</span></a>-<a href="#eq-laplace" class="quarto-xref"><span>4.3</span></a> con la forma lineal en la <a href="partial_diff_eq.html#def-PDEs-classes" class="quarto-xref">Definición&nbsp;<span>3.1</span></a> (donde <span class="math inline">\(t\)</span> juega el papel del símbolo <span class="math inline">\(y\)</span>), observarás que la ecuación del calor <a href="#eq-heat" class="quarto-xref"><span>4.1</span></a> es parabólica, la ecuación de onda <a href="#eq-wave" class="quarto-xref"><span>4.2</span></a> es hiperbólica y la ecuación de Laplace <a href="#eq-laplace" class="quarto-xref"><span>4.3</span></a> es elíptica.</p>
 <div id="fig-examples-eqs" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-examples-eqs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -575,28 +581,28 @@ k\frac{\partial^2 u}{\partial x^2} = \frac{\partial u}{\partial t}, \quad k &gt;
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-examples-eqs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;3.1: Aplicaciones de las ecuaciones <a href="#eq-heat" class="quarto-xref"><span>3.1</span></a> y <a href="#eq-wave" class="quarto-xref"><span>3.2</span></a> <span class="citation" data-cites="zill2008">(<a href="references.html#ref-zill2008" role="doc-biblioref">Zill y Cullen 2008</a>)</span>.
+Figura&nbsp;4.1: Aplicaciones de las ecuaciones <a href="#eq-heat" class="quarto-xref"><span>4.1</span></a> y <a href="#eq-wave" class="quarto-xref"><span>4.2</span></a> <span class="citation" data-cites="zill2008">(<a href="references.html#ref-zill2008" role="doc-biblioref">Zill y Cullen 2008</a>)</span>.
 </figcaption>
 </figure>
 </div>
 </section>
-<section id="condiciones-iniciales" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="condiciones-iniciales"><span class="header-section-number">3.2</span> Condiciones iniciales</h2>
-<p>Dado que las soluciones de las ecuaciones <a href="#eq-heat" class="quarto-xref"><span>3.1</span></a> y <a href="#eq-wave" class="quarto-xref"><span>3.2</span></a> dependen del tiempo <span class="math inline">\(t\)</span>, es posible especificar lo que ocurre en <span class="math inline">\(t = 0\)</span>; es decir, establecer <strong>condiciones iniciales (CI)</strong>. Si <span class="math inline">\(f(x)\)</span> representa la distribución inicial de temperatura en la varilla mostrada en la <a href="#fig-1D-heat" class="quarto-xref">Figura&nbsp;<span>3.1 (a)</span></a>, entonces una solución <span class="math inline">\(u(x, t)\)</span> de <a href="#eq-heat" class="quarto-xref"><span>3.1</span></a> debe satisfacer la condición inicial única <span class="math inline">\(u(x, 0) = f(x), \quad 0 &lt; x &lt; L\)</span>.</p>
-<p>Por otro lado, para una cuerda vibrante podemos especificar tanto su desplazamiento inicial (o forma) <span class="math inline">\(f(x)\)</span> como su velocidad inicial <span class="math inline">\(g(x)\)</span>. En términos matemáticos, buscamos una función <span class="math inline">\(u(x, t)\)</span> que satisfaga <a href="#eq-wave" class="quarto-xref"><span>3.2</span></a> y las dos condiciones iniciales: <span id="eq-initail-cond"><span class="math display">\[
+<section id="condiciones-iniciales" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="condiciones-iniciales"><span class="header-section-number">4.2</span> Condiciones iniciales</h2>
+<p>Dado que las soluciones de las ecuaciones <a href="#eq-heat" class="quarto-xref"><span>4.1</span></a> y <a href="#eq-wave" class="quarto-xref"><span>4.2</span></a> dependen del tiempo <span class="math inline">\(t\)</span>, es posible especificar lo que ocurre en <span class="math inline">\(t = 0\)</span>; es decir, establecer <strong>condiciones iniciales (CI)</strong>. Si <span class="math inline">\(f(x)\)</span> representa la distribución inicial de temperatura en la varilla mostrada en la <a href="#fig-1D-heat" class="quarto-xref">Figura&nbsp;<span>4.1 (a)</span></a>, entonces una solución <span class="math inline">\(u(x, t)\)</span> de <a href="#eq-heat" class="quarto-xref"><span>4.1</span></a> debe satisfacer la condición inicial única <span class="math inline">\(u(x, 0) = f(x), \quad 0 &lt; x &lt; L\)</span>.</p>
+<p>Por otro lado, para una cuerda vibrante podemos especificar tanto su desplazamiento inicial (o forma) <span class="math inline">\(f(x)\)</span> como su velocidad inicial <span class="math inline">\(g(x)\)</span>. En términos matemáticos, buscamos una función <span class="math inline">\(u(x, t)\)</span> que satisfaga <a href="#eq-wave" class="quarto-xref"><span>4.2</span></a> y las dos condiciones iniciales: <span id="eq-initail-cond"><span class="math display">\[
 u(x, 0) = f(x), \quad \left. \frac{\partial u}{\partial t} \right|_{t=0} = g(x), \quad 0 &lt; x &lt; L.
-\tag{3.4}\]</span></span></p>
-<p>Por ejemplo, la cuerda podría ser tensada, como se muestra en la <a href="#fig-wave-exmpl" class="quarto-xref">Figura&nbsp;<span>3.1 (b)</span></a>, y liberada desde el reposo <span class="math inline">\((g(x)=0)\)</span>.</p>
+\tag{4.4}\]</span></span></p>
+<p>Por ejemplo, la cuerda podría ser tensada, como se muestra en la <a href="#fig-wave-exmpl" class="quarto-xref">Figura&nbsp;<span>4.1 (b)</span></a>, y liberada desde el reposo <span class="math inline">\((g(x)=0)\)</span>.</p>
 </section>
-<section id="condiciones-de-frontera" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="condiciones-de-frontera"><span class="header-section-number">3.3</span> Condiciones de frontera</h2>
-<p>La cuerda en la <a href="#fig-wave-exmpl" class="quarto-xref">Figura&nbsp;<span>3.1 (b)</span></a> está fija al eje <span class="math inline">\(x\)</span> en <span class="math inline">\(x=0\)</span> y <span class="math inline">\(x=L\)</span> para todos los tiempos. Ésto se interpreta a través de dos <strong>condiciones de frontera (CF):</strong> <span class="math display">\[
+<section id="condiciones-de-frontera" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="condiciones-de-frontera"><span class="header-section-number">4.3</span> Condiciones de frontera</h2>
+<p>La cuerda en la <a href="#fig-wave-exmpl" class="quarto-xref">Figura&nbsp;<span>4.1 (b)</span></a> está fija al eje <span class="math inline">\(x\)</span> en <span class="math inline">\(x=0\)</span> y <span class="math inline">\(x=L\)</span> para todos los tiempos. Ésto se interpreta a través de dos <strong>condiciones de frontera (CF):</strong> <span class="math display">\[
 u(0,t) = 0, \quad u(L,t)=0, \quad t&gt;0.
-\]</span> En éste contexto la función <span class="math inline">\(f\)</span> en la <a href="#eq-initail-cond" class="quarto-xref">ec&nbsp;<span>3.4</span></a> es continua y, en consecuencia, <span class="math inline">\(f(0)=0\)</span> y <span class="math inline">\(f(L)=0\)</span>. En general, existen tres tipos de condicones de frontera asociadas con las ecuaciones <a href="#eq-heat" class="quarto-xref"><span>3.1</span></a>, <a href="#eq-wave" class="quarto-xref"><span>3.2</span></a> y <a href="#eq-laplace" class="quarto-xref"><span>3.3</span></a>. En la frontera es posible especificar los valores de <em>una</em> de las siguientes:</p>
+\]</span> En éste contexto la función <span class="math inline">\(f\)</span> en la <a href="#eq-initail-cond" class="quarto-xref">ec&nbsp;<span>4.4</span></a> es continua y, en consecuencia, <span class="math inline">\(f(0)=0\)</span> y <span class="math inline">\(f(L)=0\)</span>. En general, existen tres tipos de condicones de frontera asociadas con las ecuaciones <a href="#eq-heat" class="quarto-xref"><span>4.1</span></a>, <a href="#eq-wave" class="quarto-xref"><span>4.2</span></a> y <a href="#eq-laplace" class="quarto-xref"><span>4.3</span></a>. En la frontera es posible especificar los valores de <em>una</em> de las siguientes:</p>
 <p><span class="math display">\[
 \text{(i)}\quad u, \qquad \text{(ii)}\quad \dfrac{\partial u}{\partial n},\qquad \text{or}\qquad \text{(iii)}\quad \dfrac{\partial u}{\partial n} + hu,\quad \text{con $h$ constante.}
 \]</span></p>
-<p>Aquí <span class="math inline">\(\frac{\partial u}{\partial n}\)</span> denota la derivada normal de <span class="math inline">\(u\)</span> (la derivada de <span class="math inline">\(u\)</span> en dirección perpendicular a la frontera). Una condición de frontera del primer tipo (i) es llamada <strong>condición de Dirichlet</strong>; una condición de frontera del segundo tipo (ii) es llamada <strong>condición de Neumann</strong>; y una condición de frontera del tercer tipo (iii) es conocida como <strong>condición de Robin</strong>. Por ejemplo, para <span class="math inline">\(t&gt;0\)</span> una condición típica al extremo derecho de la varilla de la <a href="#fig-1D-heat" class="quarto-xref">Figura&nbsp;<span>3.1 (a)</span></a> puede ser:</p>
+<p>Aquí <span class="math inline">\(\frac{\partial u}{\partial n}\)</span> denota la derivada normal de <span class="math inline">\(u\)</span> (la derivada de <span class="math inline">\(u\)</span> en dirección perpendicular a la frontera). Una condición de frontera del primer tipo (i) es llamada <strong>condición de Dirichlet</strong>; una condición de frontera del segundo tipo (ii) es llamada <strong>condición de Neumann</strong>; y una condición de frontera del tercer tipo (iii) es conocida como <strong>condición de Robin</strong>. Por ejemplo, para <span class="math inline">\(t&gt;0\)</span> una condición típica al extremo derecho de la varilla de la <a href="#fig-1D-heat" class="quarto-xref">Figura&nbsp;<span>4.1 (a)</span></a> puede ser:</p>
 <p><span class="math display">\[\begin{align*}
   \text{(i)}'   &amp;\quad u(L,t) = u_0, \text{  con } u_0 \text{ constante} \\ \\
   \text{(ii)}'  &amp;\quad \left. \dfrac{\partial u}{\partial x} \right|_{x=L} = 0 \\ \\
@@ -1037,12 +1043,12 @@ Zill, Dennis G., y Michael R. Cullen. 2008. <span>«Differential Equations with 
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./partial_diff_eq.html" class="pagination-link" aria-label="Ecuaciones diferenciales parciales">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Ecuaciones diferenciales parciales</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Ecuaciones diferenciales parciales</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./initial_values.html" class="pagination-link" aria-label="Problemas de valor inicial">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Problemas de valor inicial</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Problemas de valor inicial</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

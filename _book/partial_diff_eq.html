@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>2&nbsp; Ecuaciones diferenciales parciales – Estimación de la temperatura con la ecuación del Bio-Calor usando DeepONet</title>
+<title>3&nbsp; Ecuaciones diferenciales parciales – Estimación de la temperatura con la ecuación del Bio-Calor usando DeepONet</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -51,7 +51,7 @@ div.csl-indent {
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./boundary_problems.html" rel="next">
-<link href="./intro.html" rel="prev">
+<link href="./objetivos.html" rel="prev">
 <link href="./FCFMLOGO.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -140,7 +140,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./partial_diff_eq.html">Preliminares</a></li><li class="breadcrumb-item"><a href="./partial_diff_eq.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Ecuaciones diferenciales parciales</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./partial_diff_eq.html">Preliminares</a></li><li class="breadcrumb-item"><a href="./partial_diff_eq.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Ecuaciones diferenciales parciales</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -206,6 +206,12 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introducción</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./objetivos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Objetivos</span></span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
@@ -218,25 +224,25 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./partial_diff_eq.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Ecuaciones diferenciales parciales</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Ecuaciones diferenciales parciales</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./boundary_problems.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Problemas de valores en la frontera</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Problemas de valores en la frontera</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./initial_values.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Problemas de valor inicial</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Problemas de valor inicial</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./texto_crank_nick.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Método de Crank Nickolson</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Método de Crank Nickolson</span></span></a>
   </div>
 </li>
       </ul>
@@ -253,13 +259,13 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./pinns.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Physic Informed Neural Networks (PINNs)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Physic Informed Neural Networks (PINNs)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./deeponet.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">DeepONet</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">DeepONet</span></span></a>
   </div>
 </li>
       </ul>
@@ -276,13 +282,13 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ecuacion.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Forma de la ecuación</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Forma de la ecuación</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ejemplos.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Modelado del Bio-Calor en Hipertermia</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Modelado del Bio-Calor en Hipertermia</span></span></a>
   </div>
 </li>
       </ul>
@@ -299,25 +305,25 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./metodologia.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Metodología</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Metodología</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./pred_crank_nick.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Predicciones del método numérico</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Predicciones del método numérico</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./model_don.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Métricas del modelo</span></span></a>
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Métricas del modelo</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./comparaciones.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Comparación de resultados</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Comparación de resultados</span></span></a>
   </div>
 </li>
       </ul>
@@ -325,13 +331,13 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./conclusiones.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Conclusiones</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Conclusiones</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./futuros_trabajos.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Futuros trabajos de investigación</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Futuros trabajos de investigación</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -510,9 +516,9 @@ window.Quarto = {
     }
   </script>
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./partial_diff_eq.html">Preliminares</a></li><li class="breadcrumb-item"><a href="./partial_diff_eq.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Ecuaciones diferenciales parciales</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./partial_diff_eq.html">Preliminares</a></li><li class="breadcrumb-item"><a href="./partial_diff_eq.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Ecuaciones diferenciales parciales</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Ecuaciones diferenciales parciales</span></h1>
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Ecuaciones diferenciales parciales</span></h1>
 </div>
 
 
@@ -531,24 +537,24 @@ window.Quarto = {
 
 <div style="text-align: justify">
 <p>Las ecuaciones diferenciales parciales (EDPs), al igual que las ecuaciones diferenciales ordinarias (EDOs), se clasifican en lineales y no lineales. De forma análoga a una EDO lineal, la variable dependiente y sus derivadas parciales en una EDP lineal se elevan únicamente a la primera potencia <span class="citation" data-cites="zill2008">(<a href="references.html#ref-zill2008" role="doc-biblioref">Zill y Cullen 2008</a>)</span>.</p>
-<section id="ecuación-diferencial-parcial-lineal" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="ecuación-diferencial-parcial-lineal"><span class="header-section-number">2.1</span> Ecuación diferencial parcial lineal</h2>
+<section id="ecuación-diferencial-parcial-lineal" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="ecuación-diferencial-parcial-lineal"><span class="header-section-number">3.1</span> Ecuación diferencial parcial lineal</h2>
 <p>Si dejamos que <span class="math inline">\(u\)</span> denote la variable dependiente y que <span class="math inline">\(x\)</span> e <span class="math inline">\(y\)</span> representen las variables independientes, entonces la forma general de una <strong>ecuación diferencial parcial lineal de segundo orden</strong> está dada por:</p>
 <p><span id="eq-LPDE"><span class="math display">\[
 A \dfrac{\partial^2 u}{\partial x^2} + B \dfrac{\partial^2 u}{\partial x \, \partial y} + C \dfrac{\partial^2 u}{\partial y^2} + D \dfrac{\partial u}{\partial x} + E \dfrac{\partial u}{\partial y} + F u = G,
-\tag{2.1}\]</span></span></p>
-<p>donde los coeficientes <span class="math inline">\(A, B, C, \dots, G\)</span> son funciones de <span class="math inline">\(x\)</span> e <span class="math inline">\(y\)</span>. Cuando <span class="math inline">\(G(x, y) = 0\)</span>, la ecuación <a href="#eq-LPDE" class="quarto-xref"><span>2.1</span></a> se denomina <strong>homogénea</strong>; de lo contrario, es <strong>no homogénea</strong>. Por ejemplo, las ecuaciones lineales:</p>
+\tag{3.1}\]</span></span></p>
+<p>donde los coeficientes <span class="math inline">\(A, B, C, \dots, G\)</span> son funciones de <span class="math inline">\(x\)</span> e <span class="math inline">\(y\)</span>. Cuando <span class="math inline">\(G(x, y) = 0\)</span>, la ecuación <a href="#eq-LPDE" class="quarto-xref"><span>3.1</span></a> se denomina <strong>homogénea</strong>; de lo contrario, es <strong>no homogénea</strong>. Por ejemplo, las ecuaciones lineales:</p>
 <p><span class="math display">\[
 \dfrac{\partial^2 u}{\partial x^2} + \dfrac{\partial^2 u}{\partial y^2} = 0 \quad\text{y} \quad \dfrac{\partial^2 u}{\partial x^2} - \dfrac{\partial u}{\partial y} = x y
 \]</span> son homogénea y no homogénea, respectivamente.</p>
 </section>
-<section id="solucion-de-una-pde" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="solucion-de-una-pde"><span class="header-section-number">2.2</span> Solucion de una PDE</h2>
+<section id="solucion-de-una-pde" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="solucion-de-una-pde"><span class="header-section-number">3.2</span> Solucion de una PDE</h2>
 <p>Una <strong>solución</strong> de una ecuación diferencial parcial es una función <span class="math inline">\(u(x, y)\)</span> de dos variables independientes que posee todas las derivadas parciales que aparecen en la ecuación y que satisface dicha ecuación en alguna región del plano <span class="math inline">\(xy\)</span>.</p>
 <p>No es lo habitual examinar los procedimientos para encontrar <strong>soluciones generales</strong> de ecuaciones diferenciales parciales lineales. No solo porque suele ser difícil obtener una solución general de una EDP lineal de segundo orden, sino que una solución general generalmente no es tan útil en aplicaciones prácticas. Por lo tanto, el enfoque común es el de encontrar <strong>soluciones particulares</strong> de algunas de las EDPs lineales más importantes, es decir, ecuaciones que aparecen en muchas aplicaciones.</p>
 </section>
-<section id="separación-de-variables" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="separación-de-variables"><span class="header-section-number">2.3</span> Separación de variables</h2>
+<section id="separación-de-variables" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="separación-de-variables"><span class="header-section-number">3.3</span> Separación de variables</h2>
 <p>Aunque existen varios métodos que pueden intentarse para encontrar soluciones particulares de una EDP lineal, uno de los métodos más comunes se llama <strong>método de separación de variables</strong>. En este método buscamos una solución particular de la forma de un <em>producto</em> de una función de <span class="math inline">\(x\)</span> y una función de <span class="math inline">\(y\)</span>:</p>
 <p><span class="math display">\[
 u(x, y) = X(x)Y(y).
@@ -562,24 +568,24 @@ u(x, y) = X(x)Y(y).
 \]</span></p>
 <p>donde las comillas (<em>primes</em>) denotan derivación ordinaria.</p>
 </section>
-<section id="principio-de-superposición" class="level2" data-number="2.4">
-<h2 data-number="2.4" class="anchored" data-anchor-id="principio-de-superposición"><span class="header-section-number">2.4</span> Principio de superposición</h2>
+<section id="principio-de-superposición" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="principio-de-superposición"><span class="header-section-number">3.4</span> Principio de superposición</h2>
 <div id="thm-superposition" class="theorem">
-<p><span class="theorem-title"><strong>Teorema 2.1</strong></span> Si <span class="math inline">\(u_1 , u_2 , \dots , u_k\)</span> son soluciones de una ecuación diferencial parcial lineal homogénea, entonces la combinación lineal <span class="math display">\[
+<p><span class="theorem-title"><strong>Teorema 3.1</strong></span> Si <span class="math inline">\(u_1 , u_2 , \dots , u_k\)</span> son soluciones de una ecuación diferencial parcial lineal homogénea, entonces la combinación lineal <span class="math display">\[
 u = c_1u_1 + c_2u_2 + \dots + c_ku_k
 \]</span> donde las <span class="math inline">\(c_1=1,2,\dots,k\)</span> son constantes. Es también una solución.</p>
 </div>
-<p>El teorema <a href="#thm-superposition" class="quarto-xref"><span>2.1</span></a> se puede entender como: <em>siempre que tengamos un conjunto infinito de soluciones <span class="math inline">\(u_1, u_2, u_3, \ldots\)</span> de una ecuación lineal homogénea, podemos construir otra solución <span class="math inline">\(u\)</span> mediante la serie infinita</em>:</p>
+<p>El teorema <a href="#thm-superposition" class="quarto-xref"><span>3.1</span></a> se puede entender como: <em>siempre que tengamos un conjunto infinito de soluciones <span class="math inline">\(u_1, u_2, u_3, \ldots\)</span> de una ecuación lineal homogénea, podemos construir otra solución <span class="math inline">\(u\)</span> mediante la serie infinita</em>:</p>
 <p><span class="math display">\[  
 u = \sum_{k=1}^{\infty} c_k u_k,  
 \]</span><br>
 donde las constantes <span class="math inline">\(c_i\)</span>, con <span class="math inline">\(i = 1, 2, \ldots\)</span>, son coeficientes.</p>
 </section>
-<section id="clasificación-de-ecuaciones" class="level2" data-number="2.5">
-<h2 data-number="2.5" class="anchored" data-anchor-id="clasificación-de-ecuaciones"><span class="header-section-number">2.5</span> Clasificación de ecuaciones</h2>
+<section id="clasificación-de-ecuaciones" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="clasificación-de-ecuaciones"><span class="header-section-number">3.5</span> Clasificación de ecuaciones</h2>
 <p>Una ecuación diferencial parcial lineal de segundo orden con dos variables independientes y coeficientes constantes puede clasificarse en uno de tres tipos. Esta clasificación depende únicamente de los coeficientes de las derivadas de segundo orden. Por supuesto, asumimos que al menos uno de los coeficientes <span class="math inline">\(A\)</span>, <span class="math inline">\(B\)</span> o <span class="math inline">\(C\)</span> es distinto de cero.</p>
 <div id="def-PDEs-classes" class="theorem definition">
-<p><span class="theorem-title"><strong>Definición 2.1</strong></span> La ecuación diferencial parcial lineal de segundo orden <span class="math display">\[
+<p><span class="theorem-title"><strong>Definición 3.1</strong></span> La ecuación diferencial parcial lineal de segundo orden <span class="math display">\[
 A \dfrac{\partial^2 u}{\partial x^2} + B \dfrac{\partial^2 u}{\partial x \, \partial y} + C \dfrac{\partial^2 u}{\partial y^2} + D \dfrac{\partial u}{\partial x} + E \dfrac{\partial u}{\partial y} + F u = 0,
 \]</span> donde <span class="math inline">\(A,B,C,D,F\)</span> son constantes reales, se dice que es:</p>
 <ul>
@@ -1013,13 +1019,13 @@ Zill, Dennis G., y Michael R. Cullen. 2008. <span>«Differential Equations with 
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./intro.html" class="pagination-link" aria-label="Introducción">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introducción</span></span>
+      <a href="./objetivos.html" class="pagination-link" aria-label="Objetivos">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Objetivos</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./boundary_problems.html" class="pagination-link" aria-label="Problemas de valores en la frontera">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Problemas de valores en la frontera</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Problemas de valores en la frontera</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

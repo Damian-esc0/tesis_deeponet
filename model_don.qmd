@@ -18,13 +18,15 @@ Conforme se ha referido previamente, el desarrollo del modelo predictivo se real
     - Inicialización de pesos: Glorot normal.
     - Optimizador: Adam con tasa de aprendizaje inicial de 2×10⁻³ y decaimiento exponencial (decay_rate=0.05 cada 1000 pasos).
 ```{python}
+#| output: false
+#| warning: false
 import deepxde as dde
 import numpy as np
 import tensorflow as tf
 
-# ------------------------------------------------------------------------------
+# -------------------------------------------------------------------------
 # Constants and Parameters
-# ------------------------------------------------------------------------------
+# -------------------------------------------------------------------------
 
 # Backend and seed
 dde.backend.set_default_backend("tensorflow.compat.v1")
@@ -53,9 +55,9 @@ y_initial, y_boundary = 0.0, 1.0
 t_initial, t_final = 0.0, 1.0
 
 # Dataset configuration
-pts_dom = 10
-pts_bc = 25
-pts_ic = 55
+pts_dom = 30
+pts_bc = 15
+pts_ic = 30
 num_test = 25
 
 # Sensor grid and function space
@@ -63,29 +65,29 @@ num_sensors = 4
 size_cov_matrix = 40
 
 # Network architecture
-width_net = 20
+width_net = 30
 len_net = 3
 AF = "elu"
 k_initializer = "Glorot normal"
 
 # Training parameters
-num_iterations = 5000
+num_iterations = 10000
 learning_rate = 2e-3
 decay_rate = 0.05
 decay_steps = 1000
 
-# ------------------------------------------------------------------------------
+# -------------------------------------------------------------------------
 # Geometry and Time Domain
-# ------------------------------------------------------------------------------
+# -------------------------------------------------------------------------
 
 spatial_domain = dde.geometry.Rectangle([x_initial, y_initial],
                                         [x_boundary, y_boundary])
 time_domain = dde.geometry.TimeDomain(t_initial, t_final)
 geomtime = dde.geometry.GeometryXTime(spatial_domain, time_domain)
 
-# ------------------------------------------------------------------------------
+# -------------------------------------------------------------------------
 # PDE and Conditions
-# ------------------------------------------------------------------------------
+# -------------------------------------------------------------------------
 
 def initial_condition(X):
     return 0
@@ -151,9 +153,9 @@ right_bc = dde.icbc.NeumannBC(geomtime,
 up_low_bc = dde.icbc.NeumannBC(geomtime, 
                                 zero_value, up_low_boundary)
 
-# ------------------------------------------------------------------------------
+# -------------------------------------------------------------------------
 # Dataset Construction
-# ------------------------------------------------------------------------------
+# -------------------------------------------------------------------------
 
 pde_data = dde.data.TimePDE(
     geomtime,
@@ -164,9 +166,9 @@ pde_data = dde.data.TimePDE(
     num_initial=pts_ic 
 )
 
-# ------------------------------------------------------------------------------
+# -------------------------------------------------------------------------
 # Sensor Points and Function Space
-# ------------------------------------------------------------------------------
+# -------------------------------------------------------------------------
 
 side = np.linspace(x_initial, x_boundary, num_sensors + 1)
 x, y = np.meshgrid(side, side, indexing='xy')
@@ -179,14 +181,14 @@ data = dde.data.PDEOperatorCartesianProd(
     pde_data,
     fs,
     sensor_pts,
-    num_function=(num_sensors + 1)**2,
+    num_function=50,
     function_variables=[0, 1],
     num_test=num_test
 )
 
-# ------------------------------------------------------------------------------
+# -------------------------------------------------------------------------
 # Network Definition
-# ------------------------------------------------------------------------------
+# -------------------------------------------------------------------------
 
 branch_layers = [(num_sensors + 1)**2] + len_net * [width_net]
 trunk_layers = [3] + len_net * [width_net]
@@ -198,12 +200,13 @@ net = dde.nn.DeepONetCartesianProd(
     kernel_initializer=k_initializer
 )
 
-# ------------------------------------------------------------------------------
+# -------------------------------------------------------------------------
 # Model Compilation and Training
-# ------------------------------------------------------------------------------
+# -------------------------------------------------------------------------
 
 model = dde.Model(data, net)
-model.compile("adam", lr=learning_rate, decay=("inverse time", decay_steps, decay_rate))
+model.compile("adam", lr=learning_rate,
+            decay=("inverse time", decay_steps, decay_rate))
 losshistory, train_state = model.train(iterations=num_iterations)
 
 # Fine-tuning with LBFGS optimizer
@@ -394,7 +397,8 @@ results = []
 
 for t_val in times:
     # Crear entrada trunk: (num_points^2, 3)
-    points = np.vstack((X.flatten(), Y.flatten(), t_val * np.ones_like(X.flatten()))).T
+    points = np.vstack((X.flatten(), Y.flatten(),
+                         t_val * np.ones_like(X.flatten()))).T
 
     # Crear entrada branch: condición inicial constante cero
     branch_input = np.zeros((1, sensor_pts.shape[0]))

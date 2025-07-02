@@ -1,9 +1,10 @@
 ---
-title: Physic Informed Neural Networks (PINNs)
 lang: es
 execute: 
   freeze: auto
 ---
+
+# Physic Informed Neural Networks (PINNs) {#sec-pinns}
 
 ::: {style="text-align: justify"}
 Las Physics-Informed Neural Networks (PINNs) son un enfoque innovador que combina redes neuronales con ecuaciones diferenciales gobernantes para resolver problemas complejos de física [@blechs2021]. A diferencia de métodos tradicionales, las PINNs incorporan directamente las ecuaciones físicas en su función de pérdida mediante diferenciación automática, lo que permite minimizar simultáneamente el error en los datos y el residual de las PDEs [@karniadakis2021]. Esta característica las hace particularmente valiosas en escenarios con datos limitados, donde el conocimiento físico actúa como un regularizador efectivo . La capacidad de aproximación de las PINNs se fundamenta en el teorema de aproximación universal de las redes neuronales, adaptado para incorporar restricciones físicas a través de términos de penalización en la función de optimización [@karniadakis2021].
@@ -45,6 +46,8 @@ u(-1,t) = u(1,t) = 0, \quad u(x,0)=-\sin(\pi x)
 $$
 
 ```{python}
+#| output: false
+#| warning: false
 import deepxde as dde
 import numpy as np
 
@@ -69,9 +72,14 @@ geom = dde.geometry.Interval(-1, 1)
 timedomain = dde.geometry.TimeDomain(0, 0.99)
 geomtime = dde.geometry.GeometryXTime(geom, timedomain)
 
-bc = dde.icbc.DirichletBC(geomtime, lambda x: 0, lambda _, on_boundary: on_boundary)
+bc = dde.icbc.DirichletBC(
+    geomtime,
+    lambda x: 0,
+    lambda _, on_boundary: on_boundary)
 ic = dde.icbc.IC(
-    geomtime, lambda x: -np.sin(np.pi * x[:, 0:1]), lambda _, on_initial: on_initial
+    geomtime,
+    lambda x: -np.sin(np.pi * x[:, 0:1]),
+    lambda _, on_initial: on_initial
 )
 
 data = dde.data.TimePDE(
@@ -85,14 +93,60 @@ net = dde.nn.FNN([2] + [20] * 3 + [1], "tanh", "Glorot normal")
 model = dde.Model(data, net)
 
 model.compile("adam", lr=1e-3)
-model.train(iterations=5000)
+losshistory, train_state = model.train(iterations=5000)
 model.compile("L-BFGS")
 losshistory, train_state = model.train()
-dde.saveplot(losshistory, train_state, issave=False, isplot=True)
+#dde.saveplot(losshistory, train_state, issave=False, isplot=True)
+```
+
+```{python}
+#| fig-cap: Resultados de la red neuronal
+import matplotlib.pyplot as plt 
+from mpl_toolkits.mplot3d import Axes3D
 
 X, y_true = gen_testdata()
 y_pred = model.predict(X)
 f = model.predict(X, operator=pde)
+
+# Extraer componentes de X
+x_coords = X[:, 0]  # coordenadas x (espacio)
+time = X[:, 1]      # coordenadas t (tiempo)
+
+# Crear figura con dos subgráficos 3D
+fig = plt.figure(figsize=(12, 8))
+ax1 = fig.add_subplot(121, projection='3d')
+ax2 = fig.add_subplot(122, projection='3d')
+
+# Calcular límites comunes para los ejes z
+z_min = min(y_true.min(), y_pred.min())
+z_max = max(y_true.max(), y_pred.max())
+
+# Gráfico 1: Valores reales
+sc1 = ax1.scatter(x_coords, time, y_true, c=y_true,
+                cmap='viridis', marker='o', vmin=z_min, vmax=z_max)
+ax1.set_xlabel('Posición (x)')
+ax1.set_ylabel('Tiempo (t)')
+ax1.set_zlabel('u(x,t)')
+ax1.set_title('Valores reales de u(x,t)')
+ax1.set_zlim([z_min, z_max])
+
+# Gráfico 2: Valores predichos
+sc2 = ax2.scatter(x_coords, time, y_pred, c=y_pred,
+                cmap='viridis', marker='^', vmin=z_min, vmax=z_max)
+ax2.set_xlabel('Posición (x)')
+ax2.set_ylabel('Tiempo (t)')
+ax2.set_zlabel('u(x,t)')
+ax2.set_title('Valores predichos de u(x,t)')
+ax2.set_zlim([z_min, z_max])
+
+cbar = fig.colorbar(sc1, ax=(ax1,ax2),
+                    shrink=0.9, aspect=90,
+                    pad=0.1, orientation='horizontal')
+cbar.set_label('Magnitud de u(x,t)')
+
+plt.show()
+
+
 print("Mean residual:", np.mean(np.absolute(f)))
 print("L2 relative error:", dde.metrics.l2_relative_error(y_true, y_pred))
 ```

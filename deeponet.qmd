@@ -33,6 +33,8 @@ $$
 el término $f$ representa a una función continua arbitraria.
 
 ```{python}
+#| output: false
+#| warning: false
 import deepxde as dde
 import matplotlib.pyplot as plt
 import numpy as np
@@ -98,7 +100,10 @@ fx = space.eval_batch(features, evaluation_points)
 
 x = geom.uniform_points(100, boundary=True)
 y = model.predict((fx, x))
+```
 
+```{python}
+#| fig-cap: Resultados de la red DeepONet
 # Setup figure
 fig = plt.figure(figsize=(7, 8))
 plt.subplot(2, 1, 1)

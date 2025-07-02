@@ -7,7 +7,12 @@ execute:
 
 ::: {style="text-align: justify"}
 
+De cara al futuro es planteable mejorar el modelo siendo más rigurosos en ciertos aspectos como lo son:
 
+- Ajustar la configuración del optimizador *L-BFGS* ya sea aumentando o disminuyendo sus iteraciones máximas, su umbral de tolerancia o máximo número de funciones a evaluar.
+- Utilizar el modulo de *callbacks* para hacer un *earlyStopping* del modelo para evitar un sobreajuste.
+- Utilizar un conjunto de validación con datos reales tomados de una sesión de hipertérmia.
+- Utilizar otro método numérico para comparar el modelo, como puede ser diferencias finitas.
 
 
 

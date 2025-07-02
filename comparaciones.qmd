@@ -66,7 +66,9 @@ for i, (t_val, ax) in enumerate(zip(times, axes)):
 
 
 # Añadir barra de color común
-cbar = fig.colorbar(surf_list[-1], ax=axes, shrink=0.9, aspect=90, pad=0.1, orientation='horizontal')
+cbar = fig.colorbar(surf_list[-1], ax=axes,
+                    shrink=0.9, aspect=90,
+                    pad=0.1, orientation='horizontal')
 cbar.set_label('Temperatura [K]')
 
 plt.show()
@@ -84,8 +86,10 @@ crank_nick_data = pd.read_csv(r'data/crank_nick.csv')
 model_don_data = pd.read_csv(r'data/model_DoN.csv')
 
 # Determinar los límites comunes para el colorbar
-min_temp = min(model_don_data['Theta'].min(), crank_nick_data['Theta'].min())
-max_temp = max(model_don_data['Theta'].max(), crank_nick_data['Theta'].max())
+min_temp = min(model_don_data['Theta'].min(),
+                crank_nick_data['Theta'].min())
+max_temp = max(model_don_data['Theta'].max(), 
+                crank_nick_data['Theta'].max())
 
 # Crear figura con subplots 3D en 2 filas y 5 columnas
 fig = plt.figure(figsize=(22, 12))
@@ -99,8 +103,10 @@ for i in range(2):  # 2 filas
 axes = np.array(axes).reshape(2, 5)  # Convertir a matriz 2x5 para acceder fácilmente
 
 # Añadir títulos generales para cada fila
-fig.text(0.5, 0.92, "Predicciones modelo DON", ha='center', va='center', fontsize=14, fontweight='bold')
-fig.text(0.5, 0.56, "Predicciones método numérico", ha='center', va='center', fontsize=14, fontweight='bold')
+fig.text(0.5, 0.92, "Predicciones modelo DON", 
+        ha='center', va='center', fontsize=14,fontweight='bold')
+fig.text(0.5, 0.56, "Predicciones método numérico",
+        ha='center', va='center', fontsize=14, fontweight='bold')
 
 # Función para graficar un dataframe en una fila específica
 def plot_dataframe(df, row, num_points, cmap="viridis"):
@@ -136,7 +142,8 @@ def plot_dataframe(df, row, num_points, cmap="viridis"):
     return surf_list
 
 # Asumimos que el grid es regular para ambos dataframes
-num_points = int(np.sqrt(model_don_data[model_don_data["time"] == times[0]].shape[0]))
+num_points = int(np.sqrt(
+        model_don_data[model_don_data["time"] == times[0]].shape[0]))
 
 # Graficar el primer dataframe en la fila superior
 surf_model_don = plot_dataframe(model_don_data, 0, num_points)
@@ -174,7 +181,7 @@ def calculate_errors(true_data, pred_data, times):
         
         # Verificar que las dimensiones coincidan
         if len(true_subset) != len(pred_subset):
-            print(f"Advertencia: Número de puntos no coincide para t={time}")
+            print(f"Advertencia:Num de puntos no coincide para t={time}")
             min_len = min(len(true_subset), len(pred_subset))
             true_subset = true_subset.iloc[:min_len]
             pred_subset = pred_subset.iloc[:min_len]
@@ -227,14 +234,17 @@ print(error_table)
 
 # Calcular el error absoluto entre los dos dataframes
 error_data = model_don_data.copy()
-error_data['error'] = np.abs(crank_nick_data['Theta'] - model_don_data['Theta'])
+error_data['error'] = np.abs(
+                    crank_nick_data['Theta'] - model_don_data['Theta'])
 
 # Crear figura con 3 filas y 2 columnas
 fig, axes = plt.subplots(nrows=1, ncols=5, figsize=(22, 6))
 axes = axes.ravel()  # Convertir a array 1D para fácil acceso
 
 # Asumir que el grid es regular
-num_points = int(np.sqrt(error_data[error_data["time"] == times[0]].shape[0]))
+num_points = int(np.sqrt(
+                    error_data[error_data["time"] == times[0]].shape[0]
+                    ))
 
 # Configuración común para los mapas de calor
 plot_kwargs = {
@@ -269,7 +279,9 @@ for i, t_val in enumerate(times):
 
     abs_errors_pc.append(pc)
 
-cbar = fig.colorbar(abs_errors_pc[-1], ax=axes, use_gridspec=True, shrink=0.9, aspect=90, pad=0.1, orientation='horizontal')
+cbar = fig.colorbar(abs_errors_pc[-1], ax=axes,
+                    use_gridspec=True, shrink=0.9,
+                    aspect=90, pad=0.1, orientation='horizontal')
 cbar.set_label('Error absoluto [K]')
 
 # Mostrar el gráfico

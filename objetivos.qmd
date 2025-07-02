@@ -1,0 +1,21 @@
+---
+title: Objetivos
+lang: es
+execute: 
+  freeze: auto
+---
+
+::: {style="text-align: justify"}
+## Objetivo general
+EL objetivo principal de este estudio es comparar una red neuronal con arquitectura DeepONet con los resultados de un estudio médico basados en la ecuación diferencial parcial del Bio-Calor, utilizando métricas de error relevantes para evaluar su desempeño.
+
+## Objetivos específicos 
+1. Identificar y comprender el valor de las PINNs para la resolución de PDEs y ODEs así como sus aplicaciones multidiciplinarias.
+
+2. Explorar el uso de DeepONet como alternativa a las PINNs clásicas y determinar tanto ventajas como desventajas de su implementación.
+
+3. Evaluar y contrastar la eficacia del modelo DeepONet con un método numérico de referencia, como lo es el método de Crank Nickolson.
+
+4. Reconocer la dificultades que se tiene al momento de implementar un modelo de red neuronal en un lenguaje de programación como Python.
+
+:::

@@ -11,32 +11,32 @@ Para validar los resultados del modelo propuesto, se implementó el método de C
 using DifferentialEquations, LinearAlgebra
 using DataFrames, CSV
 
-# --- PARÁMETROS FÍSICOS Y DIMENSIONALES ------------------------------------
-ρ, c  = 1050.0, 3639.0                        # densidad, calor específico 
-k_eff = 5.0                                   # conductividad
-t_f   = 1800.0                                # tiempo final 
-L     = 0.05                                  # longitud del dominio
-c_b   = 3825.0                                # coef. perfusión
-Q     = 0.0                                   # fuente térmica
-T_M, T_a = 45.0, 37.0                         # temp máxima, temp ambiente
+# --- PARÁMETROS FÍSICOS Y DIMENSIONALES ----------------------------------
+ρ, c  = 1050.0, 3639.0                       # densidad, calor específico 
+k_eff = 5.0                                  # conductividad
+t_f   = 1800.0                               # tiempo final 
+L     = 0.05                                 # longitud del dominio
+c_b   = 3825.0                               # coef. perfusión
+Q     = 0.0                                  # fuente térmica
+T_M, T_a = 45.0, 37.0                        # temp máxima, temp ambiente
 
-# --- COEFICIENTES ADIMENSIONALES -------------------------------------------
+# --- COEFICIENTES ADIMENSIONALES -----------------------------------------
 α = ρ * c / k_eff
 a₁ = t_f / (α * L^2)
 a₂ = t_f * c_b / (ρ * c)
 a₃ = (t_f * Q) / (ρ * c * (T_M - T_a))
 
-# --- MALLA ESPACIAL --------------------------------------------------------
+# --- MALLA ESPACIAL ------------------------------------------------------
 Nx, Ny = 51, 51
 dx, dy = 1.0 / (Nx - 1), 1.0 / (Ny - 1)
 x = range(0, 1, length=Nx)
 y = range(0, 1, length=Ny)
 N = Nx * Ny  # total de puntos
 
-# --- CONDICIÓN INICIAL ----------------------------------------------------
+# --- CONDICIÓN INICIAL ---------------------------------------------------
 u0 = zeros(N)
 
-# --- SISTEMA DE EDOs DEL PDE ----------------------------------------------
+# --- SISTEMA DE EDOs DEL PDE ---------------------------------------------
 function f!(du, u, _, τ)
     U = reshape(u, Nx, Ny)
     D = similar(U)
@@ -93,7 +93,7 @@ end
 
 df = DataFrame(time=times, X=Xs, Y=Ys, Theta=Thetas)
 
-# --- GUARDAR CSV ----------------------------------------------------------
+# --- GUARDAR CSV ---------------------------------------------------------
 ruta = "data"
 CSV.write(joinpath(ruta, "crank_nick.csv"), df)
 ```
@@ -104,14 +104,14 @@ CSV.write(joinpath(ruta, "crank_nick.csv"), df)
 using DataFrames, CSV, Plots, Statistics
 pyplot()
 
-# --- OBTENER VALORES ÚNICOS Y ORDENADOS DE X, Y, TIME ----------------------
+# --- OBTENER VALORES ÚNICOS Y ORDENADOS DE X, Y, TIME --------------------
 x_vals = sort(unique(df.X))
 y_vals = sort(unique(df.Y))
 times = sort(unique(df.time))  # tiempos
 
 Nx, Ny = length(x_vals), length(y_vals)
 
-# --- RECONSTRUIR MATRICES 2D DE THETA PARA CADA TIEMPO ---------------------
+# --- RECONSTRUIR MATRICES 2D DE THETA PARA CADA TIEMPO -------------------
 solutions = []
 
 for t in times

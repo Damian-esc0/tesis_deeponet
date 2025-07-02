@@ -7,7 +7,7 @@ author:
     degrees: PhD
     email: yofre.garcia@unach.mx
     roles: supervisor
-    corresponding: true
+    corresponding: False
 ---
 
 # Resumen {.unnumbered}

@@ -32,6 +32,7 @@ book:
   chapters:
     - index.qmd
     - intro.qmd
+    - objetivos.qmd
 
     - part: "Preliminares"
       chapters: 
@@ -83,6 +84,9 @@ format:
       gutter-width: 1.5rem
     code-fold: true
     code-copy: true
+    toc: true
+    toc-location: right-body
+    toc-depth: 2
 
   pdf:
     lang: es

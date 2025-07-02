@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>6&nbsp; Physic Informed Neural Networks (PINNs) – Estimación de la temperatura con la ecuación del Bio-Calor usando DeepONet</title>
+<title>7&nbsp; Physic Informed Neural Networks (PINNs) – Estimación de la temperatura con la ecuación del Bio-Calor usando DeepONet</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -175,7 +175,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./pinns.html">Redes neuronales</a></li><li class="breadcrumb-item"><a href="./pinns.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Physic Informed Neural Networks (PINNs)</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./pinns.html">Redes neuronales</a></li><li class="breadcrumb-item"><a href="./pinns.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Physic Informed Neural Networks (PINNs)</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -241,6 +241,12 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introducción</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./objetivos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Objetivos</span></span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
@@ -253,25 +259,25 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./partial_diff_eq.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Ecuaciones diferenciales parciales</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Ecuaciones diferenciales parciales</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./boundary_problems.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Problemas de valores en la frontera</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Problemas de valores en la frontera</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./initial_values.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Problemas de valor inicial</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Problemas de valor inicial</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./texto_crank_nick.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Método de Crank Nickolson</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Método de Crank Nickolson</span></span></a>
   </div>
 </li>
       </ul>
@@ -288,13 +294,13 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./pinns.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Physic Informed Neural Networks (PINNs)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Physic Informed Neural Networks (PINNs)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./deeponet.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">DeepONet</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">DeepONet</span></span></a>
   </div>
 </li>
       </ul>
@@ -311,13 +317,13 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ecuacion.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Forma de la ecuación</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Forma de la ecuación</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ejemplos.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Modelado del Bio-Calor en Hipertermia</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Modelado del Bio-Calor en Hipertermia</span></span></a>
   </div>
 </li>
       </ul>
@@ -334,25 +340,25 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./metodologia.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Metodología</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Metodología</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./pred_crank_nick.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Predicciones del método numérico</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Predicciones del método numérico</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./model_don.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Métricas del modelo</span></span></a>
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Métricas del modelo</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./comparaciones.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Comparación de resultados</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Comparación de resultados</span></span></a>
   </div>
 </li>
       </ul>
@@ -360,13 +366,13 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./conclusiones.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Conclusiones</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Conclusiones</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./futuros_trabajos.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Futuros trabajos de investigación</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Futuros trabajos de investigación</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -545,9 +551,9 @@ window.Quarto = {
     }
   </script>
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./pinns.html">Redes neuronales</a></li><li class="breadcrumb-item"><a href="./pinns.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Physic Informed Neural Networks (PINNs)</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./pinns.html">Redes neuronales</a></li><li class="breadcrumb-item"><a href="./pinns.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Physic Informed Neural Networks (PINNs)</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Physic Informed Neural Networks (PINNs)</span></h1>
+<h1 class="title"><span id="sec-pinns" class="quarto-section-identifier"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Physic Informed Neural Networks (PINNs)</span></span></h1>
 </div>
 
 
@@ -570,10 +576,10 @@ window.Quarto = {
 <p><span class="math display">\[
 \frac{\partial u}{\partial t} + u \frac{\partial u}{\partial x} = \nu \frac{\partial^2 u}{\partial x^2}
 \]</span></p>
-<p>Con una condición inicial adecuada y condiciones de contorno de Dirichlet. En la figura <a href="#fig-pinn_graph" class="quarto-xref">Figura&nbsp;<span>6.1</span></a>, la red izquierda (physics-​uninformed) representa el sustituto de la solución de EDP <span class="math inline">\(u(x, t)\)</span>, mientras que la red derecha (physics-​informed) describe el residuo de EDP <span class="math inline">\(\frac{\partial u}{\partial t} + u \frac{\partial u}{\partial x} - \nu \frac{\partial^2 u}{\partial x^2}\)</span>. La función de pérdida incluye una pérdida supervisada de las mediciones de datos de <span class="math inline">\(u\)</span> de las condiciones iniciales y de contorno, y una pérdida no supervisada de EDP:</p>
+<p>Con una condición inicial adecuada y condiciones de contorno de Dirichlet. En la figura <a href="#fig-pinn_graph" class="quarto-xref">Figura&nbsp;<span>7.1</span></a>, la red izquierda (physics-​uninformed) representa el sustituto de la solución de EDP <span class="math inline">\(u(x, t)\)</span>, mientras que la red derecha (physics-​informed) describe el residuo de EDP <span class="math inline">\(\frac{\partial u}{\partial t} + u \frac{\partial u}{\partial x} - \nu \frac{\partial^2 u}{\partial x^2}\)</span>. La función de pérdida incluye una pérdida supervisada de las mediciones de datos de <span class="math inline">\(u\)</span> de las condiciones iniciales y de contorno, y una pérdida no supervisada de EDP:</p>
 <p><span id="eq-loss-funct"><span class="math display">\[
 \mathcal{L} = w_{\text{data}} \mathcal{L}_{\text{data}} + w_{\text{PDE}} \mathcal{L}_{\text{PDE}}
-\tag{6.1}\]</span></span></p>
+\tag{7.1}\]</span></span></p>
 <p>donde:</p>
 <p><span class="math display">\[\begin{align*}
 \mathcal{L}_{\text{data}} =&amp; \frac{1}{N_{\text{data}}} \sum_{i=1}^{N_{\text{data}}} \left( u(x_i, t_i) - u_i \right)^2 \\ \\
@@ -587,19 +593,19 @@ window.Quarto = {
 <img src="images/PINN_diagram.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="600">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pinn_graph-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;6.1: <strong>El algoritmo de una PINN.</strong> Construya una red neuronal (NN) <span class="math inline">\(u(x, t; \theta)\)</span> donde <span class="math inline">\(\theta\)</span> representa el conjunto de pesos entrenables <span class="math inline">\(w\)</span> y sesgos <span class="math inline">\(b\)</span>, y <span class="math inline">\(\sigma\)</span> representa una función de activación no lineal. Especifique los datos de medición <span class="math inline">\({x_i, t_i, u_i}\)</span> para <span class="math inline">\(u\)</span> y los puntos residuales <span class="math inline">\({x_j, t_j}\)</span> para la EDP. Especifique la pérdida <span class="math inline">\(\mathcal{L}\)</span> en la ecuación <a href="#eq-loss-funct" class="quarto-xref">Ecuación&nbsp;<span>6.1</span></a> sumando las pérdidas ponderadas de los datos y la EDP. Entrene la NN para encontrar los mejores parámetros <span class="math inline">\(\mathbb{\theta^*}\)</span> minimizando la pérdida <span class="math inline">\(\mathcal{L}\)</span> <span class="citation" data-cites="karniadakis2021">(<a href="references.html#ref-karniadakis2021" role="doc-biblioref">Karniadakis et&nbsp;al. 2021</a>)</span>.
+Figura&nbsp;7.1: <strong>El algoritmo de una PINN.</strong> Construya una red neuronal (NN) <span class="math inline">\(u(x, t; \theta)\)</span> donde <span class="math inline">\(\theta\)</span> representa el conjunto de pesos entrenables <span class="math inline">\(w\)</span> y sesgos <span class="math inline">\(b\)</span>, y <span class="math inline">\(\sigma\)</span> representa una función de activación no lineal. Especifique los datos de medición <span class="math inline">\({x_i, t_i, u_i}\)</span> para <span class="math inline">\(u\)</span> y los puntos residuales <span class="math inline">\({x_j, t_j}\)</span> para la EDP. Especifique la pérdida <span class="math inline">\(\mathcal{L}\)</span> en la ecuación <a href="#eq-loss-funct" class="quarto-xref">Ecuación&nbsp;<span>7.1</span></a> sumando las pérdidas ponderadas de los datos y la EDP. Entrene la NN para encontrar los mejores parámetros <span class="math inline">\(\mathbb{\theta^*}\)</span> minimizando la pérdida <span class="math inline">\(\mathcal{L}\)</span> <span class="citation" data-cites="karniadakis2021">(<a href="references.html#ref-karniadakis2021" role="doc-biblioref">Karniadakis et&nbsp;al. 2021</a>)</span>.
 </figcaption>
 </figure>
 </div>
-<section id="ejemplo-de-resolución-de-la-ecuación-de-burgers-1d-con-deepxde" class="level2" data-number="6.1">
-<h2 data-number="6.1" class="anchored" data-anchor-id="ejemplo-de-resolución-de-la-ecuación-de-burgers-1d-con-deepxde"><span class="header-section-number">6.1</span> Ejemplo de resolución de la ecuación de Burger’s 1D con deepxde</h2>
+<section id="ejemplo-de-resolución-de-la-ecuación-de-burger-1d-con-deepxde" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="ejemplo-de-resolución-de-la-ecuación-de-burger-1d-con-deepxde"><span class="header-section-number">7.1</span> Ejemplo de resolución de la ecuación de Burger 1D con deepxde</h2>
 <p>Dada la ecuación: <span class="math display">\[
 \dfrac{\partial u}{\partial t} + u\dfrac{\partial u}{\partial x} = v\dfrac{\partial^2 u}{\partial x^2} \quad, x \in[-1,1], \ t\in[0,1]
 \]</span></p>
 <p>con la condición de frontera de Dirichlet y condición inicial: <span class="math display">\[
 u(-1,t) = u(1,t) = 0, \quad u(x,0)=-\sin(\pi x)
 \]</span></p>
-<div id="669f484a" class="cell" data-execution_count="1">
+<div id="dabd8d0d" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> deepxde <span class="im">as</span> dde</span>
@@ -626,132 +632,101 @@ u(-1,t) = u(1,t) = 0, \quad u(x,0)=-\sin(\pi x)
 <span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>timedomain <span class="op">=</span> dde.geometry.TimeDomain(<span class="dv">0</span>, <span class="fl">0.99</span>)</span>
 <span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>geomtime <span class="op">=</span> dde.geometry.GeometryXTime(geom, timedomain)</span>
 <span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>bc <span class="op">=</span> dde.icbc.DirichletBC(geomtime, <span class="kw">lambda</span> x: <span class="dv">0</span>, <span class="kw">lambda</span> _, on_boundary: on_boundary)</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>ic <span class="op">=</span> dde.icbc.IC(</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    geomtime, <span class="kw">lambda</span> x: <span class="op">-</span>np.sin(np.pi <span class="op">*</span> x[:, <span class="dv">0</span>:<span class="dv">1</span>]), <span class="kw">lambda</span> _, on_initial: on_initial</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> dde.data.TimePDE(</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    geomtime, pde, [bc, ic],</span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    num_domain<span class="op">=</span><span class="dv">2540</span>,</span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>    num_boundary<span class="op">=</span><span class="dv">80</span>,</span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>    num_initial<span class="op">=</span><span class="dv">160</span>,</span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    num_test<span class="op">=</span><span class="dv">300</span></span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>net <span class="op">=</span> dde.nn.FNN([<span class="dv">2</span>] <span class="op">+</span> [<span class="dv">20</span>] <span class="op">*</span> <span class="dv">3</span> <span class="op">+</span> [<span class="dv">1</span>], <span class="st">"tanh"</span>, <span class="st">"Glorot normal"</span>)</span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> dde.Model(data, net)</span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>model.<span class="bu">compile</span>(<span class="st">"adam"</span>, lr<span class="op">=</span><span class="fl">1e-3</span>)</span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>model.train(iterations<span class="op">=</span><span class="dv">5000</span>)</span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>model.<span class="bu">compile</span>(<span class="st">"L-BFGS"</span>)</span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>losshistory, train_state <span class="op">=</span> model.train()</span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>dde.saveplot(losshistory, train_state, issave<span class="op">=</span><span class="va">False</span>, isplot<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>X, y_true <span class="op">=</span> gen_testdata()</span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> model.predict(X)</span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> model.predict(X, operator<span class="op">=</span>pde)</span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Mean residual:"</span>, np.mean(np.absolute(f)))</span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"L2 relative error:"</span>, dde.metrics.l2_relative_error(y_true, y_pred))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>bc <span class="op">=</span> dde.icbc.DirichletBC(</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    geomtime,</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> x: <span class="dv">0</span>,</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> _, on_boundary: on_boundary)</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>ic <span class="op">=</span> dde.icbc.IC(</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    geomtime,</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> x: <span class="op">-</span>np.sin(np.pi <span class="op">*</span> x[:, <span class="dv">0</span>:<span class="dv">1</span>]),</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> _, on_initial: on_initial</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> dde.data.TimePDE(</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>    geomtime, pde, [bc, ic],</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>    num_domain<span class="op">=</span><span class="dv">2540</span>,</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>    num_boundary<span class="op">=</span><span class="dv">80</span>,</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>    num_initial<span class="op">=</span><span class="dv">160</span>,</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>    num_test<span class="op">=</span><span class="dv">300</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>net <span class="op">=</span> dde.nn.FNN([<span class="dv">2</span>] <span class="op">+</span> [<span class="dv">20</span>] <span class="op">*</span> <span class="dv">3</span> <span class="op">+</span> [<span class="dv">1</span>], <span class="st">"tanh"</span>, <span class="st">"Glorot normal"</span>)</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> dde.Model(data, net)</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>model.<span class="bu">compile</span>(<span class="st">"adam"</span>, lr<span class="op">=</span><span class="fl">1e-3</span>)</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>losshistory, train_state <span class="op">=</span> model.train(iterations<span class="op">=</span><span class="dv">5000</span>)</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>model.<span class="bu">compile</span>(<span class="st">"L-BFGS"</span>)</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>losshistory, train_state <span class="op">=</span> model.train()</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="co">#dde.saveplot(losshistory, train_state, issave=False, isplot=True)</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-stderr">
-<pre><code>2025-06-25 15:38:49.026838: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
-2025-06-25 15:38:49.080927: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
-2025-06-25 15:38:49.081802: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
-To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
-2025-06-25 15:38:50.022280: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
-Using backend: tensorflow.compat.v1
-Other supported backends: tensorflow, pytorch, jax, paddle.
-paddle supports more examples now and is recommended.</code></pre>
 </div>
-<div class="cell-output cell-output-stdout">
-<pre><code>WARNING:tensorflow:From /home/damian/.local/lib/python3.8/site-packages/tensorflow/python/compat/v2_compat.py:107: disable_resource_variables (from tensorflow.python.ops.variable_scope) is deprecated and will be removed in a future version.
-Instructions for updating:
-non-resource variables are not supported in the long term
-Compiling model...
-Building feed-forward neural network...
-'build' took 0.044881 s
-</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>/home/damian/.local/lib/python3.8/site-packages/deepxde/nn/tensorflow_compat_v1/fnn.py:116: UserWarning:
-
-`tf.layers.dense` is deprecated and will be removed in a future version. Please use `tf.keras.layers.Dense` instead.
-</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>'compile' took 0.349554 s
-
-Training model...
-
-Step      Train loss                        Test loss                         Test metric
-0         [9.90e-03, 5.31e-03, 5.32e-01]    [9.53e-03, 5.31e-03, 5.32e-01]    []  </code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>2025-06-25 15:38:51.672960: I tensorflow/compiler/mlir/mlir_graph_optimization_pass.cc:375] MLIR V1 optimization pass is not enabled</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>1000      [3.91e-02, 4.68e-04, 5.24e-02]    [4.39e-02, 4.68e-04, 5.24e-02]    []  
-2000      [2.28e-02, 7.61e-05, 3.03e-02]    [5.67e-02, 7.61e-05, 3.03e-02]    []  
-3000      [1.05e-02, 4.22e-05, 6.66e-03]    [6.38e-02, 4.22e-05, 6.66e-03]    []  
-4000      [4.69e-03, 2.22e-05, 2.92e-03]    [3.82e-02, 2.22e-05, 2.92e-03]    []  
-5000      [3.82e-03, 1.46e-05, 2.02e-03]    [2.67e-02, 1.46e-05, 2.02e-03]    []  
-
-Best model at step 5000:
-  train loss: 5.86e-03
-  test loss: 2.88e-02
-  test metric: []
-
-'train' took 38.613541 s
-
-Compiling model...
-'compile' took 0.191548 s
-
-Training model...
-
-Step      Train loss                        Test loss                         Test metric
-5000      [3.82e-03, 1.46e-05, 2.02e-03]    [2.67e-02, 1.46e-05, 2.02e-03]    []  
-6000      [2.79e-04, 6.99e-07, 1.37e-04]    [2.79e-04, 6.99e-07, 1.37e-04]        
-7000      [9.52e-05, 3.08e-07, 5.34e-05]    [9.52e-05, 3.08e-07, 5.34e-05]        
-8000      [3.84e-05, 1.15e-07, 1.07e-05]    [3.84e-05, 1.15e-07, 1.07e-05]        
-9000      [1.95e-05, 4.68e-08, 4.82e-06]    [1.95e-05, 4.68e-08, 4.82e-06]        
-10000     [1.15e-05, 3.38e-08, 2.46e-06]    [1.15e-05, 3.38e-08, 2.46e-06]        
-INFO:tensorflow:Optimization terminated with:
-  Message: CONVERGENCE: REL_REDUCTION_OF_F_&lt;=_FACTR*EPSMCH
-  Objective function value: 0.000014
-  Number of iterations: 4792
-  Number of functions evaluations: 5097
-10097     [1.14e-05, 4.10e-08, 2.28e-06]    [6.58e-03, 4.10e-08, 2.28e-06]    []  
-
-Best model at step 10097:
-  train loss: 1.37e-05
-  test loss: 6.58e-03
-  test metric: []
-
-'train' took 55.594739 s
-</code></pre>
-</div>
+<div id="c77382bf" class="cell" data-execution_count="2">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mpl_toolkits.mplot3d <span class="im">import</span> Axes3D</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>X, y_true <span class="op">=</span> gen_testdata()</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> model.predict(X)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> model.predict(X, operator<span class="op">=</span>pde)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Extraer componentes de X</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>x_coords <span class="op">=</span> X[:, <span class="dv">0</span>]  <span class="co"># coordenadas x (espacio)</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>time <span class="op">=</span> X[:, <span class="dv">1</span>]      <span class="co"># coordenadas t (tiempo)</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear figura con dos subgráficos 3D</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">8</span>))</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>ax1 <span class="op">=</span> fig.add_subplot(<span class="dv">121</span>, projection<span class="op">=</span><span class="st">'3d'</span>)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>ax2 <span class="op">=</span> fig.add_subplot(<span class="dv">122</span>, projection<span class="op">=</span><span class="st">'3d'</span>)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular límites comunes para los ejes z</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>z_min <span class="op">=</span> <span class="bu">min</span>(y_true.<span class="bu">min</span>(), y_pred.<span class="bu">min</span>())</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>z_max <span class="op">=</span> <span class="bu">max</span>(y_true.<span class="bu">max</span>(), y_pred.<span class="bu">max</span>())</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfico 1: Valores reales</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>sc1 <span class="op">=</span> ax1.scatter(x_coords, time, y_true, c<span class="op">=</span>y_true,</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>                cmap<span class="op">=</span><span class="st">'viridis'</span>, marker<span class="op">=</span><span class="st">'o'</span>, vmin<span class="op">=</span>z_min, vmax<span class="op">=</span>z_max)</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>ax1.set_xlabel(<span class="st">'Posición (x)'</span>)</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>ax1.set_ylabel(<span class="st">'Tiempo (t)'</span>)</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>ax1.set_zlabel(<span class="st">'u(x,t)'</span>)</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>ax1.set_title(<span class="st">'Valores reales de u(x,t)'</span>)</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>ax1.set_zlim([z_min, z_max])</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfico 2: Valores predichos</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>sc2 <span class="op">=</span> ax2.scatter(x_coords, time, y_pred, c<span class="op">=</span>y_pred,</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>                cmap<span class="op">=</span><span class="st">'viridis'</span>, marker<span class="op">=</span><span class="st">'^'</span>, vmin<span class="op">=</span>z_min, vmax<span class="op">=</span>z_max)</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>ax2.set_xlabel(<span class="st">'Posición (x)'</span>)</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>ax2.set_ylabel(<span class="st">'Tiempo (t)'</span>)</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>ax2.set_zlabel(<span class="st">'u(x,t)'</span>)</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>ax2.set_title(<span class="st">'Valores predichos de u(x,t)'</span>)</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>ax2.set_zlim([z_min, z_max])</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>cbar <span class="op">=</span> fig.colorbar(sc1, ax<span class="op">=</span>(ax1,ax2),</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>                    shrink<span class="op">=</span><span class="fl">0.9</span>, aspect<span class="op">=</span><span class="dv">90</span>,</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>                    pad<span class="op">=</span><span class="fl">0.1</span>, orientation<span class="op">=</span><span class="st">'horizontal'</span>)</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>cbar.set_label(<span class="st">'Magnitud de u(x,t)'</span>)</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Mean residual:"</span>, np.mean(np.absolute(f)))</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"L2 relative error:"</span>, dde.metrics.l2_relative_error(y_true, y_pred))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="pinns_files/figure-html/cell-2-output-7.png" width="581" height="429" class="figure-img"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="pinns_files/figure-html/cell-2-output-8.png" width="413" height="396" class="figure-img"></p>
+<p><img src="pinns_files/figure-html/cell-3-output-1.png" width="934" height="554" class="figure-img"></p>
+<figcaption>Resultados de la red neuronal</figcaption>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Mean residual: 0.0037696785
-L2 relative error: 0.0037413991822282254</code></pre>
+<pre><code>Mean residual: 0.0034935207
+L2 relative error: 0.009222255540929303</code></pre>
 </div>
 </div>
 </section>
-<section id="comparación-con-redes-neuronales-tradicionales" class="level2" data-number="6.2">
-<h2 data-number="6.2" class="anchored" data-anchor-id="comparación-con-redes-neuronales-tradicionales"><span class="header-section-number">6.2</span> Comparación con Redes Neuronales Tradicionales</h2>
+<section id="comparación-con-redes-neuronales-tradicionales" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="comparación-con-redes-neuronales-tradicionales"><span class="header-section-number">7.2</span> Comparación con Redes Neuronales Tradicionales</h2>
 <p>Mientras que las redes neuronales tradicionales dependen exclusivamente de grandes volúmenes de datos etiquetados para su entrenamiento <span class="citation" data-cites="karniadakis2021">(<a href="references.html#ref-karniadakis2021" role="doc-biblioref">Karniadakis et&nbsp;al. 2021</a>)</span>, las PINNs integran el conocimiento físico como parte esencial de su arquitectura <span class="citation" data-cites="blechs2021">(<a href="references.html#ref-blechs2021" role="doc-biblioref">Blechschmidt y Ernst 2021</a>)</span>. Esta diferencia clave permite a las PINNs generar soluciones físicamente consistentes incluso con datos escasos, evitando el sobreajuste común en enfoques puramente basados en datos. Otra ventaja significativa de las PINNs es su naturaleza mesh-free, que contrasta con los métodos numéricos tradicionales como FEM o FDM que requieren discretización espacial. Sin embargo, el entrenamiento de PINNs puede ser más desafiante debido a la necesidad de optimizar múltiples objetivos simultáneamente (ajuste a datos y cumplimiento de leyes físicas) <span class="citation" data-cites="blechs2021 karniadakis2021">(<a href="references.html#ref-blechs2021" role="doc-biblioref">Blechschmidt y Ernst 2021</a>; <a href="references.html#ref-karniadakis2021" role="doc-biblioref">Karniadakis et&nbsp;al. 2021</a>)</span>.</p>
 </section>
 </div>
@@ -1182,12 +1157,12 @@ Karniadakis, George Em, Ioannis G. Kevrekidis, Lu Lu, Paris Perdikaris, Sifan Wa
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./texto_crank_nick.html" class="pagination-link" aria-label="Método de Crank Nickolson">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Método de Crank Nickolson</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Método de Crank Nickolson</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./deeponet.html" class="pagination-link" aria-label="DeepONet">
-        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">DeepONet</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">DeepONet</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
