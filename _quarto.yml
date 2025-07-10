@@ -27,7 +27,6 @@ book:
     border: true
     search: true
   repo-url: https://github.com/Damian-esc0/tesis_deeponet
-  repo-actions: [edit, issue, source]
   page-navigation: true 
   chapters:
     - index.qmd
@@ -72,7 +71,7 @@ bibliography: references.bib
 format:
   html:
     theme:
-      light: cosmo
+      light: flatly
       dark: darkly
     highlight-style: a11y
     lang: es
@@ -85,8 +84,9 @@ format:
     code-fold: true
     code-copy: true
     toc: true
-    toc-location: right-body
-    toc-depth: 2
+    toc-location: right
+    toc-depth: 5
+    toc-expand: true
 
   pdf:
     lang: es

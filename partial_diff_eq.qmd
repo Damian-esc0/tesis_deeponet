@@ -1,9 +1,9 @@
 ---
-title: Ecuaciones diferenciales parciales
 lang: es
 execute: 
   freeze: auto
 ---
+# Ecuaciones diferenciales parciales
 ::: {style="text-align: justify"}
 Las ecuaciones diferenciales parciales (EDPs), al igual que las ecuaciones diferenciales ordinarias (EDOs), se clasifican en lineales y no lineales. De forma análoga a una EDO lineal, la variable dependiente y sus derivadas parciales en una EDP lineal se elevan únicamente a la primera potencia [@zill2008].
 

@@ -243,10 +243,10 @@
 \floatname{codelisting}{Listado}
 \newcommand*\listoflistings{\listof{codelisting}{Listado de Listados}}
 \usepackage{amsthm}
-\theoremstyle{definition}
-\newtheorem{definition}{Definición}[chapter]
 \theoremstyle{plain}
 \newtheorem{theorem}{Teorema}[chapter]
+\theoremstyle{definition}
+\newtheorem{definition}{Definición}[chapter]
 \theoremstyle{remark}
 \AtBeginDocument{\renewcommand*{\proofname}{Prueba}}
 \newtheorem*{remark}{Observación}
@@ -297,11 +297,83 @@ Gómez}
 
 \markboth{Resumen}{Resumen}
 
-Aquí irá el resumen de la tesis.
+Este trabajo explora el uso de DeepONet para resolver ecuaciones
+diferenciales parciales, aplicándola a la estimación de temperatura en
+tejidos biológicos mediante la ecuación del bio-calor, en contextos
+clínicos como la hipertermia oncológica.
+
+Se comparó el desempeño de DeepONet frente a un método numérico clásico,
+como Crank-Nicolson, evaluando precisión mediante métricas de error. La
+red neuronal fue entrenada para resolver la EDP del Bio-Calor
+simplificandola de manera que no se tuviera en cuenta la fuente
+metabólica de calor \(Q\).
+
+Los resultados muestran que DeepONet puede aproximar la solución
+eficazmente en distintos tiempos, con ventajas de generalización
+respecto a redes PINN convencionales, posicionándose como una
+herramienta prometedora en el modelado térmico biomédico.
 
 \bookmarksetup{startatroot}
 
 \chapter{Introducción}\label{introducciuxf3n}
+
+El uso de redes neuronales en la resolución de ecuaciones diferenciales
+parciales (EDPs) ha ganado relevancia en la última década gracias al
+desarrollo de técnicas que integran principios físicos en el
+entrenamiento de modelos. Este enfoque, conocido como redes neuronales
+informadas por la física (PINNs), ha demostrado ser especialmente útil
+en situaciones donde la disponibilidad de datos es limitada y donde las
+leyes físicas subyacentes pueden ser incorporadas como restricciones en
+la función de pérdida (\citeproc{ref-karniadakis2021}{George Em
+Karniadakis 2021}). En este trabajo se explora una variante más
+reciente: DeepONet, una arquitectura diseñada para aprender operadores
+funcionales, y su aplicación en la estimación de temperatura en tejidos
+biológicos mediante la ecuación del Bio-Calor.
+
+La ecuación del Bio-Calor fue propuesta por Pennes en 1948 con el
+objetivo de modelar la transferencia de calor en tejidos vivos,
+considerando los efectos de conducción térmica, metabolismo y perfusión
+sanguínea (\citeproc{ref-pennes1948}{Pennes 1948}). Este modelo ha sido
+ampliamente utilizado en aplicaciones clínicas como la hipertermia
+terapéutica, una técnica que consiste en elevar localmente la
+temperatura del tejido para mejorar la eficacia de tratamientos
+oncológicos (\citeproc{ref-nci2021}{Instituto Nacional del Cáncer
+2021}). Sin embargo, debido a la complejidad de las condiciones
+fisiológicas y a las propiedades variables de los tejidos, su resolución
+analítica es inviable, y las aproximaciones numéricas, como el método de
+Crank-Nicolson, se vuelven indispensables.
+
+En este contexto, surge la oportunidad de aplicar DeepONet como una
+alternativa innovadora. A diferencia de una PINN tradicional, que se
+entrena para resolver una instancia específica de una EDP, DeepONet
+aprende un operador que puede generalizar a nuevas condiciones de
+frontera o iniciales sin requerir reentrenamiento
+(\citeproc{ref-deepxde}{Lu, Meng, et~al. 2021}). Esta característica
+resulta de gran valor en aplicaciones médicas donde las condiciones
+pueden variar entre pacientes o incluso durante un mismo procedimiento.
+Además, el modelo puede ser entrenado sobre una base de soluciones
+simuladas, lo que reduce la necesidad de datos experimentales, difíciles
+y costosos de obtener en contextos clínicos
+(\citeproc{ref-karniadakis2021}{George Em Karniadakis 2021}).
+
+El presente trabajo tiene como objetivo comparar la precisión y
+eficiencia de DeepONet con el método numérico clásico de Crank-Nicolson
+en la estimación de temperatura sobre un dominio bidimensional. Para
+ello, se implementó un modelo basado en la versión adimensionalizada de
+la ecuación del Bio-Calor, y se utilizó la biblioteca DeepXDE para su
+entrenamiento (\citeproc{ref-deepxde}{Lu, Meng, et~al. 2021}).
+Posteriormente, se evaluaron métricas como el error medio absoluto (MAE)
+y el error máximo absoluto (MaxAE), y se analizaron las predicciones
+visualmente frente a referencias obtenidas por Alessio Borgi
+(\citeproc{ref-medical_rep}{2023}), con resultados prometedores.
+
+La combinación de eficiencia, capacidad de generalización y adecuación a
+condiciones reales posiciona a DeepONet como una alternativa poderosa
+frente a métodos clásicos. Esta tesis busca sentar las bases para
+diversificar su uso en escenarios variados e incentivar su uso en la
+solución de operadores. Así, el trabajo contribuye a la creciente
+tendencia de aplicar inteligencia artificial en el ámbito médico con
+fundamentos sólidos en física matemática.
 
 \bookmarksetup{startatroot}
 
@@ -309,24 +381,28 @@ Aquí irá el resumen de la tesis.
 
 \section{Objetivo general}\label{objetivo-general}
 
-EL objetivo principal de este estudio es comparar una red neuronal con
-arquitectura DeepONet con los resultados de un estudio médico basados en
-la ecuación diferencial parcial del Bio-Calor, utilizando métricas de
-error relevantes para evaluar su desempeño.
+Comparar la aproximación numérica de la solución de una Ecuación
+Diferencial Parcial (EDP) obtenida del uso de una red neuronal con
+arquitectura DeepONet, con aproximaciones numéricas obtenidas con
+métodos numéricos clásicos, en el contexto de un estudio médico basado
+en la EDP del Bio-Calor, utilizando métricas de error relevantes para
+evaluar su desempeño.
 
 \section{Objetivos específicos}\label{objetivos-especuxedficos}
 
+1.Comprender y adaptar el uso de las PINNs para la resolución de PDEs y
+ODEs así como sus aplicaciones multidiciplinarias.
+
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
-\item
-  Identificar y comprender el valor de las PINNs para la resolución de
-  PDEs y ODEs así como sus aplicaciones multidiciplinarias.
+\setcounter{enumi}{1}
 \item
   Explorar el uso de DeepONet como alternativa a las PINNs clásicas y
   determinar tanto ventajas como desventajas de su implementación.
 \item
-  Evaluar y contrastar la eficacia del modelo DeepONet con un método
-  numérico de referencia, como lo es el método de Crank Nickolson.
+  Evaluar y contrastar la eficacia del de la larquetectura de red
+  neuronal artificial DeepONet con un método numérico de referencia,
+  como el método de Crank Nickolson.
 \item
   Reconocer la dificultades que se tiene al momento de implementar un
   modelo de red neuronal en un lenguaje de programación como Python.
@@ -641,7 +717,7 @@ problema original. Este es el enfoque más común porque los métodos de
 aproximación proporcionan resultados más precisos e información de error
 realista (\citeproc{ref-burden2011}{Burden y Faires 2010}).
 
-\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-caution-color-frame, left=2mm, rightrule=.15mm, colback=white, toptitle=1mm, leftrule=.75mm, opacitybacktitle=0.6, arc=.35mm, coltitle=black, title={Ejemplo}, breakable, colbacktitle=quarto-callout-caution-color!10!white, bottomtitle=1mm, titlerule=0mm, opacityback=0, toprule=.15mm, bottomrule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colframe=quarto-callout-caution-color-frame, titlerule=0mm, colback=white, left=2mm, title={Ejemplo}, breakable, coltitle=black, bottomrule=.15mm, rightrule=.15mm, bottomtitle=1mm, leftrule=.75mm, toprule=.15mm, arc=.35mm, colbacktitle=quarto-callout-caution-color!10!white, toptitle=1mm, opacitybacktitle=0.6]
 
 El movimiento de un péndulo oscilante bajo ciertas suposiciones se
 describe mediante la ecuación diferencial de segundo orden: \[
@@ -737,7 +813,7 @@ tiene una solución única \(y(t)\) para \(a\leq t \leq b\).
 
 \end{theorem}
 
-\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-caution-color-frame, left=2mm, rightrule=.15mm, colback=white, toptitle=1mm, leftrule=.75mm, opacitybacktitle=0.6, arc=.35mm, coltitle=black, title={Ejemplo}, breakable, colbacktitle=quarto-callout-caution-color!10!white, bottomtitle=1mm, titlerule=0mm, opacityback=0, toprule=.15mm, bottomrule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colframe=quarto-callout-caution-color-frame, titlerule=0mm, colback=white, left=2mm, title={Ejemplo}, breakable, coltitle=black, bottomrule=.15mm, rightrule=.15mm, bottomtitle=1mm, leftrule=.75mm, toprule=.15mm, arc=.35mm, colbacktitle=quarto-callout-caution-color!10!white, toptitle=1mm, opacitybacktitle=0.6]
 
 Use el teorema Teorema~\ref{thm-uniq-sol} para mostrar que hay una única
 solución al problema de valor inicial: \[
@@ -824,7 +900,7 @@ Supongamos
 
 \end{theorem}
 
-\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-caution-color-frame, left=2mm, rightrule=.15mm, colback=white, toptitle=1mm, leftrule=.75mm, opacitybacktitle=0.6, arc=.35mm, coltitle=black, title={Ejemplo}, breakable, colbacktitle=quarto-callout-caution-color!10!white, bottomtitle=1mm, titlerule=0mm, opacityback=0, toprule=.15mm, bottomrule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colframe=quarto-callout-caution-color-frame, titlerule=0mm, colback=white, left=2mm, title={Ejemplo}, breakable, coltitle=black, bottomrule=.15mm, rightrule=.15mm, bottomtitle=1mm, leftrule=.75mm, toprule=.15mm, arc=.35mm, colbacktitle=quarto-callout-caution-color!10!white, toptitle=1mm, opacitybacktitle=0.6]
 
 Demostrar que el problema de valor inicial\\
 \[
@@ -978,14 +1054,14 @@ para resolver problemas complejos de física
 métodos tradicionales, las PINNs incorporan directamente las ecuaciones
 físicas en su función de pérdida mediante diferenciación automática, lo
 que permite minimizar simultáneamente el error en los datos y el
-residual de las PDEs (\citeproc{ref-karniadakis2021}{Karniadakis et~al.
-2021}). Esta característica las hace particularmente valiosas en
-escenarios con datos limitados, donde el conocimiento físico actúa como
-un regularizador efectivo . La capacidad de aproximación de las PINNs se
-fundamenta en el teorema de aproximación universal de las redes
-neuronales, adaptado para incorporar restricciones físicas a través de
-términos de penalización en la función de optimización
-(\citeproc{ref-karniadakis2021}{Karniadakis et~al. 2021}).
+residual de las PDEs (\citeproc{ref-karniadakis2021}{George Em
+Karniadakis 2021}). Esta característica las hace particularmente
+valiosas en escenarios con datos limitados, donde el conocimiento físico
+actúa como un regularizador efectivo . La capacidad de aproximación de
+las PINNs se fundamenta en el teorema de aproximación universal de las
+redes neuronales, adaptado para incorporar restricciones físicas a
+través de términos de penalización en la función de optimización
+(\citeproc{ref-karniadakis2021}{George Em Karniadakis 2021}).
 
 Como ejemplo, se considera la \textbf{ecuación de Burgers para
 viscocidad}:
@@ -1020,7 +1096,7 @@ solución y \((x_j, t_j)\) son puntos interiores del dominio. Los pesos
 \(w_{\text{data}}\) y \(w_{\text{PDE}}\) equilibran la contribución de
 cada término. La red se entrena minimizando \(\mathcal{L}\) usando
 optimizadores como Adam o L-BFGS hasta alcanzar un umbral
-\(\varepsilon\) (\citeproc{ref-karniadakis2021}{Karniadakis et~al.
+\(\varepsilon\) (\citeproc{ref-karniadakis2021}{George Em Karniadakis
 2021}).
 
 Este enfoque permite resolver EDPs (clásicas, fraccionarias o
@@ -1045,7 +1121,7 @@ residuales \({x_j, t_j}\) para la EDP. Especifique la pérdida
 \(\mathcal{L}\) en la ecuación Ecuación~\ref{eq-loss-funct} sumando las
 pérdidas ponderadas de los datos y la EDP. Entrene la NN para encontrar
 los mejores parámetros \(\mathbb{\theta^*}\) minimizando la pérdida
-\(\mathcal{L}\) (\citeproc{ref-karniadakis2021}{Karniadakis et~al.
+\(\mathcal{L}\) (\citeproc{ref-karniadakis2021}{George Em Karniadakis
 2021}).}
 
 \end{figure}%
@@ -1188,7 +1264,7 @@ Tradicionales}\label{comparaciuxf3n-con-redes-neuronales-tradicionales}
 
 Mientras que las redes neuronales tradicionales dependen exclusivamente
 de grandes volúmenes de datos etiquetados para su entrenamiento
-(\citeproc{ref-karniadakis2021}{Karniadakis et~al. 2021}), las PINNs
+(\citeproc{ref-karniadakis2021}{George Em Karniadakis 2021}), las PINNs
 integran el conocimiento físico como parte esencial de su arquitectura
 (\citeproc{ref-blechs2021}{Blechschmidt y Ernst 2021}). Esta diferencia
 clave permite a las PINNs generar soluciones físicamente consistentes
@@ -1200,7 +1276,7 @@ embargo, el entrenamiento de PINNs puede ser más desafiante debido a la
 necesidad de optimizar múltiples objetivos simultáneamente (ajuste a
 datos y cumplimiento de leyes físicas)
 (\citeproc{ref-blechs2021}{Blechschmidt y Ernst 2021};
-\citeproc{ref-karniadakis2021}{Karniadakis et~al. 2021}).
+\citeproc{ref-karniadakis2021}{George Em Karniadakis 2021}).
 
 \chapter{DeepONet}\label{deeponet}
 
@@ -2679,7 +2755,7 @@ numérico}\label{modelo-contra-muxe9todo-numuxe9rico}
     \ControlFlowTok{for}\NormalTok{ j }\KeywordTok{in} \BuiltInTok{range}\NormalTok{(}\DecValTok{5}\NormalTok{):  }\CommentTok{\# 5 columnas}
 \NormalTok{        axes.append(fig.add\_subplot(}\DecValTok{2}\NormalTok{, }\DecValTok{5}\NormalTok{, i}\OperatorTok{*}\DecValTok{5} \OperatorTok{+}\NormalTok{ j }\OperatorTok{+} \DecValTok{1}\NormalTok{, projection}\OperatorTok{=}\StringTok{\textquotesingle{}3d\textquotesingle{}}\NormalTok{))}
 
-\NormalTok{axes }\OperatorTok{=}\NormalTok{ np.array(axes).reshape(}\DecValTok{2}\NormalTok{, }\DecValTok{5}\NormalTok{)  }\CommentTok{\# Convertir a matriz 2x5 para acceder fácilmente}
+\NormalTok{axes }\OperatorTok{=}\NormalTok{ np.array(axes).reshape(}\DecValTok{2}\NormalTok{, }\DecValTok{5}\NormalTok{)}
 
 \CommentTok{\# Añadir títulos generales para cada fila}
 \NormalTok{fig.text(}\FloatTok{0.5}\NormalTok{, }\FloatTok{0.92}\NormalTok{, }\StringTok{"Predicciones modelo DON"}\NormalTok{, }
@@ -2820,11 +2896,11 @@ Crank-Nicolson.}
 \begin{verbatim}
 |   Tiempo |   MAE |   MaxAE |   Error L2 |
 |---------:|------:|--------:|-----------:|
-|    0.000 | 0.017 |   0.064 |      0.560 |
-|    0.250 | 0.068 |   0.172 |      2.202 |
-|    0.500 | 0.053 |   0.102 |      1.581 |
-|    0.750 | 0.011 |   0.039 |      0.343 |
-|    1.000 | 0.067 |   0.200 |      2.305 |
+|    0.000 | 0.011 |   0.058 |      0.404 |
+|    0.250 | 0.048 |   0.133 |      1.563 |
+|    0.500 | 0.032 |   0.058 |      0.934 |
+|    0.750 | 0.022 |   0.090 |      0.867 |
+|    1.000 | 0.094 |   0.254 |      3.089 |
 \end{verbatim}
 
 }
@@ -2920,7 +2996,8 @@ Borgi (\citeproc{ref-medical_rep}{2023}). Los resultados obtenidos
 mediante la comparación con el método de Crank Nickolson demostraron que
 la red neuronal DeepONet se aproxima con un mínimo del 1.1\% y un máximo
 del 6.7\% para el error medio absoluto, y cometiendo un error mínimo del
-6.4\% y máximo del 20\% para el error máximo absoluto.
+6.4\% y máximo del 20\% para el error máximo absoluto
+Tabla~\ref{tbl-errores}.
 
 Los errores obtenidos demuestran la eficacia del modelo para converger a
 la condición inicial, pues tal como se aprecia en la
@@ -2941,8 +3018,12 @@ necesario) junto con algunos puntos en el dominio y las condiciones
 iniciales y/o de frontera probarón predecir de forma muy acertada el
 conjunto de prueba. Ésto representa una gran ventaja respecto a los
 modelos de Deep learning que necesitan una gran cantidad de datos para
-poder ser entrenados, cosa que en el ámbito científico no siempre es
-posible.
+poder ser entrenados. Otro punto clave de las PINNs es su adaptabilidad
+al ruido (\citeproc{ref-karniadakis2021}{George Em Karniadakis 2021})
+donde se ha demostrado que incluso a pesar de que los problemas no están
+perfectamente bien planteados o si existen parámetros desconocidos la
+red puede producir resultados significativos. Siendo ambas situaciones
+mencionadas comúnes en el ámbito científico.
 
 Complementado a las PINNs, la arquitectura DeepONet aprende operadores
 (mapeos entre espacios de funciones) en lugar de solo aproximar
@@ -2950,21 +3031,39 @@ funciones a diferencia de las PINNs tradicionales, que predicen
 soluciones específicas para condiciones fijas, DeepONet es capaz de
 generalizar a nuevas condiciones iniciales/frontera sin reentrenamiento,
 gracias a su estructura de red dual (branch-trunk). Esto lo hace ideal
-para aplicaciones en tiempo real, como hipertermia, donde se requiere
-adaptabilidad a parámetros variables y eficiencia computacional. Su
-capacidad para aprender operadores no lineales amplía su utilidad en
-problemas multifísica y multiescala.
+para aplicaciones en tiempo real , como la \emph{hipertermia}, donde las
+características del problema son suceptibles a cambios, como lo son las
+propiedades del cuerpo humano que varían en cada paciente. Un problema
+clave que se encontró es que al tener una estructura más compleja, los
+tiempos de entrenamiento respectos a las PINNs son mayores, sin embargo
+esto se ve bien compensado por su alta capacidad de adaptabilidad a
+nuevas condiciones ya sean iniciales o de frontera.
 
-Finalmente, las apicaciones de las PINNs son tan amplias como lo es en
-sí en campo de las PDEs, centrándonos en la medicina está la hipertermia
-como tratamiento oncológico, la cual busca elevar la temperatura en
-tejidos tumorales (39-45°C) para potenciar terapias como radioterapia.
-Sin embargo, controlar la distribución térmica en tiempo real es un
-desafío. Las redes neuronales, especialmente DeepONet, permiten predecir
-la temperatura de forma rápida y precisa bajo distintas condiciones,
-optimizando la dosificación de calor y minimizando daños a tejidos
-sanos. Esto facilita terapias personalizadas y no invasivas, mejorando
-la eficacia clínica.
+La creación de éste tipo de modelos, tanto PINNs clásicas como DeepONets
+se puede ver obstaculizada por el conocimiento en programación del
+investigador o estudiante que se plantee programarlos. Si bien tanto el
+ámbito científico como en la programación el pensamiento crítico,
+seguimiento lógico y abstracción de los problemas son pilares
+fundamentales; también es necesario familiarizarse con las librerías que
+implementan éste tipo de modelos, además es bastante recomendado tener
+una noción básica de como funciona una red neuronal y las partes que la
+componen. Lo anterior implica una inversión de tiempo y esfuerzo por
+parte de los interesados, cosa que cuando se lleva a cabo un
+experiemento o investigación no siempre es posible. Si bien éstas
+herramientas son bastante fascinantes y con mucho potencial, como
+cualquier nueva habilidad hay que practicar su uso para obtener
+resultados que valgan la pena.
+
+Cabe mencionar que las apicaciones de las PINNs son tan amplias como lo
+es en sí en campo de las PDEs, si nos centramos únicamente en la
+medicina, está la \emph{hipertermia} como tratamiento oncológico, la
+cual busca elevar la temperatura en tejidos tumorales (39-45°C) para
+potenciar terapias como radioterapia. Sin embargo, controlar la
+distribución térmica en tiempo real es un desafío. Las redes neuronales,
+especialmente DeepONet, permiten predecir la temperatura de forma rápida
+y precisa bajo distintas condiciones, optimizando la dosificación de
+calor y minimizando daños a tejidos sanos. Esto facilita terapias
+personalizadas y no invasivas, mejorando la eficacia clínica.
 
 \bookmarksetup{startatroot}
 
@@ -2975,7 +3074,6 @@ De cara al futuro es planteable mejorar el modelo siendo más rigurosos
 en ciertos aspectos como lo son:
 
 \begin{itemize}
-\tightlist
 \item
   Ajustar la configuración del optimizador \emph{L-BFGS} ya sea
   aumentando o disminuyendo sus iteraciones máximas, su umbral de
@@ -2989,6 +3087,12 @@ en ciertos aspectos como lo son:
 \item
   Utilizar otro método numérico para comparar el modelo, como puede ser
   diferencias finitas.
+\item
+  Comparar otras librerías en Python que implementen PINNs como lo son
+  SimNet, PyDEns, NeuroDiffEq o SciANN.
+\item
+  Comparar con otros lengujes de programación como lo es Julia,
+  librerías que implementen PINNs como lo son NeuralPDE o ADCME.
 \end{itemize}
 
 \bookmarksetup{startatroot}
@@ -3021,15 +3125,14 @@ Dutta, Abhijit, y Gopal Rangarajan. 2018. {«Diffusion in pharmaceutical
 systems: modelling and applications»}. \emph{Journal of Pharmacy and
 Pharmacology} 70 (5): 581-98. \url{https://doi.org/10.1111/jphp.12885}.
 
+\bibitem[\citeproctext]{ref-karniadakis2021}
+George Em Karniadakis, Lu Lu, Ioannis G. Kevrekidis. 2021.
+{«Physics-informed machine learning»}. \emph{Nature Reviews Physics} 3
+(6): 422-40. \url{https://doi.org/10.1038/s42254-021-00314-5}.
+
 \bibitem[\citeproctext]{ref-nci2021}
 Instituto Nacional del Cáncer. 2021. {«{¿Qué es el cáncer?}»}
 \url{https://www.cancer.gov/espanol/cancer/naturaleza/que-es}.
-
-\bibitem[\citeproctext]{ref-karniadakis2021}
-Karniadakis, George Em, Ioannis G. Kevrekidis, Lu Lu, Paris Perdikaris,
-Sifan Wang, y Liu Yang. 2021. {«Physics-informed machine learning»}.
-\emph{Nature Reviews Physics} 3 (6): 422-40.
-\url{https://doi.org/10.1038/s42254-021-00314-5}.
 
 \bibitem[\citeproctext]{ref-kumar2024deeponet}
 Kumar, Varun, Somdatta Goswami, Katiana Kontolati, Michael D. Shields, y

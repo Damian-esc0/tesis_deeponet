@@ -20,7 +20,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -44,7 +64,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-dark-2cf3f92ced80af6c4d85e3f2826ab9da.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-bd3171bac5c551f04472c698d202f7fe.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-6af9c20cb368e043ebeb9f01f4e47056.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -486,8 +506,32 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<div style="text-align: justify">
+<p>El uso de redes neuronales en la resolución de ecuaciones diferenciales parciales (EDPs) ha ganado relevancia en la última década gracias al desarrollo de técnicas que integran principios físicos en el entrenamiento de modelos. Este enfoque, conocido como redes neuronales informadas por la física (PINNs), ha demostrado ser especialmente útil en situaciones donde la disponibilidad de datos es limitada y donde las leyes físicas subyacentes pueden ser incorporadas como restricciones en la función de pérdida <span class="citation" data-cites="karniadakis2021">(<a href="references.html#ref-karniadakis2021" role="doc-biblioref">George Em Karniadakis 2021</a>)</span>. En este trabajo se explora una variante más reciente: DeepONet, una arquitectura diseñada para aprender operadores funcionales, y su aplicación en la estimación de temperatura en tejidos biológicos mediante la ecuación del Bio-Calor.</p>
+<p>La ecuación del Bio-Calor fue propuesta por Pennes en 1948 con el objetivo de modelar la transferencia de calor en tejidos vivos, considerando los efectos de conducción térmica, metabolismo y perfusión sanguínea <span class="citation" data-cites="pennes1948">(<a href="references.html#ref-pennes1948" role="doc-biblioref">Pennes 1948</a>)</span>. Este modelo ha sido ampliamente utilizado en aplicaciones clínicas como la hipertermia terapéutica, una técnica que consiste en elevar localmente la temperatura del tejido para mejorar la eficacia de tratamientos oncológicos <span class="citation" data-cites="nci2021">(<a href="references.html#ref-nci2021" role="doc-biblioref">Instituto Nacional del Cáncer 2021</a>)</span>. Sin embargo, debido a la complejidad de las condiciones fisiológicas y a las propiedades variables de los tejidos, su resolución analítica es inviable, y las aproximaciones numéricas, como el método de Crank-Nicolson, se vuelven indispensables.</p>
+<p>En este contexto, surge la oportunidad de aplicar DeepONet como una alternativa innovadora. A diferencia de una PINN tradicional, que se entrena para resolver una instancia específica de una EDP, DeepONet aprende un operador que puede generalizar a nuevas condiciones de frontera o iniciales sin requerir reentrenamiento <span class="citation" data-cites="deepxde">(<a href="references.html#ref-deepxde" role="doc-biblioref">Lu et&nbsp;al. 2021</a>)</span>. Esta característica resulta de gran valor en aplicaciones médicas donde las condiciones pueden variar entre pacientes o incluso durante un mismo procedimiento. Además, el modelo puede ser entrenado sobre una base de soluciones simuladas, lo que reduce la necesidad de datos experimentales, difíciles y costosos de obtener en contextos clínicos <span class="citation" data-cites="karniadakis2021">(<a href="references.html#ref-karniadakis2021" role="doc-biblioref">George Em Karniadakis 2021</a>)</span>.</p>
+<p>El presente trabajo tiene como objetivo comparar la precisión y eficiencia de DeepONet con el método numérico clásico de Crank-Nicolson en la estimación de temperatura sobre un dominio bidimensional. Para ello, se implementó un modelo basado en la versión adimensionalizada de la ecuación del Bio-Calor, y se utilizó la biblioteca DeepXDE para su entrenamiento <span class="citation" data-cites="deepxde">(<a href="references.html#ref-deepxde" role="doc-biblioref">Lu et&nbsp;al. 2021</a>)</span>. Posteriormente, se evaluaron métricas como el error medio absoluto (MAE) y el error máximo absoluto (MaxAE), y se analizaron las predicciones visualmente frente a referencias obtenidas por <span class="citation" data-cites="medical_rep">Alessio Borgi (<a href="references.html#ref-medical_rep" role="doc-biblioref">2023</a>)</span>, con resultados prometedores.</p>
+<p>La combinación de eficiencia, capacidad de generalización y adecuación a condiciones reales posiciona a DeepONet como una alternativa poderosa frente a métodos clásicos. Esta tesis busca sentar las bases para diversificar su uso en escenarios variados e incentivar su uso en la solución de operadores. Así, el trabajo contribuye a la creciente tendencia de aplicar inteligencia artificial en el ámbito médico con fundamentos sólidos en física matemática.</p>
+</div>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-medical_rep" class="csl-entry" role="listitem">
+Alessio Borgi, Alessandro De Luca, Eugenio Bugli. 2023. <span>«<span>BioHeat PINNs: Temperature Estimation with Bio-Heat Equation using Physics-Informed Neural Networks</span>»</span>. <a href="https://github.com/alessioborgi/BioHeat_PINNs/tree/main?tab=readme-ov-file#bioheat-pinns-temperature-estimation-with-bio-heat-equation-using-physics-informed-neural-networks">https://github.com/alessioborgi/BioHeat_PINNs/tree/main?tab=readme-ov-file#bioheat-pinns-temperature-estimation-with-bio-heat-equation-using-physics-informed-neural-networks</a>.
+</div>
+<div id="ref-karniadakis2021" class="csl-entry" role="listitem">
+George Em Karniadakis, Lu Lu, Ioannis G. Kevrekidis. 2021. <span>«Physics-informed machine learning»</span>. <em>Nature Reviews Physics</em> 3 (6): 422-40. <a href="https://doi.org/10.1038/s42254-021-00314-5">https://doi.org/10.1038/s42254-021-00314-5</a>.
+</div>
+<div id="ref-nci2021" class="csl-entry" role="listitem">
+Instituto Nacional del Cáncer. 2021. <span>«<span>¿Qué es el cáncer?</span>»</span> <a href="https://www.cancer.gov/espanol/cancer/naturaleza/que-es">https://www.cancer.gov/espanol/cancer/naturaleza/que-es</a>.
+</div>
+<div id="ref-deepxde" class="csl-entry" role="listitem">
+Lu, Lu, Xuhui Meng, Zhiping Mao, y George Em Karniadakis. 2021. <span>«<span>DeepXDE</span>: A deep learning library for solving differential equations»</span>. <em>SIAM Review</em> 63 (1): 208-28. <a href="https://doi.org/10.1137/19M1274067">https://doi.org/10.1137/19M1274067</a>.
+</div>
+<div id="ref-pennes1948" class="csl-entry" role="listitem">
+Pennes, H. H. 1948. <span>«Analysis of Tissue and Arterial Blood Temperatures in the Resting Human Forearm»</span>. <em>Journal of Applied Physiology</em> 1 (2): 93-122. <a href="https://doi.org/10.1152/jappl.1948.1.2.93">https://doi.org/10.1152/jappl.1948.1.2.93</a>.
+</div>
+</div>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -919,4 +963,4 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/Damian-esc0/tesis_deeponet/edit/main/intro.qmd" class="toc-action"><i class="bi bi-github"></i>Editar esta página</a></li><li><a href="https://github.com/Damian-esc0/tesis_deeponet/issues/new" class="toc-action"><i class="bi empty"></i>Informar de un problema</a></li><li><a href="https://github.com/Damian-esc0/tesis_deeponet/blob/main/intro.qmd" class="toc-action"><i class="bi empty"></i>Ver el código</a></li></ul></div></div></div></footer></body></html>
+</body></html>

@@ -2,4 +2,3 @@
   quarto-pub:
     - id: 1179bbc4-8be5-4c9b-bd32-5f95cffe7f4a
       url: https://damian-esco.quarto.pub/bio-heat-with-deeponet
-  option: '--no-browser'

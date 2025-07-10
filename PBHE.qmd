@@ -1,10 +1,9 @@
----
-title: Ecuación del Bio-Calor
+--- 
 lang: es
 execute: 
   freeze: auto
 ---
-
+# Ecuación del Bio-Calor
 ::: {style="text-align: justify"}
 La ecuación del bio-calor, formulada por @pennes1948, surgió de su estudio pionero *"Analysis of Tissue and Arterial Blood Temperatures in the Resting Human Forearm"*. Publicado en el *Journal of Applied Physiology*, este trabajo fue el primero en cuantificar la interacción entre la temperatura arterial y tisular en humanos. Pennes combinó principios termodinámicos con mediciones experimentales en el antebrazo, estableciendo un modelo matemático que relacionaba el flujo sanguíneo, la producción metabólica de calor y la conducción térmica en tejidos.  
 
