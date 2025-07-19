@@ -6,7 +6,7 @@ execute:
 ---
 
 ::: {style="text-align: justify"}
-**DeepONet** (Deep Operator Network) es una arquitectura de red neuronal profunda diseñada para aprender operadores no lineales que mapean funciones de entrada a funciones de salida. A diferencia de las redes convencionales que aprenden funciones escalares, DeepONet se enfoca en representar operadores completos, como soluciones de ecuaciones diferenciales, a partir de datos observados o simulaciones numérica [@lu2021deeponet].
+**DeepONet** (Deep Operator Network) es una arquitectura de red neuronal profunda diseñada para aprender operadores no lineales que mapean funciones de entrada a funciones de salida. A diferencia de las redes convencionales que aprenden funciones escalares, DeepONet se enfoca en representar operadores completos, como soluciones de ecuaciones diferenciales, a partir de datos observados o simulaciones numéricas [@lu2021deeponet].
 
 
 ## Arquitectura
@@ -20,7 +20,7 @@ $$
 G: f\rightarrow u
 $$
 
-para el problema unidemensional de Poisson:
+para el problema unidimensional de Poisson:
 $$
 u''(x) = f(x), \quad x\in[0,1]
 $$
@@ -103,7 +103,7 @@ y = model.predict((fx, x))
 ```
 
 ```{python}
-#| fig-cap: Resultados de la red DeepONet
+#| fig-cap: Resultados de la red DeepONet.
 # Setup figure
 fig = plt.figure(figsize=(7, 8))
 plt.subplot(2, 1, 1)

@@ -10,11 +10,11 @@ execute:
 Comparar la aproximación numérica de la solución de una Ecuación Diferencial Parcial (EDP) obtenida del uso de una red neuronal con arquitectura DeepONet, con aproximaciones numéricas obtenidas con métodos numéricos clásicos, en el contexto de un estudio médico basado en la EDP del Bio-Calor, utilizando métricas de error relevantes para evaluar su desempeño.
 
 ## Objetivos específicos 
-1.Comprender y adaptar el uso de las PINNs para la resolución de PDEs y ODEs así como sus aplicaciones multidiciplinarias.
+1. Comprender y adaptar el uso de las PINNs para la resolución de PDEs y ODEs así como sus aplicaciones multidisciplinarias.
 
 2. Explorar el uso de DeepONet como alternativa a las PINNs clásicas y determinar tanto ventajas como desventajas de su implementación.
 
-3. Evaluar y contrastar la eficacia del de la larquetectura de red neuronal artificial DeepONet con un método numérico de referencia, como el método de Crank Nickolson.
+3. Evaluar y contrastar la eficacia de la arquitectura de red neuronal artificial DeepONet con un método numérico de referencia, como el método de Crank Nickolson.
 
 4. Reconocer la dificultades que se tiene al momento de implementar un modelo de red neuronal en un lenguaje de programación como Python.
 

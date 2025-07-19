@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>7&nbsp; Physic Informed Neural Networks (PINNs) – Estimación de la temperatura con la ecuación del Bio-Calor usando DeepONet</title>
+<title>7&nbsp; Physics Informed Neural Networks (PINNs) – Estimación de la temperatura con la ecuación del Bio-Calor usando DeepONet</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -175,7 +175,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./pinns.html">Redes neuronales</a></li><li class="breadcrumb-item"><a href="./pinns.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Physic Informed Neural Networks (PINNs)</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./pinns.html">Redes neuronales</a></li><li class="breadcrumb-item"><a href="./pinns.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Physics Informed Neural Networks (PINNs)</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -294,7 +294,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./pinns.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Physic Informed Neural Networks (PINNs)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Physics Informed Neural Networks (PINNs)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -551,9 +551,9 @@ window.Quarto = {
     }
   </script>
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./pinns.html">Redes neuronales</a></li><li class="breadcrumb-item"><a href="./pinns.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Physic Informed Neural Networks (PINNs)</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./pinns.html">Redes neuronales</a></li><li class="breadcrumb-item"><a href="./pinns.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Physics Informed Neural Networks (PINNs)</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="sec-pinns" class="quarto-section-identifier"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Physic Informed Neural Networks (PINNs)</span></span></h1>
+<h1 class="title"><span id="sec-pinns" class="quarto-section-identifier"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Physics Informed Neural Networks (PINNs)</span></span></h1>
 </div>
 
 
@@ -571,12 +571,12 @@ window.Quarto = {
 
 
 <div style="text-align: justify">
-<p>Las Physics-Informed Neural Networks (PINNs) son un enfoque innovador que combina redes neuronales con ecuaciones diferenciales gobernantes para resolver problemas complejos de física <span class="citation" data-cites="blechs2021">(<a href="references.html#ref-blechs2021" role="doc-biblioref">Blechschmidt y Ernst 2021</a>)</span>. A diferencia de métodos tradicionales, las PINNs incorporan directamente las ecuaciones físicas en su función de pérdida mediante diferenciación automática, lo que permite minimizar simultáneamente el error en los datos y el residual de las PDEs <span class="citation" data-cites="karniadakis2021">(<a href="references.html#ref-karniadakis2021" role="doc-biblioref">George Em Karniadakis 2021</a>)</span>. Esta característica las hace particularmente valiosas en escenarios con datos limitados, donde el conocimiento físico actúa como un regularizador efectivo . La capacidad de aproximación de las PINNs se fundamenta en el teorema de aproximación universal de las redes neuronales, adaptado para incorporar restricciones físicas a través de términos de penalización en la función de optimización <span class="citation" data-cites="karniadakis2021">(<a href="references.html#ref-karniadakis2021" role="doc-biblioref">George Em Karniadakis 2021</a>)</span>.</p>
+<p>Las Physics-Informed Neural Networks (PINNs) son un enfoque innovador que combina redes neuronales con ecuaciones diferenciales gobernantes para resolver problemas complejos de física <span class="citation" data-cites="blechs2021">(<a href="references.html#ref-blechs2021" role="doc-biblioref">Blechschmidt y Ernst 2021</a>)</span>. A diferencia de métodos tradicionales, las PINNs incorporan directamente las ecuaciones físicas en su función de pérdida mediante diferenciación automática, lo que permite minimizar simultáneamente el error en los datos y el residual de las PDEs <span class="citation" data-cites="karniadakis2021">(<a href="references.html#ref-karniadakis2021" role="doc-biblioref">George Em Karniadakis 2021</a>)</span>. Esta característica las hace particularmente valiosas en escenarios con datos limitados, donde el conocimiento físico actúa como un regularizador efectivo. La capacidad de aproximación de las PINNs se fundamenta en el teorema de aproximación universal de las redes neuronales, adaptado para incorporar restricciones físicas a través de términos de penalización en la función de optimización <span class="citation" data-cites="karniadakis2021">(<a href="references.html#ref-karniadakis2021" role="doc-biblioref">George Em Karniadakis 2021</a>)</span>.</p>
 <p>Como ejemplo, se considera la <strong>ecuación de Burgers para viscocidad</strong>:</p>
 <p><span class="math display">\[
 \frac{\partial u}{\partial t} + u \frac{\partial u}{\partial x} = \nu \frac{\partial^2 u}{\partial x^2}
 \]</span></p>
-<p>Con una condición inicial adecuada y condiciones de contorno de Dirichlet. En la figura <a href="#fig-pinn_graph" class="quarto-xref">Figura&nbsp;<span>7.1</span></a>, la red izquierda (physics-​uninformed) representa el sustituto de la solución de EDP <span class="math inline">\(u(x, t)\)</span>, mientras que la red derecha (physics-​informed) describe el residuo de EDP <span class="math inline">\(\frac{\partial u}{\partial t} + u \frac{\partial u}{\partial x} - \nu \frac{\partial^2 u}{\partial x^2}\)</span>. La función de pérdida incluye una pérdida supervisada de las mediciones de datos de <span class="math inline">\(u\)</span> de las condiciones iniciales y de contorno, y una pérdida no supervisada de EDP:</p>
+<p>Con una condición inicial adecuada y condiciones de contorno de Dirichlet. En la <a href="#fig-pinn_graph" class="quarto-xref">Figura&nbsp;<span>7.1</span></a>, la red izquierda (physics-​uninformed) representa el sustituto de la solución de EDP <span class="math inline">\(u(x, t)\)</span>, mientras que la red derecha (physics-​informed) describe el residuo de EDP <span class="math inline">\(\frac{\partial u}{\partial t} + u \frac{\partial u}{\partial x} - \nu \frac{\partial^2 u}{\partial x^2}\)</span>. La función de pérdida incluye una pérdida supervisada de las mediciones de datos de <span class="math inline">\(u\)</span> de las condiciones iniciales y de contorno, y una pérdida no supervisada de EDP:</p>
 <p><span id="eq-loss-funct"><span class="math display">\[
 \mathcal{L} = w_{\text{data}} \mathcal{L}_{\text{data}} + w_{\text{PDE}} \mathcal{L}_{\text{PDE}}
 \tag{7.1}\]</span></span></p>
@@ -593,7 +593,7 @@ window.Quarto = {
 <img src="images/PINN_diagram.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="600">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pinn_graph-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;7.1: <strong>El algoritmo de una PINN.</strong> Construya una red neuronal (NN) <span class="math inline">\(u(x, t; \theta)\)</span> donde <span class="math inline">\(\theta\)</span> representa el conjunto de pesos entrenables <span class="math inline">\(w\)</span> y sesgos <span class="math inline">\(b\)</span>, y <span class="math inline">\(\sigma\)</span> representa una función de activación no lineal. Especifique los datos de medición <span class="math inline">\({x_i, t_i, u_i}\)</span> para <span class="math inline">\(u\)</span> y los puntos residuales <span class="math inline">\({x_j, t_j}\)</span> para la EDP. Especifique la pérdida <span class="math inline">\(\mathcal{L}\)</span> en la ecuación <a href="#eq-loss-funct" class="quarto-xref">Ecuación&nbsp;<span>7.1</span></a> sumando las pérdidas ponderadas de los datos y la EDP. Entrene la NN para encontrar los mejores parámetros <span class="math inline">\(\mathbb{\theta^*}\)</span> minimizando la pérdida <span class="math inline">\(\mathcal{L}\)</span> <span class="citation" data-cites="karniadakis2021">(<a href="references.html#ref-karniadakis2021" role="doc-biblioref">George Em Karniadakis 2021</a>)</span>.
+Figura&nbsp;7.1: <strong>El algoritmo de una PINN.</strong> Construya una red neuronal (NN) <span class="math inline">\(u(x, t; \theta)\)</span> donde <span class="math inline">\(\theta\)</span> representa el conjunto de pesos entrenables <span class="math inline">\(w\)</span> y sesgos <span class="math inline">\(b\)</span>, y <span class="math inline">\(\sigma\)</span> representa una función de activación no lineal. Especifique los datos de medición <span class="math inline">\({x_i, t_i, u_i}\)</span> para <span class="math inline">\(u\)</span> y los puntos residuales <span class="math inline">\({x_j, t_j}\)</span> para la EDP. Especifique la pérdida <span class="math inline">\(\mathcal{L}\)</span> en la <a href="#eq-loss-funct" class="quarto-xref">Ecuación&nbsp;<span>7.1</span></a> sumando las pérdidas ponderadas de los datos y la EDP. Entrene la NN para encontrar los mejores parámetros <span class="math inline">\(\mathbb{\theta^*}\)</span> minimizando la pérdida <span class="math inline">\(\mathcal{L}\)</span> <span class="citation" data-cites="karniadakis2021">(<a href="references.html#ref-karniadakis2021" role="doc-biblioref">George Em Karniadakis 2021</a>)</span>.
 </figcaption>
 </figure>
 </div>
@@ -605,7 +605,7 @@ Figura&nbsp;7.1: <strong>El algoritmo de una PINN.</strong> Construya una red ne
 <p>con la condición de frontera de Dirichlet y condición inicial: <span class="math display">\[
 u(-1,t) = u(1,t) = 0, \quad u(x,0)=-\sin(\pi x)
 \]</span></p>
-<div id="dabd8d0d" class="cell" data-execution_count="1">
+<div id="871a6828" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> deepxde <span class="im">as</span> dde</span>
@@ -659,7 +659,7 @@ u(-1,t) = u(1,t) = 0, \quad u(x,0)=-\sin(\pi x)
 <span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="co">#dde.saveplot(losshistory, train_state, issave=False, isplot=True)</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="c77382bf" class="cell" data-execution_count="2">
+<div id="4b9d51ca" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt </span>
@@ -715,13 +715,13 @@ u(-1,t) = u(1,t) = 0, \quad u(x,0)=-\sin(\pi x)
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="pinns_files/figure-html/cell-3-output-1.png" width="934" height="554" class="figure-img"></p>
-<figcaption>Resultados de la red neuronal</figcaption>
+<figcaption>Resultados de la red neuronal.</figcaption>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Mean residual: 0.0034935207
-L2 relative error: 0.009222255540929303</code></pre>
+<pre><code>Mean residual: 0.005167113
+L2 relative error: 0.008462455995169592</code></pre>
 </div>
 </div>
 </section>

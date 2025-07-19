@@ -48,7 +48,7 @@ La cuerda en la @fig-wave-exmpl está fija al eje $x$ en $x=0$ y $x=L$ para todo
 $$
 u(0,t) = 0, \quad u(L,t)=0, \quad t>0.
 $$
-En éste contexto la función $f$ en la [ec @eq-initail-cond] es continua y, en consecuencia, $f(0)=0$ y $f(L)=0$. En general, existen tres tipos de condicones de frontera asociadas con las ecuaciones [-@eq-heat], [-@eq-wave] y [-@eq-laplace]. En la frontera es posible especificar los valores de *una* de las siguientes:
+En éste contexto la función $f$ en la [ec @eq-initail-cond] es continua y, en consecuencia, $f(0)=0$ y $f(L)=0$. En general, existen tres tipos de condiciones de frontera asociadas con las ecuaciones [-@eq-heat], [-@eq-wave] y [-@eq-laplace]. En la frontera es posible especificar los valores de *una* de las siguientes:
 
 $$
 \text{(i)}\quad u, \qquad \text{(ii)}\quad \dfrac{\partial u}{\partial n},\qquad \text{or}\qquad \text{(iii)}\quad \dfrac{\partial u}{\partial n} + hu,\quad \text{con $h$ constante.}

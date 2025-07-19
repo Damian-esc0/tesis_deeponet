@@ -35,7 +35,7 @@ Por su parte @nci2021 aporta lo siguiente:
 
 Es ante este panorama que distintos tratamientos surgen con el objetivo de erradicar la enfermedad siempre que se tenga una detección oportuna. Uno de dichos tratamientos es la hipertermia, según en el @hyperthermia es un método que consiste en calentar el tejido corporal hasta los 39-45 °C para ayudar a erradicar células cancerígenas con pequeñas o nulas lesiones en el tejido sano. La hipertermia también es llamada terapia térmica o termoterapia.
 
-Uno de los principales retos de este tratamiento es la creación de un modelo óptimo que se adecue al comportamiento de la transferencia de calor que se hace a los tejidos con el fin de dañar únicamente el área en el que se encuentran las célular cancerígenas, es por ello que los modelos de integencia artificial y más precisamente las PINN's [@sec-pinns] surgen como posible solución a este reto.   
+Uno de los principales retos de este tratamiento es la creación de un modelo óptimo que se adecue al comportamiento de la transferencia de calor que se hace a los tejidos con el fin de dañar únicamente el área en el que se encuentran las células cancerígenas, es por ello que los modelos de inteligencia artificial y más precisamente las PINN's [@sec-pinns] surgen como posible solución a este reto.   
 
 El presente estudio utilizó como punto de partida el trabajo realizado por @medical_rep para modelar el calentamiento del tejido corporal usando la ecuación del Bio-Calor en dos dimensiones. 
 

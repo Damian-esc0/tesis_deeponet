@@ -4,10 +4,10 @@ execute:
   freeze: auto
 ---
 
-# Physic Informed Neural Networks (PINNs) {#sec-pinns}
+# Physics Informed Neural Networks (PINNs) {#sec-pinns}
 
 ::: {style="text-align: justify"}
-Las Physics-Informed Neural Networks (PINNs) son un enfoque innovador que combina redes neuronales con ecuaciones diferenciales gobernantes para resolver problemas complejos de física [@blechs2021]. A diferencia de métodos tradicionales, las PINNs incorporan directamente las ecuaciones físicas en su función de pérdida mediante diferenciación automática, lo que permite minimizar simultáneamente el error en los datos y el residual de las PDEs [@karniadakis2021]. Esta característica las hace particularmente valiosas en escenarios con datos limitados, donde el conocimiento físico actúa como un regularizador efectivo . La capacidad de aproximación de las PINNs se fundamenta en el teorema de aproximación universal de las redes neuronales, adaptado para incorporar restricciones físicas a través de términos de penalización en la función de optimización [@karniadakis2021].
+Las Physics-Informed Neural Networks (PINNs) son un enfoque innovador que combina redes neuronales con ecuaciones diferenciales gobernantes para resolver problemas complejos de física [@blechs2021]. A diferencia de métodos tradicionales, las PINNs incorporan directamente las ecuaciones físicas en su función de pérdida mediante diferenciación automática, lo que permite minimizar simultáneamente el error en los datos y el residual de las PDEs [@karniadakis2021]. Esta característica las hace particularmente valiosas en escenarios con datos limitados, donde el conocimiento físico actúa como un regularizador efectivo. La capacidad de aproximación de las PINNs se fundamenta en el teorema de aproximación universal de las redes neuronales, adaptado para incorporar restricciones físicas a través de términos de penalización en la función de optimización [@karniadakis2021].
 
 Como ejemplo, se considera la **ecuación de Burgers para viscocidad**:
 
@@ -15,7 +15,7 @@ $$
 \frac{\partial u}{\partial t} + u \frac{\partial u}{\partial x} = \nu \frac{\partial^2 u}{\partial x^2}
 $$
 
-Con una condición inicial adecuada y condiciones de contorno de Dirichlet. En la figura @fig-pinn_graph, la red izquierda (physics-​uninformed) representa el sustituto de la solución de EDP $u(x, t)$, mientras que la red derecha (physics-​informed) describe el residuo de EDP $\frac{\partial u}{\partial t} + u \frac{\partial u}{\partial x} - \nu \frac{\partial^2 u}{\partial x^2}$. La función de pérdida incluye una pérdida supervisada de las mediciones de datos de $u$ de las condiciones iniciales y de contorno, y una pérdida no supervisada de EDP:
+Con una condición inicial adecuada y condiciones de contorno de Dirichlet. En la @fig-pinn_graph, la red izquierda (physics-​uninformed) representa el sustituto de la solución de EDP $u(x, t)$, mientras que la red derecha (physics-​informed) describe el residuo de EDP $\frac{\partial u}{\partial t} + u \frac{\partial u}{\partial x} - \nu \frac{\partial^2 u}{\partial x^2}$. La función de pérdida incluye una pérdida supervisada de las mediciones de datos de $u$ de las condiciones iniciales y de contorno, y una pérdida no supervisada de EDP:
 
 $$
 \mathcal{L} = w_{\text{data}} \mathcal{L}_{\text{data}} + w_{\text{PDE}} \mathcal{L}_{\text{PDE}}
@@ -32,7 +32,7 @@ Aquí, $(x_i, t_i)$ representan puntos donde se conocen valores de la solución 
 
 Este enfoque permite resolver EDPs (clásicas, fraccionarias o estocásticas) sin mallas, en dominios complejos o con datos escasos y ruidosos, siendo una herramienta flexible y poderosa para la modelación científica.
 
-![**El algoritmo de una PINN.** Construya una red neuronal (NN) $u(x, t; \theta)$ donde $\theta$ representa el conjunto de pesos entrenables $w$ y sesgos $b$, y $\sigma$ representa una función de activación no lineal. Especifique los datos de medición ${x_i, t_i, u_i}$ para $u$ y los puntos residuales ${x_j, t_j}$ para la EDP. Especifique la pérdida $\mathcal{L}$ en la ecuación @eq-loss-funct sumando las pérdidas ponderadas de los datos y la EDP. Entrene la NN para encontrar los mejores parámetros $\mathbb{\theta^*}$ minimizando la pérdida $\mathcal{L}$ [@karniadakis2021].](images/PINN_diagram.png){#fig-pinn_graph fig-align="center" width="600"}
+![**El algoritmo de una PINN.** Construya una red neuronal (NN) $u(x, t; \theta)$ donde $\theta$ representa el conjunto de pesos entrenables $w$ y sesgos $b$, y $\sigma$ representa una función de activación no lineal. Especifique los datos de medición ${x_i, t_i, u_i}$ para $u$ y los puntos residuales ${x_j, t_j}$ para la EDP. Especifique la pérdida $\mathcal{L}$ en la @eq-loss-funct sumando las pérdidas ponderadas de los datos y la EDP. Entrene la NN para encontrar los mejores parámetros $\mathbb{\theta^*}$ minimizando la pérdida $\mathcal{L}$ [@karniadakis2021].](images/PINN_diagram.png){#fig-pinn_graph fig-align="center" width="600"}
 
 ## Ejemplo de resolución de la ecuación de Burger 1D con deepxde
 Dada la ecuación:
@@ -100,7 +100,7 @@ losshistory, train_state = model.train()
 ```
 
 ```{python}
-#| fig-cap: Resultados de la red neuronal
+#| fig-cap: Resultados de la red neuronal.
 import matplotlib.pyplot as plt 
 from mpl_toolkits.mplot3d import Axes3D
 

@@ -243,10 +243,10 @@
 \floatname{codelisting}{Listado}
 \newcommand*\listoflistings{\listof{codelisting}{Listado de Listados}}
 \usepackage{amsthm}
-\theoremstyle{plain}
-\newtheorem{theorem}{Teorema}[chapter]
 \theoremstyle{definition}
 \newtheorem{definition}{Definición}[chapter]
+\theoremstyle{plain}
+\newtheorem{theorem}{Teorema}[chapter]
 \theoremstyle{remark}
 \AtBeginDocument{\renewcommand*{\proofname}{Prueba}}
 \newtheorem*{remark}{Observación}
@@ -390,19 +390,18 @@ evaluar su desempeño.
 
 \section{Objetivos específicos}\label{objetivos-especuxedficos}
 
-1.Comprender y adaptar el uso de las PINNs para la resolución de PDEs y
-ODEs así como sus aplicaciones multidiciplinarias.
-
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{1}
+\item
+  Comprender y adaptar el uso de las PINNs para la resolución de PDEs y
+  ODEs así como sus aplicaciones multidisciplinarias.
 \item
   Explorar el uso de DeepONet como alternativa a las PINNs clásicas y
   determinar tanto ventajas como desventajas de su implementación.
 \item
-  Evaluar y contrastar la eficacia del de la larquetectura de red
-  neuronal artificial DeepONet con un método numérico de referencia,
-  como el método de Crank Nickolson.
+  Evaluar y contrastar la eficacia de la arquitectura de red neuronal
+  artificial DeepONet con un método numérico de referencia, como el
+  método de Crank Nickolson.
 \item
   Reconocer la dificultades que se tiene al momento de implementar un
   modelo de red neuronal en un lenguaje de programación como Python.
@@ -489,7 +488,7 @@ superposición}\label{principio-de-superposiciuxf3n}
 Si \(u_1 , u_2 , \dots , u_k\) son soluciones de una ecuación
 diferencial parcial lineal homogénea, entonces la combinación lineal \[
 u = c_1u_1 + c_2u_2 + \dots + c_ku_k
-\] donde las \(c_1=1,2,\dots,k\) son constantes. Es también una
+\] donde las \(c_i, i=1,2,\dots,k\) son constantes. Es también una
 solución.
 
 \end{theorem}
@@ -641,7 +640,7 @@ dos \textbf{condiciones de frontera (CF):} \[
 u(0,t) = 0, \quad u(L,t)=0, \quad t>0.
 \] En éste contexto la función \(f\) en la ec~\ref{eq-initail-cond} es
 continua y, en consecuencia, \(f(0)=0\) y \(f(L)=0\). En general,
-existen tres tipos de condicones de frontera asociadas con las
+existen tres tipos de condiciones de frontera asociadas con las
 ecuaciones \ref{eq-heat}, \ref{eq-wave} y \ref{eq-laplace}. En la
 frontera es posible especificar los valores de \emph{una} de las
 siguientes:
@@ -717,7 +716,7 @@ problema original. Este es el enfoque más común porque los métodos de
 aproximación proporcionan resultados más precisos e información de error
 realista (\citeproc{ref-burden2011}{Burden y Faires 2010}).
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colframe=quarto-callout-caution-color-frame, titlerule=0mm, colback=white, left=2mm, title={Ejemplo}, breakable, coltitle=black, bottomrule=.15mm, rightrule=.15mm, bottomtitle=1mm, leftrule=.75mm, toprule=.15mm, arc=.35mm, colbacktitle=quarto-callout-caution-color!10!white, toptitle=1mm, opacitybacktitle=0.6]
+\begin{tcolorbox}[enhanced jigsaw, breakable, titlerule=0mm, opacityback=0, left=2mm, toprule=.15mm, arc=.35mm, colbacktitle=quarto-callout-caution-color!10!white, toptitle=1mm, colback=white, title={Ejemplo}, leftrule=.75mm, bottomtitle=1mm, colframe=quarto-callout-caution-color-frame, bottomrule=.15mm, rightrule=.15mm, opacitybacktitle=0.6, coltitle=black]
 
 El movimiento de un péndulo oscilante bajo ciertas suposiciones se
 describe mediante la ecuación diferencial de segundo orden: \[
@@ -735,7 +734,7 @@ su velocidad en ese punto, \(\theta'(t_0) = \theta'_0\). Tenemos un
 
 Para dar una idea más clara acerca de los problemas de valor inicial
 Burden y Faires (\citeproc{ref-burden2011}{2010}) brinda las siguientes
-definicones y teoremas:
+definiciones y teoremas:
 
 \begin{definition}[]\protect\hypertarget{def-Lip-con}{}\label{def-Lip-con}
 
@@ -745,8 +744,8 @@ Lipschitz} en la variable \(y\) en un conjunto
 |f(t,y_1) - f(t,y_2)| \leq L|y_1-y_2|
 \]
 
-donde \(f(t,y_1) \text{y} f(t,y_2)\) están en \(D\). La constante \(L\)
-es llamada \textbf{constante de Lipschitz} para \(f\).
+donde \(f(t,y_1) \ \ \text{y} \ \ f(t,y_2)\) están en \(D\). La
+constante \(L\) es llamada \textbf{constante de Lipschitz} para \(f\).
 
 \end{definition}
 
@@ -783,7 +782,7 @@ Faires 2010}).}
 Supongamos que \(f(t, y)\) está definida en un conjunto convexo
 \(D \in \mathbb{R}^2\). Si existe una constante \(L > 0\) con
 \begin{equation}\phantomsection\label{eq-Lib-teo}{
-\left|\dfrac{\partial f}{\partial y}(t,y) \right| \leq L, \quad \text{para todo} (t,y)\in D,
+\left|\dfrac{\partial f}{\partial y}(t,y) \right| \leq L, \quad \text{para todo} \ \ (t,y)\in D,
 }\end{equation}
 
 entonces \(f\) satisface una condición de Lipschitz en \(D\) en la
@@ -813,12 +812,12 @@ tiene una solución única \(y(t)\) para \(a\leq t \leq b\).
 
 \end{theorem}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colframe=quarto-callout-caution-color-frame, titlerule=0mm, colback=white, left=2mm, title={Ejemplo}, breakable, coltitle=black, bottomrule=.15mm, rightrule=.15mm, bottomtitle=1mm, leftrule=.75mm, toprule=.15mm, arc=.35mm, colbacktitle=quarto-callout-caution-color!10!white, toptitle=1mm, opacitybacktitle=0.6]
+\begin{tcolorbox}[enhanced jigsaw, breakable, titlerule=0mm, opacityback=0, left=2mm, toprule=.15mm, arc=.35mm, colbacktitle=quarto-callout-caution-color!10!white, toptitle=1mm, colback=white, title={Ejemplo}, leftrule=.75mm, bottomtitle=1mm, colframe=quarto-callout-caution-color-frame, bottomrule=.15mm, rightrule=.15mm, opacitybacktitle=0.6, coltitle=black]
 
-Use el teorema Teorema~\ref{thm-uniq-sol} para mostrar que hay una única
+Use el Teorema~\ref{thm-uniq-sol} para mostrar que hay una única
 solución al problema de valor inicial: \[
 y'(t)= 1 + t\sin(ty), \quad 0\leq t \leq 2, \quad y(0) = 0.
-\] \textbf{Solución:} Mantieniendo a \(t\) constante y usando el
+\] \textbf{Solución:} Manteniendo a \(t\) constante y usando el
 \emph{Teorema de valor medio} a la función \[
 f(t,y) = 1 + t\sin(ty),
 \] notamos que cuando \(y_1<y_2\), un número \(\xi\) existe en
@@ -834,7 +833,7 @@ inicial.
 
 \end{tcolorbox}
 
-\section{Problemas bien plantedos}\label{problemas-bien-plantedos}
+\section{Problemas bien planteados}\label{problemas-bien-planteados}
 
 Ahora que hemos abordado, hasta cierto punto, la cuestión de cuándo los
 problemas de valor inicial tienen soluciones únicas, podemos pasar a la
@@ -842,12 +841,12 @@ segunda consideración importante: cuándo aproximar la solución de un
 problema de valor inicial. Los problemas de valor inicial obtenidos
 mediante la observación de fenómenos físicos generalmente solo se
 aproximan a la situación real, por lo que necesitamos saber si pequeños
-cambios en el plamteamiento del problema introducen cambios
+cambios en el planteamiento del problema introducen cambios
 correspondientemente pequeños en la solución
 (\citeproc{ref-burden2011}{Burden y Faires 2010}).
 
-A continiación se presentan otras definiciones así como teoremas que
-brindaŕan un conocimiento más sólido acerca de los problemas bien
+A continuación se presentan otras definiciones así como teoremas que
+brindarán un conocimiento más sólido acerca de los problemas bien
 planteados. Se usará como referencia a Burden y Faires
 (\citeproc{ref-burden2011}{2010}).
 
@@ -870,13 +869,13 @@ Se dice que el problema de valor inicial
   inicial \begin{equation}\phantomsection\label{eq-perturbed-rpoblem}{
   \dfrac{dz}{dt} = f(t,z) + δ(t), \quad a\leq t \leq b, \quad z(a) = \alpha + δ_0
   }\end{equation} tenga una única solución \(z(t)\) que satisface: \[
-  |z(t)-y(t)| < k\varepsilon \quad \forall t \in[a,b]
+  |z(t)-y(t)| < k\varepsilon \quad \forall t \in[a,b].
   \]
 \end{itemize}
 
 \end{definition}
 
-El problema especificado por al Ecuación~\ref{eq-perturbed-rpoblem} se
+El problema especificado por la Ecuación~\ref{eq-perturbed-rpoblem} se
 denomina \textbf{problema perturbado} asociado al problema original
 Ecuación~\ref{eq-original-problem}. Se asume la posibilidad de que se
 introduzca un error en el planteamiento de la ecuación diferencial, así
@@ -900,7 +899,7 @@ Supongamos
 
 \end{theorem}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colframe=quarto-callout-caution-color-frame, titlerule=0mm, colback=white, left=2mm, title={Ejemplo}, breakable, coltitle=black, bottomrule=.15mm, rightrule=.15mm, bottomtitle=1mm, leftrule=.75mm, toprule=.15mm, arc=.35mm, colbacktitle=quarto-callout-caution-color!10!white, toptitle=1mm, opacitybacktitle=0.6]
+\begin{tcolorbox}[enhanced jigsaw, breakable, titlerule=0mm, opacityback=0, left=2mm, toprule=.15mm, arc=.35mm, colbacktitle=quarto-callout-caution-color!10!white, toptitle=1mm, colback=white, title={Ejemplo}, leftrule=.75mm, bottomtitle=1mm, colframe=quarto-callout-caution-color-frame, bottomrule=.15mm, rightrule=.15mm, opacitybacktitle=0.6, coltitle=black]
 
 Demostrar que el problema de valor inicial\\
 \[
@@ -976,7 +975,7 @@ u(x+h,t+k) &=u_{i+1,j+1}, \quad u(x,t+k)=u_{i.j+1}, \quad u(x-h,t+k)=u_{i-1,j+1}
 \end{split}
 \]
 
-es posible reescribir a la eq~\ref{eq-cn-completa} como:
+es posible reescribir a la ec~\ref{eq-cn-completa} como:
 \begin{equation}\phantomsection\label{eq-cn-reducida}{
 -u_{i-1,j+1} + \alpha u_{i,j+1} - u_{i+1,j+1} = u_{i+1,j} - \beta u_{ij} + u_{i-1,j},
 }\end{equation}
@@ -986,7 +985,7 @@ donde \(\alpha=2(1+\frac{1}{\lambda})\),
 \(j=0,1,\dots m-1 \ \ \ \text{e} \ \ \ i=0,1,\dots n-1\).
 
 Para cada elección de \(j\) la ecuación diferencial
-eq~\ref{eq-cn-reducida} para \(i=0,1,\dots n-1\) da \(n-1\) ecuaciones
+ec~\ref{eq-cn-reducida} para \(i=0,1,\dots n-1\) da \(n-1\) ecuaciones
 en \(n-1\) incógnitas \(u_{i,j+1}\). Debido a las condiciones de
 contorno preestablecidas, los valores de \(u_{i, j+1}\) se conocen para
 \(i=0\) y para \(i=n\). Por ejemplo, en el caso \(n=4\), el sistema de
@@ -1017,17 +1016,17 @@ b_3 &= u_{4,j} - \beta u_{3,j} + u_{2,j} + u_{4,j+1}.
 \end{align*}
 
 En general, si utilizamos la ecuación diferencial
-eq~\ref{eq-cn-reducida} para determinar valores de \(u\) en la línea de
+ec~\ref{eq-cn-reducida} para determinar valores de \(u\) en la línea de
 tiempo \((j -1)\), es necesario resolver un sistema lineal
 \(\mathbf{AX=B}\), donde la matriz de coeficientes \(\mathbf{A}\) es una
 \textbf{matriz tridiagonal}, \[
 A = 
 \begin{pmatrix}
-\alpha & -1    & 0      & 0      & 0      & \cdots & 0      \\
--1     & \alpha & -1     & 0      & 0      & \cdots & 0      \\
-0      & -1     & \alpha & -1     & 0      & \cdots & 0      \\
-0      & 0      & -1     & \alpha & -1     & \cdots & 0      \\
-\vdots & \vdots & \vdots & \vdots & \vdots & \ddots & \vdots \\
+\alpha & -1    & 0      & 0      & 0      & \cdots & 0 & 0      \\
+-1     & \alpha & -1     & 0      & 0      & \cdots & 0 & 0      \\
+0      & -1     & \alpha & -1     & 0      & \cdots & 0 & 0      \\
+0      & 0      & -1     & \alpha & -1     & \cdots & 0 & 0      \\
+\vdots & \vdots & \vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
 0      & 0      & 0      & 0      & 0      & \cdots & \alpha & -1 \\
 0      & 0      & 0      & 0      & 0      & \cdots & -1     & \alpha
 \end{pmatrix},
@@ -1045,7 +1044,7 @@ b_{n-1} &= u_{n,j} - \beta u_{n-1,j} + u_{n-2,j} + u_{n,j+1}.
 
 \part{Redes neuronales}
 
-\chapter{Physic Informed Neural Networks (PINNs)}\label{sec-pinns}
+\chapter{Physics Informed Neural Networks (PINNs)}\label{sec-pinns}
 
 Las Physics-Informed Neural Networks (PINNs) son un enfoque innovador
 que combina redes neuronales con ecuaciones diferenciales gobernantes
@@ -1057,7 +1056,7 @@ que permite minimizar simultáneamente el error en los datos y el
 residual de las PDEs (\citeproc{ref-karniadakis2021}{George Em
 Karniadakis 2021}). Esta característica las hace particularmente
 valiosas en escenarios con datos limitados, donde el conocimiento físico
-actúa como un regularizador efectivo . La capacidad de aproximación de
+actúa como un regularizador efectivo. La capacidad de aproximación de
 las PINNs se fundamenta en el teorema de aproximación universal de las
 redes neuronales, adaptado para incorporar restricciones físicas a
 través de términos de penalización en la función de optimización
@@ -1071,7 +1070,7 @@ viscocidad}:
 \]
 
 Con una condición inicial adecuada y condiciones de contorno de
-Dirichlet. En la figura Figura~\ref{fig-pinn_graph}, la red izquierda
+Dirichlet. En la Figura~\ref{fig-pinn_graph}, la red izquierda
 (physics-\hspace{0pt}uninformed) representa el sustituto de la solución
 de EDP \(u(x, t)\), mientras que la red derecha
 (physics-\hspace{0pt}informed) describe el residuo de EDP
@@ -1118,9 +1117,9 @@ representa el conjunto de pesos entrenables \(w\) y sesgos \(b\), y
 \(\sigma\) representa una función de activación no lineal. Especifique
 los datos de medición \({x_i, t_i, u_i}\) para \(u\) y los puntos
 residuales \({x_j, t_j}\) para la EDP. Especifique la pérdida
-\(\mathcal{L}\) en la ecuación Ecuación~\ref{eq-loss-funct} sumando las
-pérdidas ponderadas de los datos y la EDP. Entrene la NN para encontrar
-los mejores parámetros \(\mathbb{\theta^*}\) minimizando la pérdida
+\(\mathcal{L}\) en la Ecuación~\ref{eq-loss-funct} sumando las pérdidas
+ponderadas de los datos y la EDP. Entrene la NN para encontrar los
+mejores parámetros \(\mathbb{\theta^*}\) minimizando la pérdida
 \(\mathcal{L}\) (\citeproc{ref-karniadakis2021}{George Em Karniadakis
 2021}).}
 
@@ -1250,13 +1249,13 @@ u(-1,t) = u(1,t) = 0, \quad u(x,0)=-\sin(\pi x)
 
 }
 
-\caption{Resultados de la red neuronal}
+\caption{Resultados de la red neuronal.}
 
 \end{figure}%
 
 \begin{verbatim}
-Mean residual: 0.0043816576
-L2 relative error: 0.005573670769834464
+Mean residual: 0.0040262598
+L2 relative error: 0.0027004616220110216
 \end{verbatim}
 
 \section{Comparación con Redes Neuronales
@@ -1286,7 +1285,7 @@ mapean funciones de entrada a funciones de salida. A diferencia de las
 redes convencionales que aprenden funciones escalares, DeepONet se
 enfoca en representar operadores completos, como soluciones de
 ecuaciones diferenciales, a partir de datos observados o simulaciones
-numérica (\citeproc{ref-lu2021deeponet}{Lu, Jin, et~al. 2021}).
+numéricas (\citeproc{ref-lu2021deeponet}{Lu, Jin, et~al. 2021}).
 
 \section{Arquitectura}\label{arquitectura}
 
@@ -1340,7 +1339,7 @@ Se resolverá el operador \[
 G: f\rightarrow u
 \]
 
-para el problema unidemensional de Poisson: \[
+para el problema unidimensional de Poisson: \[
 u''(x) = f(x), \quad x\in[0,1]
 \]
 
@@ -1452,7 +1451,7 @@ el término \(f\) representa a una función continua arbitraria.
 
 }
 
-\caption{Resultados de la red DeepONet}
+\caption{Resultados de la red DeepONet.}
 
 \end{figure}%
 
@@ -1751,8 +1750,8 @@ termoterapia.
 Uno de los principales retos de este tratamiento es la creación de un
 modelo óptimo que se adecue al comportamiento de la transferencia de
 calor que se hace a los tejidos con el fin de dañar únicamente el área
-en el que se encuentran las célular cancerígenas, es por ello que los
-modelos de integencia artificial y más precisamente las PINN's
+en el que se encuentran las células cancerígenas, es por ello que los
+modelos de inteligencia artificial y más precisamente las PINN's
 Capítulo~\ref{sec-pinns} surgen como posible solución a este reto.
 
 El presente estudio utilizó como punto de partida el trabajo realizado
@@ -1778,13 +1777,13 @@ mejorar de la red neuronal que plantearon son:
 \tightlist
 \item
   Desarrollar nuevas arquitecturas para la red neuronal y explorar
-  nuevas configuraciones
+  nuevas configuraciones.
 \item
   Combinar las fortalezas de los algoritmos de optimización Adam y
-  L-BFGS para mejorar la velocidad de convergencia y la precisión
+  L-BFGS para mejorar la velocidad de convergencia y la precisión.
 \end{enumerate}
 
-Tenindo los anteriores puntos en cuenta, se procedió a abordarlos e
+Teniendo los anteriores puntos en cuenta, se procedió a abordarlos e
 implementarlos dentro del diseño del modelo.
 
 \section{Diseño del modelo}\label{diseuxf1o-del-modelo}
@@ -1810,7 +1809,7 @@ recomendaciones del estudio de Alessio Borgi
 problema. Se ajustaron parámetros críticos como el número de épocas de
 entrenamiento (\emph{iterations}), el ratio de aprendizaje
 (\emph{learning rate}) así como un decaimiento en el mismo dependiente
-de la itearación actual (\emph{decay}), la función de activación
+de la iteración actual (\emph{decay}), la función de activación
 (\emph{elu}) y el esquema de inicialización de pesos (\emph{Glorot
 normal}). Estos ajustes se realizaron mediante un proceso iterativo que
 buscaba minimizar la función de pérdida mientras se mantenía un tiempo
@@ -1876,11 +1875,11 @@ las siguientes métricas:
 \begin{itemize}
 \tightlist
 \item
-  Error Absoluto Medio (MAE)
+  Error Absoluto Medio (MAE).
 \item
-  Error Absoluto Máximo (MaxAE)
+  Error Absoluto Máximo (MaxAE).
 \item
-  Error L2 (norma euclidiana)
+  Error L2 (norma euclidiana).
 \end{itemize}
 
 Estos criterios permitieron cuantificar no solo la precisión global del
@@ -1921,7 +1920,7 @@ temporal de la solución en el dominio de estudio.
 \ImportTok{using} \BuiltInTok{DataFrames}\NormalTok{, }\BuiltInTok{CSV}
 
 \CommentTok{\# {-}{-}{-} PARÁMETROS FÍSICOS Y DIMENSIONALES {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
-\NormalTok{ρ, c  }\OperatorTok{=} \FloatTok{1050.0}\NormalTok{, }\FloatTok{3639.0}                       \CommentTok{\# densidad, calor específico }
+\NormalTok{p, c  }\OperatorTok{=} \FloatTok{1050.0}\NormalTok{, }\FloatTok{3639.0}                       \CommentTok{\# densidad, calor específico }
 \NormalTok{k\_eff }\OperatorTok{=} \FloatTok{5.0}                                  \CommentTok{\# conductividad}
 \NormalTok{t\_f   }\OperatorTok{=} \FloatTok{1800.0}                               \CommentTok{\# tiempo final }
 \NormalTok{L     }\OperatorTok{=} \FloatTok{0.05}                                 \CommentTok{\# longitud del dominio}
@@ -1930,10 +1929,10 @@ temporal de la solución en el dominio de estudio.
 \NormalTok{T\_M, T\_a }\OperatorTok{=} \FloatTok{45.0}\NormalTok{, }\FloatTok{37.0}                        \CommentTok{\# temp máxima, temp ambiente}
 
 \CommentTok{\# {-}{-}{-} COEFICIENTES ADIMENSIONALES {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
-\NormalTok{α }\OperatorTok{=}\NormalTok{ ρ }\OperatorTok{*}\NormalTok{ c }\OperatorTok{/}\NormalTok{ k\_eff}
+\NormalTok{α }\OperatorTok{=}\NormalTok{ p }\OperatorTok{*}\NormalTok{ c }\OperatorTok{/}\NormalTok{ k\_eff}
 \NormalTok{a₁ }\OperatorTok{=}\NormalTok{ t\_f }\OperatorTok{/}\NormalTok{ (α }\OperatorTok{*}\NormalTok{ L}\OperatorTok{\^{}}\FloatTok{2}\NormalTok{)}
-\NormalTok{a₂ }\OperatorTok{=}\NormalTok{ t\_f }\OperatorTok{*}\NormalTok{ c\_b }\OperatorTok{/}\NormalTok{ (ρ }\OperatorTok{*}\NormalTok{ c)}
-\NormalTok{a₃ }\OperatorTok{=}\NormalTok{ (t\_f }\OperatorTok{*}\NormalTok{ Q) }\OperatorTok{/}\NormalTok{ (ρ }\OperatorTok{*}\NormalTok{ c }\OperatorTok{*}\NormalTok{ (T\_M }\OperatorTok{{-}}\NormalTok{ T\_a))}
+\NormalTok{a₂ }\OperatorTok{=}\NormalTok{ t\_f }\OperatorTok{*}\NormalTok{ c\_b }\OperatorTok{/}\NormalTok{ (p }\OperatorTok{*}\NormalTok{ c)}
+\NormalTok{a₃ }\OperatorTok{=}\NormalTok{ (t\_f }\OperatorTok{*}\NormalTok{ Q) }\OperatorTok{/}\NormalTok{ (p }\OperatorTok{*}\NormalTok{ c }\OperatorTok{*}\NormalTok{ (T\_M }\OperatorTok{{-}}\NormalTok{ T\_a))}
 
 \CommentTok{\# {-}{-}{-} MALLA ESPACIAL {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
 \NormalTok{Nx, Ny }\OperatorTok{=} \FloatTok{51}\NormalTok{, }\FloatTok{51}
@@ -2443,11 +2442,11 @@ entrenamiento}\label{perdida-para-el-conjunto-de-entrenamiento}
 
 \CommentTok{\# Nombres de las componentes del loss}
 \NormalTok{loss\_labels }\OperatorTok{=}\NormalTok{ [}
-    \StringTok{"PDE residual loss"}\NormalTok{,}
-    \StringTok{"Initial‐condition loss"}\NormalTok{,}
-    \StringTok{"Left‐boundary (Dirichlet) loss"}\NormalTok{,}
-    \StringTok{"Right‐boundary (Neumann) loss"}\NormalTok{,}
-    \StringTok{"Top/Bottom‐boundary (Neumann) loss"}
+    \StringTok{"Pérdida residual PDE"}\NormalTok{,}
+    \StringTok{"Pérdida de condición inicial"}\NormalTok{,}
+    \StringTok{"Pérdida de frontera izquierda (Dirichlet)"}\NormalTok{,}
+    \StringTok{"Pérdida de frontera derecha (Neumann)"}\NormalTok{,}
+    \StringTok{"Pérdida de fronteras superior/inferior (Neumann)"}
 \NormalTok{]}
 
 \CommentTok{\# Extraer pasos y pérdida de entrenamiento}
@@ -2466,9 +2465,9 @@ entrenamiento}\label{perdida-para-el-conjunto-de-entrenamiento}
 \NormalTok{    ))}
 
 \NormalTok{fig\_train.update\_layout(}
-\NormalTok{    title}\OperatorTok{=}\StringTok{"Training Loss history"}\NormalTok{,}
-\NormalTok{    xaxis}\OperatorTok{=}\BuiltInTok{dict}\NormalTok{(title}\OperatorTok{=}\StringTok{"Iteration"}\NormalTok{, tickformat}\OperatorTok{=}\StringTok{".1e"}\NormalTok{),}
-\NormalTok{    yaxis}\OperatorTok{=}\BuiltInTok{dict}\NormalTok{(title}\OperatorTok{=}\StringTok{"Loss"}\NormalTok{, }\BuiltInTok{type}\OperatorTok{=}\StringTok{"log"}\NormalTok{, tickformat}\OperatorTok{=}\StringTok{".1e"}\NormalTok{),}
+\NormalTok{    title}\OperatorTok{=}\StringTok{"Historial de pérdida en el entrenamiento"}\NormalTok{,}
+\NormalTok{    xaxis}\OperatorTok{=}\BuiltInTok{dict}\NormalTok{(title}\OperatorTok{=}\StringTok{"Iteración"}\NormalTok{, tickformat}\OperatorTok{=}\StringTok{".1e"}\NormalTok{),}
+\NormalTok{    yaxis}\OperatorTok{=}\BuiltInTok{dict}\NormalTok{(title}\OperatorTok{=}\StringTok{"Pérdida (log)"}\NormalTok{, }\BuiltInTok{type}\OperatorTok{=}\StringTok{"log"}\NormalTok{, tickformat}\OperatorTok{=}\StringTok{".1e"}\NormalTok{),}
 \NormalTok{    template}\OperatorTok{=}\StringTok{"plotly\_white"}\NormalTok{,}
 \NormalTok{    legend}\OperatorTok{=}\BuiltInTok{dict}\NormalTok{(x}\OperatorTok{=}\FloatTok{0.99}\NormalTok{, y}\OperatorTok{=}\FloatTok{0.99}\NormalTok{),}
 \NormalTok{    font}\OperatorTok{=}\BuiltInTok{dict}\NormalTok{(size}\OperatorTok{=}\DecValTok{14}\NormalTok{)}
@@ -2498,11 +2497,11 @@ prueba}\label{puxe9rdida-para-el-conjunto-de-prueba}
 
 \CommentTok{\# Nombres de las componentes del loss}
 \NormalTok{loss\_labels }\OperatorTok{=}\NormalTok{ [}
-    \StringTok{"PDE residual loss"}\NormalTok{,}
-    \StringTok{"Initial‐condition loss"}\NormalTok{,}
-    \StringTok{"Left‐boundary (Dirichlet) loss"}\NormalTok{,}
-    \StringTok{"Right‐boundary (Neumann) loss"}\NormalTok{,}
-    \StringTok{"Top/Bottom‐boundary (Neumann) loss"}
+    \StringTok{"Pérdida residual PDE"}\NormalTok{,}
+    \StringTok{"Pérdida de condición inicial"}\NormalTok{,}
+    \StringTok{"Pérdida de frontera izquierda (Dirichlet)"}\NormalTok{,}
+    \StringTok{"Pérdida de frontera derecha (Neumann)"}\NormalTok{,}
+    \StringTok{"Pérdida de fronteras superior/inferior (Neumann)"}
 \NormalTok{]}
 
 \CommentTok{\# Extraer pasos y pérdida de entrenamiento}
@@ -2521,9 +2520,9 @@ prueba}\label{puxe9rdida-para-el-conjunto-de-prueba}
 \NormalTok{    ))}
 
 \NormalTok{fig\_test.update\_layout(}
-\NormalTok{    title}\OperatorTok{=}\StringTok{"Test Loss history"}\NormalTok{,}
-\NormalTok{    xaxis}\OperatorTok{=}\BuiltInTok{dict}\NormalTok{(title}\OperatorTok{=}\StringTok{"Iteration"}\NormalTok{, tickformat}\OperatorTok{=}\StringTok{".1e"}\NormalTok{),}
-\NormalTok{    yaxis}\OperatorTok{=}\BuiltInTok{dict}\NormalTok{(title}\OperatorTok{=}\StringTok{"Loss"}\NormalTok{, }\BuiltInTok{type}\OperatorTok{=}\StringTok{"log"}\NormalTok{, tickformat}\OperatorTok{=}\StringTok{".1e"}\NormalTok{),}
+\NormalTok{    title}\OperatorTok{=}\StringTok{"Historial de pérdida en el conjunto de prueba"}\NormalTok{,}
+\NormalTok{    xaxis}\OperatorTok{=}\BuiltInTok{dict}\NormalTok{(title}\OperatorTok{=}\StringTok{"Iteración"}\NormalTok{, tickformat}\OperatorTok{=}\StringTok{".1e"}\NormalTok{),}
+\NormalTok{    yaxis}\OperatorTok{=}\BuiltInTok{dict}\NormalTok{(title}\OperatorTok{=}\StringTok{"Pérdida (log)"}\NormalTok{, }\BuiltInTok{type}\OperatorTok{=}\StringTok{"log"}\NormalTok{, tickformat}\OperatorTok{=}\StringTok{".1e"}\NormalTok{),}
 \NormalTok{    template}\OperatorTok{=}\StringTok{"plotly\_white"}\NormalTok{,}
 \NormalTok{    legend}\OperatorTok{=}\BuiltInTok{dict}\NormalTok{(x}\OperatorTok{=}\FloatTok{0.99}\NormalTok{, y}\OperatorTok{=}\FloatTok{0.99}\NormalTok{),}
 \NormalTok{    font}\OperatorTok{=}\BuiltInTok{dict}\NormalTok{(size}\OperatorTok{=}\DecValTok{14}\NormalTok{)}
@@ -2564,7 +2563,7 @@ formato CSV. El proceso consistió en:
   \item
     Discretización: 26 segmentos equiespaciados en cada eje (x, y).
   \item
-    Puntos totales: 676 (26 × 26)
+    Puntos totales: 676 (26 × 26).
   \item
     Tiempos evaluados: t = {[}0.0, 0.25, 0.50, 0.75, 1.0{]}.
   \end{itemize}

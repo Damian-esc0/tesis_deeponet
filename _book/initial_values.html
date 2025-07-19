@@ -259,7 +259,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./pinns.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Physic Informed Neural Networks (PINNs)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Physics Informed Neural Networks (PINNs)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -557,12 +557,12 @@ Ejemplo
 </div>
 </div>
 </div>
-<p>Para dar una idea más clara acerca de los problemas de valor inicial <span class="citation" data-cites="burden2011">Burden y Faires (<a href="references.html#ref-burden2011" role="doc-biblioref">2010</a>)</span> brinda las siguientes definicones y teoremas:</p>
+<p>Para dar una idea más clara acerca de los problemas de valor inicial <span class="citation" data-cites="burden2011">Burden y Faires (<a href="references.html#ref-burden2011" role="doc-biblioref">2010</a>)</span> brinda las siguientes definiciones y teoremas:</p>
 <div id="def-Lip-con" class="theorem definition">
 <p><span class="theorem-title"><strong>Definición 5.1</strong></span> Se dice que una función <span class="math inline">\(f(t,y)\)</span> satisface una <strong>Condición de Lipschitz</strong> en la variable <span class="math inline">\(y\)</span> en un conjunto <span class="math inline">\(D \subset \mathbb{R}^2\)</span> si existe una constante <span class="math inline">\(L&gt;0\)</span> tal que <span class="math display">\[
 |f(t,y_1) - f(t,y_2)| \leq L|y_1-y_2|
 \]</span></p>
-<p>donde <span class="math inline">\(f(t,y_1) \text{y} f(t,y_2)\)</span> están en <span class="math inline">\(D\)</span>. La constante <span class="math inline">\(L\)</span> es llamada <strong>constante de Lipschitz</strong> para <span class="math inline">\(f\)</span>.</p>
+<p>donde <span class="math inline">\(f(t,y_1) \ \ \text{y} \ \ f(t,y_2)\)</span> están en <span class="math inline">\(D\)</span>. La constante <span class="math inline">\(L\)</span> es llamada <strong>constante de Lipschitz</strong> para <span class="math inline">\(f\)</span>.</p>
 </div>
 <div id="def-convex-set" class="theorem definition">
 <p><span class="theorem-title"><strong>Definición 5.2</strong></span> Se dice que un conjunto <span class="math inline">\(D \subset \mathbb{R}^2\)</span> es <strong>convexo</strong> si para cualesquiera <span class="math inline">\(f(t,y_1), f(t,y_2) \in D\)</span>, entonces <span class="math inline">\(((1-\lambda)t_1 + \lambda t_2, (1-\lambda)y_1 + \lambda y_2)\)</span> también pertenece a <span class="math inline">\(D\)</span> para cada <span class="math inline">\(\lambda \in[0,1]\)</span>.</p>
@@ -580,7 +580,7 @@ Figura&nbsp;5.1: Ejemplo geométrico de un conjunto <em>convexo</em> y <em>no co
 </div>
 <div id="thm-Lib-teo" class="theorem">
 <p><span class="theorem-title"><strong>Teorema 5.1</strong></span> Supongamos que <span class="math inline">\(f(t, y)\)</span> está definida en un conjunto convexo <span class="math inline">\(D \in \mathbb{R}^2\)</span>. Si existe una constante <span class="math inline">\(L &gt; 0\)</span> con <span id="eq-Lib-teo"><span class="math display">\[
-\left|\dfrac{\partial f}{\partial y}(t,y) \right| \leq L, \quad \text{para todo} (t,y)\in D,
+\left|\dfrac{\partial f}{\partial y}(t,y) \right| \leq L, \quad \text{para todo} \ \ (t,y)\in D,
 \tag{5.1}\]</span></span></p>
 <p>entonces <span class="math inline">\(f\)</span> satisface una condición de Lipschitz en <span class="math inline">\(D\)</span> en la variable <span class="math inline">\(y\)</span> con una constante de Lipschitz <span class="math inline">\(L\)</span>.</p>
 </div>
@@ -603,9 +603,9 @@ Ejemplo
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Use el teorema <a href="#thm-uniq-sol" class="quarto-xref">Teorema&nbsp;<span>5.2</span></a> para mostrar que hay una única solución al problema de valor inicial: <span class="math display">\[
+<p>Use el <a href="#thm-uniq-sol" class="quarto-xref">Teorema&nbsp;<span>5.2</span></a> para mostrar que hay una única solución al problema de valor inicial: <span class="math display">\[
 y'(t)= 1 + t\sin(ty), \quad 0\leq t \leq 2, \quad y(0) = 0.
-\]</span> <strong>Solución:</strong> Mantieniendo a <span class="math inline">\(t\)</span> constante y usando el <em>Teorema de valor medio</em> a la función <span class="math display">\[
+\]</span> <strong>Solución:</strong> Manteniendo a <span class="math inline">\(t\)</span> constante y usando el <em>Teorema de valor medio</em> a la función <span class="math display">\[
 f(t,y) = 1 + t\sin(ty),
 \]</span> notamos que cuando <span class="math inline">\(y_1&lt;y_2\)</span>, un número <span class="math inline">\(\xi\)</span> existe en <span class="math inline">\((y_1,y_2)\)</span> tal que: <span class="math display">\[
 \dfrac{f(t,y_2)-f(t,y_1)}{y_2-y_1} = \dfrac{\partial}{\partial y} f(t,\xi) = t^2\cos(\xi t).
@@ -615,10 +615,10 @@ f(t,y) = 1 + t\sin(ty),
 </div>
 </div>
 </div>
-<section id="problemas-bien-plantedos" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="problemas-bien-plantedos"><span class="header-section-number">5.1</span> Problemas bien plantedos</h2>
-<p>Ahora que hemos abordado, hasta cierto punto, la cuestión de cuándo los problemas de valor inicial tienen soluciones únicas, podemos pasar a la segunda consideración importante: cuándo aproximar la solución de un problema de valor inicial. Los problemas de valor inicial obtenidos mediante la observación de fenómenos físicos generalmente solo se aproximan a la situación real, por lo que necesitamos saber si pequeños cambios en el plamteamiento del problema introducen cambios correspondientemente pequeños en la solución <span class="citation" data-cites="burden2011">(<a href="references.html#ref-burden2011" role="doc-biblioref">Burden y Faires 2010</a>)</span>.</p>
-<p>A continiación se presentan otras definiciones así como teoremas que brindaŕan un conocimiento más sólido acerca de los problemas bien planteados. Se usará como referencia a <span class="citation" data-cites="burden2011">Burden y Faires (<a href="references.html#ref-burden2011" role="doc-biblioref">2010</a>)</span>.</p>
+<section id="problemas-bien-planteados" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="problemas-bien-planteados"><span class="header-section-number">5.1</span> Problemas bien planteados</h2>
+<p>Ahora que hemos abordado, hasta cierto punto, la cuestión de cuándo los problemas de valor inicial tienen soluciones únicas, podemos pasar a la segunda consideración importante: cuándo aproximar la solución de un problema de valor inicial. Los problemas de valor inicial obtenidos mediante la observación de fenómenos físicos generalmente solo se aproximan a la situación real, por lo que necesitamos saber si pequeños cambios en el planteamiento del problema introducen cambios correspondientemente pequeños en la solución <span class="citation" data-cites="burden2011">(<a href="references.html#ref-burden2011" role="doc-biblioref">Burden y Faires 2010</a>)</span>.</p>
+<p>A continuación se presentan otras definiciones así como teoremas que brindarán un conocimiento más sólido acerca de los problemas bien planteados. Se usará como referencia a <span class="citation" data-cites="burden2011">Burden y Faires (<a href="references.html#ref-burden2011" role="doc-biblioref">2010</a>)</span>.</p>
 <div id="def-well-posed" class="theorem definition">
 <p><span class="theorem-title"><strong>Definición 5.3</strong></span> Se dice que el problema de valor inicial <span id="eq-original-problem"><span class="math display">\[
 \dfrac{dy}{dt} = f(t,y), \quad a\leq t \leq b, \quad y(a) = \alpha,
@@ -628,11 +628,11 @@ f(t,y) = 1 + t\sin(ty),
 <li>Existen constantes <span class="math inline">\(ε_0 &gt; 0\)</span> y <span class="math inline">\(k &gt; 0\)</span> tales que para cualquier <span class="math inline">\(\varepsilon\)</span>, con <span class="math inline">\(\varepsilon_0 &gt; \varepsilon &gt; 0\)</span>, siempre que <span class="math inline">\(δ(t)\)</span> sea continua con <span class="math inline">\(|δ(t)| &lt; \varepsilon\)</span> para todo <span class="math inline">\(t\)</span> en <span class="math inline">\([a, b]\)</span>, y cuando <span class="math inline">\(|δ_0| &lt; \varepsilon\)</span>, el problema del valor inicial <span id="eq-perturbed-rpoblem"><span class="math display">\[
 \dfrac{dz}{dt} = f(t,z) + δ(t), \quad a\leq t \leq b, \quad z(a) = \alpha + δ_0
 \tag{5.3}\]</span></span> tenga una única solución <span class="math inline">\(z(t)\)</span> que satisface: <span class="math display">\[
-|z(t)-y(t)| &lt; k\varepsilon \quad \forall t \in[a,b]
+|z(t)-y(t)| &lt; k\varepsilon \quad \forall t \in[a,b].
 \]</span></li>
 </ul>
 </div>
-<p>El problema especificado por al <a href="#eq-perturbed-rpoblem" class="quarto-xref">Ecuación&nbsp;<span>5.3</span></a> se denomina <strong>problema perturbado</strong> asociado al problema original <a href="#eq-original-problem" class="quarto-xref">Ecuación&nbsp;<span>5.2</span></a>. Se asume la posibilidad de que se introduzca un error en el planteamiento de la ecuación diferencial, así como la presencia de un error <span class="math inline">\(δ_0\)</span> en la condición inicial.</p>
+<p>El problema especificado por la <a href="#eq-perturbed-rpoblem" class="quarto-xref">Ecuación&nbsp;<span>5.3</span></a> se denomina <strong>problema perturbado</strong> asociado al problema original <a href="#eq-original-problem" class="quarto-xref">Ecuación&nbsp;<span>5.2</span></a>. Se asume la posibilidad de que se introduzca un error en el planteamiento de la ecuación diferencial, así como la presencia de un error <span class="math inline">\(δ_0\)</span> en la condición inicial.</p>
 <p>Los métodos numéricos siempre se centrarán en la solución de un problema perturbado, ya que cualquier error de redondeo introducido en la representación perturba el problema original. A menos que el problema original esté bien planteado, hay pocas razones para esperar que la solución numérica de un problema perturbado se aproxime con precisión a la solución del problema original.</p>
 <div id="thm-well-posed" class="theorem">
 <p><span class="theorem-title"><strong>Teorema 5.3</strong></span> Supongamos <span class="math inline">\(D = \{(t, y) | \ \ a \leq t \leq b, \ \  -\infty &lt; y &lt; \infty \}\)</span>. Si <span class="math inline">\(f\)</span> es continua y satisface una condición de Lipschitz en la variable <span class="math inline">\(y\)</span> en el conjunto <span class="math inline">\(D\)</span>, entonces el problema de valor inicial <span class="math display">\[

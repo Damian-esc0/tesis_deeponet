@@ -50,7 +50,7 @@ Si $u_1 , u_2 , \dots , u_k$ son soluciones de una ecuación diferencial parcial
 $$
 u = c_1u_1 + c_2u_2 + \dots + c_ku_k
 $$
-donde las $c_1=1,2,\dots,k$ son constantes. Es también una solución.
+donde las $c_i, i=1,2,\dots,k$ son constantes. Es también una solución.
 :::
 
 El teorema [-@thm-superposition] se puede entender como: *siempre que tengamos un conjunto infinito de soluciones $u_1, u_2, u_3, \ldots$ de una ecuación lineal homogénea, podemos construir otra solución $u$ mediante la serie infinita*:  

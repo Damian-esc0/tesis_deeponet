@@ -19,7 +19,7 @@ $$
 Donde $L$ es la longitud del péndulo, $g \approx 9.81 \frac{m}{s^2}$ es la constante gravitacional terrestre y $\theta$ es el ángulo que forma el péndulo con la vertical. Si, además, especificamos la posición del péndulo al inicio del movimiento, $\theta(t_0) = \theta_{0}$ , y su velocidad en ese punto, $\theta'(t_0) = \theta'_0$. Tenemos un *problema de valor inicial*.
 :::
 
-Para dar una idea más clara acerca de los problemas de valor inicial @burden2011 brinda las siguientes definicones y teoremas:
+Para dar una idea más clara acerca de los problemas de valor inicial @burden2011 brinda las siguientes definiciones y teoremas:
 
 ::: {#def-Lip-con}
 Se dice que una función $f(t,y)$ satisface una **Condición de Lipschitz** en la variable $y$ en un conjunto $D \subset \mathbb{R}^2$ si existe una constante $L>0$ tal que
@@ -27,7 +27,7 @@ $$
 |f(t,y_1) - f(t,y_2)| \leq L|y_1-y_2|
 $$
 
-donde $f(t,y_1) \text{y} f(t,y_2)$ están en $D$. La constante $L$ es llamada **constante de Lipschitz** para $f$.
+donde $f(t,y_1) \ \ \text{y} \ \ f(t,y_2)$ están en $D$. La constante $L$ es llamada **constante de Lipschitz** para $f$.
 :::
 
 ::: {#def-convex-set}
@@ -41,7 +41,7 @@ En términos geométricos, la @def-convex-set establece que un conjunto es conve
 ::: {#thm-Lib-teo}
 Supongamos que $f(t, y)$ está definida en un conjunto convexo $D \in \mathbb{R}^2$. Si existe una constante $L > 0$ con
 $$
-\left|\dfrac{\partial f}{\partial y}(t,y) \right| \leq L, \quad \text{para todo} (t,y)\in D,
+\left|\dfrac{\partial f}{\partial y}(t,y) \right| \leq L, \quad \text{para todo} \ \ (t,y)\in D,
 $$ {#eq-Lib-teo}
 
 entonces $f$ satisface una condición de Lipschitz en $D$ en la variable $y$ con una constante de Lipschitz $L$.
@@ -61,11 +61,11 @@ tiene una solución única $y(t)$  para $a\leq t \leq b$.
 
 ::: {.callout-caution collapse="true" icon="false"}
 ## Ejemplo
-Use el teorema @thm-uniq-sol para mostrar que hay una única solución al problema de valor inicial:
+Use el @thm-uniq-sol para mostrar que hay una única solución al problema de valor inicial:
 $$
 y'(t)= 1 + t\sin(ty), \quad 0\leq t \leq 2, \quad y(0) = 0.
 $$
-**Solución:** Mantieniendo a $t$ constante y usando el *Teorema de valor medio* a la función
+**Solución:** Manteniendo a $t$ constante y usando el *Teorema de valor medio* a la función
 $$
 f(t,y) = 1 + t\sin(ty),
 $$
@@ -80,10 +80,10 @@ $$
 y $f$ satisface una condición de Lipschitz en la variable y con constante de Lipschitz $L = 4$. Además, $f(t, y)$ es continua cuando $0 ≤ t ≤ 2$ y $−∞ < y < ∞$, por lo que el @thm-uniq-sol implica que existe una solución única para este problema de valor inicial.
 :::
 
-## Problemas bien plantedos
-Ahora que hemos abordado, hasta cierto punto, la cuestión de cuándo los problemas de valor inicial tienen soluciones únicas, podemos pasar a la segunda consideración importante: cuándo aproximar la solución de un problema de valor inicial. Los problemas de valor inicial obtenidos mediante la observación de fenómenos físicos generalmente solo se aproximan a la situación real, por lo que necesitamos saber si pequeños cambios en el plamteamiento del problema introducen cambios correspondientemente pequeños en la solución [@burden2011].
+## Problemas bien planteados
+Ahora que hemos abordado, hasta cierto punto, la cuestión de cuándo los problemas de valor inicial tienen soluciones únicas, podemos pasar a la segunda consideración importante: cuándo aproximar la solución de un problema de valor inicial. Los problemas de valor inicial obtenidos mediante la observación de fenómenos físicos generalmente solo se aproximan a la situación real, por lo que necesitamos saber si pequeños cambios en el planteamiento del problema introducen cambios correspondientemente pequeños en la solución [@burden2011].
 
-A continiación se presentan otras definiciones así como teoremas que brindaŕan un conocimiento más sólido acerca de los problemas bien planteados. Se usará como referencia a @burden2011.
+A continuación se presentan otras definiciones así como teoremas que brindarán un conocimiento más sólido acerca de los problemas bien planteados. Se usará como referencia a @burden2011.
 
 ::: {#def-well-posed}
 Se dice que el problema de valor inicial
@@ -99,12 +99,12 @@ $$
 $$ {#eq-perturbed-rpoblem}
 tenga una única solución $z(t)$ que satisface:
 $$
-|z(t)-y(t)| < k\varepsilon \quad \forall t \in[a,b]
+|z(t)-y(t)| < k\varepsilon \quad \forall t \in[a,b].
 $$
 
 :::
 
-El problema especificado por al @eq-perturbed-rpoblem se denomina **problema perturbado** asociado al problema original @eq-original-problem. Se asume la posibilidad de que se introduzca un error en el planteamiento de la ecuación diferencial, así como la presencia de un error $δ_0$ en la condición inicial.
+El problema especificado por la @eq-perturbed-rpoblem se denomina **problema perturbado** asociado al problema original @eq-original-problem. Se asume la posibilidad de que se introduzca un error en el planteamiento de la ecuación diferencial, así como la presencia de un error $δ_0$ en la condición inicial.
 
 Los métodos numéricos siempre se centrarán en la solución de un problema perturbado, ya que cualquier error de redondeo introducido en la representación perturba el problema original. A menos que el problema original esté bien planteado, hay pocas razones para esperar que la solución numérica de un problema perturbado se aproxime con precisión a la solución del problema original.
 

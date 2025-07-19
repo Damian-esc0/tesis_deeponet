@@ -248,11 +248,11 @@ import plotly.graph_objects as go
 
 # Nombres de las componentes del loss
 loss_labels = [
-    "PDE residual loss",
-    "Initial‐condition loss",
-    "Left‐boundary (Dirichlet) loss",
-    "Right‐boundary (Neumann) loss",
-    "Top/Bottom‐boundary (Neumann) loss"
+    "Pérdida residual PDE",
+    "Pérdida de condición inicial",
+    "Pérdida de frontera izquierda (Dirichlet)",
+    "Pérdida de frontera derecha (Neumann)",
+    "Pérdida de fronteras superior/inferior (Neumann)"
 ]
 
 # Extraer pasos y pérdida de entrenamiento
@@ -271,9 +271,9 @@ for i in range(train_loss.shape[1]):
     ))
 
 fig_train.update_layout(
-    title="Training Loss history",
-    xaxis=dict(title="Iteration", tickformat=".1e"),
-    yaxis=dict(title="Loss", type="log", tickformat=".1e"),
+    title="Historial de pérdida en el entrenamiento",
+    xaxis=dict(title="Iteración", tickformat=".1e"),
+    yaxis=dict(title="Pérdida (log)", type="log", tickformat=".1e"),
     template="plotly_white",
     legend=dict(x=0.99, y=0.99),
     font=dict(size=14)
@@ -313,11 +313,11 @@ import plotly.graph_objects as go
 
 # Nombres de las componentes del loss
 loss_labels = [
-    "PDE residual loss",
-    "Initial‐condition loss",
-    "Left‐boundary (Dirichlet) loss",
-    "Right‐boundary (Neumann) loss",
-    "Top/Bottom‐boundary (Neumann) loss"
+    "Pérdida residual PDE",
+    "Pérdida de condición inicial",
+    "Pérdida de frontera izquierda (Dirichlet)",
+    "Pérdida de frontera derecha (Neumann)",
+    "Pérdida de fronteras superior/inferior (Neumann)"
 ]
 
 # Extraer pasos y pérdida de entrenamiento
@@ -336,9 +336,9 @@ for i in range(test_loss.shape[1]):
     ))
 
 fig_test.update_layout(
-    title="Test Loss history",
-    xaxis=dict(title="Iteration", tickformat=".1e"),
-    yaxis=dict(title="Loss", type="log", tickformat=".1e"),
+    title="Historial de pérdida en el conjunto de prueba",
+    xaxis=dict(title="Iteración", tickformat=".1e"),
+    yaxis=dict(title="Pérdida (log)", type="log", tickformat=".1e"),
     template="plotly_white",
     legend=dict(x=0.99, y=0.99),
     font=dict(size=14)
@@ -376,7 +376,7 @@ Para permitir la comparación cuantitativa con el método de Crank-Nicolson y fa
 1. Generación de la malla de evaluación:
     - Dominio espacial: Cuadrado unitario [0,1] × [0,1].
     - Discretización: 26 segmentos equiespaciados en cada eje (x, y).
-    - Puntos totales: 676 (26 × 26)
+    - Puntos totales: 676 (26 × 26).
     - Tiempos evaluados: t = [0.0, 0.25, 0.50, 0.75, 1.0].
 2. Estructura del archivo:
     - Coordenadas espacio-temporales (t, x, y) para cada punto de la grilla 26×26.

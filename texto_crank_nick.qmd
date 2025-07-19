@@ -24,14 +24,14 @@ u(x+h,t+k) &=u_{i+1,j+1}, \quad u(x,t+k)=u_{i.j+1}, \quad u(x-h,t+k)=u_{i-1,j+1}
 \end{split}
 $$
 
-es posible reescribir a la [eq @eq-cn-completa] como:
+es posible reescribir a la [ec @eq-cn-completa] como:
 $$
 -u_{i-1,j+1} + \alpha u_{i,j+1} - u_{i+1,j+1} = u_{i+1,j} - \beta u_{ij} + u_{i-1,j},
 $$ {#eq-cn-reducida}
 
 donde $\alpha=2(1+\frac{1}{\lambda})$, $\beta=2(1-\frac{1}{\lambda})$, $j=0,1,\dots m-1 \ \ \ \text{e} \ \ \ i=0,1,\dots n-1$.
 
-Para cada elección de $j$ la ecuación diferencial [eq @eq-cn-reducida] para $i=0,1,\dots n-1$ da $n-1$ ecuaciones en $n-1$ incógnitas $u_{i,j+1}$. Debido a las condiciones de contorno preestablecidas, los valores de $u_{i, j+1}$ se conocen para $i=0$ y para $i=n$. Por ejemplo, en el caso $n=4$, el sistema de ecuaciones para determinar los valores aproximados de $u$ en la línea de tiempo $(j+1)$ es:
+Para cada elección de $j$ la ecuación diferencial [ec @eq-cn-reducida] para $i=0,1,\dots n-1$ da $n-1$ ecuaciones en $n-1$ incógnitas $u_{i,j+1}$. Debido a las condiciones de contorno preestablecidas, los valores de $u_{i, j+1}$ se conocen para $i=0$ y para $i=n$. Por ejemplo, en el caso $n=4$, el sistema de ecuaciones para determinar los valores aproximados de $u$ en la línea de tiempo $(j+1)$ es:
 
 $$
 \begin{split}
@@ -57,15 +57,15 @@ b_2 &= u_{3,j} - \beta u_{2,j} + u_{1,j}, \\
 b_3 &= u_{4,j} - \beta u_{3,j} + u_{2,j} + u_{4,j+1}.
 \end{align*}
 
-En general, si utilizamos la ecuación diferencial [eq @eq-cn-reducida]  para determinar valores de $u$ en la línea de tiempo $(j -1)$, es necesario resolver un sistema lineal $\mathbf{AX=B}$, donde la matriz de coeficientes $\mathbf{A}$ es una **matriz tridiagonal**,
+En general, si utilizamos la ecuación diferencial [ec @eq-cn-reducida]  para determinar valores de $u$ en la línea de tiempo $(j -1)$, es necesario resolver un sistema lineal $\mathbf{AX=B}$, donde la matriz de coeficientes $\mathbf{A}$ es una **matriz tridiagonal**,
 $$
 A = 
 \begin{pmatrix}
-\alpha & -1    & 0      & 0      & 0      & \cdots & 0      \\
--1     & \alpha & -1     & 0      & 0      & \cdots & 0      \\
-0      & -1     & \alpha & -1     & 0      & \cdots & 0      \\
-0      & 0      & -1     & \alpha & -1     & \cdots & 0      \\
-\vdots & \vdots & \vdots & \vdots & \vdots & \ddots & \vdots \\
+\alpha & -1    & 0      & 0      & 0      & \cdots & 0 & 0      \\
+-1     & \alpha & -1     & 0      & 0      & \cdots & 0 & 0      \\
+0      & -1     & \alpha & -1     & 0      & \cdots & 0 & 0      \\
+0      & 0      & -1     & \alpha & -1     & \cdots & 0 & 0      \\
+\vdots & \vdots & \vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
 0      & 0      & 0      & 0      & 0      & \cdots & \alpha & -1 \\
 0      & 0      & 0      & 0      & 0      & \cdots & -1     & \alpha
 \end{pmatrix},

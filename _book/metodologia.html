@@ -259,7 +259,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./pinns.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Physic Informed Neural Networks (PINNs)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Physics Informed Neural Networks (PINNs)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -541,10 +541,10 @@ window.Quarto = {
 <h2 data-number="11.1" class="anchored" data-anchor-id="aportaciones-del-modelo"><span class="header-section-number">11.1</span> Aportaciones del modelo</h2>
 <p>Ya que se parte del trabajo de <span class="citation" data-cites="medical_rep">Alessio Borgi (<a href="references.html#ref-medical_rep" role="doc-biblioref">2023</a>)</span>, se examinó que dos de los puntos a mejorar de la red neuronal que plantearon son:</p>
 <ol type="1">
-<li>Desarrollar nuevas arquitecturas para la red neuronal y explorar nuevas configuraciones</li>
-<li>Combinar las fortalezas de los algoritmos de optimización Adam y L-BFGS para mejorar la velocidad de convergencia y la precisión</li>
+<li>Desarrollar nuevas arquitecturas para la red neuronal y explorar nuevas configuraciones.</li>
+<li>Combinar las fortalezas de los algoritmos de optimización Adam y L-BFGS para mejorar la velocidad de convergencia y la precisión.</li>
 </ol>
-<p>Tenindo los anteriores puntos en cuenta, se procedió a abordarlos e implementarlos dentro del diseño del modelo.</p>
+<p>Teniendo los anteriores puntos en cuenta, se procedió a abordarlos e implementarlos dentro del diseño del modelo.</p>
 </section>
 <section id="diseño-del-modelo" class="level2" data-number="11.2">
 <h2 data-number="11.2" class="anchored" data-anchor-id="diseño-del-modelo"><span class="header-section-number">11.2</span> Diseño del modelo</h2>
@@ -552,7 +552,7 @@ window.Quarto = {
 </section>
 <section id="implementación-del-modelo" class="level2" data-number="11.3">
 <h2 data-number="11.3" class="anchored" data-anchor-id="implementación-del-modelo"><span class="header-section-number">11.3</span> Implementación del modelo</h2>
-<p>La implementación del modelo se llevó a cabo en dos etapas clave: <strong>(1) el desarrollo del código base para resolver la ecuación del Bio-Calor mediante DeepXDE</strong>, y <strong>(2) la optimización sistemática de los hiperparámetros</strong>. Para esta última, se siguieron las recomendaciones del estudio de <span class="citation" data-cites="medical_rep">Alessio Borgi (<a href="references.html#ref-medical_rep" role="doc-biblioref">2023</a>)</span>, adaptadas a las particularidades del problema. Se ajustaron parámetros críticos como el número de épocas de entrenamiento (<em>iterations</em>), el ratio de aprendizaje (<em>learning rate</em>) así como un decaimiento en el mismo dependiente de la itearación actual (<em>decay</em>), la función de activación (<em>elu</em>) y el esquema de inicialización de pesos (<em>Glorot normal</em>). Estos ajustes se realizaron mediante un proceso iterativo que buscaba minimizar la función de pérdida mientras se mantenía un tiempo de entrenamiento computacionalmente viable.</p>
+<p>La implementación del modelo se llevó a cabo en dos etapas clave: <strong>(1) el desarrollo del código base para resolver la ecuación del Bio-Calor mediante DeepXDE</strong>, y <strong>(2) la optimización sistemática de los hiperparámetros</strong>. Para esta última, se siguieron las recomendaciones del estudio de <span class="citation" data-cites="medical_rep">Alessio Borgi (<a href="references.html#ref-medical_rep" role="doc-biblioref">2023</a>)</span>, adaptadas a las particularidades del problema. Se ajustaron parámetros críticos como el número de épocas de entrenamiento (<em>iterations</em>), el ratio de aprendizaje (<em>learning rate</em>) así como un decaimiento en el mismo dependiente de la iteración actual (<em>decay</em>), la función de activación (<em>elu</em>) y el esquema de inicialización de pesos (<em>Glorot normal</em>). Estos ajustes se realizaron mediante un proceso iterativo que buscaba minimizar la función de pérdida mientras se mantenía un tiempo de entrenamiento computacionalmente viable.</p>
 </section>
 <section id="evaluación-del-modelo" class="level2" data-number="11.4">
 <h2 data-number="11.4" class="anchored" data-anchor-id="evaluación-del-modelo"><span class="header-section-number">11.4</span> Evaluación del modelo</h2>
@@ -570,9 +570,9 @@ window.Quarto = {
 <p>En primer lugar, se llevó a cabo una comparación visual con los resultados reportados en el trabajo de <span class="citation" data-cites="medical_rep">Alessio Borgi (<a href="references.html#ref-medical_rep" role="doc-biblioref">2023</a>)</span>, dado que dicho estudio no incluye datos numéricos tabulados, sino únicamente representaciones gráficas de las soluciones. Esta comparación permitió identificar coincidencias y discrepancias en el comportamiento espaciotemporal de las variables de interés, destacando las fortalezas del modelo propuesto en términos de estabilidad numérica.</p>
 <p>En segundo lugar, para una evaluación cuantitativa rigurosa, se compararon las predicciones del modelo con soluciones de referencia generadas mediante el método de Crank-Nicolson, implementado en Julia utilizando la librería DifferentialEquations.jl. La comparación se realizó sobre una malla uniforme de 26×26 puntos en el cuadrado de <span class="math inline">\([0,1]\times[0,1]\)</span>, calculando para cada instante de tiempo relevante las siguientes métricas:</p>
 <ul>
-<li>Error Absoluto Medio (MAE)</li>
-<li>Error Absoluto Máximo (MaxAE)</li>
-<li>Error L2 (norma euclidiana)</li>
+<li>Error Absoluto Medio (MAE).</li>
+<li>Error Absoluto Máximo (MaxAE).</li>
+<li>Error L2 (norma euclidiana).</li>
 </ul>
 <p>Estos criterios permitieron cuantificar no solo la precisión global del modelo, sino también sus desviaciones locales más significativas, particularmente en regiones con alta variabilidad espacial. Los resultados detallados de este análisis, junto con una discusión sobre la eficiencia computacional relativa entre ambos métodos, se presentan en la <a href="comparaciones.html#tbl-errores" class="quarto-xref">Tabla&nbsp;<span>14.1</span></a>.</p>
 </section>

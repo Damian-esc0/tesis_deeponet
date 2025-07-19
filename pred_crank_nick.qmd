@@ -12,7 +12,7 @@ using DifferentialEquations, LinearAlgebra
 using DataFrames, CSV
 
 # --- PARÁMETROS FÍSICOS Y DIMENSIONALES ----------------------------------
-ρ, c  = 1050.0, 3639.0                       # densidad, calor específico 
+p, c  = 1050.0, 3639.0                       # densidad, calor específico 
 k_eff = 5.0                                  # conductividad
 t_f   = 1800.0                               # tiempo final 
 L     = 0.05                                 # longitud del dominio
@@ -21,10 +21,10 @@ Q     = 0.0                                  # fuente térmica
 T_M, T_a = 45.0, 37.0                        # temp máxima, temp ambiente
 
 # --- COEFICIENTES ADIMENSIONALES -----------------------------------------
-α = ρ * c / k_eff
+α = p * c / k_eff
 a₁ = t_f / (α * L^2)
-a₂ = t_f * c_b / (ρ * c)
-a₃ = (t_f * Q) / (ρ * c * (T_M - T_a))
+a₂ = t_f * c_b / (p * c)
+a₃ = (t_f * Q) / (p * c * (T_M - T_a))
 
 # --- MALLA ESPACIAL ------------------------------------------------------
 Nx, Ny = 51, 51
