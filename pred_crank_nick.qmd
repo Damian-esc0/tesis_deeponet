@@ -173,5 +173,5 @@ Los datos se guardaron en un archivo CSV estructurado con las siguientes columna
 - Coordenadas espacio-temporales (t, x, y) para cada punto de la grilla 26×26.
 - Valores de la solución en los tiempos de interés.
 
-Este archivo permitió calcular de manera estandarizada las métricas de error (MAE, MaxAE, error L2) en la sección de comparación de resultados.
+Este archivo permitió calcular de manera estandarizada las métricas de error (MAE, MaxAE, error L2) en la sección de comparación de resultados (@tbl-errores).
 :::

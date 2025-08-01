@@ -24,7 +24,7 @@ son homogénea y no homogénea, respectivamente.
 ## Solucion de una PDE
 Una **solución** de una ecuación diferencial parcial es una función $u(x, y)$ de dos variables independientes que posee todas las derivadas parciales que aparecen en la ecuación y que satisface dicha ecuación en alguna región del plano $xy$.
 
-No es lo habitual examinar los procedimientos para encontrar **soluciones generales** de ecuaciones diferenciales parciales lineales. No solo porque suele ser difícil obtener una solución general de una EDP lineal de segundo orden, sino que una solución general generalmente no es tan útil en aplicaciones prácticas. Por lo tanto, el enfoque común es el de encontrar **soluciones particulares** de algunas de las EDPs lineales más importantes, es decir, ecuaciones que aparecen en muchas aplicaciones.
+No es lo habitual examinar los procedimientos para encontrar **soluciones generales** de ecuaciones diferenciales parciales lineales. No solo porque suele ser difícil obtener una solución general de una EDP lineal de segundo orden, sino que una solución general no es tan útil en aplicaciones prácticas. Por lo tanto, el enfoque común es el de encontrar **soluciones particulares** de las EDPs lineales más importantes, sin olvidar que a cada solución particular le pertenecen un conjunto de condiciones iniciales y de fronetra.
 
 ## Separación de variables
 Aunque existen varios métodos que pueden intentarse para encontrar soluciones particulares de una EDP lineal, uno de los métodos más comunes se llama **método de separación de variables**. En este método buscamos una solución particular de la forma de un *producto* de una función de $x$ y una función de $y$:
@@ -42,7 +42,7 @@ $$
 \dfrac{\partial^2 u}{\partial y^2} = XY'',
 $$
 
-donde las comillas (*primes*) denotan derivación ordinaria.
+donde las comillas denotan derivación ordinaria.
 
 ## Principio de superposición
 :::{#thm-superposition}

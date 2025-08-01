@@ -51,7 +51,7 @@ $$
 En éste contexto la función $f$ en la [ec @eq-initail-cond] es continua y, en consecuencia, $f(0)=0$ y $f(L)=0$. En general, existen tres tipos de condiciones de frontera asociadas con las ecuaciones [-@eq-heat], [-@eq-wave] y [-@eq-laplace]. En la frontera es posible especificar los valores de *una* de las siguientes:
 
 $$
-\text{(i)}\quad u, \qquad \text{(ii)}\quad \dfrac{\partial u}{\partial n},\qquad \text{or}\qquad \text{(iii)}\quad \dfrac{\partial u}{\partial n} + hu,\quad \text{con $h$ constante.}
+\text{(i)}\quad u, \qquad \text{(ii)}\quad \dfrac{\partial u}{\partial n},\qquad \text{o}\qquad \text{(iii)}\quad \dfrac{\partial u}{\partial n} + hu,\quad \text{con $h$ constante.}
 $$
 
 Aquí $\frac{\partial u}{\partial n}$ denota la derivada normal de $u$ (la derivada de $u$ en dirección perpendicular a la frontera). Una condición de frontera del primer tipo (i) es llamada **condición de Dirichlet**; una condición de frontera del segundo tipo (ii) es llamada **condición de Neumann**; y una condición de frontera del tercer tipo (iii) es conocida como **condición de Robin**. Por ejemplo, para $t>0$ una condición típica al extremo derecho de la varilla de la @fig-1D-heat puede ser:

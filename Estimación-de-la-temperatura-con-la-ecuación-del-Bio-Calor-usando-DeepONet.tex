@@ -243,10 +243,10 @@
 \floatname{codelisting}{Listado}
 \newcommand*\listoflistings{\listof{codelisting}{Listado de Listados}}
 \usepackage{amsthm}
-\theoremstyle{definition}
-\newtheorem{definition}{Definición}[chapter]
 \theoremstyle{plain}
 \newtheorem{theorem}{Teorema}[chapter]
+\theoremstyle{definition}
+\newtheorem{definition}{Definición}[chapter]
 \theoremstyle{remark}
 \AtBeginDocument{\renewcommand*{\proofname}{Prueba}}
 \newtheorem*{remark}{Observación}
@@ -449,11 +449,11 @@ ecuación en alguna región del plano \(xy\).
 No es lo habitual examinar los procedimientos para encontrar
 \textbf{soluciones generales} de ecuaciones diferenciales parciales
 lineales. No solo porque suele ser difícil obtener una solución general
-de una EDP lineal de segundo orden, sino que una solución general
-generalmente no es tan útil en aplicaciones prácticas. Por lo tanto, el
-enfoque común es el de encontrar \textbf{soluciones particulares} de
-algunas de las EDPs lineales más importantes, es decir, ecuaciones que
-aparecen en muchas aplicaciones.
+de una EDP lineal de segundo orden, sino que una solución general no es
+tan útil en aplicaciones prácticas. Por lo tanto, el enfoque común es el
+de encontrar \textbf{soluciones particulares} de las EDPs lineales más
+importantes, sin olvidar que a cada solución particular le pertenecen un
+conjunto de condiciones iniciales y de fronetra.
 
 \section{Separación de variables}\label{separaciuxf3n-de-variables}
 
@@ -478,7 +478,7 @@ este fin, observamos que:
 \dfrac{\partial^2 u}{\partial y^2} = XY'',
 \]
 
-donde las comillas (\emph{primes}) denotan derivación ordinaria.
+donde las comillas denotan derivación ordinaria.
 
 \section{Principio de
 superposición}\label{principio-de-superposiciuxf3n}
@@ -646,7 +646,7 @@ frontera es posible especificar los valores de \emph{una} de las
 siguientes:
 
 \[
-\text{(i)}\quad u, \qquad \text{(ii)}\quad \dfrac{\partial u}{\partial n},\qquad \text{or}\qquad \text{(iii)}\quad \dfrac{\partial u}{\partial n} + hu,\quad \text{con $h$ constante.}
+\text{(i)}\quad u, \qquad \text{(ii)}\quad \dfrac{\partial u}{\partial n},\qquad \text{o}\qquad \text{(iii)}\quad \dfrac{\partial u}{\partial n} + hu,\quad \text{con $h$ constante.}
 \]
 
 Aquí \(\frac{\partial u}{\partial n}\) denota la derivada normal de
@@ -716,7 +716,7 @@ problema original. Este es el enfoque más común porque los métodos de
 aproximación proporcionan resultados más precisos e información de error
 realista (\citeproc{ref-burden2011}{Burden y Faires 2010}).
 
-\begin{tcolorbox}[enhanced jigsaw, breakable, titlerule=0mm, opacityback=0, left=2mm, toprule=.15mm, arc=.35mm, colbacktitle=quarto-callout-caution-color!10!white, toptitle=1mm, colback=white, title={Ejemplo}, leftrule=.75mm, bottomtitle=1mm, colframe=quarto-callout-caution-color-frame, bottomrule=.15mm, rightrule=.15mm, opacitybacktitle=0.6, coltitle=black]
+\begin{tcolorbox}[enhanced jigsaw, breakable, colbacktitle=quarto-callout-caution-color!10!white, toprule=.15mm, titlerule=0mm, rightrule=.15mm, title={Ejemplo}, arc=.35mm, bottomtitle=1mm, colback=white, leftrule=.75mm, coltitle=black, colframe=quarto-callout-caution-color-frame, bottomrule=.15mm, left=2mm, toptitle=1mm, opacityback=0, opacitybacktitle=0.6]
 
 El movimiento de un péndulo oscilante bajo ciertas suposiciones se
 describe mediante la ecuación diferencial de segundo orden: \[
@@ -812,7 +812,7 @@ tiene una solución única \(y(t)\) para \(a\leq t \leq b\).
 
 \end{theorem}
 
-\begin{tcolorbox}[enhanced jigsaw, breakable, titlerule=0mm, opacityback=0, left=2mm, toprule=.15mm, arc=.35mm, colbacktitle=quarto-callout-caution-color!10!white, toptitle=1mm, colback=white, title={Ejemplo}, leftrule=.75mm, bottomtitle=1mm, colframe=quarto-callout-caution-color-frame, bottomrule=.15mm, rightrule=.15mm, opacitybacktitle=0.6, coltitle=black]
+\begin{tcolorbox}[enhanced jigsaw, breakable, colbacktitle=quarto-callout-caution-color!10!white, toprule=.15mm, titlerule=0mm, rightrule=.15mm, title={Ejemplo}, arc=.35mm, bottomtitle=1mm, colback=white, leftrule=.75mm, coltitle=black, colframe=quarto-callout-caution-color-frame, bottomrule=.15mm, left=2mm, toptitle=1mm, opacityback=0, opacitybacktitle=0.6]
 
 Use el Teorema~\ref{thm-uniq-sol} para mostrar que hay una única
 solución al problema de valor inicial: \[
@@ -899,7 +899,7 @@ Supongamos
 
 \end{theorem}
 
-\begin{tcolorbox}[enhanced jigsaw, breakable, titlerule=0mm, opacityback=0, left=2mm, toprule=.15mm, arc=.35mm, colbacktitle=quarto-callout-caution-color!10!white, toptitle=1mm, colback=white, title={Ejemplo}, leftrule=.75mm, bottomtitle=1mm, colframe=quarto-callout-caution-color-frame, bottomrule=.15mm, rightrule=.15mm, opacitybacktitle=0.6, coltitle=black]
+\begin{tcolorbox}[enhanced jigsaw, breakable, colbacktitle=quarto-callout-caution-color!10!white, toprule=.15mm, titlerule=0mm, rightrule=.15mm, title={Ejemplo}, arc=.35mm, bottomtitle=1mm, colback=white, leftrule=.75mm, coltitle=black, colframe=quarto-callout-caution-color-frame, bottomrule=.15mm, left=2mm, toptitle=1mm, opacityback=0, opacitybacktitle=0.6]
 
 Demostrar que el problema de valor inicial\\
 \[
@@ -982,7 +982,7 @@ es posible reescribir a la ec~\ref{eq-cn-completa} como:
 
 donde \(\alpha=2(1+\frac{1}{\lambda})\),
 \(\beta=2(1-\frac{1}{\lambda})\),
-\(j=0,1,\dots m-1 \ \ \ \text{e} \ \ \ i=0,1,\dots n-1\).
+\(j=0,1,\dots m-1 \ \ \ \text{y} \ \ \ i=0,1,\dots n-1\).
 
 Para cada elección de \(j\) la ecuación diferencial
 ec~\ref{eq-cn-reducida} para \(i=0,1,\dots n-1\) da \(n-1\) ecuaciones
@@ -1311,7 +1311,7 @@ representar operadores complejos con alta generalización a nuevos datos
 planteamiento del problema y arquitectura DeepONet que conducen a una
 buena generalización. a)} Para que la red aprenda un operador
 \(G : u \rightarrow G(u)\) se necesitan dos entradas
-\([u(x_1), u(x_2), ..., u(x_m)]\) e \(y\). \textbf{b)} Ilustración de
+\([u(x_1), u(x_2), ..., u(x_m)]\) y \(y\). \textbf{b)} Ilustración de
 los datos de entrenamiento. Para cada función de entrada \(u\), se
 requiere el mismo número de evaluaciones en los mismos sensores
 dispersos \(x_1, x_2, ..., x_m\). Sin embargo, no se impone ninguna
@@ -1807,7 +1807,7 @@ de los hiperparámetros}. Para esta última, se siguieron las
 recomendaciones del estudio de Alessio Borgi
 (\citeproc{ref-medical_rep}{2023}), adaptadas a las particularidades del
 problema. Se ajustaron parámetros críticos como el número de épocas de
-entrenamiento (\emph{iterations}), el ratio de aprendizaje
+entrenamiento (\emph{iterations}), la tasa de aprendizaje
 (\emph{learning rate}) así como un decaimiento en el mismo dependiente
 de la iteración actual (\emph{decay}), la función de activación
 (\emph{elu}) y el esquema de inicialización de pesos (\emph{Glorot
@@ -2116,7 +2116,8 @@ columnas:
 \end{itemize}
 
 Este archivo permitió calcular de manera estandarizada las métricas de
-error (MAE, MaxAE, error L2) en la sección de comparación de resultados.
+error (MAE, MaxAE, error L2) en la sección de comparación de resultados
+(Tabla~\ref{tbl-errores}).
 
 \chapter{Métricas del modelo}\label{muxe9tricas-del-modelo}
 
@@ -2996,7 +2997,7 @@ mediante la comparación con el método de Crank Nickolson demostraron que
 la red neuronal DeepONet se aproxima con un mínimo del 1.1\% y un máximo
 del 6.7\% para el error medio absoluto, y cometiendo un error mínimo del
 6.4\% y máximo del 20\% para el error máximo absoluto
-Tabla~\ref{tbl-errores}.
+(Tabla~\ref{tbl-errores}).
 
 Los errores obtenidos demuestran la eficacia del modelo para converger a
 la condición inicial, pues tal como se aprecia en la
@@ -3014,7 +3015,7 @@ Lo anterior evidencia el potencial que tiene las PINNs como herramienta
 auxiliar en la solución de ecuaciones diferenciales parciales, pues solo
 a través de la definición de la geometria y el espacio temporal (si es
 necesario) junto con algunos puntos en el dominio y las condiciones
-iniciales y/o de frontera probarón predecir de forma muy acertada el
+iniciales y de frontera probarón predecir de forma muy acertada el
 conjunto de prueba. Ésto representa una gran ventaja respecto a los
 modelos de Deep learning que necesitan una gran cantidad de datos para
 poder ser entrenados. Otro punto clave de las PINNs es su adaptabilidad
@@ -3028,15 +3029,16 @@ Complementado a las PINNs, la arquitectura DeepONet aprende operadores
 (mapeos entre espacios de funciones) en lugar de solo aproximar
 funciones a diferencia de las PINNs tradicionales, que predicen
 soluciones específicas para condiciones fijas, DeepONet es capaz de
-generalizar a nuevas condiciones iniciales/frontera sin reentrenamiento,
-gracias a su estructura de red dual (branch-trunk). Esto lo hace ideal
-para aplicaciones en tiempo real , como la \emph{hipertermia}, donde las
-características del problema son suceptibles a cambios, como lo son las
-propiedades del cuerpo humano que varían en cada paciente. Un problema
-clave que se encontró es que al tener una estructura más compleja, los
-tiempos de entrenamiento respectos a las PINNs son mayores, sin embargo
-esto se ve bien compensado por su alta capacidad de adaptabilidad a
-nuevas condiciones ya sean iniciales o de frontera.
+generalizar a nuevas condiciones iniciales y de frontera sin
+reentrenamiento, gracias a su estructura de red dual (branch-trunk).
+Esto lo hace ideal para aplicaciones en tiempo real, como la
+\emph{hipertermia}, donde las características del problema son
+suceptibles a cambios, como lo son las propiedades del cuerpo humano que
+varían en cada paciente. Un problema clave que se encontró es que al
+tener una estructura más compleja, los tiempos de entrenamiento
+respectos a las PINNs son mayores, sin embargo esto se ve bien
+compensado por su alta capacidad de adaptabilidad a nuevas condiciones
+ya sean iniciales o de frontera.
 
 La creación de éste tipo de modelos, tanto PINNs clásicas como DeepONets
 se puede ver obstaculizada por el conocimiento en programación del
