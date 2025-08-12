@@ -56,8 +56,8 @@ t_initial, t_final = 0.0, 1.0
 
 # Dataset configuration
 pts_dom = 30
-pts_bc = 15
-pts_ic = 30
+pts_bc = 20
+pts_ic = 40
 num_test = 25
 
 # Sensor grid and function space
@@ -65,7 +65,7 @@ num_sensors = 4
 size_cov_matrix = 40
 
 # Network architecture
-width_net = 30
+width_net = 20
 len_net = 3
 AF = "elu"
 k_initializer = "Glorot normal"

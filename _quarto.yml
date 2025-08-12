@@ -85,7 +85,6 @@ format:
     code-copy: true
     toc: true
     toc-location: right
-    toc-depth: 5
     toc-expand: true
 
   pdf:

@@ -439,7 +439,7 @@ ejemplo, las ecuaciones lineales:
 \dfrac{\partial^2 u}{\partial x^2} + \dfrac{\partial^2 u}{\partial y^2} = 0 \quad\text{y} \quad \dfrac{\partial^2 u}{\partial x^2} - \dfrac{\partial u}{\partial y} = x y
 \] son homogénea y no homogénea, respectivamente.
 
-\section{Solucion de una PDE}\label{solucion-de-una-pde}
+\section{Solucion de una EDP}\label{solucion-de-una-edp}
 
 Una \textbf{solución} de una ecuación diferencial parcial es una función
 \(u(x, y)\) de dos variables independientes que posee todas las
@@ -453,7 +453,7 @@ de una EDP lineal de segundo orden, sino que una solución general no es
 tan útil en aplicaciones prácticas. Por lo tanto, el enfoque común es el
 de encontrar \textbf{soluciones particulares} de las EDPs lineales más
 importantes, sin olvidar que a cada solución particular le pertenecen un
-conjunto de condiciones iniciales y de fronetra.
+conjunto de condiciones iniciales y de frontera.
 
 \section{Separación de variables}\label{separaciuxf3n-de-variables}
 
@@ -716,7 +716,7 @@ problema original. Este es el enfoque más común porque los métodos de
 aproximación proporcionan resultados más precisos e información de error
 realista (\citeproc{ref-burden2011}{Burden y Faires 2010}).
 
-\begin{tcolorbox}[enhanced jigsaw, breakable, colbacktitle=quarto-callout-caution-color!10!white, toprule=.15mm, titlerule=0mm, rightrule=.15mm, title={Ejemplo}, arc=.35mm, bottomtitle=1mm, colback=white, leftrule=.75mm, coltitle=black, colframe=quarto-callout-caution-color-frame, bottomrule=.15mm, left=2mm, toptitle=1mm, opacityback=0, opacitybacktitle=0.6]
+\begin{tcolorbox}[enhanced jigsaw, leftrule=.75mm, opacityback=0, arc=.35mm, toptitle=1mm, colframe=quarto-callout-caution-color-frame, colbacktitle=quarto-callout-caution-color!10!white, left=2mm, colback=white, opacitybacktitle=0.6, bottomtitle=1mm, titlerule=0mm, title={Ejemplo}, coltitle=black, bottomrule=.15mm, toprule=.15mm, breakable, rightrule=.15mm]
 
 El movimiento de un péndulo oscilante bajo ciertas suposiciones se
 describe mediante la ecuación diferencial de segundo orden: \[
@@ -812,7 +812,7 @@ tiene una solución única \(y(t)\) para \(a\leq t \leq b\).
 
 \end{theorem}
 
-\begin{tcolorbox}[enhanced jigsaw, breakable, colbacktitle=quarto-callout-caution-color!10!white, toprule=.15mm, titlerule=0mm, rightrule=.15mm, title={Ejemplo}, arc=.35mm, bottomtitle=1mm, colback=white, leftrule=.75mm, coltitle=black, colframe=quarto-callout-caution-color-frame, bottomrule=.15mm, left=2mm, toptitle=1mm, opacityback=0, opacitybacktitle=0.6]
+\begin{tcolorbox}[enhanced jigsaw, leftrule=.75mm, opacityback=0, arc=.35mm, toptitle=1mm, colframe=quarto-callout-caution-color-frame, colbacktitle=quarto-callout-caution-color!10!white, left=2mm, colback=white, opacitybacktitle=0.6, bottomtitle=1mm, titlerule=0mm, title={Ejemplo}, coltitle=black, bottomrule=.15mm, toprule=.15mm, breakable, rightrule=.15mm]
 
 Use el Teorema~\ref{thm-uniq-sol} para mostrar que hay una única
 solución al problema de valor inicial: \[
@@ -899,7 +899,7 @@ Supongamos
 
 \end{theorem}
 
-\begin{tcolorbox}[enhanced jigsaw, breakable, colbacktitle=quarto-callout-caution-color!10!white, toprule=.15mm, titlerule=0mm, rightrule=.15mm, title={Ejemplo}, arc=.35mm, bottomtitle=1mm, colback=white, leftrule=.75mm, coltitle=black, colframe=quarto-callout-caution-color-frame, bottomrule=.15mm, left=2mm, toptitle=1mm, opacityback=0, opacitybacktitle=0.6]
+\begin{tcolorbox}[enhanced jigsaw, leftrule=.75mm, opacityback=0, arc=.35mm, toptitle=1mm, colframe=quarto-callout-caution-color-frame, colbacktitle=quarto-callout-caution-color!10!white, left=2mm, colback=white, opacitybacktitle=0.6, bottomtitle=1mm, titlerule=0mm, title={Ejemplo}, coltitle=black, bottomrule=.15mm, toprule=.15mm, breakable, rightrule=.15mm]
 
 Demostrar que el problema de valor inicial\\
 \[
@@ -971,7 +971,7 @@ en \(t\) y el otro en \(t+k\):
 si se define \(\lambda = \frac{ck}{h^2}\) y \[
 \begin{split}
 u(x+h,t) &=u_{i+1,j}, \quad u(x,t)=u_{ij}, \quad u(x-h,t)=u_{i-1,j}, \\
-u(x+h,t+k) &=u_{i+1,j+1}, \quad u(x,t+k)=u_{i.j+1}, \quad u(x-h,t+k)=u_{i-1,j+1},
+u(x+h,t+k) &=u_{i+1,j+1}, \quad u(x,t+k)=u_{i,j+1}, \quad u(x-h,t+k)=u_{i-1,j+1},
 \end{split}
 \]
 
@@ -982,10 +982,10 @@ es posible reescribir a la ec~\ref{eq-cn-completa} como:
 
 donde \(\alpha=2(1+\frac{1}{\lambda})\),
 \(\beta=2(1-\frac{1}{\lambda})\),
-\(j=0,1,\dots m-1 \ \ \ \text{y} \ \ \ i=0,1,\dots n-1\).
+\(j=0,1,\dots, m-1, \ \ \ i=0,1,\dots, n-1\).
 
 Para cada elección de \(j\) la ecuación diferencial
-ec~\ref{eq-cn-reducida} para \(i=0,1,\dots n-1\) da \(n-1\) ecuaciones
+ec~\ref{eq-cn-reducida} para \(i=0,1,\dots, n-1\) da \(n-1\) ecuaciones
 en \(n-1\) incógnitas \(u_{i,j+1}\). Debido a las condiciones de
 contorno preestablecidas, los valores de \(u_{i, j+1}\) se conocen para
 \(i=0\) y para \(i=n\). Por ejemplo, en el caso \(n=4\), el sistema de
@@ -1074,7 +1074,7 @@ Dirichlet. En la Figura~\ref{fig-pinn_graph}, la red izquierda
 (physics-\hspace{0pt}uninformed) representa el sustituto de la solución
 de EDP \(u(x, t)\), mientras que la red derecha
 (physics-\hspace{0pt}informed) describe el residuo de EDP
-\(\frac{\partial u}{\partial t} + u \frac{\partial u}{\partial x} - \nu \frac{\partial^2 u}{\partial x^2}\).
+\(\frac{\partial u}{\partial t} + u \frac{\partial u}{\partial x} - \nu \frac{\partial^2 u}{\partial x^2} = 0\).
 La función de pérdida incluye una pérdida supervisada de las mediciones
 de datos de \(u\) de las condiciones iniciales y de contorno, y una
 pérdida no supervisada de EDP:
@@ -1129,11 +1129,11 @@ mejores parámetros \(\mathbb{\theta^*}\) minimizando la pérdida
 deepxde}\label{ejemplo-de-resoluciuxf3n-de-la-ecuaciuxf3n-de-burger-1d-con-deepxde}
 
 Dada la ecuación: \[
-\dfrac{\partial u}{\partial t} + u\dfrac{\partial u}{\partial x} = v\dfrac{\partial^2 u}{\partial x^2} \quad, x \in[-1,1], \ t\in[0,1]
+\dfrac{\partial u}{\partial t} + u\dfrac{\partial u}{\partial x} = v\dfrac{\partial^2 u}{\partial x^2}, \quad x \in[-1,1], \ t\in[0,1],
 \]
 
 con la condición de frontera de Dirichlet y condición inicial: \[
-u(-1,t) = u(1,t) = 0, \quad u(x,0)=-\sin(\pi x)
+u(-1,t) = u(1,t) = 0, \quad u(x,0)=-\sin(\pi x).
 \]
 
 \begin{Shaded}
@@ -1141,7 +1141,7 @@ u(-1,t) = u(1,t) = 0, \quad u(x,0)=-\sin(\pi x)
 \ImportTok{import}\NormalTok{ deepxde }\ImportTok{as}\NormalTok{ dde}
 \ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
 
-
+\CommentTok{\# Definir una función para cargar los datos}
 \KeywordTok{def}\NormalTok{ gen\_testdata():}
 \NormalTok{    data }\OperatorTok{=}\NormalTok{ np.load(}\StringTok{"data/Burgers.npz"}\NormalTok{)}
 \NormalTok{    t, x, exact }\OperatorTok{=}\NormalTok{ data[}\StringTok{"t"}\NormalTok{], data[}\StringTok{"x"}\NormalTok{], data[}\StringTok{"usol"}\NormalTok{].T}
@@ -1150,28 +1150,32 @@ u(-1,t) = u(1,t) = 0, \quad u(x,0)=-\sin(\pi x)
 \NormalTok{    y }\OperatorTok{=}\NormalTok{ exact.flatten()[:, }\VariableTok{None}\NormalTok{]}
     \ControlFlowTok{return}\NormalTok{ X, y}
 
-
+\CommentTok{\# Definir la PDE}
 \KeywordTok{def}\NormalTok{ pde(x, y):}
 \NormalTok{    dy\_x }\OperatorTok{=}\NormalTok{ dde.grad.jacobian(y, x, i}\OperatorTok{=}\DecValTok{0}\NormalTok{, j}\OperatorTok{=}\DecValTok{0}\NormalTok{)}
 \NormalTok{    dy\_t }\OperatorTok{=}\NormalTok{ dde.grad.jacobian(y, x, i}\OperatorTok{=}\DecValTok{0}\NormalTok{, j}\OperatorTok{=}\DecValTok{1}\NormalTok{)}
 \NormalTok{    dy\_xx }\OperatorTok{=}\NormalTok{ dde.grad.hessian(y, x, i}\OperatorTok{=}\DecValTok{0}\NormalTok{, j}\OperatorTok{=}\DecValTok{0}\NormalTok{)}
     \ControlFlowTok{return}\NormalTok{ dy\_t }\OperatorTok{+}\NormalTok{ y }\OperatorTok{*}\NormalTok{ dy\_x }\OperatorTok{{-}} \FloatTok{0.01} \OperatorTok{/}\NormalTok{ np.pi }\OperatorTok{*}\NormalTok{ dy\_xx}
 
-
+\CommentTok{\# Definir los dominios espacial, temporal y juntarlos}
 \NormalTok{geom }\OperatorTok{=}\NormalTok{ dde.geometry.Interval(}\OperatorTok{{-}}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{)}
 \NormalTok{timedomain }\OperatorTok{=}\NormalTok{ dde.geometry.TimeDomain(}\DecValTok{0}\NormalTok{, }\FloatTok{0.99}\NormalTok{)}
 \NormalTok{geomtime }\OperatorTok{=}\NormalTok{ dde.geometry.GeometryXTime(geom, timedomain)}
 
+\CommentTok{\# Definir la condición de frontera}
 \NormalTok{bc }\OperatorTok{=}\NormalTok{ dde.icbc.DirichletBC(}
 \NormalTok{    geomtime,}
     \KeywordTok{lambda}\NormalTok{ x: }\DecValTok{0}\NormalTok{,}
     \KeywordTok{lambda}\NormalTok{ \_, on\_boundary: on\_boundary)}
+
+\CommentTok{\# Definir la condición inicial}
 \NormalTok{ic }\OperatorTok{=}\NormalTok{ dde.icbc.IC(}
 \NormalTok{    geomtime,}
     \KeywordTok{lambda}\NormalTok{ x: }\OperatorTok{{-}}\NormalTok{np.sin(np.pi }\OperatorTok{*}\NormalTok{ x[:, }\DecValTok{0}\NormalTok{:}\DecValTok{1}\NormalTok{]),}
     \KeywordTok{lambda}\NormalTok{ \_, on\_initial: on\_initial}
 \NormalTok{)}
 
+\CommentTok{\# Definir la cantidad de puntos en el dominio}
 \NormalTok{data }\OperatorTok{=}\NormalTok{ dde.data.TimePDE(}
 \NormalTok{    geomtime, pde, [bc, ic],}
 \NormalTok{    num\_domain}\OperatorTok{=}\DecValTok{2540}\NormalTok{,}
@@ -1179,9 +1183,13 @@ u(-1,t) = u(1,t) = 0, \quad u(x,0)=-\sin(\pi x)
 \NormalTok{    num\_initial}\OperatorTok{=}\DecValTok{160}\NormalTok{,}
 \NormalTok{    num\_test}\OperatorTok{=}\DecValTok{300}
 \NormalTok{)}
+
+\CommentTok{\# Definir la arquitectura de la red, así como}
+\CommentTok{\# su función de activación y el inicializador}
 \NormalTok{net }\OperatorTok{=}\NormalTok{ dde.nn.FNN([}\DecValTok{2}\NormalTok{] }\OperatorTok{+}\NormalTok{ [}\DecValTok{20}\NormalTok{] }\OperatorTok{*} \DecValTok{3} \OperatorTok{+}\NormalTok{ [}\DecValTok{1}\NormalTok{], }\StringTok{"tanh"}\NormalTok{, }\StringTok{"Glorot normal"}\NormalTok{)}
 \NormalTok{model }\OperatorTok{=}\NormalTok{ dde.Model(data, net)}
 
+\CommentTok{\# Compilar el modelo y entrenarlo}
 \NormalTok{model.}\BuiltInTok{compile}\NormalTok{(}\StringTok{"adam"}\NormalTok{, lr}\OperatorTok{=}\FloatTok{1e{-}3}\NormalTok{)}
 \NormalTok{losshistory, train\_state }\OperatorTok{=}\NormalTok{ model.train(iterations}\OperatorTok{=}\DecValTok{5000}\NormalTok{)}
 \NormalTok{model.}\BuiltInTok{compile}\NormalTok{(}\StringTok{"L{-}BFGS"}\NormalTok{)}
@@ -1204,7 +1212,7 @@ u(-1,t) = u(1,t) = 0, \quad u(x,0)=-\sin(\pi x)
 \NormalTok{time }\OperatorTok{=}\NormalTok{ X[:, }\DecValTok{1}\NormalTok{]      }\CommentTok{\# coordenadas t (tiempo)}
 
 \CommentTok{\# Crear figura con dos subgráficos 3D}
-\NormalTok{fig }\OperatorTok{=}\NormalTok{ plt.figure(figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{12}\NormalTok{, }\DecValTok{8}\NormalTok{))}
+\NormalTok{fig }\OperatorTok{=}\NormalTok{ plt.figure(figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{12}\NormalTok{, }\DecValTok{9}\NormalTok{))}
 \NormalTok{ax1 }\OperatorTok{=}\NormalTok{ fig.add\_subplot(}\DecValTok{121}\NormalTok{, projection}\OperatorTok{=}\StringTok{\textquotesingle{}3d\textquotesingle{}}\NormalTok{)}
 \NormalTok{ax2 }\OperatorTok{=}\NormalTok{ fig.add\_subplot(}\DecValTok{122}\NormalTok{, projection}\OperatorTok{=}\StringTok{\textquotesingle{}3d\textquotesingle{}}\NormalTok{)}
 
@@ -1237,9 +1245,7 @@ u(-1,t) = u(1,t) = 0, \quad u(x,0)=-\sin(\pi x)
 
 \NormalTok{plt.show()}
 
-
-\BuiltInTok{print}\NormalTok{(}\StringTok{"Mean residual:"}\NormalTok{, np.mean(np.absolute(f)))}
-\BuiltInTok{print}\NormalTok{(}\StringTok{"L2 relative error:"}\NormalTok{, dde.metrics.l2\_relative\_error(y\_true, y\_pred))}
+\BuiltInTok{print}\NormalTok{(}\StringTok{"Error relativo L2:"}\NormalTok{, dde.metrics.l2\_relative\_error(y\_true, y\_pred))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1249,13 +1255,16 @@ u(-1,t) = u(1,t) = 0, \quad u(x,0)=-\sin(\pi x)
 
 }
 
-\caption{Resultados de la red neuronal.}
+\caption{Comparación entre solución real y predicción de la red neuronal
+para la ecuación de Burger 1D. Debido a su naturaleza unidimensional, es
+posible plasmar en un eje al tiempo (t) y representar a la función a lo
+largo de éste como una serie de \emph{fotos} para un instante \(t\)
+dado.}
 
 \end{figure}%
 
 \begin{verbatim}
-Mean residual: 0.0040262598
-L2 relative error: 0.0027004616220110216
+Error relativo L2: 0.004881429708654358
 \end{verbatim}
 
 \section{Comparación con Redes Neuronales
@@ -1270,9 +1279,10 @@ clave permite a las PINNs generar soluciones físicamente consistentes
 incluso con datos escasos, evitando el sobreajuste común en enfoques
 puramente basados en datos. Otra ventaja significativa de las PINNs es
 su naturaleza mesh-free, que contrasta con los métodos numéricos
-tradicionales como FEM o FDM que requieren discretización espacial. Sin
-embargo, el entrenamiento de PINNs puede ser más desafiante debido a la
-necesidad de optimizar múltiples objetivos simultáneamente (ajuste a
+tradicionales como FEM (\emph{Finite Element Method}) o FDM
+(\emph{Finite Difference Method}) que requieren discretización espacial.
+Sin embargo, el entrenamiento de PINNs puede ser más desafiante debido a
+la necesidad de optimizar múltiples objetivos simultáneamente (ajuste a
 datos y cumplimiento de leyes físicas)
 (\citeproc{ref-blechs2021}{Blechschmidt y Ernst 2021};
 \citeproc{ref-karniadakis2021}{George Em Karniadakis 2021}).
@@ -1310,25 +1320,26 @@ representar operadores complejos con alta generalización a nuevos datos
 \caption{\label{fig-deeponet-arch}\textbf{Ilustraciones del
 planteamiento del problema y arquitectura DeepONet que conducen a una
 buena generalización. a)} Para que la red aprenda un operador
-\(G : u \rightarrow G(u)\) se necesitan dos entradas
-\([u(x_1), u(x_2), ..., u(x_m)]\) y \(y\). \textbf{b)} Ilustración de
-los datos de entrenamiento. Para cada función de entrada \(u\), se
-requiere el mismo número de evaluaciones en los mismos sensores
-dispersos \(x_1, x_2, ..., x_m\). Sin embargo, no se impone ninguna
-restricción sobre el número ni las ubicaciones para la evaluación de las
-funciones de salida. \textbf{c)} La DeepONet \emph{stacked} se inspira
-en el \textbf{Teorema de aproximación universal para operadores} y
-consta de una red \emph{Trunk} y \(p\) redes \emph{Branch} apiladas. La
-red cuya construcción se inspira en el mismo teorema es una DeepONet
-\emph{stacked} formada al elegir la red \emph{Trunk} como una red de una
-capa de ancho \(p\) y cada red \emph{Branch} como una red de una capa
-oculta de ancho \(n\). \textbf{d)} La red DeepONet \emph{unstacked} se
-inspira en el \textbf{Teorema general de aproximación universal para
-operadores} y consta de una red \emph{Trunk} y una red \emph{Branch}.
-Una red DeepONet \emph{unstacked} puede considerarse como una red
-DeepONet \emph{stacked}, en la que todas las redes \emph{Branch}
-comparten el mismo conjunto de parámetros
-(\citeproc{ref-lu2021deeponet}{Lu, Jin, et~al. 2021}).}
+\(G : u \rightarrow G(u)\) se necesita la entrada
+\([u(x_1), u(x_2), ..., u(x_m)]\) y la entrada \(y\). \textbf{b)}
+Ilustración de los datos de entrenamiento. Para cada función de entrada
+\(u\), se requiere el mismo número de evaluaciones en los mismos
+sensores dispersos \(x_1, x_2, ..., x_m\). Sin embargo, no se impone
+ninguna restricción sobre el número ni las ubicaciones para la
+evaluación de las funciones de salida. \textbf{c)} La DeepONet
+\emph{stacked} se inspira en el \textbf{Teorema de aproximación
+universal para operadores} y consta de una red \emph{Trunk} y \(p\)
+redes \emph{Branch} apiladas. La red cuya construcción se inspira en el
+mismo teorema es una DeepONet \emph{stacked} formada al elegir la red
+\emph{Trunk} como una red de una capa de ancho \(p\) y cada red
+\emph{Branch} como una red de una capa oculta de ancho \(n\).
+\textbf{d)} La red DeepONet \emph{unstacked} se inspira en el
+\textbf{Teorema general de aproximación universal para operadores} y
+consta de una red \emph{Trunk} y una red \emph{Branch}. Una red DeepONet
+\emph{unstacked} puede considerarse como una red DeepONet
+\emph{stacked}, en la que todas las redes \emph{Branch} comparten el
+mismo conjunto de parámetros (\citeproc{ref-lu2021deeponet}{Lu, Jin,
+et~al. 2021}).}
 
 \end{figure}%
 
@@ -2203,8 +2214,8 @@ DeepONetCartesianProd con la siguiente estructura especializada:
 
 \CommentTok{\# Dataset configuration}
 \NormalTok{pts\_dom }\OperatorTok{=} \DecValTok{30}
-\NormalTok{pts\_bc }\OperatorTok{=} \DecValTok{15}
-\NormalTok{pts\_ic }\OperatorTok{=} \DecValTok{30}
+\NormalTok{pts\_bc }\OperatorTok{=} \DecValTok{20}
+\NormalTok{pts\_ic }\OperatorTok{=} \DecValTok{40}
 \NormalTok{num\_test }\OperatorTok{=} \DecValTok{25}
 
 \CommentTok{\# Sensor grid and function space}
@@ -2212,7 +2223,7 @@ DeepONetCartesianProd con la siguiente estructura especializada:
 \NormalTok{size\_cov\_matrix }\OperatorTok{=} \DecValTok{40}
 
 \CommentTok{\# Network architecture}
-\NormalTok{width\_net }\OperatorTok{=} \DecValTok{30}
+\NormalTok{width\_net }\OperatorTok{=} \DecValTok{20}
 \NormalTok{len\_net }\OperatorTok{=} \DecValTok{3}
 \NormalTok{AF }\OperatorTok{=} \StringTok{"elu"}
 \NormalTok{k\_initializer }\OperatorTok{=} \StringTok{"Glorot normal"}
@@ -2886,26 +2897,26 @@ dominio en los tiempos de interés.
 \end{Highlighting}
 \end{Shaded}
 
-\begin{table}
+\begin{longtable}[]{@{}rrrr@{}}
 
 \caption{\label{tbl-errores}Error del modelo DeepONet respecto a
 Crank-Nicolson.}
 
-\centering{
+\tabularnewline
 
-\begin{verbatim}
-|   Tiempo |   MAE |   MaxAE |   Error L2 |
-|---------:|------:|--------:|-----------:|
-|    0.000 | 0.011 |   0.058 |      0.404 |
-|    0.250 | 0.048 |   0.133 |      1.563 |
-|    0.500 | 0.032 |   0.058 |      0.934 |
-|    0.750 | 0.022 |   0.090 |      0.867 |
-|    1.000 | 0.094 |   0.254 |      3.089 |
-\end{verbatim}
+\toprule\noalign{}
+Tiempo & MAE & MaxAE & Error L2 \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.000 & 0.011 & 0.058 & 0.404 \\
+0.250 & 0.048 & 0.133 & 1.563 \\
+0.500 & 0.032 & 0.058 & 0.934 \\
+0.750 & 0.022 & 0.090 & 0.867 \\
+1.000 & 0.094 & 0.254 & 3.089 \\
 
-}
-
-\end{table}%
+\end{longtable}
 
 \subsection{Gráficas de error
 absoluto}\label{gruxe1ficas-de-error-absoluto}
@@ -3002,14 +3013,14 @@ del 6.7\% para el error medio absoluto, y cometiendo un error mínimo del
 Los errores obtenidos demuestran la eficacia del modelo para converger a
 la condición inicial, pues tal como se aprecia en la
 Figura~\ref{fig-abs-errors}, a medida que la ecuación evoluciona en el
-tiempo, las predicciones entre el método numérico y la red neuronal
-divergen. Aunque esto es probable que se deba a la naturaleza del método
-de Crank Nickolson, pues un pequeño error al inicio ocasionaría que
-conforme evoluciona la función, ésta cada vez se aleje más del valor
-real. Desafortunadamente no se cuenta con una base de datos que sirva
-como conjunto de validación por lo que no se puede asegurar que los
-resultados del método numérico sean los más óptimos para tomar como
-referencia.
+tiempo, las predicciones entre el método de Crank Nickolson y la red
+neuronal divergen, esto es conforme evoluciona la función, vemos que
+cada vez se aleja más del valor real. Valdría la pena en otro trabajo
+comparar la solución con otro método númerico clásico para observar si
+se presenta el mismo comportamiento.Desafortunadamente no se cuenta con
+una base de datos que sirva como conjunto de validación por lo que no se
+puede asegurar que los resultados del método numérico sean los más
+óptimos para tomar como referencia.
 
 Lo anterior evidencia el potencial que tiene las PINNs como herramienta
 auxiliar en la solución de ecuaciones diferenciales parciales, pues solo

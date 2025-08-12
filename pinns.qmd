@@ -15,7 +15,7 @@ $$
 \frac{\partial u}{\partial t} + u \frac{\partial u}{\partial x} = \nu \frac{\partial^2 u}{\partial x^2}
 $$
 
-Con una condición inicial adecuada y condiciones de contorno de Dirichlet. En la @fig-pinn_graph, la red izquierda (physics-​uninformed) representa el sustituto de la solución de EDP $u(x, t)$, mientras que la red derecha (physics-​informed) describe el residuo de EDP $\frac{\partial u}{\partial t} + u \frac{\partial u}{\partial x} - \nu \frac{\partial^2 u}{\partial x^2}$. La función de pérdida incluye una pérdida supervisada de las mediciones de datos de $u$ de las condiciones iniciales y de contorno, y una pérdida no supervisada de EDP:
+Con una condición inicial adecuada y condiciones de contorno de Dirichlet. En la @fig-pinn_graph, la red izquierda (physics-​uninformed) representa el sustituto de la solución de EDP $u(x, t)$, mientras que la red derecha (physics-​informed) describe el residuo de EDP $\frac{\partial u}{\partial t} + u \frac{\partial u}{\partial x} - \nu \frac{\partial^2 u}{\partial x^2} = 0$. La función de pérdida incluye una pérdida supervisada de las mediciones de datos de $u$ de las condiciones iniciales y de contorno, y una pérdida no supervisada de EDP:
 
 $$
 \mathcal{L} = w_{\text{data}} \mathcal{L}_{\text{data}} + w_{\text{PDE}} \mathcal{L}_{\text{PDE}}
@@ -32,17 +32,17 @@ Aquí, $(x_i, t_i)$ representan puntos donde se conocen valores de la solución 
 
 Este enfoque permite resolver EDPs (clásicas, fraccionarias o estocásticas) sin mallas, en dominios complejos o con datos escasos y ruidosos, siendo una herramienta flexible y poderosa para la modelación científica.
 
-![**El algoritmo de una PINN.** Construya una red neuronal (NN) $u(x, t; \theta)$ donde $\theta$ representa el conjunto de pesos entrenables $w$ y sesgos $b$, y $\sigma$ representa una función de activación no lineal. Especifique los datos de medición ${x_i, t_i, u_i}$ para $u$ y los puntos residuales ${x_j, t_j}$ para la EDP. Especifique la pérdida $\mathcal{L}$ en la @eq-loss-funct sumando las pérdidas ponderadas de los datos y la EDP. Entrene la NN para encontrar los mejores parámetros $\mathbb{\theta^*}$ minimizando la pérdida $\mathcal{L}$ [@karniadakis2021].](images/PINN_diagram.png){#fig-pinn_graph fig-align="center" width="600"}
+![**El algoritmo de una PINN.** Construya una red neuronal (NN) $u(x, t; \theta)$ donde $\theta$ representa el conjunto de pesos entrenables $w$ y sesgos $b$, y $\sigma$ representa una función de activación no lineal. Especifique los datos de medición ${x_i, t_i, u_i}$ para $u$ y los puntos residuales ${x_j, t_j}$ para la EDP. Especifique la pérdida $\mathcal{L}$ en la @eq-loss-funct sumando las pérdidas ponderadas de los datos y la EDP. Entrene la NN para encontrar los mejores parámetros $\mathbb{\theta^*}$ minimizando la pérdida $\mathcal{L}$ [@karniadakis2021].](images/PINN_diagram.png){#fig-pinn_graph fig-align="center" width="600" .lightbox}
 
 ## Ejemplo de resolución de la ecuación de Burger 1D con deepxde
 Dada la ecuación:
 $$
-\dfrac{\partial u}{\partial t} + u\dfrac{\partial u}{\partial x} = v\dfrac{\partial^2 u}{\partial x^2} \quad, x \in[-1,1], \ t\in[0,1]
+\dfrac{\partial u}{\partial t} + u\dfrac{\partial u}{\partial x} = v\dfrac{\partial^2 u}{\partial x^2}, \quad x \in[-1,1], \ t\in[0,1],
 $$
 
 con la condición de frontera de Dirichlet y condición inicial:
 $$
-u(-1,t) = u(1,t) = 0, \quad u(x,0)=-\sin(\pi x)
+u(-1,t) = u(1,t) = 0, \quad u(x,0)=-\sin(\pi x).
 $$
 
 ```{python}
@@ -51,7 +51,7 @@ $$
 import deepxde as dde
 import numpy as np
 
-
+# Definir una función para cargar los datos
 def gen_testdata():
     data = np.load("data/Burgers.npz")
     t, x, exact = data["t"], data["x"], data["usol"].T
@@ -60,28 +60,32 @@ def gen_testdata():
     y = exact.flatten()[:, None]
     return X, y
 
-
+# Definir la PDE
 def pde(x, y):
     dy_x = dde.grad.jacobian(y, x, i=0, j=0)
     dy_t = dde.grad.jacobian(y, x, i=0, j=1)
     dy_xx = dde.grad.hessian(y, x, i=0, j=0)
     return dy_t + y * dy_x - 0.01 / np.pi * dy_xx
 
-
+# Definir los dominios espacial, temporal y juntarlos
 geom = dde.geometry.Interval(-1, 1)
 timedomain = dde.geometry.TimeDomain(0, 0.99)
 geomtime = dde.geometry.GeometryXTime(geom, timedomain)
 
+# Definir la condición de frontera
 bc = dde.icbc.DirichletBC(
     geomtime,
     lambda x: 0,
     lambda _, on_boundary: on_boundary)
+
+# Definir la condición inicial
 ic = dde.icbc.IC(
     geomtime,
     lambda x: -np.sin(np.pi * x[:, 0:1]),
     lambda _, on_initial: on_initial
 )
 
+# Definir la cantidad de puntos en el dominio
 data = dde.data.TimePDE(
     geomtime, pde, [bc, ic],
     num_domain=2540,
@@ -89,9 +93,13 @@ data = dde.data.TimePDE(
     num_initial=160,
     num_test=300
 )
+
+# Definir la arquitectura de la red, así como
+# su función de activación y el inicializador
 net = dde.nn.FNN([2] + [20] * 3 + [1], "tanh", "Glorot normal")
 model = dde.Model(data, net)
 
+# Compilar el modelo y entrenarlo
 model.compile("adam", lr=1e-3)
 losshistory, train_state = model.train(iterations=5000)
 model.compile("L-BFGS")
@@ -100,7 +108,7 @@ losshistory, train_state = model.train()
 ```
 
 ```{python}
-#| fig-cap: Resultados de la red neuronal.
+#| fig-cap: "Comparación entre solución real y predicción de la red neuronal para la ecuación de Burger 1D. Debido a su naturaleza unidimensional, es posible plasmar en un eje al tiempo (t) y representar a la función a lo largo de éste como una serie de *fotos* para un instante $t$ dado."
 import matplotlib.pyplot as plt 
 from mpl_toolkits.mplot3d import Axes3D
 
@@ -113,7 +121,7 @@ x_coords = X[:, 0]  # coordenadas x (espacio)
 time = X[:, 1]      # coordenadas t (tiempo)
 
 # Crear figura con dos subgráficos 3D
-fig = plt.figure(figsize=(12, 8))
+fig = plt.figure(figsize=(12, 9))
 ax1 = fig.add_subplot(121, projection='3d')
 ax2 = fig.add_subplot(122, projection='3d')
 
@@ -146,14 +154,12 @@ cbar.set_label('Magnitud de u(x,t)')
 
 plt.show()
 
-
-print("Mean residual:", np.mean(np.absolute(f)))
-print("L2 relative error:", dde.metrics.l2_relative_error(y_true, y_pred))
+print("Error relativo L2:", dde.metrics.l2_relative_error(y_true, y_pred))
 ```
 
 
 ## Comparación con Redes Neuronales Tradicionales
 
-Mientras que las redes neuronales tradicionales dependen exclusivamente de grandes volúmenes de datos etiquetados para su entrenamiento [@karniadakis2021], las PINNs integran el conocimiento físico como parte esencial de su arquitectura [@blechs2021]. Esta diferencia clave permite a las PINNs generar soluciones físicamente consistentes incluso con datos escasos, evitando el sobreajuste común en enfoques puramente basados en datos. Otra ventaja significativa de las PINNs es su naturaleza mesh-free, que contrasta con los métodos numéricos tradicionales como FEM o FDM que requieren discretización espacial. Sin embargo, el entrenamiento de PINNs puede ser más desafiante debido a la necesidad de optimizar múltiples objetivos simultáneamente (ajuste a datos y cumplimiento de leyes físicas) [@blechs2021; @karniadakis2021].
+Mientras que las redes neuronales tradicionales dependen exclusivamente de grandes volúmenes de datos etiquetados para su entrenamiento [@karniadakis2021], las PINNs integran el conocimiento físico como parte esencial de su arquitectura [@blechs2021]. Esta diferencia clave permite a las PINNs generar soluciones físicamente consistentes incluso con datos escasos, evitando el sobreajuste común en enfoques puramente basados en datos. Otra ventaja significativa de las PINNs es su naturaleza mesh-free, que contrasta con los métodos numéricos tradicionales como FEM (*Finite Element Method*) o FDM (*Finite Difference Method*) que requieren discretización espacial. Sin embargo, el entrenamiento de PINNs puede ser más desafiante debido a la necesidad de optimizar múltiples objetivos simultáneamente (ajuste a datos y cumplimiento de leyes físicas) [@blechs2021; @karniadakis2021].
 
 :::

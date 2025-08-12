@@ -100,6 +100,9 @@ div.csl-indent {
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-dark-2cf3f92ced80af6c4d85e3f2826ab9da.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="site_libs/bootstrap/bootstrap-6af9c20cb368e043ebeb9f01f4e47056.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -576,7 +579,7 @@ window.Quarto = {
 <p><span class="math display">\[
 \frac{\partial u}{\partial t} + u \frac{\partial u}{\partial x} = \nu \frac{\partial^2 u}{\partial x^2}
 \]</span></p>
-<p>Con una condición inicial adecuada y condiciones de contorno de Dirichlet. En la <a href="#fig-pinn_graph" class="quarto-xref">Figura&nbsp;<span>7.1</span></a>, la red izquierda (physics-​uninformed) representa el sustituto de la solución de EDP <span class="math inline">\(u(x, t)\)</span>, mientras que la red derecha (physics-​informed) describe el residuo de EDP <span class="math inline">\(\frac{\partial u}{\partial t} + u \frac{\partial u}{\partial x} - \nu \frac{\partial^2 u}{\partial x^2}\)</span>. La función de pérdida incluye una pérdida supervisada de las mediciones de datos de <span class="math inline">\(u\)</span> de las condiciones iniciales y de contorno, y una pérdida no supervisada de EDP:</p>
+<p>Con una condición inicial adecuada y condiciones de contorno de Dirichlet. En la <a href="#fig-pinn_graph" class="quarto-xref">Figura&nbsp;<span>7.1</span></a>, la red izquierda (physics-​uninformed) representa el sustituto de la solución de EDP <span class="math inline">\(u(x, t)\)</span>, mientras que la red derecha (physics-​informed) describe el residuo de EDP <span class="math inline">\(\frac{\partial u}{\partial t} + u \frac{\partial u}{\partial x} - \nu \frac{\partial^2 u}{\partial x^2} = 0\)</span>. La función de pérdida incluye una pérdida supervisada de las mediciones de datos de <span class="math inline">\(u\)</span> de las condiciones iniciales y de contorno, y una pérdida no supervisada de EDP:</p>
 <p><span id="eq-loss-funct"><span class="math display">\[
 \mathcal{L} = w_{\text{data}} \mathcal{L}_{\text{data}} + w_{\text{PDE}} \mathcal{L}_{\text{PDE}}
 \tag{7.1}\]</span></span></p>
@@ -587,10 +590,10 @@ window.Quarto = {
 \end{align*}\]</span></p>
 <p>Aquí, <span class="math inline">\((x_i, t_i)\)</span> representan puntos donde se conocen valores de la solución y <span class="math inline">\((x_j, t_j)\)</span> son puntos interiores del dominio. Los pesos <span class="math inline">\(w_{\text{data}}\)</span> y <span class="math inline">\(w_{\text{PDE}}\)</span> equilibran la contribución de cada término. La red se entrena minimizando <span class="math inline">\(\mathcal{L}\)</span> usando optimizadores como Adam o L-BFGS hasta alcanzar un umbral <span class="math inline">\(\varepsilon\)</span> <span class="citation" data-cites="karniadakis2021">(<a href="references.html#ref-karniadakis2021" role="doc-biblioref">George Em Karniadakis 2021</a>)</span>.</p>
 <p>Este enfoque permite resolver EDPs (clásicas, fraccionarias o estocásticas) sin mallas, en dominios complejos o con datos escasos y ruidosos, siendo una herramienta flexible y poderosa para la modelación científica.</p>
-<div id="fig-pinn_graph" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<div id="fig-pinn_graph" class="lightbox quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-pinn_graph-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="images/PINN_diagram.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="600">
+<a href="images/PINN_diagram.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figura&nbsp;7.1: El algoritmo de una PINN. Construya una red neuronal (NN) u(x, t; \theta) donde \theta representa el conjunto de pesos entrenables w y sesgos b, y \sigma representa una función de activación no lineal. Especifique los datos de medición {x_i, t_i, u_i} para u y los puntos residuales {x_j, t_j} para la EDP. Especifique la pérdida \mathcal{L} en la Ecuación&nbsp;eq-loss-funct sumando las pérdidas ponderadas de los datos y la EDP. Entrene la NN para encontrar los mejores parámetros \mathbb{\theta^*} minimizando la pérdida \mathcal{L} [@karniadakis2021]."><img src="images/PINN_diagram.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="600"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pinn_graph-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figura&nbsp;7.1: <strong>El algoritmo de una PINN.</strong> Construya una red neuronal (NN) <span class="math inline">\(u(x, t; \theta)\)</span> donde <span class="math inline">\(\theta\)</span> representa el conjunto de pesos entrenables <span class="math inline">\(w\)</span> y sesgos <span class="math inline">\(b\)</span>, y <span class="math inline">\(\sigma\)</span> representa una función de activación no lineal. Especifique los datos de medición <span class="math inline">\({x_i, t_i, u_i}\)</span> para <span class="math inline">\(u\)</span> y los puntos residuales <span class="math inline">\({x_j, t_j}\)</span> para la EDP. Especifique la pérdida <span class="math inline">\(\mathcal{L}\)</span> en la <a href="#eq-loss-funct" class="quarto-xref">Ecuación&nbsp;<span>7.1</span></a> sumando las pérdidas ponderadas de los datos y la EDP. Entrene la NN para encontrar los mejores parámetros <span class="math inline">\(\mathbb{\theta^*}\)</span> minimizando la pérdida <span class="math inline">\(\mathcal{L}\)</span> <span class="citation" data-cites="karniadakis2021">(<a href="references.html#ref-karniadakis2021" role="doc-biblioref">George Em Karniadakis 2021</a>)</span>.
@@ -600,18 +603,18 @@ Figura&nbsp;7.1: <strong>El algoritmo de una PINN.</strong> Construya una red ne
 <section id="ejemplo-de-resolución-de-la-ecuación-de-burger-1d-con-deepxde" class="level2" data-number="7.1">
 <h2 data-number="7.1" class="anchored" data-anchor-id="ejemplo-de-resolución-de-la-ecuación-de-burger-1d-con-deepxde"><span class="header-section-number">7.1</span> Ejemplo de resolución de la ecuación de Burger 1D con deepxde</h2>
 <p>Dada la ecuación: <span class="math display">\[
-\dfrac{\partial u}{\partial t} + u\dfrac{\partial u}{\partial x} = v\dfrac{\partial^2 u}{\partial x^2} \quad, x \in[-1,1], \ t\in[0,1]
+\dfrac{\partial u}{\partial t} + u\dfrac{\partial u}{\partial x} = v\dfrac{\partial^2 u}{\partial x^2}, \quad x \in[-1,1], \ t\in[0,1],
 \]</span></p>
 <p>con la condición de frontera de Dirichlet y condición inicial: <span class="math display">\[
-u(-1,t) = u(1,t) = 0, \quad u(x,0)=-\sin(\pi x)
+u(-1,t) = u(1,t) = 0, \quad u(x,0)=-\sin(\pi x).
 \]</span></p>
-<div id="871a6828" class="cell" data-execution_count="1">
+<div id="f8e32cff" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> deepxde <span class="im">as</span> dde</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir una función para cargar los datos</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gen_testdata():</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> np.load(<span class="st">"data/Burgers.npz"</span>)</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    t, x, exact <span class="op">=</span> data[<span class="st">"t"</span>], data[<span class="st">"x"</span>], data[<span class="st">"usol"</span>].T</span>
@@ -620,46 +623,54 @@ u(-1,t) = u(1,t) = 0, \quad u(x,0)=-\sin(\pi x)
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> exact.flatten()[:, <span class="va">None</span>]</span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> X, y</span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir la PDE</span></span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> pde(x, y):</span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    dy_x <span class="op">=</span> dde.grad.jacobian(y, x, i<span class="op">=</span><span class="dv">0</span>, j<span class="op">=</span><span class="dv">0</span>)</span>
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    dy_t <span class="op">=</span> dde.grad.jacobian(y, x, i<span class="op">=</span><span class="dv">0</span>, j<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    dy_xx <span class="op">=</span> dde.grad.hessian(y, x, i<span class="op">=</span><span class="dv">0</span>, j<span class="op">=</span><span class="dv">0</span>)</span>
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> dy_t <span class="op">+</span> y <span class="op">*</span> dy_x <span class="op">-</span> <span class="fl">0.01</span> <span class="op">/</span> np.pi <span class="op">*</span> dy_xx</span>
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir los dominios espacial, temporal y juntarlos</span></span>
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>geom <span class="op">=</span> dde.geometry.Interval(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
 <span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>timedomain <span class="op">=</span> dde.geometry.TimeDomain(<span class="dv">0</span>, <span class="fl">0.99</span>)</span>
 <span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>geomtime <span class="op">=</span> dde.geometry.GeometryXTime(geom, timedomain)</span>
 <span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>bc <span class="op">=</span> dde.icbc.DirichletBC(</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    geomtime,</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> x: <span class="dv">0</span>,</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> _, on_boundary: on_boundary)</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>ic <span class="op">=</span> dde.icbc.IC(</span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    geomtime,</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> x: <span class="op">-</span>np.sin(np.pi <span class="op">*</span> x[:, <span class="dv">0</span>:<span class="dv">1</span>]),</span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> _, on_initial: on_initial</span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> dde.data.TimePDE(</span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>    geomtime, pde, [bc, ic],</span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>    num_domain<span class="op">=</span><span class="dv">2540</span>,</span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>    num_boundary<span class="op">=</span><span class="dv">80</span>,</span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>    num_initial<span class="op">=</span><span class="dv">160</span>,</span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>    num_test<span class="op">=</span><span class="dv">300</span></span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>net <span class="op">=</span> dde.nn.FNN([<span class="dv">2</span>] <span class="op">+</span> [<span class="dv">20</span>] <span class="op">*</span> <span class="dv">3</span> <span class="op">+</span> [<span class="dv">1</span>], <span class="st">"tanh"</span>, <span class="st">"Glorot normal"</span>)</span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> dde.Model(data, net)</span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>model.<span class="bu">compile</span>(<span class="st">"adam"</span>, lr<span class="op">=</span><span class="fl">1e-3</span>)</span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>losshistory, train_state <span class="op">=</span> model.train(iterations<span class="op">=</span><span class="dv">5000</span>)</span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>model.<span class="bu">compile</span>(<span class="st">"L-BFGS"</span>)</span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>losshistory, train_state <span class="op">=</span> model.train()</span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="co">#dde.saveplot(losshistory, train_state, issave=False, isplot=True)</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir la condición de frontera</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>bc <span class="op">=</span> dde.icbc.DirichletBC(</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    geomtime,</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> x: <span class="dv">0</span>,</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> _, on_boundary: on_boundary)</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir la condición inicial</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>ic <span class="op">=</span> dde.icbc.IC(</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>    geomtime,</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> x: <span class="op">-</span>np.sin(np.pi <span class="op">*</span> x[:, <span class="dv">0</span>:<span class="dv">1</span>]),</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> _, on_initial: on_initial</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir la cantidad de puntos en el dominio</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> dde.data.TimePDE(</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>    geomtime, pde, [bc, ic],</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>    num_domain<span class="op">=</span><span class="dv">2540</span>,</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>    num_boundary<span class="op">=</span><span class="dv">80</span>,</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>    num_initial<span class="op">=</span><span class="dv">160</span>,</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>    num_test<span class="op">=</span><span class="dv">300</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir la arquitectura de la red, así como</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="co"># su función de activación y el inicializador</span></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>net <span class="op">=</span> dde.nn.FNN([<span class="dv">2</span>] <span class="op">+</span> [<span class="dv">20</span>] <span class="op">*</span> <span class="dv">3</span> <span class="op">+</span> [<span class="dv">1</span>], <span class="st">"tanh"</span>, <span class="st">"Glorot normal"</span>)</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> dde.Model(data, net)</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="co"># Compilar el modelo y entrenarlo</span></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>model.<span class="bu">compile</span>(<span class="st">"adam"</span>, lr<span class="op">=</span><span class="fl">1e-3</span>)</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>losshistory, train_state <span class="op">=</span> model.train(iterations<span class="op">=</span><span class="dv">5000</span>)</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>model.<span class="bu">compile</span>(<span class="st">"L-BFGS"</span>)</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>losshistory, train_state <span class="op">=</span> model.train()</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a><span class="co">#dde.saveplot(losshistory, train_state, issave=False, isplot=True)</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="4b9d51ca" class="cell" data-execution_count="2">
+<div id="7e73388c" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt </span>
@@ -674,7 +685,7 @@ u(-1,t) = u(1,t) = 0, \quad u(x,0)=-\sin(\pi x)
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>time <span class="op">=</span> X[:, <span class="dv">1</span>]      <span class="co"># coordenadas t (tiempo)</span></span>
 <span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear figura con dos subgráficos 3D</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">8</span>))</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">9</span>))</span>
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>ax1 <span class="op">=</span> fig.add_subplot(<span class="dv">121</span>, projection<span class="op">=</span><span class="st">'3d'</span>)</span>
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>ax2 <span class="op">=</span> fig.add_subplot(<span class="dv">122</span>, projection<span class="op">=</span><span class="st">'3d'</span>)</span>
 <span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
@@ -707,27 +718,24 @@ u(-1,t) = u(1,t) = 0, \quad u(x,0)=-\sin(\pi x)
 <span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
 <span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Mean residual:"</span>, np.mean(np.absolute(f)))</span>
-<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"L2 relative error:"</span>, dde.metrics.l2_relative_error(y_true, y_pred))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Error relativo L2:"</span>, dde.metrics.l2_relative_error(y_true, y_pred))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="pinns_files/figure-html/cell-3-output-1.png" width="934" height="554" class="figure-img"></p>
-<figcaption>Resultados de la red neuronal.</figcaption>
+<p><img src="pinns_files/figure-html/cell-3-output-1.png" width="934" height="561" class="figure-img"></p>
+<figcaption>Comparación entre solución real y predicción de la red neuronal para la ecuación de Burger 1D. Debido a su naturaleza unidimensional, es posible plasmar en un eje al tiempo (t) y representar a la función a lo largo de éste como una serie de <em>fotos</em> para un instante <span class="math inline">\(t\)</span> dado.</figcaption>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Mean residual: 0.005167113
-L2 relative error: 0.008462455995169592</code></pre>
+<pre><code>Error relativo L2: 0.011239378543320019</code></pre>
 </div>
 </div>
 </section>
 <section id="comparación-con-redes-neuronales-tradicionales" class="level2" data-number="7.2">
 <h2 data-number="7.2" class="anchored" data-anchor-id="comparación-con-redes-neuronales-tradicionales"><span class="header-section-number">7.2</span> Comparación con Redes Neuronales Tradicionales</h2>
-<p>Mientras que las redes neuronales tradicionales dependen exclusivamente de grandes volúmenes de datos etiquetados para su entrenamiento <span class="citation" data-cites="karniadakis2021">(<a href="references.html#ref-karniadakis2021" role="doc-biblioref">George Em Karniadakis 2021</a>)</span>, las PINNs integran el conocimiento físico como parte esencial de su arquitectura <span class="citation" data-cites="blechs2021">(<a href="references.html#ref-blechs2021" role="doc-biblioref">Blechschmidt y Ernst 2021</a>)</span>. Esta diferencia clave permite a las PINNs generar soluciones físicamente consistentes incluso con datos escasos, evitando el sobreajuste común en enfoques puramente basados en datos. Otra ventaja significativa de las PINNs es su naturaleza mesh-free, que contrasta con los métodos numéricos tradicionales como FEM o FDM que requieren discretización espacial. Sin embargo, el entrenamiento de PINNs puede ser más desafiante debido a la necesidad de optimizar múltiples objetivos simultáneamente (ajuste a datos y cumplimiento de leyes físicas) <span class="citation" data-cites="blechs2021 karniadakis2021">(<a href="references.html#ref-blechs2021" role="doc-biblioref">Blechschmidt y Ernst 2021</a>; <a href="references.html#ref-karniadakis2021" role="doc-biblioref">George Em Karniadakis 2021</a>)</span>.</p>
+<p>Mientras que las redes neuronales tradicionales dependen exclusivamente de grandes volúmenes de datos etiquetados para su entrenamiento <span class="citation" data-cites="karniadakis2021">(<a href="references.html#ref-karniadakis2021" role="doc-biblioref">George Em Karniadakis 2021</a>)</span>, las PINNs integran el conocimiento físico como parte esencial de su arquitectura <span class="citation" data-cites="blechs2021">(<a href="references.html#ref-blechs2021" role="doc-biblioref">Blechschmidt y Ernst 2021</a>)</span>. Esta diferencia clave permite a las PINNs generar soluciones físicamente consistentes incluso con datos escasos, evitando el sobreajuste común en enfoques puramente basados en datos. Otra ventaja significativa de las PINNs es su naturaleza mesh-free, que contrasta con los métodos numéricos tradicionales como FEM (<em>Finite Element Method</em>) o FDM (<em>Finite Difference Method</em>) que requieren discretización espacial. Sin embargo, el entrenamiento de PINNs puede ser más desafiante debido a la necesidad de optimizar múltiples objetivos simultáneamente (ajuste a datos y cumplimiento de leyes físicas) <span class="citation" data-cites="blechs2021 karniadakis2021">(<a href="references.html#ref-blechs2021" role="doc-biblioref">Blechschmidt y Ernst 2021</a>; <a href="references.html#ref-karniadakis2021" role="doc-biblioref">George Em Karniadakis 2021</a>)</span>.</p>
 </section>
 </div>
 
@@ -1167,6 +1175,38 @@ George Em Karniadakis, Lu Lu, Ioannis G. Kevrekidis. 2021. <span>«Physics-infor
   </div>
 </nav>
 </div> <!-- /content -->
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
 
 
 

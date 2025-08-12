@@ -581,7 +581,7 @@ window.Quarto = {
 <img src="images/deeponet_architecture.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="600">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-deeponet-arch-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;8.1: <strong>Ilustraciones del planteamiento del problema y arquitectura DeepONet que conducen a una buena generalización. a)</strong> Para que la red aprenda un operador <span class="math inline">\(G : u \rightarrow G(u)\)</span> se necesitan dos entradas <span class="math inline">\([u(x_1), u(x_2), ..., u(x_m)]\)</span> y <span class="math inline">\(y\)</span>. <strong>b)</strong> Ilustración de los datos de entrenamiento. Para cada función de entrada <span class="math inline">\(u\)</span>, se requiere el mismo número de evaluaciones en los mismos sensores dispersos <span class="math inline">\(x_1, x_2, ..., x_m\)</span>. Sin embargo, no se impone ninguna restricción sobre el número ni las ubicaciones para la evaluación de las funciones de salida. <strong>c)</strong> La DeepONet <em>stacked</em> se inspira en el <strong>Teorema de aproximación universal para operadores</strong> y consta de una red <em>Trunk</em> y <span class="math inline">\(p\)</span> redes <em>Branch</em> apiladas. La red cuya construcción se inspira en el mismo teorema es una DeepONet <em>stacked</em> formada al elegir la red <em>Trunk</em> como una red de una capa de ancho <span class="math inline">\(p\)</span> y cada red <em>Branch</em> como una red de una capa oculta de ancho <span class="math inline">\(n\)</span>. <strong>d)</strong> La red DeepONet <em>unstacked</em> se inspira en el <strong>Teorema general de aproximación universal para operadores</strong> y consta de una red <em>Trunk</em> y una red <em>Branch</em>. Una red DeepONet <em>unstacked</em> puede considerarse como una red DeepONet <em>stacked</em>, en la que todas las redes <em>Branch</em> comparten el mismo conjunto de parámetros <span class="citation" data-cites="lu2021deeponet">(<a href="references.html#ref-lu2021deeponet" role="doc-biblioref">Lu et&nbsp;al. 2021</a>)</span>.
+Figura&nbsp;8.1: <strong>Ilustraciones del planteamiento del problema y arquitectura DeepONet que conducen a una buena generalización. a)</strong> Para que la red aprenda un operador <span class="math inline">\(G : u \rightarrow G(u)\)</span> se necesita la entrada <span class="math inline">\([u(x_1), u(x_2), ..., u(x_m)]\)</span> y la entrada <span class="math inline">\(y\)</span>. <strong>b)</strong> Ilustración de los datos de entrenamiento. Para cada función de entrada <span class="math inline">\(u\)</span>, se requiere el mismo número de evaluaciones en los mismos sensores dispersos <span class="math inline">\(x_1, x_2, ..., x_m\)</span>. Sin embargo, no se impone ninguna restricción sobre el número ni las ubicaciones para la evaluación de las funciones de salida. <strong>c)</strong> La DeepONet <em>stacked</em> se inspira en el <strong>Teorema de aproximación universal para operadores</strong> y consta de una red <em>Trunk</em> y <span class="math inline">\(p\)</span> redes <em>Branch</em> apiladas. La red cuya construcción se inspira en el mismo teorema es una DeepONet <em>stacked</em> formada al elegir la red <em>Trunk</em> como una red de una capa de ancho <span class="math inline">\(p\)</span> y cada red <em>Branch</em> como una red de una capa oculta de ancho <span class="math inline">\(n\)</span>. <strong>d)</strong> La red DeepONet <em>unstacked</em> se inspira en el <strong>Teorema general de aproximación universal para operadores</strong> y consta de una red <em>Trunk</em> y una red <em>Branch</em>. Una red DeepONet <em>unstacked</em> puede considerarse como una red DeepONet <em>stacked</em>, en la que todas las redes <em>Branch</em> comparten el mismo conjunto de parámetros <span class="citation" data-cites="lu2021deeponet">(<a href="references.html#ref-lu2021deeponet" role="doc-biblioref">Lu et&nbsp;al. 2021</a>)</span>.
 </figcaption>
 </figure>
 </div>
@@ -598,7 +598,7 @@ u''(x) = f(x), \quad x\in[0,1]
 u(0)=u(1)=0
 \]</span></p>
 <p>el término <span class="math inline">\(f\)</span> representa a una función continua arbitraria.</p>
-<div id="41c4decb" class="cell" data-execution_count="1">
+<div id="d3a4b7d0" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> deepxde <span class="im">as</span> dde</span>
@@ -668,7 +668,7 @@ u(0)=u(1)=0
 <span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> model.predict((fx, x))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="792af195" class="cell" data-execution_count="2">
+<div id="39d2acf5" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Setup figure</span></span>
@@ -696,7 +696,7 @@ u(0)=u(1)=0
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="deeponet_files/figure-html/cell-3-output-1.png" width="617" height="672" class="figure-img"></p>
+<p><img src="deeponet_files/figure-html/cell-3-output-1.png" width="608" height="672" class="figure-img"></p>
 <figcaption>Resultados de la red DeepONet.</figcaption>
 </figure>
 </div>

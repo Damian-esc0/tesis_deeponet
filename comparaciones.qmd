@@ -215,6 +215,7 @@ error_results.to_csv("data/error_comparison.csv", index=False)
 #| tbl-cap: "Error del modelo DeepONet respecto a Crank-Nicolson."
 #| echo: false
 from tabulate import tabulate
+from IPython.display import Markdown
 
 # Convertir a formato markdown para mejor visualización
 error_table = tabulate(
@@ -224,7 +225,7 @@ error_table = tabulate(
     floatfmt=".3f",
     showindex=False
 )
-print(error_table)
+Markdown(error_table)
 ```
 
 ### Gráficas de error absoluto
