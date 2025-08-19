@@ -34,6 +34,18 @@ Este enfoque permite resolver EDPs (clásicas, fraccionarias o estocásticas) si
 
 ![**El algoritmo de una PINN.** Construya una red neuronal (NN) $u(x, t; \theta)$ donde $\theta$ representa el conjunto de pesos entrenables $w$ y sesgos $b$, y $\sigma$ representa una función de activación no lineal. Especifique los datos de medición ${x_i, t_i, u_i}$ para $u$ y los puntos residuales ${x_j, t_j}$ para la EDP. Especifique la pérdida $\mathcal{L}$ en la @eq-loss-funct sumando las pérdidas ponderadas de los datos y la EDP. Entrene la NN para encontrar los mejores parámetros $\mathbb{\theta^*}$ minimizando la pérdida $\mathcal{L}$ [@karniadakis2021].](images/PINN_diagram.png){#fig-pinn_graph fig-align="center" width="600" .lightbox}
 
+## Algoritmos de optimización {#sec-optimizadores}
+Un algoritmo de optimización busca minimizar o maximizar una función objetivo ajustando sus parámetros de manera iterativa. Son esenciales en el entrenamiento de redes neuronales y otros modelos de aprendizaje automático [@kingma2014adam].
+
+### ADAM
+**Adaptive Moment Estimation** (*ADAM*) combina estimaciones de primer y segundo momento del gradiente para adaptar las tasas de aprendizaje por parámetro. Utiliza promedios móviles exponenciales de gradientes y gradientes al cuadrado, corregidos por bias, lo que lo hace eficiente en problemas con gradientes ruidosos o dispersos. Es robusto y requiere poco ajuste hiperparamétrico [@kingma2014adam].
+
+### L-BFGS
+**Limited-memory BFGS** (*L-BFGS*) es un método quasi-Newton que aproxima la inversa del Hessiano usando un historial limitado de gradientes y actualizaciones de parámetros. Evita el costo computacional de almacenar matrices completas, lo que lo hace viable para problemas de alta dimensionalidad. Es especialmente útil en optimización batch o con gradientes estables [@Goldfarb2016lbfgs].
+
+## Deepxde
+DeepXDE es una biblioteca en Python de aprendizaje profundo diseñada para resolver ecuaciones diferenciales, incluyendo ecuaciones diferenciales parciales (PDEs), ecuaciones integro-diferenciales (IDEs) y ecuaciones diferenciales estocásticas (SDEs), utilizando redes neuronales informadas por la física (PINNs). Combina técnicas de aprendizaje automático con principios físicos al incorporar las ecuaciones diferenciales directamente en la función de pérdida de la red neuronal, aprovechando la diferenciación automática para calcular derivadas de manera precisa y eficiente [@deepxde].
+
 ## Ejemplo de resolución de la ecuación de Burger 1D con deepxde
 Dada la ecuación:
 $$

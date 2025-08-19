@@ -100,7 +100,7 @@ CSV.write(joinpath(ruta, "crank_nick.csv"), df)
 
 ```{julia}
 #| label: fig-met-crank-nick
-#| fig-cap: "Resultados obtenidos mediante el método numérico de Crank Nickolson."
+#| fig-cap: "Resultados obtenidos mediante el método numérico de Crank Nickolson, donde X e Y representan coordenadas espaciales y T la temeperatura, todas las medidas están adimencionalizadas dadas las ecuaciones [-@eq-adimencionalizadores]."
 using DataFrames, CSV, Plots, Statistics
 pyplot()
 

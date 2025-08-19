@@ -59,7 +59,7 @@ for i, (t_val, ax) in enumerate(zip(times, axes)):
     )
     surf_list.append(surf)
 
-    ax.set_title(f"Time = {t_val:.2f} s", pad=10)
+    ax.set_title(f"Time = {t_val:.2f}", pad=10)
     ax.set_xlabel("Y", labelpad=10)
     ax.set_ylabel("X", labelpad=10)
     ax.set_zlabel("T [K]", labelpad=10, rotation=90)
@@ -134,7 +134,7 @@ def plot_dataframe(df, row, num_points, cmap="viridis"):
         )
         surf_list.append(surf)
 
-        ax.set_title(f"Time = {t_val:.2f} s", pad=10)
+        ax.set_title(f"Time = {t_val:.2f}", pad=10)
         ax.set_xlabel("Y", labelpad=10)
         ax.set_ylabel("X", labelpad=10)
         ax.set_zlabel("T [K]", labelpad=10, rotation=90)
@@ -239,7 +239,7 @@ error_data['error'] = np.abs(
                     crank_nick_data['Theta'] - model_don_data['Theta'])
 
 # Crear figura con 3 filas y 2 columnas
-fig, axes = plt.subplots(nrows=1, ncols=5, figsize=(22, 6))
+fig, axes = plt.subplots(nrows=1, ncols=5, figsize=(22, 8))
 axes = axes.ravel()  # Convertir a array 1D para fácil acceso
 
 # Asumir que el grid es regular
@@ -273,7 +273,7 @@ for i, t_val in enumerate(times):
     pc = ax.pcolormesh(X_vals, Y_vals, error_vals, **plot_kwargs)
     
     # Configuración de ejes
-    ax.set_title(f"Tiempo = {t_val:.2f} s", pad=10)
+    ax.set_title(f"Tiempo = {t_val:.2f}", pad=10)
     ax.set_xlabel("X")
     ax.set_ylabel("Y")
     ax.set_aspect('equal')

@@ -600,15 +600,31 @@ Figura&nbsp;7.1: <strong>El algoritmo de una PINN.</strong> Construya una red ne
 </figcaption>
 </figure>
 </div>
-<section id="ejemplo-de-resolución-de-la-ecuación-de-burger-1d-con-deepxde" class="level2" data-number="7.1">
-<h2 data-number="7.1" class="anchored" data-anchor-id="ejemplo-de-resolución-de-la-ecuación-de-burger-1d-con-deepxde"><span class="header-section-number">7.1</span> Ejemplo de resolución de la ecuación de Burger 1D con deepxde</h2>
+<section id="sec-optimizadores" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="sec-optimizadores"><span class="header-section-number">7.1</span> Algoritmos de optimización</h2>
+<p>Un algoritmo de optimización busca minimizar o maximizar una función objetivo ajustando sus parámetros de manera iterativa. Son esenciales en el entrenamiento de redes neuronales y otros modelos de aprendizaje automático <span class="citation" data-cites="kingma2014adam">(<a href="references.html#ref-kingma2014adam" role="doc-biblioref">Kingma y Ba 2014</a>)</span>.</p>
+<section id="adam" class="level3" data-number="7.1.1">
+<h3 data-number="7.1.1" class="anchored" data-anchor-id="adam"><span class="header-section-number">7.1.1</span> ADAM</h3>
+<p><strong>Adaptive Moment Estimation</strong> (<em>ADAM</em>) combina estimaciones de primer y segundo momento del gradiente para adaptar las tasas de aprendizaje por parámetro. Utiliza promedios móviles exponenciales de gradientes y gradientes al cuadrado, corregidos por bias, lo que lo hace eficiente en problemas con gradientes ruidosos o dispersos. Es robusto y requiere poco ajuste hiperparamétrico <span class="citation" data-cites="kingma2014adam">(<a href="references.html#ref-kingma2014adam" role="doc-biblioref">Kingma y Ba 2014</a>)</span>.</p>
+</section>
+<section id="l-bfgs" class="level3" data-number="7.1.2">
+<h3 data-number="7.1.2" class="anchored" data-anchor-id="l-bfgs"><span class="header-section-number">7.1.2</span> L-BFGS</h3>
+<p><strong>Limited-memory BFGS</strong> (<em>L-BFGS</em>) es un método quasi-Newton que aproxima la inversa del Hessiano usando un historial limitado de gradientes y actualizaciones de parámetros. Evita el costo computacional de almacenar matrices completas, lo que lo hace viable para problemas de alta dimensionalidad. Es especialmente útil en optimización batch o con gradientes estables <span class="citation" data-cites="Goldfarb2016lbfgs">(<a href="references.html#ref-Goldfarb2016lbfgs" role="doc-biblioref">Goldfarb, Ren, y Bahamou 2016</a>)</span>.</p>
+</section>
+</section>
+<section id="deepxde" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="deepxde"><span class="header-section-number">7.2</span> Deepxde</h2>
+<p>DeepXDE es una biblioteca en Python de aprendizaje profundo diseñada para resolver ecuaciones diferenciales, incluyendo ecuaciones diferenciales parciales (PDEs), ecuaciones integro-diferenciales (IDEs) y ecuaciones diferenciales estocásticas (SDEs), utilizando redes neuronales informadas por la física (PINNs). Combina técnicas de aprendizaje automático con principios físicos al incorporar las ecuaciones diferenciales directamente en la función de pérdida de la red neuronal, aprovechando la diferenciación automática para calcular derivadas de manera precisa y eficiente <span class="citation" data-cites="deepxde">(<a href="references.html#ref-deepxde" role="doc-biblioref">Lu et&nbsp;al. 2021</a>)</span>.</p>
+</section>
+<section id="ejemplo-de-resolución-de-la-ecuación-de-burger-1d-con-deepxde" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="ejemplo-de-resolución-de-la-ecuación-de-burger-1d-con-deepxde"><span class="header-section-number">7.3</span> Ejemplo de resolución de la ecuación de Burger 1D con deepxde</h2>
 <p>Dada la ecuación: <span class="math display">\[
 \dfrac{\partial u}{\partial t} + u\dfrac{\partial u}{\partial x} = v\dfrac{\partial^2 u}{\partial x^2}, \quad x \in[-1,1], \ t\in[0,1],
 \]</span></p>
 <p>con la condición de frontera de Dirichlet y condición inicial: <span class="math display">\[
 u(-1,t) = u(1,t) = 0, \quad u(x,0)=-\sin(\pi x).
 \]</span></p>
-<div id="f8e32cff" class="cell" data-execution_count="1">
+<div id="5b4897bd" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> deepxde <span class="im">as</span> dde</span>
@@ -670,7 +686,7 @@ u(-1,t) = u(1,t) = 0, \quad u(x,0)=-\sin(\pi x).
 <span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a><span class="co">#dde.saveplot(losshistory, train_state, issave=False, isplot=True)</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="7e73388c" class="cell" data-execution_count="2">
+<div id="3bf73ee9" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt </span>
@@ -729,12 +745,12 @@ u(-1,t) = u(1,t) = 0, \quad u(x,0)=-\sin(\pi x).
 </div>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Error relativo L2: 0.011239378543320019</code></pre>
+<pre><code>Error relativo L2: 0.006932442610063683</code></pre>
 </div>
 </div>
 </section>
-<section id="comparación-con-redes-neuronales-tradicionales" class="level2" data-number="7.2">
-<h2 data-number="7.2" class="anchored" data-anchor-id="comparación-con-redes-neuronales-tradicionales"><span class="header-section-number">7.2</span> Comparación con Redes Neuronales Tradicionales</h2>
+<section id="comparación-con-redes-neuronales-tradicionales" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="comparación-con-redes-neuronales-tradicionales"><span class="header-section-number">7.4</span> Comparación con Redes Neuronales Tradicionales</h2>
 <p>Mientras que las redes neuronales tradicionales dependen exclusivamente de grandes volúmenes de datos etiquetados para su entrenamiento <span class="citation" data-cites="karniadakis2021">(<a href="references.html#ref-karniadakis2021" role="doc-biblioref">George Em Karniadakis 2021</a>)</span>, las PINNs integran el conocimiento físico como parte esencial de su arquitectura <span class="citation" data-cites="blechs2021">(<a href="references.html#ref-blechs2021" role="doc-biblioref">Blechschmidt y Ernst 2021</a>)</span>. Esta diferencia clave permite a las PINNs generar soluciones físicamente consistentes incluso con datos escasos, evitando el sobreajuste común en enfoques puramente basados en datos. Otra ventaja significativa de las PINNs es su naturaleza mesh-free, que contrasta con los métodos numéricos tradicionales como FEM (<em>Finite Element Method</em>) o FDM (<em>Finite Difference Method</em>) que requieren discretización espacial. Sin embargo, el entrenamiento de PINNs puede ser más desafiante debido a la necesidad de optimizar múltiples objetivos simultáneamente (ajuste a datos y cumplimiento de leyes físicas) <span class="citation" data-cites="blechs2021 karniadakis2021">(<a href="references.html#ref-blechs2021" role="doc-biblioref">Blechschmidt y Ernst 2021</a>; <a href="references.html#ref-karniadakis2021" role="doc-biblioref">George Em Karniadakis 2021</a>)</span>.</p>
 </section>
 </div>
@@ -746,6 +762,15 @@ Blechschmidt, Jan, y Oliver G. Ernst. 2021. <span>«Three ways to solve partial 
 </div>
 <div id="ref-karniadakis2021" class="csl-entry" role="listitem">
 George Em Karniadakis, Lu Lu, Ioannis G. Kevrekidis. 2021. <span>«Physics-informed machine learning»</span>. <em>Nature Reviews Physics</em> 3 (6): 422-40. <a href="https://doi.org/10.1038/s42254-021-00314-5">https://doi.org/10.1038/s42254-021-00314-5</a>.
+</div>
+<div id="ref-Goldfarb2016lbfgs" class="csl-entry" role="listitem">
+Goldfarb, Donald, Yi Ren, y Achraf Bahamou. 2016. <span>«Practical Quasi-Newton Methods for Training Deep Neural Networks»</span>. <em>arXiv preprint arXiv:1606.01205</em>. <a href="https://arxiv.org/abs/1606.01205">https://arxiv.org/abs/1606.01205</a>.
+</div>
+<div id="ref-kingma2014adam" class="csl-entry" role="listitem">
+Kingma, Diederik P., y Jimmy Ba. 2014. <span>«Adam: A Method for Stochastic Optimization»</span>. <em>arXiv preprint arXiv:1412.6980</em>. <a href="https://arxiv.org/abs/1412.6980">https://arxiv.org/abs/1412.6980</a>.
+</div>
+<div id="ref-deepxde" class="csl-entry" role="listitem">
+Lu, Lu, Xuhui Meng, Zhiping Mao, y George Em Karniadakis. 2021. <span>«<span>DeepXDE</span>: A deep learning library for solving differential equations»</span>. <em>SIAM Review</em> 63 (1): 208-28. <a href="https://doi.org/10.1137/19M1274067">https://doi.org/10.1137/19M1274067</a>.
 </div>
 </div>
 

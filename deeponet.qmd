@@ -39,6 +39,8 @@ import deepxde as dde
 import matplotlib.pyplot as plt
 import numpy as np
 
+# Seed
+dde.config.set_random_seed(123)
 
 # Poisson equation: -u_xx = f
 def equation(x, y, f):
@@ -103,7 +105,8 @@ y = model.predict((fx, x))
 ```
 
 ```{python}
-#| fig-cap: Resultados de la red DeepONet.
+#| fig-cap: Soluciones halladas por la red neuronal, en la parte superior las funciones arbitrarias $f(x)$, mientras que en la parte inferior está su solución $u(x)$, el color representa la relación *término-solución*.
+
 # Setup figure
 fig = plt.figure(figsize=(7, 8))
 plt.subplot(2, 1, 1)

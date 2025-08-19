@@ -716,7 +716,7 @@ problema original. Este es el enfoque más común porque los métodos de
 aproximación proporcionan resultados más precisos e información de error
 realista (\citeproc{ref-burden2011}{Burden y Faires 2010}).
 
-\begin{tcolorbox}[enhanced jigsaw, leftrule=.75mm, opacityback=0, arc=.35mm, toptitle=1mm, colframe=quarto-callout-caution-color-frame, colbacktitle=quarto-callout-caution-color!10!white, left=2mm, colback=white, opacitybacktitle=0.6, bottomtitle=1mm, titlerule=0mm, title={Ejemplo}, coltitle=black, bottomrule=.15mm, toprule=.15mm, breakable, rightrule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, toptitle=1mm, leftrule=.75mm, bottomrule=.15mm, opacityback=0, colframe=quarto-callout-caution-color-frame, colbacktitle=quarto-callout-caution-color!10!white, titlerule=0mm, breakable, left=2mm, rightrule=.15mm, arc=.35mm, toprule=.15mm, bottomtitle=1mm, coltitle=black, title={Ejemplo}, colback=white, opacitybacktitle=0.6]
 
 El movimiento de un péndulo oscilante bajo ciertas suposiciones se
 describe mediante la ecuación diferencial de segundo orden: \[
@@ -812,7 +812,7 @@ tiene una solución única \(y(t)\) para \(a\leq t \leq b\).
 
 \end{theorem}
 
-\begin{tcolorbox}[enhanced jigsaw, leftrule=.75mm, opacityback=0, arc=.35mm, toptitle=1mm, colframe=quarto-callout-caution-color-frame, colbacktitle=quarto-callout-caution-color!10!white, left=2mm, colback=white, opacitybacktitle=0.6, bottomtitle=1mm, titlerule=0mm, title={Ejemplo}, coltitle=black, bottomrule=.15mm, toprule=.15mm, breakable, rightrule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, toptitle=1mm, leftrule=.75mm, bottomrule=.15mm, opacityback=0, colframe=quarto-callout-caution-color-frame, colbacktitle=quarto-callout-caution-color!10!white, titlerule=0mm, breakable, left=2mm, rightrule=.15mm, arc=.35mm, toprule=.15mm, bottomtitle=1mm, coltitle=black, title={Ejemplo}, colback=white, opacitybacktitle=0.6]
 
 Use el Teorema~\ref{thm-uniq-sol} para mostrar que hay una única
 solución al problema de valor inicial: \[
@@ -899,7 +899,7 @@ Supongamos
 
 \end{theorem}
 
-\begin{tcolorbox}[enhanced jigsaw, leftrule=.75mm, opacityback=0, arc=.35mm, toptitle=1mm, colframe=quarto-callout-caution-color-frame, colbacktitle=quarto-callout-caution-color!10!white, left=2mm, colback=white, opacitybacktitle=0.6, bottomtitle=1mm, titlerule=0mm, title={Ejemplo}, coltitle=black, bottomrule=.15mm, toprule=.15mm, breakable, rightrule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, toptitle=1mm, leftrule=.75mm, bottomrule=.15mm, opacityback=0, colframe=quarto-callout-caution-color-frame, colbacktitle=quarto-callout-caution-color!10!white, titlerule=0mm, breakable, left=2mm, rightrule=.15mm, arc=.35mm, toprule=.15mm, bottomtitle=1mm, coltitle=black, title={Ejemplo}, colback=white, opacitybacktitle=0.6]
 
 Demostrar que el problema de valor inicial\\
 \[
@@ -1125,6 +1125,46 @@ mejores parámetros \(\mathbb{\theta^*}\) minimizando la pérdida
 
 \end{figure}%
 
+\section{Algoritmos de optimización}\label{sec-optimizadores}
+
+Un algoritmo de optimización busca minimizar o maximizar una función
+objetivo ajustando sus parámetros de manera iterativa. Son esenciales en
+el entrenamiento de redes neuronales y otros modelos de aprendizaje
+automático (\citeproc{ref-kingma2014adam}{Kingma y Ba 2014}).
+
+\subsection{ADAM}\label{adam}
+
+\textbf{Adaptive Moment Estimation} (\emph{ADAM}) combina estimaciones
+de primer y segundo momento del gradiente para adaptar las tasas de
+aprendizaje por parámetro. Utiliza promedios móviles exponenciales de
+gradientes y gradientes al cuadrado, corregidos por bias, lo que lo hace
+eficiente en problemas con gradientes ruidosos o dispersos. Es robusto y
+requiere poco ajuste hiperparamétrico
+(\citeproc{ref-kingma2014adam}{Kingma y Ba 2014}).
+
+\subsection{L-BFGS}\label{l-bfgs}
+
+\textbf{Limited-memory BFGS} (\emph{L-BFGS}) es un método quasi-Newton
+que aproxima la inversa del Hessiano usando un historial limitado de
+gradientes y actualizaciones de parámetros. Evita el costo computacional
+de almacenar matrices completas, lo que lo hace viable para problemas de
+alta dimensionalidad. Es especialmente útil en optimización batch o con
+gradientes estables (\citeproc{ref-Goldfarb2016lbfgs}{Goldfarb, Ren, y
+Bahamou 2016}).
+
+\section{Deepxde}\label{deepxde}
+
+DeepXDE es una biblioteca en Python de aprendizaje profundo diseñada
+para resolver ecuaciones diferenciales, incluyendo ecuaciones
+diferenciales parciales (PDEs), ecuaciones integro-diferenciales (IDEs)
+y ecuaciones diferenciales estocásticas (SDEs), utilizando redes
+neuronales informadas por la física (PINNs). Combina técnicas de
+aprendizaje automático con principios físicos al incorporar las
+ecuaciones diferenciales directamente en la función de pérdida de la red
+neuronal, aprovechando la diferenciación automática para calcular
+derivadas de manera precisa y eficiente (\citeproc{ref-deepxde}{Lu,
+Meng, et~al. 2021}).
+
 \section{Ejemplo de resolución de la ecuación de Burger 1D con
 deepxde}\label{ejemplo-de-resoluciuxf3n-de-la-ecuaciuxf3n-de-burger-1d-con-deepxde}
 
@@ -1264,7 +1304,7 @@ dado.}
 \end{figure}%
 
 \begin{verbatim}
-Error relativo L2: 0.004881429708654358
+Error relativo L2: 0.003713861763402349
 \end{verbatim}
 
 \section{Comparación con Redes Neuronales
@@ -1366,6 +1406,8 @@ el término \(f\) representa a una función continua arbitraria.
 \ImportTok{import}\NormalTok{ matplotlib.pyplot }\ImportTok{as}\NormalTok{ plt}
 \ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
 
+\CommentTok{\# Seed}
+\NormalTok{dde.config.set\_random\_seed(}\DecValTok{123}\NormalTok{)}
 
 \CommentTok{\# Poisson equation: {-}u\_xx = f}
 \KeywordTok{def}\NormalTok{ equation(x, y, f):}
@@ -1462,7 +1504,10 @@ el término \(f\) representa a una función continua arbitraria.
 
 }
 
-\caption{Resultados de la red DeepONet.}
+\caption{Soluciones halladas por la red neuronal, en la parte superior
+las funciones arbitrarias \(f(x)\), mientras que en la parte inferior
+está su solución \(u(x)\), el color representa la relación
+\emph{término-solución}.}
 
 \end{figure}%
 
@@ -1549,7 +1594,7 @@ tejidos biológicos, integrando efectos de conducción, perfusión
 sanguínea y metabolismo. Su forma general es:
 
 \begin{equation}\phantomsection\label{eq-PBHE_completa}{
-\rho c \frac{\partial T}{\partial t} = k_{\text{eff}} \frac{\partial^{2} T}{\partial x^{2}} - \rho_b c_b \omega_b (T - T_a) + Q, \quad x \in \Omega, \, t \in [0, t_f]
+\rho c \frac{\partial T}{\partial t} = k_{\text{eff}} \frac{\partial^{2} T}{\partial x^{2}} - \rho_b c_b \omega_b (T - T_a) + \mathcal{Q}, \quad x \in \Omega, \, t \in [0, t_f]
 }\end{equation}
 
 \begin{longtable}[]{@{}lll@{}}
@@ -1573,7 +1618,7 @@ Símbolo & Descripción & Unidades \\
 \(c_b\) & Calor específico de la sangre & \(\frac{J}{kg °C}\) \\
 \(\omega_b\) & Tasa de perfusión sanguínea & \(1/s\) \\
 \(T_a\) & Temperatura arterial & °C \\
-\(Q = q_m + q_p\) & Fuente de calor & \(\frac{W}{m^3}\) \\
+\(\mathcal{Q} = q_m + q_p\) & Fuente de calor & \(\frac{W}{m^3}\) \\
 \(q_m\) & Metabolismo & \(\frac{W}{m^3}\) \\
 \(q_p\) & Externa & \(\frac{W}{m^3}\) \\
 \end{longtable}
@@ -1581,9 +1626,10 @@ Símbolo & Descripción & Unidades \\
 \section{Versión reducida
 (adimensionalizada)}\label{versiuxf3n-reducida-adimensionalizada}
 
-Mediante escalamiento: \begin{equation*}
-T' = T - T_a \qquad \theta = \dfrac{T'}{T_M - T_a} \qquad X = \dfrac{x}{L_0} \qquad \tau = \dfrac{t}{t_f}
-\end{equation*}
+Mediante escalamiento:
+\begin{equation}\phantomsection\label{eq-adimencionalizadores}{
+T' = T - T_a \quad \theta = \dfrac{T'}{T_M - T_a} \quad X = \dfrac{x}{L_0} \quad \tau = \dfrac{t}{t_f}
+}\end{equation}
 
 \begin{longtable}[]{@{}lll@{}}
 \caption{Tabla de nomenclatura de las relaciones para
@@ -1604,16 +1650,22 @@ Símbolo & Descripción & Unidades \\
 
 la Ecuación~\ref{eq-PBHE_completa} se convierte en:
 
-\begin{equation}\phantomsection\label{eq-PBHE-reduced}{
+\[
 \partial_{\tau} \theta = a_1 \partial_{XX} \theta - a_2 W \theta + a_3
+\] para una dimensión espacial; para el caso dos dimensional se tiene:
+\begin{equation}\phantomsection\label{eq-PBHE-reduced}{
+\partial_{\tau} \theta = a_1 \nabla^2  \theta - a_2 W \theta + a_3
 }\end{equation}
 
 \textbf{Parámetros adimensionales}:\\
 - \(a_1 = \frac{t_f}{\alpha L_0^2}\) (difusividad térmica
 \(\alpha = \frac{k_{\text{eff}}}{\rho c}\)).\\
 - \(a_2 = \frac{t_f c_b}{\rho c}\).\\
-- \(a_3 = \frac{t_f Q}{\rho c (T_M - T_a)}\).\\
+- \(a_3 = \frac{t_f \mathcal{Q}}{\rho c (T_M - T_a)}\).\\
 - \(W = \rho_b \omega_b\): Tasa volumétrica de perfusión (kg/m³·s).
+
+Cabe decir que se modeló el caso más sencillo, que es asumiendo la
+fuente de calor \(\mathcal{Q} = 0\).
 
 \section{Condiciones de uso
 adecuadas}\label{condiciones-de-uso-adecuadas}
@@ -1791,7 +1843,8 @@ mejorar de la red neuronal que plantearon son:
   nuevas configuraciones.
 \item
   Combinar las fortalezas de los algoritmos de optimización Adam y
-  L-BFGS para mejorar la velocidad de convergencia y la precisión.
+  L-BFGS Sección~\ref{sec-optimizadores} para mejorar la velocidad de
+  convergencia y la precisión.
 \end{enumerate}
 
 Teniendo los anteriores puntos en cuenta, se procedió a abordarlos e
@@ -2091,7 +2144,9 @@ temporal de la solución en el dominio de estudio.
 }
 
 \caption{\label{fig-met-crank-nick}Resultados obtenidos mediante el
-método numérico de Crank Nickolson.}
+método numérico de Crank Nickolson, donde X e Y representan coordenadas
+espaciales y T la temeperatura, todas las medidas están
+adimencionalizadas dadas las ecuaciones \ref{eq-adimencionalizadores}.}
 
 \end{figure}%
 
@@ -2183,14 +2238,14 @@ DeepONetCartesianProd con la siguiente estructura especializada:
 \ImportTok{import}\NormalTok{ tensorflow }\ImportTok{as}\NormalTok{ tf}
 
 \CommentTok{\# {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
-\CommentTok{\# Constants and Parameters}
+\CommentTok{\# Constantes y Parametros}
 \CommentTok{\# {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
 
-\CommentTok{\# Backend and seed}
+\CommentTok{\# Backend y semilla}
 \NormalTok{dde.backend.set\_default\_backend(}\StringTok{"tensorflow.compat.v1"}\NormalTok{)}
 \NormalTok{dde.config.set\_random\_seed(}\DecValTok{123}\NormalTok{)}
 
-\CommentTok{\# Physical parameters}
+\CommentTok{\# Parametros fisicos}
 \NormalTok{p }\OperatorTok{=} \DecValTok{1050}
 \NormalTok{c }\OperatorTok{=} \DecValTok{3639}
 \NormalTok{keff }\OperatorTok{=} \DecValTok{5}
@@ -2202,40 +2257,42 @@ DeepONetCartesianProd con la siguiente estructura especializada:
 \NormalTok{Ta }\OperatorTok{=} \DecValTok{37}
 \NormalTok{alpha }\OperatorTok{=}\NormalTok{ p }\OperatorTok{*}\NormalTok{ c }\OperatorTok{/}\NormalTok{ keff}
 
-\CommentTok{\# Dimensionless coefficients}
+\CommentTok{\# Coeficientes adimencionales}
 \NormalTok{a1 }\OperatorTok{=}\NormalTok{ tf }\OperatorTok{/}\NormalTok{ (alpha }\OperatorTok{*}\NormalTok{ L0}\OperatorTok{**}\DecValTok{2}\NormalTok{)}
 \NormalTok{a2 }\OperatorTok{=}\NormalTok{ tf }\OperatorTok{*}\NormalTok{ cb }\OperatorTok{/}\NormalTok{ (p }\OperatorTok{*}\NormalTok{ c)}
 \NormalTok{a3 }\OperatorTok{=}\NormalTok{ (tf }\OperatorTok{*}\NormalTok{ Q) }\OperatorTok{/}\NormalTok{ (p }\OperatorTok{*}\NormalTok{ c }\OperatorTok{*}\NormalTok{ (TM }\OperatorTok{{-}}\NormalTok{ Ta))}
 
-\CommentTok{\# Domain boundaries}
+\CommentTok{\# Dominio de las fronteras}
 \NormalTok{x\_initial, x\_boundary }\OperatorTok{=} \FloatTok{0.0}\NormalTok{, }\FloatTok{1.0}
 \NormalTok{y\_initial, y\_boundary }\OperatorTok{=} \FloatTok{0.0}\NormalTok{, }\FloatTok{1.0}
 \NormalTok{t\_initial, t\_final }\OperatorTok{=} \FloatTok{0.0}\NormalTok{, }\FloatTok{1.0}
 
-\CommentTok{\# Dataset configuration}
+\CommentTok{\# Configuracion del numero de datos}
 \NormalTok{pts\_dom }\OperatorTok{=} \DecValTok{30}
 \NormalTok{pts\_bc }\OperatorTok{=} \DecValTok{20}
 \NormalTok{pts\_ic }\OperatorTok{=} \DecValTok{40}
 \NormalTok{num\_test }\OperatorTok{=} \DecValTok{25}
 
-\CommentTok{\# Sensor grid and function space}
-\NormalTok{num\_sensors }\OperatorTok{=} \DecValTok{4}
+\CommentTok{\# Malla de sensores y espacio de funciones}
+\NormalTok{num\_sensors }\OperatorTok{=} \DecValTok{6}
+\NormalTok{num\_function }\OperatorTok{=} \DecValTok{25}
 \NormalTok{size\_cov\_matrix }\OperatorTok{=} \DecValTok{40}
 
-\CommentTok{\# Network architecture}
+\CommentTok{\# Arquitectura de la red}
 \NormalTok{width\_net }\OperatorTok{=} \DecValTok{20}
 \NormalTok{len\_net }\OperatorTok{=} \DecValTok{3}
 \NormalTok{AF }\OperatorTok{=} \StringTok{"elu"}
 \NormalTok{k\_initializer }\OperatorTok{=} \StringTok{"Glorot normal"}
 
-\CommentTok{\# Training parameters}
-\NormalTok{num\_iterations }\OperatorTok{=} \DecValTok{10000}
+
+\CommentTok{\# Parámetros de entrenamiento}
+\NormalTok{num\_iterations }\OperatorTok{=} \DecValTok{15000}
 \NormalTok{learning\_rate }\OperatorTok{=} \FloatTok{2e{-}3}
 \NormalTok{decay\_rate }\OperatorTok{=} \FloatTok{0.05}
 \NormalTok{decay\_steps }\OperatorTok{=} \DecValTok{1000}
 
 \CommentTok{\# {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
-\CommentTok{\# Geometry and Time Domain}
+\CommentTok{\# Dominio espacial y temporal}
 \CommentTok{\# {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
 
 \NormalTok{spatial\_domain }\OperatorTok{=}\NormalTok{ dde.geometry.Rectangle([x\_initial, y\_initial],}
@@ -2244,7 +2301,7 @@ DeepONetCartesianProd con la siguiente estructura especializada:
 \NormalTok{geomtime }\OperatorTok{=}\NormalTok{ dde.geometry.GeometryXTime(spatial\_domain, time\_domain)}
 
 \CommentTok{\# {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
-\CommentTok{\# PDE and Conditions}
+\CommentTok{\# EDP, CI y CF }
 \CommentTok{\# {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
 
 \KeywordTok{def}\NormalTok{ initial\_condition(X):}
@@ -2302,7 +2359,7 @@ DeepONetCartesianProd con la siguiente estructura especializada:
     \KeywordTok{and} \KeywordTok{not}\NormalTok{ is\_on\_vertex(spatial)}
 \NormalTok{    )}
 
-\CommentTok{\# Initial and boundary conditions}
+\CommentTok{\# Condiciones iniciales y de frontera}
 \NormalTok{ic }\OperatorTok{=}\NormalTok{ dde.icbc.IC(geomtime, initial\_condition, is\_initial)}
 \NormalTok{left\_bc }\OperatorTok{=}\NormalTok{ dde.icbc.DirichletBC(geomtime, }
 \NormalTok{                                zero\_value, left\_boundary)}
@@ -2312,7 +2369,7 @@ DeepONetCartesianProd con la siguiente estructura especializada:
 \NormalTok{                                zero\_value, up\_low\_boundary)}
 
 \CommentTok{\# {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
-\CommentTok{\# Dataset Construction}
+\CommentTok{\# Construccion de los datos}
 \CommentTok{\# {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
 
 \NormalTok{pde\_data }\OperatorTok{=}\NormalTok{ dde.data.TimePDE(}
@@ -2325,7 +2382,7 @@ DeepONetCartesianProd con la siguiente estructura especializada:
 \NormalTok{)}
 
 \CommentTok{\# {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
-\CommentTok{\# Sensor Points and Function Space}
+\CommentTok{\# Sensores y espacio de funciones}
 \CommentTok{\# {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
 
 \NormalTok{side }\OperatorTok{=}\NormalTok{ np.linspace(x\_initial, x\_boundary, num\_sensors }\OperatorTok{+} \DecValTok{1}\NormalTok{)}
@@ -2339,13 +2396,13 @@ DeepONetCartesianProd con la siguiente estructura especializada:
 \NormalTok{    pde\_data,}
 \NormalTok{    fs,}
 \NormalTok{    sensor\_pts,}
-\NormalTok{    num\_function}\OperatorTok{=}\DecValTok{50}\NormalTok{,}
+\NormalTok{    num\_function}\OperatorTok{=}\NormalTok{num\_function,}
 \NormalTok{    function\_variables}\OperatorTok{=}\NormalTok{[}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{],}
 \NormalTok{    num\_test}\OperatorTok{=}\NormalTok{num\_test}
 \NormalTok{)}
 
 \CommentTok{\# {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
-\CommentTok{\# Network Definition}
+\CommentTok{\# Definicion de la red}
 \CommentTok{\# {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
 
 \NormalTok{branch\_layers }\OperatorTok{=}\NormalTok{ [(num\_sensors }\OperatorTok{+} \DecValTok{1}\NormalTok{)}\OperatorTok{**}\DecValTok{2}\NormalTok{] }\OperatorTok{+}\NormalTok{ len\_net }\OperatorTok{*}\NormalTok{ [width\_net]}
@@ -2359,15 +2416,16 @@ DeepONetCartesianProd con la siguiente estructura especializada:
 \NormalTok{)}
 
 \CommentTok{\# {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
-\CommentTok{\# Model Compilation and Training}
+\CommentTok{\# Compilacion y entrenamiento del modelo}
 \CommentTok{\# {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
 
 \NormalTok{model }\OperatorTok{=}\NormalTok{ dde.Model(data, net)}
 \NormalTok{model.}\BuiltInTok{compile}\NormalTok{(}\StringTok{"adam"}\NormalTok{, lr}\OperatorTok{=}\NormalTok{learning\_rate,}
 \NormalTok{            decay}\OperatorTok{=}\NormalTok{(}\StringTok{"inverse time"}\NormalTok{, decay\_steps, decay\_rate))}
-\NormalTok{losshistory, train\_state }\OperatorTok{=}\NormalTok{ model.train(iterations}\OperatorTok{=}\NormalTok{num\_iterations)}
+\NormalTok{losshistory, train\_state }\OperatorTok{=}\NormalTok{ model.train(iterations}\OperatorTok{=}\NormalTok{num\_iterations,}
+\NormalTok{display\_every}\OperatorTok{=}\DecValTok{500}\NormalTok{)}
 
-\CommentTok{\# Fine{-}tuning with LBFGS optimizer}
+\CommentTok{\# Refinamiento con el optimizador L{-}BFGS}
 \NormalTok{model.}\BuiltInTok{compile}\NormalTok{(}\StringTok{"L{-}BFGS"}\NormalTok{)}
 \NormalTok{losshistory, train\_state }\OperatorTok{=}\NormalTok{ model.train()}
 \end{Highlighting}
@@ -2701,7 +2759,7 @@ Crank Nickolson. La visualización paralela permite evaluar:
 \NormalTok{    )}
 \NormalTok{    surf\_list.append(surf)}
 
-\NormalTok{    ax.set\_title(}\SpecialStringTok{f"Time = }\SpecialCharTok{\{}\NormalTok{t\_val}\SpecialCharTok{:.2f\}}\SpecialStringTok{ s"}\NormalTok{, pad}\OperatorTok{=}\DecValTok{10}\NormalTok{)}
+\NormalTok{    ax.set\_title(}\SpecialStringTok{f"Time = }\SpecialCharTok{\{}\NormalTok{t\_val}\SpecialCharTok{:.2f\}}\SpecialStringTok{"}\NormalTok{, pad}\OperatorTok{=}\DecValTok{10}\NormalTok{)}
 \NormalTok{    ax.set\_xlabel(}\StringTok{"Y"}\NormalTok{, labelpad}\OperatorTok{=}\DecValTok{10}\NormalTok{)}
 \NormalTok{    ax.set\_ylabel(}\StringTok{"X"}\NormalTok{, labelpad}\OperatorTok{=}\DecValTok{10}\NormalTok{)}
 \NormalTok{    ax.set\_zlabel(}\StringTok{"T [K]"}\NormalTok{, labelpad}\OperatorTok{=}\DecValTok{10}\NormalTok{, rotation}\OperatorTok{=}\DecValTok{90}\NormalTok{)}
@@ -2800,7 +2858,7 @@ numérico}\label{modelo-contra-muxe9todo-numuxe9rico}
 \NormalTok{        )}
 \NormalTok{        surf\_list.append(surf)}
 
-\NormalTok{        ax.set\_title(}\SpecialStringTok{f"Time = }\SpecialCharTok{\{}\NormalTok{t\_val}\SpecialCharTok{:.2f\}}\SpecialStringTok{ s"}\NormalTok{, pad}\OperatorTok{=}\DecValTok{10}\NormalTok{)}
+\NormalTok{        ax.set\_title(}\SpecialStringTok{f"Time = }\SpecialCharTok{\{}\NormalTok{t\_val}\SpecialCharTok{:.2f\}}\SpecialStringTok{"}\NormalTok{, pad}\OperatorTok{=}\DecValTok{10}\NormalTok{)}
 \NormalTok{        ax.set\_xlabel(}\StringTok{"Y"}\NormalTok{, labelpad}\OperatorTok{=}\DecValTok{10}\NormalTok{)}
 \NormalTok{        ax.set\_ylabel(}\StringTok{"X"}\NormalTok{, labelpad}\OperatorTok{=}\DecValTok{10}\NormalTok{)}
 \NormalTok{        ax.set\_zlabel(}\StringTok{"T [K]"}\NormalTok{, labelpad}\OperatorTok{=}\DecValTok{10}\NormalTok{, rotation}\OperatorTok{=}\DecValTok{90}\NormalTok{)}
@@ -2910,11 +2968,11 @@ Tiempo & MAE & MaxAE & Error L2 \\
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-0.000 & 0.011 & 0.058 & 0.404 \\
-0.250 & 0.048 & 0.133 & 1.563 \\
-0.500 & 0.032 & 0.058 & 0.934 \\
-0.750 & 0.022 & 0.090 & 0.867 \\
-1.000 & 0.094 & 0.254 & 3.089 \\
+0.000 & 0.007 & 0.028 & 0.229 \\
+0.250 & 0.032 & 0.086 & 1.061 \\
+0.500 & 0.013 & 0.020 & 0.353 \\
+0.750 & 0.040 & 0.132 & 1.447 \\
+1.000 & 0.107 & 0.290 & 3.547 \\
 
 \end{longtable}
 
@@ -2929,7 +2987,7 @@ absoluto}\label{gruxe1ficas-de-error-absoluto}
 \NormalTok{                    crank\_nick\_data[}\StringTok{\textquotesingle{}Theta\textquotesingle{}}\NormalTok{] }\OperatorTok{{-}}\NormalTok{ model\_don\_data[}\StringTok{\textquotesingle{}Theta\textquotesingle{}}\NormalTok{])}
 
 \CommentTok{\# Crear figura con 3 filas y 2 columnas}
-\NormalTok{fig, axes }\OperatorTok{=}\NormalTok{ plt.subplots(nrows}\OperatorTok{=}\DecValTok{1}\NormalTok{, ncols}\OperatorTok{=}\DecValTok{5}\NormalTok{, figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{22}\NormalTok{, }\DecValTok{6}\NormalTok{))}
+\NormalTok{fig, axes }\OperatorTok{=}\NormalTok{ plt.subplots(nrows}\OperatorTok{=}\DecValTok{1}\NormalTok{, ncols}\OperatorTok{=}\DecValTok{5}\NormalTok{, figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{22}\NormalTok{, }\DecValTok{8}\NormalTok{))}
 \NormalTok{axes }\OperatorTok{=}\NormalTok{ axes.ravel()  }\CommentTok{\# Convertir a array 1D para fácil acceso}
 
 \CommentTok{\# Asumir que el grid es regular}
@@ -2963,7 +3021,7 @@ absoluto}\label{gruxe1ficas-de-error-absoluto}
 \NormalTok{    pc }\OperatorTok{=}\NormalTok{ ax.pcolormesh(X\_vals, Y\_vals, error\_vals, }\OperatorTok{**}\NormalTok{plot\_kwargs)}
     
     \CommentTok{\# Configuración de ejes}
-\NormalTok{    ax.set\_title(}\SpecialStringTok{f"Tiempo = }\SpecialCharTok{\{}\NormalTok{t\_val}\SpecialCharTok{:.2f\}}\SpecialStringTok{ s"}\NormalTok{, pad}\OperatorTok{=}\DecValTok{10}\NormalTok{)}
+\NormalTok{    ax.set\_title(}\SpecialStringTok{f"Tiempo = }\SpecialCharTok{\{}\NormalTok{t\_val}\SpecialCharTok{:.2f\}}\SpecialStringTok{"}\NormalTok{, pad}\OperatorTok{=}\DecValTok{10}\NormalTok{)}
 \NormalTok{    ax.set\_xlabel(}\StringTok{"X"}\NormalTok{)}
 \NormalTok{    ax.set\_ylabel(}\StringTok{"Y"}\NormalTok{)}
 \NormalTok{    ax.set\_aspect(}\StringTok{\textquotesingle{}equal\textquotesingle{}}\NormalTok{)}
@@ -3142,9 +3200,19 @@ George Em Karniadakis, Lu Lu, Ioannis G. Kevrekidis. 2021.
 {«Physics-informed machine learning»}. \emph{Nature Reviews Physics} 3
 (6): 422-40. \url{https://doi.org/10.1038/s42254-021-00314-5}.
 
+\bibitem[\citeproctext]{ref-Goldfarb2016lbfgs}
+Goldfarb, Donald, Yi Ren, y Achraf Bahamou. 2016. {«Practical
+Quasi-Newton Methods for Training Deep Neural Networks»}. \emph{arXiv
+preprint arXiv:1606.01205}. \url{https://arxiv.org/abs/1606.01205}.
+
 \bibitem[\citeproctext]{ref-nci2021}
 Instituto Nacional del Cáncer. 2021. {«{¿Qué es el cáncer?}»}
 \url{https://www.cancer.gov/espanol/cancer/naturaleza/que-es}.
+
+\bibitem[\citeproctext]{ref-kingma2014adam}
+Kingma, Diederik P., y Jimmy Ba. 2014. {«Adam: A Method for Stochastic
+Optimization»}. \emph{arXiv preprint arXiv:1412.6980}.
+\url{https://arxiv.org/abs/1412.6980}.
 
 \bibitem[\citeproctext]{ref-kumar2024deeponet}
 Kumar, Varun, Somdatta Goswami, Katiana Kontolati, Michael D. Shields, y

@@ -8,7 +8,7 @@ execute:
 La ecuación diferencial de bio-calor de @pennes1948 modela la transferencia de calor en tejidos biológicos, integrando efectos de conducción, perfusión sanguínea y metabolismo. Su forma general es:
 
 $$
-\rho c \frac{\partial T}{\partial t} = k_{\text{eff}} \frac{\partial^{2} T}{\partial x^{2}} - \rho_b c_b \omega_b (T - T_a) + Q, \quad x \in \Omega, \, t \in [0, t_f]
+\rho c \frac{\partial T}{\partial t} = k_{\text{eff}} \frac{\partial^{2} T}{\partial x^{2}} - \rho_b c_b \omega_b (T - T_a) + \mathcal{Q}, \quad x \in \Omega, \, t \in [0, t_f]
 $$ {#eq-PBHE_completa}
 
 
@@ -22,7 +22,7 @@ $$ {#eq-PBHE_completa}
 | $c_b$ | Calor específico de la sangre | $\frac{J}{kg °C}$|   
 | $\omega_b$ | Tasa de perfusión sanguínea | $1/s$ |
 | $T_a$ | Temperatura arterial | °C |  
-| $Q = q_m + q_p$ | Fuente de calor | $\frac{W}{m^3}$|
+| $\mathcal{Q} = q_m + q_p$ | Fuente de calor | $\frac{W}{m^3}$|
 | $q_m$ | Metabolismo | $\frac{W}{m^3}$ |
 | $q_p$ | Externa | $\frac{W}{m^3}$|
 
@@ -30,9 +30,9 @@ $$ {#eq-PBHE_completa}
 
 ## Versión reducida (adimensionalizada)  
 Mediante escalamiento:
-\begin{equation*}
-T' = T - T_a \qquad \theta = \dfrac{T'}{T_M - T_a} \qquad X = \dfrac{x}{L_0} \qquad \tau = \dfrac{t}{t_f}
-\end{equation*} 
+$$
+T' = T - T_a \quad \theta = \dfrac{T'}{T_M - T_a} \quad X = \dfrac{x}{L_0} \quad \tau = \dfrac{t}{t_f}
+$$ {#eq-adimencionalizadores}
 
 | Símbolo | Descripción | Unidades |  
 |---------|------------|----------|    
@@ -45,14 +45,19 @@ la @eq-PBHE_completa se convierte en:
 
 $$
 \partial_{\tau} \theta = a_1 \partial_{XX} \theta - a_2 W \theta + a_3
+$$
+para una dimensión espacial; para el caso dos dimensional se tiene:
+$$
+\partial_{\tau} \theta = a_1 \nabla^2  \theta - a_2 W \theta + a_3
 $$ {#eq-PBHE-reduced}
-
 
 **Parámetros adimensionales**:  
 - $a_1 = \frac{t_f}{\alpha L_0^2}$ (difusividad térmica $\alpha = \frac{k_{\text{eff}}}{\rho c}$).  
 - $a_2 = \frac{t_f c_b}{\rho c}$.  
-- $a_3 = \frac{t_f Q}{\rho c (T_M - T_a)}$.  
+- $a_3 = \frac{t_f \mathcal{Q}}{\rho c (T_M - T_a)}$.  
 - $W = \rho_b \omega_b$: Tasa volumétrica de perfusión (kg/m³·s).  
+
+Cabe decir que se modeló el caso más sencillo, que es asumiendo la fuente de calor $\mathcal{Q} = 0$.
 
 ## Condiciones de uso adecuadas  
 1. **Tejidos homogéneos**: Aproximación válida para regiones con propiedades térmicas uniformes.  

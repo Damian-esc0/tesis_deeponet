@@ -25,14 +25,14 @@ import numpy as np
 import tensorflow as tf
 
 # -------------------------------------------------------------------------
-# Constants and Parameters
+# Constantes y Parametros
 # -------------------------------------------------------------------------
 
-# Backend and seed
+# Backend y semilla
 dde.backend.set_default_backend("tensorflow.compat.v1")
 dde.config.set_random_seed(123)
 
-# Physical parameters
+# Parametros fisicos
 p = 1050
 c = 3639
 keff = 5
@@ -44,40 +44,42 @@ TM = 45
 Ta = 37
 alpha = p * c / keff
 
-# Dimensionless coefficients
+# Coeficientes adimencionales
 a1 = tf / (alpha * L0**2)
 a2 = tf * cb / (p * c)
 a3 = (tf * Q) / (p * c * (TM - Ta))
 
-# Domain boundaries
+# Dominio de las fronteras
 x_initial, x_boundary = 0.0, 1.0
 y_initial, y_boundary = 0.0, 1.0
 t_initial, t_final = 0.0, 1.0
 
-# Dataset configuration
+# Configuracion del numero de datos
 pts_dom = 30
 pts_bc = 20
 pts_ic = 40
 num_test = 25
 
-# Sensor grid and function space
-num_sensors = 4
+# Malla de sensores y espacio de funciones
+num_sensors = 6
+num_function = 25
 size_cov_matrix = 40
 
-# Network architecture
+# Arquitectura de la red
 width_net = 20
 len_net = 3
 AF = "elu"
 k_initializer = "Glorot normal"
 
-# Training parameters
-num_iterations = 10000
+
+# Parámetros de entrenamiento
+num_iterations = 15000
 learning_rate = 2e-3
 decay_rate = 0.05
 decay_steps = 1000
 
 # -------------------------------------------------------------------------
-# Geometry and Time Domain
+# Dominio espacial y temporal
 # -------------------------------------------------------------------------
 
 spatial_domain = dde.geometry.Rectangle([x_initial, y_initial],
@@ -86,7 +88,7 @@ time_domain = dde.geometry.TimeDomain(t_initial, t_final)
 geomtime = dde.geometry.GeometryXTime(spatial_domain, time_domain)
 
 # -------------------------------------------------------------------------
-# PDE and Conditions
+# EDP, CI y CF 
 # -------------------------------------------------------------------------
 
 def initial_condition(X):
@@ -144,7 +146,7 @@ def up_low_boundary(X, on_boundary):
     and not is_on_vertex(spatial)
     )
 
-# Initial and boundary conditions
+# Condiciones iniciales y de frontera
 ic = dde.icbc.IC(geomtime, initial_condition, is_initial)
 left_bc = dde.icbc.DirichletBC(geomtime, 
                                 zero_value, left_boundary)
@@ -154,7 +156,7 @@ up_low_bc = dde.icbc.NeumannBC(geomtime,
                                 zero_value, up_low_boundary)
 
 # -------------------------------------------------------------------------
-# Dataset Construction
+# Construccion de los datos
 # -------------------------------------------------------------------------
 
 pde_data = dde.data.TimePDE(
@@ -167,7 +169,7 @@ pde_data = dde.data.TimePDE(
 )
 
 # -------------------------------------------------------------------------
-# Sensor Points and Function Space
+# Sensores y espacio de funciones
 # -------------------------------------------------------------------------
 
 side = np.linspace(x_initial, x_boundary, num_sensors + 1)
@@ -181,13 +183,13 @@ data = dde.data.PDEOperatorCartesianProd(
     pde_data,
     fs,
     sensor_pts,
-    num_function=50,
+    num_function=num_function,
     function_variables=[0, 1],
     num_test=num_test
 )
 
 # -------------------------------------------------------------------------
-# Network Definition
+# Definicion de la red
 # -------------------------------------------------------------------------
 
 branch_layers = [(num_sensors + 1)**2] + len_net * [width_net]
@@ -201,15 +203,16 @@ net = dde.nn.DeepONetCartesianProd(
 )
 
 # -------------------------------------------------------------------------
-# Model Compilation and Training
+# Compilacion y entrenamiento del modelo
 # -------------------------------------------------------------------------
 
 model = dde.Model(data, net)
 model.compile("adam", lr=learning_rate,
             decay=("inverse time", decay_steps, decay_rate))
-losshistory, train_state = model.train(iterations=num_iterations)
+losshistory, train_state = model.train(iterations=num_iterations,
+display_every=500)
 
-# Fine-tuning with LBFGS optimizer
+# Refinamiento con el optimizador L-BFGS
 model.compile("L-BFGS")
 losshistory, train_state = model.train()
 ```
