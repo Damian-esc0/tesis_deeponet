@@ -7,8 +7,7 @@
 \documentclass[
   spanish,
   us-letterpaper,
-  DIV=11,
-  numbers=noendperiod]{scrreprt}
+]{scrreprt}
 \usepackage{xcolor}
 \usepackage{amsmath,amssymb}
 \setcounter{secnumdepth}{5}
@@ -188,7 +187,18 @@
  
 
 
-\KOMAoption{captions}{tableheading}
+\usepackage{upgreek}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\newcommand{\dashedbox}[1]{
+  \begin{tikzpicture}
+    \node[draw, dashed, rounded corners=5pt, inner sep=10pt] {
+      \begin{minipage}{0.8\textwidth} % Establece el ancho del minipage
+        #1
+      \end{minipage}
+    };
+  \end{tikzpicture}
+}
 \makeatletter
 \@ifpackageloaded{tcolorbox}{}{\usepackage[skins,breakable]{tcolorbox}}
 \@ifpackageloaded{fontawesome5}{}{\usepackage{fontawesome5}}
@@ -265,7 +275,7 @@
 \urlstyle{same}
 \hypersetup{
   pdftitle={Estimación de la temperatura con la ecuación del Bio-Calor usando DeepONet},
-  pdfauthor={Francisco Damián Escobar Candelaria; Yofre Hernán García Gómez},
+  pdfauthor={Francisco Damián Escobar Candelaria},
   pdflang={es},
   colorlinks=true,
   linkcolor={blue},
@@ -277,12 +287,74 @@
 
 \title{Estimación de la temperatura con la ecuación del Bio-Calor usando
 DeepONet}
-\author{Francisco Damián Escobar Candelaria \and Yofre Hernán García
-Gómez}
+\author{Francisco Damián Escobar Candelaria}
 \date{2025-04-21}
 \begin{document}
-\maketitle
+\begin{titlepage}
+\hspace{-1.7cm} %Este comando es para mandar a la izquierda ;)
+%Aquí empiezan los tres minipages de antes
+\begin{minipage}[t][0.03\textheight][c]{0.22\textwidth}
+        \includegraphics[width=4.0cm]{LOGO-JUBILEO.png}
+\end{minipage}\hspace{0.9cm}
+\begin{minipage}[t][0.03\textheight][c]{0.69\textwidth}
+\begin{center}
+                \textsc{\huge Universidad Autónoma de Chiapas}\\[0.3cm]
+                \hrule height 2.5pt
+                \vspace{0.2cm}
+                \hrule height1pt
+                \vspace{0.3cm}
+                \textsc{\Large Facultad de Ciencias en Física y Matemáticas}
+\end{center}
+\end{minipage}\hspace{0.2cm}
+\begin{minipage}[t][0.03\textheight][c]{0.2\textwidth}
+		\includegraphics[width=2.7cm]{FCFMLOGO.png}
+\end{minipage}\\
+%%%%%%%%%%%%%%%%%%Aquí comienzan los otros dos minipages del título%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{minipage}[t][0.93\textheight][c]{0.06\textwidth}
+\vspace{60pt}
+    \begin{center}
+        \vrule width1pt height18cm
+        \vspace{5mm}
+        \vrule width2.5pt height18cm
+        \vspace{5mm}
+        \vrule width1pt height18cm
+   \end{center}
+\end{minipage}\hspace{1.3cm} %Esto mueve las letras que tienes ahí
+\begin{minipage}[t][0.95\textheight][c]{0.76\textwidth}
 
+            \begin{center}
+                {\Large\bfseries Estimación de la temperatura con la ecuación del Bio-Calor usando DeepONet}\\[2cm]
+                \textsc{\huge \textbf{T\, E\, S\, I\, S}}\\[1.5cm]
+                \textsc{\large QUE PARA OBTENER EL TÍTULO DE:}\\[0.3cm]
+                \textbf{\textsc{LICENCIADO EN FÍSICA}}\\[1.5cm]
+                \textsc{\large PRESENTA:}\\[0.3cm]
+                \textbf{\textsc{\large {FRANCISCO DAMIÁN ESCOBAR CANDELARIA}}}\\[2cm]
+                {\large\scshape Director:\\[0.3cm]
+                {\textbf{\large Dr. Yofre Hernán García Gómez }}}\\[2.0cm]
+                \large{Tuxtla Gutiérrez, Chiapas a - de - del 2024.}
+
+            \end{center}
+\end{minipage}
+\end{titlepage}
+
+\pagebreak[2]
+
+\chapter*{Dedicatoria}
+\begin{flushright}
+\textit{A mis padres y hermanos, \\ por su apoyo incondicional y absoluta fé en mí. Esta tesis es mi manera de agradecerles su amor, paciencia y sacrificio.}
+\end{flushright}
+
+
+\chapter*{Agradecimientos}
+En primer lugar, deseo agradecer de todo corazón a mi director de tesis, el Dr. Yofre Hernán García Gómez. Gracias por el apoyo y fé, no solo en el presente trabajo sino tambien en mí. El tiempo que ha invertido en mi persona ha sido un regalo de lo más valioso, gracias a su guía y mentoría, he logrado adquirir conocimientos que nunca habría imaginado alcanzar por mi cuenta. Esta tesis es el fruto directo de su apoyo como tutor, una colaboración magnífica entre la escuela de matemáticas y la de física, por lo que estoy profundamente agradecido.
+
+Asimismo quiero expresar mi profundo agradecimiendo a mis estimados profesores y profesoras, pues todos y cada uno de ellos aportaron en mi formación académica con pasión y dedicación genuinos, algunas veces yendo más allá del deber para explicar un tema o un ejercicio con tal transmitir su vasto conocimiento. Además, quiero agradecer al personal admistrativo y de la biblioteca, quienes además de fungir con excelencia su labor, su amistad brindada fué un maravilloso regalo que atosoraré en mi corazón. 
+
+Adicionalmente, mi gratitud se extiende a mis maravillosos y amados amigos Wilson, Noé, Jazmín, Wicho, Kevin, Yahir, Lalo y Javier. Gracias por su soporte incondicional ante todas las adversidades y problemas, su mera presencia fué fundamental en esta etapa de mi vida, agradezco cada risa, momento, conversación y hasta discusión compartido con ustedes. Todos y cada uno de ustedes me inspiraron, alentaron y enseñaron a crecer no solo como estudiante sino como persona; me mostaron su determinación y voluntad para no rendirse, pero también a que está bien tomar un descanso y compartir aquello que nos aqueja. Son verdaderamente los mejores amigos que pude desear y su contribución a este logro es imposible de omitir.
+
+Al final pero no menos importante, me reservo un profundo agradecimiento para mis padres, Zoila y Eczar; y para mis hermanos Eczar y María. Su amor y apoyo incondicionales me han llevado hasta aquí, a una meta que creí tan lejos y hoy veo realizada. Son incontables los sacrificios que han realizaddo en pro de mi bien, de mi salud tanto física como mental, cargando con pesos que en cierto momento me resultaban imposibles de sobrellevar. No tengo palabras para describir la gratitud que tengo hacia ustedes, siempre estaré orgulloso de ser llamado su hijo y su hermano. Los amo con todo mi corazón.
+
+A todos ustedes, mi más sincero agradecimiento. Este logro no habría sido posible sin su apoyo, generosidad y aliento constante.
 \renewcommand*\contentsname{Tabla de contenidos}
 {
 \hypersetup{linkcolor=}
@@ -296,6 +368,8 @@ Gómez}
 \addcontentsline{toc}{chapter}{Resumen}
 
 \markboth{Resumen}{Resumen}
+
+\textbf{Asesor:} Dr.~Yofre Hernán García Gómez
 
 Este trabajo explora el uso de DeepONet para resolver ecuaciones
 diferenciales parciales, aplicándola a la estimación de temperatura en
@@ -716,7 +790,7 @@ problema original. Este es el enfoque más común porque los métodos de
 aproximación proporcionan resultados más precisos e información de error
 realista (\citeproc{ref-burden2011}{Burden y Faires 2010}).
 
-\begin{tcolorbox}[enhanced jigsaw, toptitle=1mm, leftrule=.75mm, bottomrule=.15mm, opacityback=0, colframe=quarto-callout-caution-color-frame, colbacktitle=quarto-callout-caution-color!10!white, titlerule=0mm, breakable, left=2mm, rightrule=.15mm, arc=.35mm, toprule=.15mm, bottomtitle=1mm, coltitle=black, title={Ejemplo}, colback=white, opacitybacktitle=0.6]
+\begin{tcolorbox}[enhanced jigsaw, rightrule=.15mm, breakable, toprule=.15mm, bottomrule=.15mm, colframe=quarto-callout-caution-color-frame, bottomtitle=1mm, left=2mm, toptitle=1mm, title={Ejemplo}, opacityback=0, coltitle=black, opacitybacktitle=0.6, leftrule=.75mm, colbacktitle=quarto-callout-caution-color!10!white, colback=white, titlerule=0mm, arc=.35mm]
 
 El movimiento de un péndulo oscilante bajo ciertas suposiciones se
 describe mediante la ecuación diferencial de segundo orden: \[
@@ -812,7 +886,7 @@ tiene una solución única \(y(t)\) para \(a\leq t \leq b\).
 
 \end{theorem}
 
-\begin{tcolorbox}[enhanced jigsaw, toptitle=1mm, leftrule=.75mm, bottomrule=.15mm, opacityback=0, colframe=quarto-callout-caution-color-frame, colbacktitle=quarto-callout-caution-color!10!white, titlerule=0mm, breakable, left=2mm, rightrule=.15mm, arc=.35mm, toprule=.15mm, bottomtitle=1mm, coltitle=black, title={Ejemplo}, colback=white, opacitybacktitle=0.6]
+\begin{tcolorbox}[enhanced jigsaw, rightrule=.15mm, breakable, toprule=.15mm, bottomrule=.15mm, colframe=quarto-callout-caution-color-frame, bottomtitle=1mm, left=2mm, toptitle=1mm, title={Ejemplo}, opacityback=0, coltitle=black, opacitybacktitle=0.6, leftrule=.75mm, colbacktitle=quarto-callout-caution-color!10!white, colback=white, titlerule=0mm, arc=.35mm]
 
 Use el Teorema~\ref{thm-uniq-sol} para mostrar que hay una única
 solución al problema de valor inicial: \[
@@ -899,7 +973,7 @@ Supongamos
 
 \end{theorem}
 
-\begin{tcolorbox}[enhanced jigsaw, toptitle=1mm, leftrule=.75mm, bottomrule=.15mm, opacityback=0, colframe=quarto-callout-caution-color-frame, colbacktitle=quarto-callout-caution-color!10!white, titlerule=0mm, breakable, left=2mm, rightrule=.15mm, arc=.35mm, toprule=.15mm, bottomtitle=1mm, coltitle=black, title={Ejemplo}, colback=white, opacitybacktitle=0.6]
+\begin{tcolorbox}[enhanced jigsaw, rightrule=.15mm, breakable, toprule=.15mm, bottomrule=.15mm, colframe=quarto-callout-caution-color-frame, bottomtitle=1mm, left=2mm, toptitle=1mm, title={Ejemplo}, opacityback=0, coltitle=black, opacitybacktitle=0.6, leftrule=.75mm, colbacktitle=quarto-callout-caution-color!10!white, colback=white, titlerule=0mm, arc=.35mm]
 
 Demostrar que el problema de valor inicial\\
 \[

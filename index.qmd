@@ -2,20 +2,24 @@
 author:
   - name: Francisco Damián Escobar Candelaria
     email: francisco.escobar30@unach.mx
+    affiliations:
+      - ref: unach
     corresponding: true
-    affiliations:
-      - ref: unach
-  - name: Yofre Hernán García Gómez
-    degrees: PhD
-    email: yofre.garcia@unach.mx
-    roles: [supervision]
-    affiliations:
-      - ref: unach
 
 affiliations:
   - id: unach
     name: Universidad Autónoma de Chiapas
+
+advisor:
+  - name: Dr. Yofre Hernán García Gómez
+    role: Asesor
+    affiliations:
+      - ref: unach
 ---
+
+::: {.author-advisor}
+**Asesor:** {{< meta advisor.1.name >}}
+:::
 
 # Resumen {.unnumbered}
 ::: {style="text-align: justify"}

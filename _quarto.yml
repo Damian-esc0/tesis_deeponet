@@ -89,6 +89,10 @@ format:
 
   pdf:
     lang: es
+    include-in-header:
+      - packa.tex
+    template-partials:
+      - before-body.tex
     documentclass: scrreprt
     papersize: us-letter
     titlegraphic: FCFMLOGO.png
@@ -97,3 +101,6 @@ format:
     keep-tex: true
     pdf-engine: lualatex
     link-citations: true
+  
+  epub:
+    cover-image: FCFMLOGO.png
