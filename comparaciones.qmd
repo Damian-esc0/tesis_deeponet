@@ -15,7 +15,7 @@ Esta sección presenta un análisis cualitativo de los resultados mediante la co
 ### Modelo contra resultados de @medical_rep
 ```{python}
 #| label: fig-my_results
-#| fig-cap: "Predicciones de la red neuronal a distintos tiempos."
+#| fig-cap: "Predicciones del modelo a distintos tiempos."
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.gridspec as gridspec
@@ -62,14 +62,14 @@ for i, (t_val, ax) in enumerate(zip(times, axes)):
     ax.set_title(f"Time = {t_val:.2f}", pad=10)
     ax.set_xlabel("Y", labelpad=10)
     ax.set_ylabel("X", labelpad=10)
-    ax.set_zlabel("T [K]", labelpad=10, rotation=90)
+    ax.set_zlabel("T [θ]", labelpad=10, rotation=90)
 
 
 # Añadir barra de color común
 cbar = fig.colorbar(surf_list[-1], ax=axes,
                     shrink=0.9, aspect=90,
                     pad=0.1, orientation='horizontal')
-cbar.set_label('Temperatura [K]')
+cbar.set_label('Temperatura [θ]')
 
 plt.show()
 ```
@@ -80,7 +80,7 @@ plt.show()
 ### Modelo contra método numérico
 ```{python}
 #| label: fig-met-num-vs-model
-#| fig-cap: "Contraste de las predicciones entre el método de Crank Nikolson y el modelo para cada tiempo."
+#| fig-cap: "Contraste de las predicciones entre el modelo y el método de Crank Nicolson para cada tiempo."
 
 crank_nick_data = pd.read_csv(r'data/crank_nick.csv')
 model_don_data = pd.read_csv(r'data/model_DoN.csv')
@@ -137,7 +137,7 @@ def plot_dataframe(df, row, num_points, cmap="viridis"):
         ax.set_title(f"Time = {t_val:.2f}", pad=10)
         ax.set_xlabel("Y", labelpad=10)
         ax.set_ylabel("X", labelpad=10)
-        ax.set_zlabel("T [K]", labelpad=10, rotation=90)
+        ax.set_zlabel("T [θ]", labelpad=10, rotation=90)
     
     return surf_list
 
@@ -155,14 +155,99 @@ surf_crank_nick = plot_dataframe(crank_nick_data, 1, num_points)
 cbar = fig.colorbar(surf_crank_nick[-1], ax=axes.ravel().tolist(),
                     use_gridspec=True, orientation='horizontal',
                     pad=0.05, aspect=90, shrink=0.9)
-cbar.set_label('Temperatura [K]', labelpad=10)
+cbar.set_label('Temperatura [θ]', labelpad=10)
 
 
 plt.show()
 ```
 
+### Modelo contra Solución analítica
+```{python}
+#| label: fig-sol-ana-vs-model
+#| fig-cap: "Contraste de las predicciones entre el modelo y la solución analítica para cada tiempo."
 
-## Validación Cuantitativa frente al Método de Crank-Nicolson
+sol_ana_data = pd.read_csv(r'data/sol_analitica.csv')
+model_don_data = pd.read_csv(r'data/model_DoN.csv')
+
+# Determinar los límites comunes para el colorbar
+min_temp = min(model_don_data['Theta'].min(),
+                sol_ana_data['Theta'].min())
+max_temp = max(model_don_data['Theta'].max(), 
+                sol_ana_data['Theta'].max())
+
+# Crear figura con subplots 3D en 2 filas y 5 columnas
+fig = plt.figure(figsize=(22, 12))
+axes = []
+
+# Crear los subplots
+for i in range(2):  # 2 filas
+    for j in range(5):  # 5 columnas
+        axes.append(fig.add_subplot(2, 5, i*5 + j + 1, projection='3d'))
+
+axes = np.array(axes).reshape(2, 5)
+
+# Añadir títulos generales para cada fila
+fig.text(0.5, 0.92, "Predicciones modelo DON", 
+        ha='center', va='center', fontsize=14,fontweight='bold')
+fig.text(0.5, 0.56, "Predicciones de la Sol. analítica",
+        ha='center', va='center', fontsize=14, fontweight='bold')
+
+# Función para graficar un dataframe en una fila específica
+def plot_dataframe(df, row, num_points, cmap="viridis"):
+    surf_list = []
+    for col, t_val in enumerate(times):
+        ax = axes[row, col]
+        
+        # Filtrar por tiempo actual
+        df_t = df[df["time"] == t_val]
+
+        # Obtener los valores de X, Y, Theta
+        X_vals = df_t["X"].values.reshape((num_points, num_points))
+        Y_vals = df_t["Y"].values.reshape((num_points, num_points))
+        Z_vals = df_t["Theta"].values.reshape((num_points, num_points))
+
+        # Dibujar la superficie con límites comunes
+        surf = ax.plot_surface(
+            Y_vals, X_vals, Z_vals,
+            rstride=1, cstride=1,
+            cmap=cmap,
+            edgecolor="none",
+            antialiased=True,
+            vmin=min_temp,
+            vmax=max_temp
+        )
+        surf_list.append(surf)
+
+        ax.set_title(f"Time = {t_val:.2f}", pad=10)
+        ax.set_xlabel("Y", labelpad=10)
+        ax.set_ylabel("X", labelpad=10)
+        ax.set_zlabel("T [θ]", labelpad=10, rotation=90)
+    
+    return surf_list
+
+# Asumimos que el grid es regular para ambos dataframes
+num_points = int(np.sqrt(
+        model_don_data[model_don_data["time"] == times[0]].shape[0]))
+
+# Graficar el primer dataframe en la fila superior
+surf_model_don = plot_dataframe(model_don_data, 0, num_points)
+
+# Graficar el segundo dataframe en la fila inferior
+surf_crank_nick = plot_dataframe(sol_ana_data, 1, num_points)
+
+# Añadir barra de color común en la parte inferior
+cbar = fig.colorbar(surf_crank_nick[-1], ax=axes.ravel().tolist(),
+                    use_gridspec=True, orientation='horizontal',
+                    pad=0.05, aspect=90, shrink=0.9)
+cbar.set_label('Temperatura [θ]', labelpad=10)
+
+
+plt.show()
+```
+
+## Validaciones cuantitativas
+
+### Modelo contra el Método de Crank-Nicolson
 Para evaluar numéricamente la precisión del modelo DeepONet, se realizó una comparación sistemática con soluciones de referencia generadas mediante el método de Crank-Nicolson. Este enfoque proporciona una métrica objetiva de la exactitud del modelo, siendo complementado con una serie de gráficos que muestran el error absoluto para cada punto del dominio en los tiempos de interés.
 
 ```{python}
@@ -206,12 +291,12 @@ def calculate_errors(true_data, pred_data, times):
 error_results = calculate_errors(crank_nick_data, model_don_data, times)
 
 # Guardar resultados
-error_results.to_csv("data/error_comparison.csv", index=False)
+error_results.to_csv("data/error_crank_nic.csv", index=False)
 ```
 
 
 ```{python}
-#| label: tbl-errores
+#| label: tbl-errores-num
 #| tbl-cap: "Error del modelo DeepONet respecto a Crank-Nicolson."
 #| echo: false
 from tabulate import tabulate
@@ -228,10 +313,10 @@ error_table = tabulate(
 Markdown(error_table)
 ```
 
-### Gráficas de error absoluto
+#### Gráficas de error absoluto
 ```{python}
-#| label: fig-abs-errors
-#| fig-cap: "Errores absolutos entre el método de Crank Nikolson y el modelo para cada tiempo."
+#| label: fig-abs-errors-num
+#| fig-cap: "Errores absolutos entre el modelo y el método de Crank Nicolson para cada tiempo."
 
 # Calcular el error absoluto entre los dos dataframes
 error_data = model_don_data.copy()
@@ -283,11 +368,138 @@ for i, t_val in enumerate(times):
 cbar = fig.colorbar(abs_errors_pc[-1], ax=axes,
                     use_gridspec=True, shrink=0.9,
                     aspect=90, pad=0.1, orientation='horizontal')
-cbar.set_label('Error absoluto [K]')
+cbar.set_label('Error absoluto [θ]')
 
 # Mostrar el gráfico
 plt.show()
 
+```
+
+### Modelo contra la Solución analítica
+De manera análoga a la sección anterior se realizó una comparativa contra la solción analítica (@sec-sol-ana). De este modo se tiene una visión más completa acerca del rendimiento del modelo.
+
+```{python}
+# Función para calcular errores
+def calculate_errors(true_data, pred_data, times):
+    results = []
+    
+    for time in times:
+        # Filtrar datos por tiempo
+        true_subset = true_data[true_data['time'] == time]
+        pred_subset = pred_data[pred_data['time'] == time]
+        
+        if len(true_subset) == 0 or len(pred_subset) == 0:
+            print(f"Advertencia: No hay datos para tiempo t={time}")
+            continue
+        
+        # Verificar que las dimensiones coincidan
+        if len(true_subset) != len(pred_subset):
+            print(f"Advertencia:Num de puntos no coincide para t={time}")
+            min_len = min(len(true_subset), len(pred_subset))
+            true_subset = true_subset.iloc[:min_len]
+            pred_subset = pred_subset.iloc[:min_len]
+        
+        # Calcular errores para Theta
+        theta_true = true_subset['Theta'].values
+        theta_pred = pred_subset['Theta'].values
+        
+        absolute_error = np.abs(theta_true - theta_pred)
+        l2_error = np.sqrt(np.sum((theta_true - theta_pred)**2))
+        
+        results.append({
+            'time': time,
+            'mean_absolute_error': np.mean(absolute_error),
+            'max_absolute_error': np.max(absolute_error),
+            'l2_error': l2_error
+        })
+    
+    return pd.DataFrame(results)
+
+# Calcular errores
+error_results = calculate_errors(sol_ana_data, model_don_data, times)
+
+# Guardar resultados
+error_results.to_csv("data/error_ana.csv", index=False)
+```
+
+
+```{python}
+#| label: tbl-errores-ana
+#| tbl-cap: "Error del modelo DeepONet respecto a la solución analítica."
+#| echo: false
+from tabulate import tabulate
+from IPython.display import Markdown
+
+# Convertir a formato markdown para mejor visualización
+error_table = tabulate(
+    error_results,
+    headers=['Tiempo', 'MAE', 'MaxAE', 'Error L2'],
+    tablefmt='pipe',
+    floatfmt=".3f",
+    showindex=False
+)
+Markdown(error_table)
+```
+
+#### Gráficas de error absoluto
+```{python}
+#| label: fig-abs-errors-ana
+#| fig-cap: "Errores absolutos entre el modelo y la solución analítica para cada tiempo."
+
+# Calcular el error absoluto entre los dos dataframes
+error_data = model_don_data.copy()
+error_data['error'] = np.abs(
+                    sol_ana_data['Theta'] - model_don_data['Theta'])
+
+# Crear figura con 3 filas y 2 columnas
+fig, axes = plt.subplots(nrows=1, ncols=5, figsize=(22, 8))
+axes = axes.ravel()  # Convertir a array 1D para fácil acceso
+
+# Asumir que el grid es regular
+num_points = int(np.sqrt(
+                    error_data[error_data["time"] == times[0]].shape[0]
+                    ))
+
+# Configuración común para los mapas de calor
+plot_kwargs = {
+    'cmap': 'hot_r',
+    'shading': 'auto',
+    'vmin': error_data['error'].min(),
+    'vmax': error_data['error'].max()
+}
+# Lista para guardar los gráficos
+abs_errors_pc = []
+
+# Crear los subplots
+for i, t_val in enumerate(times):
+    ax = axes[i]
+    
+    # Filtrar por tiempo actual
+    df_t = error_data[error_data["time"] == t_val]
+    
+    # Obtener valores y reshape
+    X_vals = df_t["X"].values.reshape((num_points, num_points))
+    Y_vals = df_t["Y"].values.reshape((num_points, num_points))
+    error_vals = df_t["error"].values.reshape((num_points, num_points))
+    
+    # Crear mapa de calor
+    pc = ax.pcolormesh(X_vals, Y_vals, error_vals, **plot_kwargs)
+    
+    # Configuración de ejes
+    ax.set_title(f"Tiempo = {t_val:.2f}", pad=10)
+    ax.set_xlabel("X")
+    ax.set_ylabel("Y")
+    ax.set_aspect('equal')
+
+    abs_errors_pc.append(pc)
+
+cbar = fig.colorbar(abs_errors_pc[-1], ax=axes,
+                    use_gridspec=True, shrink=0.9,
+                    aspect=90, pad=0.1, orientation='horizontal')
+cbar.set_label('Error absoluto [θ]')
+
+# Mostrar el gráfico
+plt.show()
 ```
 
 :::

@@ -64,4 +64,89 @@ Cabe decir que se modeló el caso más sencillo, que es asumiendo la fuente de c
 2. **Perfusión sanguínea constante**: Supone flujo sanguíneo estable en el dominio.  
 3. **Aplicaciones clínicas**: Hipertermia, crioterapia y modelado térmico en terapias oncológicas.  
 
+## Solución analítica {#sec-sol-ana}
+
+
+Basado en lo anterior se codificó la solución analítica y se guardó en un dataframe para los tiempos de interes 
+```{python}
+#| output: false
+#| warning: false
+
+import numpy as np
+import pandas as pd
+
+# ---------- Parámetros físicos ----------
+p = 1050     # densidad
+c = 3639     # calor específico
+keff = 5     # conductividad efectiva
+tf = 1800    # tiempo característico
+L0 = 0.05    # longitud característica
+cb = 3825    # perfusión
+Q = 0        # fuente (no usada aquí)
+
+# Parámetro auxiliar
+alpha_phys = p * c / keff
+
+# ---------- Coeficientes adimensionales ----------
+a1 = tf / (alpha_phys * L0**2)
+a2 = tf * cb / (p * c)
+
+# ---------- Parámetros de la serie analítica ----------
+W = 1.0
+M = 60  # número de modos en el truncamiento
+
+m = np.arange(1, M+1)
+alpha_m = (2*m - 1) * np.pi / 2.0     # α_m
+lambda_m = alpha_m**2
+sigma_m = a1 * lambda_m + a2 * W      # σ_m
+
+sign = (-1.0)**(m-1)
+c_m = -2.0 * sign / (alpha_m**2)
+d_m = -2.0 * a2 * W * sign / (alpha_m**2)
+
+# ---------- Mallado en espacio y tiempos ----------
+step = 0.04
+grid_vals = np.round(np.arange(0.0, 1.0 + 1e-12, step), 2)  # 0.00, 0.04, ..., 1.00
+x = grid_vals.copy()
+y = grid_vals.copy()
+X, Y = np.meshgrid(x, y, indexing='xy')
+
+times = [0.0, 0.25, 0.5, 0.75, 1.0]
+
+# ---------- Función para calcular θ(x,τ) ----------
+def theta_xt(x_vec, tau_val):
+    """Devuelve theta(x, tau) en un vector de x, usando la serie truncada."""
+    # coeficientes a_m(tau)
+    small_mask = np.isclose(sigma_m, 0.0, atol=1e-12)
+    a = np.empty_like(sigma_m)
+    if np.any(small_mask):
+        a[small_mask] = c_m[small_mask]*tau_val + 0.5*d_m[small_mask]*tau_val**2
+    if np.any(~small_mask):
+        s = sigma_m[~small_mask]
+        cm = c_m[~small_mask]
+        dm = d_m[~small_mask]
+        a[~small_mask] = cm*(1.0 - np.exp(-s*tau_val))/s + dm*(s*tau_val - 1.0 + np.exp(-s*tau_val))/s**2
+    # suma modal
+    sin_ax = np.sin(np.outer(alpha_m, x_vec))   # (M, Nx)
+    theta_series = a.dot(sin_ax)                # (Nx,)
+    # añadir φ(x,τ) = x τ
+    return theta_series + tau_val * x_vec
+
+# ---------- Construcción del DataFrame ----------
+results = []
+for t_val in times:
+    theta_x = theta_xt(x, t_val)         # (Nx,)
+    Theta = np.tile(theta_x, (y.size, 1))  # shape (Ny, Nx)
+    for xi, yi, thetai in zip(X.ravel(), Y.ravel(), Theta.ravel()):
+        results.append([t_val, float(xi), float(yi), float(thetai)])
+
+df = pd.DataFrame(results, columns=["time", "X", "Y", "Theta"])
+
+# ---------- Guardar en CSV ----------
+df.to_csv("data/sol_analitica.csv", index=False)
+```
+
+
+
+
 :::

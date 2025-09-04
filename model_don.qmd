@@ -8,7 +8,7 @@ execute:
 Conforme se ha referido previamente, el desarrollo del modelo predictivo se realizó utilizando el framework DeepXDE (versión 1.10.1) con backend de TensorFlow 1.x (configurado mediante tensorflow.compat.v1). Para asegurar reproducibilidad, se fijó la semilla aleatoria en 123 a nivel de DeepXDE, TensorFlow y NumPy. La red neuronal se implementó como un DeepONetCartesianProd con la siguiente estructura especializada:
 
 - Rama (*branch*)
-    - Capa de entrada: (num_sensors + 1)² = 25 neuronas.
+    - Capa de entrada: (num_sensors + 1)² = 64 neuronas.
     - 3 capas ocultas de 20 neuronas cada una.
 - Tronco (*trunk*)
     - Capa de entrada: 3 neuronas (coordenadas espaciotemporales x, y, t).
@@ -16,7 +16,7 @@ Conforme se ha referido previamente, el desarrollo del modelo predictivo se real
 - Hiperparámetros clave
     - Función de activación: ELU (Exponential Linear Unit).
     - Inicialización de pesos: Glorot normal.
-    - Optimizador: Adam con tasa de aprendizaje inicial de 2×10⁻³ y decaimiento exponencial (decay_rate=0.05 cada 1000 pasos).
+    - Optimizador: Adam con tasa de aprendizaje inicial de 2×10⁻³ y decaimiento exponencial (decay_rate=0.05 cada 500 pasos).
 ```{python}
 #| output: false
 #| warning: false
@@ -36,7 +36,7 @@ dde.config.set_random_seed(123)
 p = 1050
 c = 3639
 keff = 5
-tf = 1800
+final_time = 1800
 L0 = 0.05
 cb = 3825
 Q = 0
@@ -45,9 +45,9 @@ Ta = 37
 alpha = p * c / keff
 
 # Coeficientes adimencionales
-a1 = tf / (alpha * L0**2)
-a2 = tf * cb / (p * c)
-a3 = (tf * Q) / (p * c * (TM - Ta))
+a1 = final_time / (alpha * L0**2)
+a2 = final_time * cb / (p * c)
+a3 = (final_time * Q) / (p * c * (TM - Ta))
 
 # Dominio de las fronteras
 x_initial, x_boundary = 0.0, 1.0
@@ -55,13 +55,13 @@ y_initial, y_boundary = 0.0, 1.0
 t_initial, t_final = 0.0, 1.0
 
 # Configuracion del numero de datos
-pts_dom = 30
-pts_bc = 20
-pts_ic = 40
+pts_dom = 45
+pts_bc = 35
+pts_ic = 20
 num_test = 25
 
 # Malla de sensores y espacio de funciones
-num_sensors = 6
+num_sensors = 7
 num_function = 25
 size_cov_matrix = 40
 
@@ -73,10 +73,10 @@ k_initializer = "Glorot normal"
 
 
 # Parámetros de entrenamiento
-num_iterations = 15000
+num_iterations = 5000
 learning_rate = 2e-3
 decay_rate = 0.05
-decay_steps = 1000
+decay_steps = 500
 
 # -------------------------------------------------------------------------
 # Dominio espacial y temporal
@@ -92,13 +92,16 @@ geomtime = dde.geometry.GeometryXTime(spatial_domain, time_domain)
 # -------------------------------------------------------------------------
 
 def initial_condition(X):
-    return 0
+    X = np.asarray(X)
+    if X.ndim == 1:
+        return 0.0
+    return np.zeros((X.shape[0], 1))
 
-def heat_equation(func, u, coords):
-    u_t = dde.grad.jacobian(u, func, i=0, j=2)
-    u_xx = dde.grad.hessian(u, func, i=0, j=0)
-    u_yy = dde.grad.hessian(u, func, i=1, j=1)
-    return a1 * u_t - (u_xx + u_yy) + a2 * u
+def heat_equation(x, u, coords):
+    u_t = dde.grad.jacobian(u, x, i=0, j=2)
+    u_xx = dde.grad.hessian(u, x, i=0, j=0)
+    u_yy = dde.grad.hessian(u, x, i=1, j=1)
+    return u_t - a1*(u_xx + u_yy) + a2*u
 
 def zero_value(X):
     return 0
@@ -210,7 +213,7 @@ model = dde.Model(data, net)
 model.compile("adam", lr=learning_rate,
             decay=("inverse time", decay_steps, decay_rate))
 losshistory, train_state = model.train(iterations=num_iterations,
-display_every=500)
+display_every=decay_steps)
 
 # Refinamiento con el optimizador L-BFGS
 model.compile("L-BFGS")

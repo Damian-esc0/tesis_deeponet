@@ -253,10 +253,10 @@
 \floatname{codelisting}{Listado}
 \newcommand*\listoflistings{\listof{codelisting}{Listado de Listados}}
 \usepackage{amsthm}
-\theoremstyle{plain}
-\newtheorem{theorem}{Teorema}[chapter]
 \theoremstyle{definition}
 \newtheorem{definition}{Definición}[chapter]
+\theoremstyle{plain}
+\newtheorem{theorem}{Teorema}[chapter]
 \theoremstyle{remark}
 \AtBeginDocument{\renewcommand*{\proofname}{Prueba}}
 \newtheorem*{remark}{Observación}
@@ -790,7 +790,7 @@ problema original. Este es el enfoque más común porque los métodos de
 aproximación proporcionan resultados más precisos e información de error
 realista (\citeproc{ref-burden2011}{Burden y Faires 2010}).
 
-\begin{tcolorbox}[enhanced jigsaw, rightrule=.15mm, breakable, toprule=.15mm, bottomrule=.15mm, colframe=quarto-callout-caution-color-frame, bottomtitle=1mm, left=2mm, toptitle=1mm, title={Ejemplo}, opacityback=0, coltitle=black, opacitybacktitle=0.6, leftrule=.75mm, colbacktitle=quarto-callout-caution-color!10!white, colback=white, titlerule=0mm, arc=.35mm]
+\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, opacityback=0, toptitle=1mm, toprule=.15mm, breakable, colbacktitle=quarto-callout-caution-color!10!white, colback=white, coltitle=black, bottomtitle=1mm, colframe=quarto-callout-caution-color-frame, titlerule=0mm, leftrule=.75mm, title={Ejemplo}, rightrule=.15mm, left=2mm, arc=.35mm, bottomrule=.15mm]
 
 El movimiento de un péndulo oscilante bajo ciertas suposiciones se
 describe mediante la ecuación diferencial de segundo orden: \[
@@ -886,7 +886,7 @@ tiene una solución única \(y(t)\) para \(a\leq t \leq b\).
 
 \end{theorem}
 
-\begin{tcolorbox}[enhanced jigsaw, rightrule=.15mm, breakable, toprule=.15mm, bottomrule=.15mm, colframe=quarto-callout-caution-color-frame, bottomtitle=1mm, left=2mm, toptitle=1mm, title={Ejemplo}, opacityback=0, coltitle=black, opacitybacktitle=0.6, leftrule=.75mm, colbacktitle=quarto-callout-caution-color!10!white, colback=white, titlerule=0mm, arc=.35mm]
+\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, opacityback=0, toptitle=1mm, toprule=.15mm, breakable, colbacktitle=quarto-callout-caution-color!10!white, colback=white, coltitle=black, bottomtitle=1mm, colframe=quarto-callout-caution-color-frame, titlerule=0mm, leftrule=.75mm, title={Ejemplo}, rightrule=.15mm, left=2mm, arc=.35mm, bottomrule=.15mm]
 
 Use el Teorema~\ref{thm-uniq-sol} para mostrar que hay una única
 solución al problema de valor inicial: \[
@@ -973,7 +973,7 @@ Supongamos
 
 \end{theorem}
 
-\begin{tcolorbox}[enhanced jigsaw, rightrule=.15mm, breakable, toprule=.15mm, bottomrule=.15mm, colframe=quarto-callout-caution-color-frame, bottomtitle=1mm, left=2mm, toptitle=1mm, title={Ejemplo}, opacityback=0, coltitle=black, opacitybacktitle=0.6, leftrule=.75mm, colbacktitle=quarto-callout-caution-color!10!white, colback=white, titlerule=0mm, arc=.35mm]
+\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, opacityback=0, toptitle=1mm, toprule=.15mm, breakable, colbacktitle=quarto-callout-caution-color!10!white, colback=white, coltitle=black, bottomtitle=1mm, colframe=quarto-callout-caution-color-frame, titlerule=0mm, leftrule=.75mm, title={Ejemplo}, rightrule=.15mm, left=2mm, arc=.35mm, bottomrule=.15mm]
 
 Demostrar que el problema de valor inicial\\
 \[
@@ -1758,6 +1758,88 @@ adecuadas}\label{condiciones-de-uso-adecuadas}
   térmico en terapias oncológicas.
 \end{enumerate}
 
+\section{Solución analítica}\label{sec-sol-ana}
+
+Basado en lo anterior se codificó la solución analítica y se guardó en
+un dataframe para los tiempos de interes
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
+\ImportTok{import}\NormalTok{ pandas }\ImportTok{as}\NormalTok{ pd}
+
+\CommentTok{\# {-}{-}{-}{-}{-}{-}{-}{-}{-}{-} Parámetros físicos {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+\NormalTok{p }\OperatorTok{=} \DecValTok{1050}     \CommentTok{\# densidad}
+\NormalTok{c }\OperatorTok{=} \DecValTok{3639}     \CommentTok{\# calor específico}
+\NormalTok{keff }\OperatorTok{=} \DecValTok{5}     \CommentTok{\# conductividad efectiva}
+\NormalTok{tf }\OperatorTok{=} \DecValTok{1800}    \CommentTok{\# tiempo característico}
+\NormalTok{L0 }\OperatorTok{=} \FloatTok{0.05}    \CommentTok{\# longitud característica}
+\NormalTok{cb }\OperatorTok{=} \DecValTok{3825}    \CommentTok{\# perfusión}
+\NormalTok{Q }\OperatorTok{=} \DecValTok{0}        \CommentTok{\# fuente (no usada aquí)}
+
+\CommentTok{\# Parámetro auxiliar}
+\NormalTok{alpha\_phys }\OperatorTok{=}\NormalTok{ p }\OperatorTok{*}\NormalTok{ c }\OperatorTok{/}\NormalTok{ keff}
+
+\CommentTok{\# {-}{-}{-}{-}{-}{-}{-}{-}{-}{-} Coeficientes adimensionales {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+\NormalTok{a1 }\OperatorTok{=}\NormalTok{ tf }\OperatorTok{/}\NormalTok{ (alpha\_phys }\OperatorTok{*}\NormalTok{ L0}\OperatorTok{**}\DecValTok{2}\NormalTok{)}
+\NormalTok{a2 }\OperatorTok{=}\NormalTok{ tf }\OperatorTok{*}\NormalTok{ cb }\OperatorTok{/}\NormalTok{ (p }\OperatorTok{*}\NormalTok{ c)}
+
+\CommentTok{\# {-}{-}{-}{-}{-}{-}{-}{-}{-}{-} Parámetros de la serie analítica {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+\NormalTok{W }\OperatorTok{=} \FloatTok{1.0}
+\NormalTok{M }\OperatorTok{=} \DecValTok{60}  \CommentTok{\# número de modos en el truncamiento}
+
+\NormalTok{m }\OperatorTok{=}\NormalTok{ np.arange(}\DecValTok{1}\NormalTok{, M}\OperatorTok{+}\DecValTok{1}\NormalTok{)}
+\NormalTok{alpha\_m }\OperatorTok{=}\NormalTok{ (}\DecValTok{2}\OperatorTok{*}\NormalTok{m }\OperatorTok{{-}} \DecValTok{1}\NormalTok{) }\OperatorTok{*}\NormalTok{ np.pi }\OperatorTok{/} \FloatTok{2.0}     \CommentTok{\# α\_m}
+\NormalTok{lambda\_m }\OperatorTok{=}\NormalTok{ alpha\_m}\OperatorTok{**}\DecValTok{2}
+\NormalTok{sigma\_m }\OperatorTok{=}\NormalTok{ a1 }\OperatorTok{*}\NormalTok{ lambda\_m }\OperatorTok{+}\NormalTok{ a2 }\OperatorTok{*}\NormalTok{ W      }\CommentTok{\# σ\_m}
+
+\NormalTok{sign }\OperatorTok{=}\NormalTok{ (}\OperatorTok{{-}}\FloatTok{1.0}\NormalTok{)}\OperatorTok{**}\NormalTok{(m}\OperatorTok{{-}}\DecValTok{1}\NormalTok{)}
+\NormalTok{c\_m }\OperatorTok{=} \OperatorTok{{-}}\FloatTok{2.0} \OperatorTok{*}\NormalTok{ sign }\OperatorTok{/}\NormalTok{ (alpha\_m}\OperatorTok{**}\DecValTok{2}\NormalTok{)}
+\NormalTok{d\_m }\OperatorTok{=} \OperatorTok{{-}}\FloatTok{2.0} \OperatorTok{*}\NormalTok{ a2 }\OperatorTok{*}\NormalTok{ W }\OperatorTok{*}\NormalTok{ sign }\OperatorTok{/}\NormalTok{ (alpha\_m}\OperatorTok{**}\DecValTok{2}\NormalTok{)}
+
+\CommentTok{\# {-}{-}{-}{-}{-}{-}{-}{-}{-}{-} Mallado en espacio y tiempos {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+\NormalTok{step }\OperatorTok{=} \FloatTok{0.04}
+\NormalTok{grid\_vals }\OperatorTok{=}\NormalTok{ np.}\BuiltInTok{round}\NormalTok{(np.arange(}\FloatTok{0.0}\NormalTok{, }\FloatTok{1.0} \OperatorTok{+} \FloatTok{1e{-}12}\NormalTok{, step), }\DecValTok{2}\NormalTok{)  }\CommentTok{\# 0.00, 0.04, ..., 1.00}
+\NormalTok{x }\OperatorTok{=}\NormalTok{ grid\_vals.copy()}
+\NormalTok{y }\OperatorTok{=}\NormalTok{ grid\_vals.copy()}
+\NormalTok{X, Y }\OperatorTok{=}\NormalTok{ np.meshgrid(x, y, indexing}\OperatorTok{=}\StringTok{\textquotesingle{}xy\textquotesingle{}}\NormalTok{)}
+
+\NormalTok{times }\OperatorTok{=}\NormalTok{ [}\FloatTok{0.0}\NormalTok{, }\FloatTok{0.25}\NormalTok{, }\FloatTok{0.5}\NormalTok{, }\FloatTok{0.75}\NormalTok{, }\FloatTok{1.0}\NormalTok{]}
+
+\CommentTok{\# {-}{-}{-}{-}{-}{-}{-}{-}{-}{-} Función para calcular θ(x,τ) {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+\KeywordTok{def}\NormalTok{ theta\_xt(x\_vec, tau\_val):}
+    \CommentTok{"""Devuelve theta(x, tau) en un vector de x, usando la serie truncada."""}
+    \CommentTok{\# coeficientes a\_m(tau)}
+\NormalTok{    small\_mask }\OperatorTok{=}\NormalTok{ np.isclose(sigma\_m, }\FloatTok{0.0}\NormalTok{, atol}\OperatorTok{=}\FloatTok{1e{-}12}\NormalTok{)}
+\NormalTok{    a }\OperatorTok{=}\NormalTok{ np.empty\_like(sigma\_m)}
+    \ControlFlowTok{if}\NormalTok{ np.}\BuiltInTok{any}\NormalTok{(small\_mask):}
+\NormalTok{        a[small\_mask] }\OperatorTok{=}\NormalTok{ c\_m[small\_mask]}\OperatorTok{*}\NormalTok{tau\_val }\OperatorTok{+} \FloatTok{0.5}\OperatorTok{*}\NormalTok{d\_m[small\_mask]}\OperatorTok{*}\NormalTok{tau\_val}\OperatorTok{**}\DecValTok{2}
+    \ControlFlowTok{if}\NormalTok{ np.}\BuiltInTok{any}\NormalTok{(}\OperatorTok{\textasciitilde{}}\NormalTok{small\_mask):}
+\NormalTok{        s }\OperatorTok{=}\NormalTok{ sigma\_m[}\OperatorTok{\textasciitilde{}}\NormalTok{small\_mask]}
+\NormalTok{        cm }\OperatorTok{=}\NormalTok{ c\_m[}\OperatorTok{\textasciitilde{}}\NormalTok{small\_mask]}
+\NormalTok{        dm }\OperatorTok{=}\NormalTok{ d\_m[}\OperatorTok{\textasciitilde{}}\NormalTok{small\_mask]}
+\NormalTok{        a[}\OperatorTok{\textasciitilde{}}\NormalTok{small\_mask] }\OperatorTok{=}\NormalTok{ cm}\OperatorTok{*}\NormalTok{(}\FloatTok{1.0} \OperatorTok{{-}}\NormalTok{ np.exp(}\OperatorTok{{-}}\NormalTok{s}\OperatorTok{*}\NormalTok{tau\_val))}\OperatorTok{/}\NormalTok{s }\OperatorTok{+}\NormalTok{ dm}\OperatorTok{*}\NormalTok{(s}\OperatorTok{*}\NormalTok{tau\_val }\OperatorTok{{-}} \FloatTok{1.0} \OperatorTok{+}\NormalTok{ np.exp(}\OperatorTok{{-}}\NormalTok{s}\OperatorTok{*}\NormalTok{tau\_val))}\OperatorTok{/}\NormalTok{s}\OperatorTok{**}\DecValTok{2}
+    \CommentTok{\# suma modal}
+\NormalTok{    sin\_ax }\OperatorTok{=}\NormalTok{ np.sin(np.outer(alpha\_m, x\_vec))   }\CommentTok{\# (M, Nx)}
+\NormalTok{    theta\_series }\OperatorTok{=}\NormalTok{ a.dot(sin\_ax)                }\CommentTok{\# (Nx,)}
+    \CommentTok{\# añadir φ(x,τ) = x τ}
+    \ControlFlowTok{return}\NormalTok{ theta\_series }\OperatorTok{+}\NormalTok{ tau\_val }\OperatorTok{*}\NormalTok{ x\_vec}
+
+\CommentTok{\# {-}{-}{-}{-}{-}{-}{-}{-}{-}{-} Construcción del DataFrame {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+\NormalTok{results }\OperatorTok{=}\NormalTok{ []}
+\ControlFlowTok{for}\NormalTok{ t\_val }\KeywordTok{in}\NormalTok{ times:}
+\NormalTok{    theta\_x }\OperatorTok{=}\NormalTok{ theta\_xt(x, t\_val)         }\CommentTok{\# (Nx,)}
+\NormalTok{    Theta }\OperatorTok{=}\NormalTok{ np.tile(theta\_x, (y.size, }\DecValTok{1}\NormalTok{))  }\CommentTok{\# shape (Ny, Nx)}
+    \ControlFlowTok{for}\NormalTok{ xi, yi, thetai }\KeywordTok{in} \BuiltInTok{zip}\NormalTok{(X.ravel(), Y.ravel(), Theta.ravel()):}
+\NormalTok{        results.append([t\_val, }\BuiltInTok{float}\NormalTok{(xi), }\BuiltInTok{float}\NormalTok{(yi), }\BuiltInTok{float}\NormalTok{(thetai)])}
+
+\NormalTok{df }\OperatorTok{=}\NormalTok{ pd.DataFrame(results, columns}\OperatorTok{=}\NormalTok{[}\StringTok{"time"}\NormalTok{, }\StringTok{"X"}\NormalTok{, }\StringTok{"Y"}\NormalTok{, }\StringTok{"Theta"}\NormalTok{])}
+
+\CommentTok{\# {-}{-}{-}{-}{-}{-}{-}{-}{-}{-} Guardar en CSV {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+\NormalTok{df.to\_csv(}\StringTok{"data/sol\_analitica.csv"}\NormalTok{, index}\OperatorTok{=}\VariableTok{False}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
 \chapter{Modelado del Bio-Calor en
 Hipertermia}\label{modelado-del-bio-calor-en-hipertermia}
 
@@ -2025,7 +2107,7 @@ modelo, sino también sus desviaciones locales más significativas,
 particularmente en regiones con alta variabilidad espacial. Los
 resultados detallados de este análisis, junto con una discusión sobre la
 eficiencia computacional relativa entre ambos métodos, se presentan en
-la Tabla~\ref{tbl-errores}.
+la Tabla~\ref{tbl-errores-num} y Tabla~\ref{tbl-errores-ana}.
 
 \section{Análisis y conclusión}\label{anuxe1lisis-y-conclusiuxf3n}
 
@@ -2070,7 +2152,7 @@ temporal de la solución en el dominio de estudio.
 \NormalTok{α }\OperatorTok{=}\NormalTok{ p }\OperatorTok{*}\NormalTok{ c }\OperatorTok{/}\NormalTok{ k\_eff}
 \NormalTok{a₁ }\OperatorTok{=}\NormalTok{ t\_f }\OperatorTok{/}\NormalTok{ (α }\OperatorTok{*}\NormalTok{ L}\OperatorTok{\^{}}\FloatTok{2}\NormalTok{)}
 \NormalTok{a₂ }\OperatorTok{=}\NormalTok{ t\_f }\OperatorTok{*}\NormalTok{ c\_b }\OperatorTok{/}\NormalTok{ (p }\OperatorTok{*}\NormalTok{ c)}
-\NormalTok{a₃ }\OperatorTok{=}\NormalTok{ (t\_f }\OperatorTok{*}\NormalTok{ Q) }\OperatorTok{/}\NormalTok{ (p }\OperatorTok{*}\NormalTok{ c }\OperatorTok{*}\NormalTok{ (T\_M }\OperatorTok{{-}}\NormalTok{ T\_a))}
+\NormalTok{a₃ }\OperatorTok{=}\NormalTok{ (t\_f }\OperatorTok{*}\NormalTok{ Q) }\OperatorTok{/}\NormalTok{ (p }\OperatorTok{*}\NormalTok{ c }\OperatorTok{*}\NormalTok{ (T\_M }\OperatorTok{{-}}\NormalTok{ T\_a))  }\CommentTok{\# aquí Q=0 → a₃=0}
 
 \CommentTok{\# {-}{-}{-} MALLA ESPACIAL {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
 \NormalTok{Nx, Ny }\OperatorTok{=} \FloatTok{51}\NormalTok{, }\FloatTok{51}
@@ -2080,34 +2162,55 @@ temporal de la solución en el dominio de estudio.
 \NormalTok{N }\OperatorTok{=}\NormalTok{ Nx }\OperatorTok{*}\NormalTok{ Ny  }\CommentTok{\# total de puntos}
 
 \CommentTok{\# {-}{-}{-} CONDICIÓN INICIAL {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
-\NormalTok{u0 }\OperatorTok{=} \FunctionTok{zeros}\NormalTok{(N)}
+\NormalTok{u0 }\OperatorTok{=} \FunctionTok{zeros}\NormalTok{(N)   }\CommentTok{\# coincide con la condición inicial θ=0}
 
 \CommentTok{\# {-}{-}{-} SISTEMA DE EDOs DEL PDE {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
 \KeywordTok{function} \FunctionTok{f!}\NormalTok{(du, u, \_, τ)}
-\NormalTok{    U }\OperatorTok{=} \FunctionTok{reshape}\NormalTok{(u, Nx, Ny)}
-\NormalTok{    D }\OperatorTok{=} \FunctionTok{similar}\NormalTok{(U)}
+\NormalTok{    U }\OperatorTok{=} \FunctionTok{reshape}\NormalTok{(u, Nx, Ny)           }\CommentTok{\# arreglo 2D con los valores actuales}
+\NormalTok{    D }\OperatorTok{=} \FunctionTok{zeros}\NormalTok{(}\FunctionTok{eltype}\NormalTok{(U), Nx, Ny)     }\CommentTok{\# preasigno en cero}
+
+    \CommentTok{\# Enforce Dirichlet en X=0: θ(0,y,τ) = 0 (mantenemos esa fila = 0)}
+\NormalTok{    U[}\FloatTok{1}\NormalTok{, }\OperatorTok{:}\NormalTok{] }\OperatorTok{.=} \FloatTok{0.0}
+
     \PreprocessorTok{@inbounds} \ControlFlowTok{for}\NormalTok{ i }\KeywordTok{in} \FloatTok{1}\OperatorTok{:}\NormalTok{Nx, j }\KeywordTok{in} \FloatTok{1}\OperatorTok{:}\NormalTok{Ny}
-        \CommentTok{\# Derivadas segunda en x}
-\NormalTok{        d2x }\OperatorTok{=} \ControlFlowTok{if}\NormalTok{ i }\OperatorTok{==} \FloatTok{1}
-\NormalTok{            (U[}\FloatTok{2}\NormalTok{, j] }\OperatorTok{{-}} \FloatTok{0}\NormalTok{) }\OperatorTok{/}\NormalTok{ dx}\OperatorTok{\^{}}\FloatTok{2}
-        \ControlFlowTok{elseif}\NormalTok{ i }\OperatorTok{==}\NormalTok{ Nx}
+        \CommentTok{\# Si estamos en la frontera izquierda X=0 (Dirichlet), }
+        \CommentTok{\# la condición fija implica ∂\_τ θ = 0 en esos puntos}
+        \CommentTok{\# (se mantiene constante).}
+        \ControlFlowTok{if}\NormalTok{ i }\OperatorTok{==} \FloatTok{1}
+\NormalTok{            D[i, j] }\OperatorTok{=} \FloatTok{0.0}
+            \ControlFlowTok{continue}
+        \ControlFlowTok{end}
+
+        \CommentTok{\# Derivada segunda en x:}
+        \ControlFlowTok{if}\NormalTok{ i }\OperatorTok{==}\NormalTok{ Nx}
+            \CommentTok{\# Neumann con valor no homogéneo en X=1: ∂\_X θ(1,y,τ) = τ}
+            \CommentTok{\# uso ghost node U\_\{N+1\} tal que (U\_\{N+1\} {-} U\_N)/dx = }
+            \CommentTok{\# τ → U\_\{N+1\} = U\_N + τ*dx}
 \NormalTok{            U\_ghost }\OperatorTok{=}\NormalTok{ U[Nx, j] }\OperatorTok{+}\NormalTok{ τ }\OperatorTok{*}\NormalTok{ dx}
-\NormalTok{            (U\_ghost }\OperatorTok{{-}} \FloatTok{2}\NormalTok{U[Nx, j] }\OperatorTok{+}\NormalTok{ U[Nx}\OperatorTok{{-}}\FloatTok{1}\NormalTok{, j]) }\OperatorTok{/}\NormalTok{ dx}\OperatorTok{\^{}}\FloatTok{2}
+\NormalTok{            d2x }\OperatorTok{=}\NormalTok{ (U\_ghost }\OperatorTok{{-}} \FloatTok{2}\NormalTok{U[Nx, j] }\OperatorTok{+}\NormalTok{ U[Nx}\OperatorTok{{-}}\FloatTok{1}\NormalTok{, j]) }\OperatorTok{/}\NormalTok{ dx}\OperatorTok{\^{}}\FloatTok{2}
         \ControlFlowTok{else}
-\NormalTok{            (U[i}\OperatorTok{+}\FloatTok{1}\NormalTok{, j] }\OperatorTok{{-}} \FloatTok{2}\NormalTok{U[i, j] }\OperatorTok{+}\NormalTok{ U[i}\OperatorTok{{-}}\FloatTok{1}\NormalTok{, j]) }\OperatorTok{/}\NormalTok{ dx}\OperatorTok{\^{}}\FloatTok{2}
+            \CommentTok{\# interior (o i==2 cuando i{-}1 existe)}
+\NormalTok{            d2x }\OperatorTok{=}\NormalTok{ (U[i}\OperatorTok{+}\FloatTok{1}\NormalTok{, j] }\OperatorTok{{-}} \FloatTok{2}\NormalTok{U[i, j] }\OperatorTok{+}\NormalTok{ U[i}\OperatorTok{{-}}\FloatTok{1}\NormalTok{, j]) }\OperatorTok{/}\NormalTok{ dx}\OperatorTok{\^{}}\FloatTok{2}
         \ControlFlowTok{end}
 
-        \CommentTok{\# Derivadas segunda en y}
-\NormalTok{        d2y }\OperatorTok{=} \ControlFlowTok{if}\NormalTok{ j }\OperatorTok{==} \FloatTok{1}
-\NormalTok{            (U[i, }\FloatTok{2}\NormalTok{] }\OperatorTok{{-}}\NormalTok{ U[i, }\FloatTok{1}\NormalTok{]) }\OperatorTok{/}\NormalTok{ dy}\OperatorTok{\^{}}\FloatTok{2}
+        \CommentTok{\# Derivada segunda en y (bordes Y=0 y Y=1 son }
+        \CommentTok{\# Neumann homogéneos ∂\_Y = 0)}
+        \ControlFlowTok{if}\NormalTok{ j }\OperatorTok{==} \FloatTok{1}
+            \CommentTok{\# j=1: ghost U\_0 = U\_2  → segunda derivada = }
+            \CommentTok{\# 2*(U[2] {-} U[1]) / dy\^{}2}
+\NormalTok{            d2y }\OperatorTok{=} \FloatTok{2}\FunctionTok{*}\NormalTok{(U[i, }\FloatTok{2}\NormalTok{] }\OperatorTok{{-}}\NormalTok{ U[i, }\FloatTok{1}\NormalTok{]) }\OperatorTok{/}\NormalTok{ dy}\OperatorTok{\^{}}\FloatTok{2}
         \ControlFlowTok{elseif}\NormalTok{ j }\OperatorTok{==}\NormalTok{ Ny}
-\NormalTok{            (U[i, Ny}\OperatorTok{{-}}\FloatTok{1}\NormalTok{] }\OperatorTok{{-}}\NormalTok{ U[i, Ny]) }\OperatorTok{/}\NormalTok{ dy}\OperatorTok{\^{}}\FloatTok{2}
+            \CommentTok{\# j=Ny: ghost U\_\{Ny+1\} = U\_\{Ny{-}1\} → segunda derivada = }
+            \CommentTok{\# 2*(U[Ny{-}1] {-} U[Ny]) / dy\^{}2}
+\NormalTok{            d2y }\OperatorTok{=} \FloatTok{2}\FunctionTok{*}\NormalTok{(U[i, Ny}\OperatorTok{{-}}\FloatTok{1}\NormalTok{] }\OperatorTok{{-}}\NormalTok{ U[i, Ny]) }\OperatorTok{/}\NormalTok{ dy}\OperatorTok{\^{}}\FloatTok{2}
         \ControlFlowTok{else}
-\NormalTok{            (U[i, j}\OperatorTok{+}\FloatTok{1}\NormalTok{] }\OperatorTok{{-}} \FloatTok{2}\NormalTok{U[i, j] }\OperatorTok{+}\NormalTok{ U[i, j}\OperatorTok{{-}}\FloatTok{1}\NormalTok{]) }\OperatorTok{/}\NormalTok{ dy}\OperatorTok{\^{}}\FloatTok{2}
+\NormalTok{            d2y }\OperatorTok{=}\NormalTok{ (U[i, j}\OperatorTok{+}\FloatTok{1}\NormalTok{] }\OperatorTok{{-}} \FloatTok{2}\NormalTok{U[i, j] }\OperatorTok{+}\NormalTok{ U[i, j}\OperatorTok{{-}}\FloatTok{1}\NormalTok{]) }\OperatorTok{/}\NormalTok{ dy}\OperatorTok{\^{}}\FloatTok{2}
         \ControlFlowTok{end}
 
-\NormalTok{        D[i, j] }\OperatorTok{=}\NormalTok{ (d2x }\OperatorTok{+}\NormalTok{ d2y }\OperatorTok{{-}}\NormalTok{ a₂ }\OperatorTok{*}\NormalTok{ U[i, j] }\OperatorTok{+}\NormalTok{ a₃) }\OperatorTok{/}\NormalTok{ a₁}
+        \CommentTok{\# ECUACIÓN: ∂\_τ θ = a₁ * (d2x + d2y) {-} a₂ * θ + a₃}
+\NormalTok{        D[i, j] }\OperatorTok{=}\NormalTok{ a₁ }\OperatorTok{*}\NormalTok{ (d2x }\OperatorTok{+}\NormalTok{ d2y) }\OperatorTok{{-}}\NormalTok{ a₂ }\OperatorTok{*}\NormalTok{ U[i, j] }\OperatorTok{+}\NormalTok{ a₃}
     \ControlFlowTok{end}
+
 \NormalTok{    du }\OperatorTok{.=} \FunctionTok{vec}\NormalTok{(D)}
 \KeywordTok{end}
 
@@ -2119,7 +2222,6 @@ temporal de la solución en el dominio de estudio.
 
 \CommentTok{\# {-}{-}{-} PROCESAR SOLUCIÓN EN GRILLA REDUCIDA {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
 \NormalTok{idxs }\OperatorTok{=} \FloatTok{1}\OperatorTok{:}\FloatTok{2}\OperatorTok{:}\NormalTok{Nx  }\CommentTok{\# índices para submuestreo}
-\NormalTok{npts }\OperatorTok{=} \FunctionTok{length}\NormalTok{(idxs)}\OperatorTok{\^{}}\FloatTok{2} \OperatorTok{*} \FunctionTok{length}\NormalTok{(taus)}
 
 \CommentTok{\# Preasignar vectores para crear el DataFrame}
 \NormalTok{times }\OperatorTok{=} \DataTypeTok{Float64}\NormalTok{[]}
@@ -2127,8 +2229,10 @@ temporal de la solución en el dominio de estudio.
 \NormalTok{Ys }\OperatorTok{=} \DataTypeTok{Float64}\NormalTok{[]}
 \NormalTok{Thetas }\OperatorTok{=} \DataTypeTok{Float64}\NormalTok{[]}
 
-\ControlFlowTok{for}\NormalTok{ (k, τ) }\KeywordTok{in} \FunctionTok{enumerate}\NormalTok{(taus)}
+\ControlFlowTok{for}\NormalTok{ τ }\KeywordTok{in}\NormalTok{ taus}
 \NormalTok{    Θ }\OperatorTok{=} \FunctionTok{reshape}\NormalTok{(}\FunctionTok{sol}\NormalTok{(τ), Nx, Ny)}
+    \CommentTok{\# Asegurarse (por consistencia) que la frontera izquierda permanece 0}
+\NormalTok{    Θ[}\FloatTok{1}\NormalTok{, }\OperatorTok{:}\NormalTok{] }\OperatorTok{.=} \FloatTok{0.0}
     \ControlFlowTok{for}\NormalTok{ j }\KeywordTok{in}\NormalTok{ idxs, i }\KeywordTok{in}\NormalTok{ idxs}
         \FunctionTok{push!}\NormalTok{(times, τ)}
         \FunctionTok{push!}\NormalTok{(Xs, x[i])}
@@ -2257,7 +2361,7 @@ columnas:
 
 Este archivo permitió calcular de manera estandarizada las métricas de
 error (MAE, MaxAE, error L2) en la sección de comparación de resultados
-(Tabla~\ref{tbl-errores}).
+\ref{tbl-errores-num}.
 
 \chapter{Métricas del modelo}\label{muxe9tricas-del-modelo}
 
@@ -2276,7 +2380,7 @@ DeepONetCartesianProd con la siguiente estructura especializada:
   \begin{itemize}
   \tightlist
   \item
-    Capa de entrada: (num\_sensors + 1)² = 25 neuronas.
+    Capa de entrada: (num\_sensors + 1)² = 64 neuronas.
   \item
     3 capas ocultas de 20 neuronas cada una.
   \end{itemize}
@@ -2301,7 +2405,7 @@ DeepONetCartesianProd con la siguiente estructura especializada:
     Inicialización de pesos: Glorot normal.
   \item
     Optimizador: Adam con tasa de aprendizaje inicial de 2×10⁻³ y
-    decaimiento exponencial (decay\_rate=0.05 cada 1000 pasos).
+    decaimiento exponencial (decay\_rate=0.05 cada 500 pasos).
   \end{itemize}
 \end{itemize}
 
@@ -2323,7 +2427,7 @@ DeepONetCartesianProd con la siguiente estructura especializada:
 \NormalTok{p }\OperatorTok{=} \DecValTok{1050}
 \NormalTok{c }\OperatorTok{=} \DecValTok{3639}
 \NormalTok{keff }\OperatorTok{=} \DecValTok{5}
-\NormalTok{tf }\OperatorTok{=} \DecValTok{1800}
+\NormalTok{final\_time }\OperatorTok{=} \DecValTok{1800}
 \NormalTok{L0 }\OperatorTok{=} \FloatTok{0.05}
 \NormalTok{cb }\OperatorTok{=} \DecValTok{3825}
 \NormalTok{Q }\OperatorTok{=} \DecValTok{0}
@@ -2332,9 +2436,9 @@ DeepONetCartesianProd con la siguiente estructura especializada:
 \NormalTok{alpha }\OperatorTok{=}\NormalTok{ p }\OperatorTok{*}\NormalTok{ c }\OperatorTok{/}\NormalTok{ keff}
 
 \CommentTok{\# Coeficientes adimencionales}
-\NormalTok{a1 }\OperatorTok{=}\NormalTok{ tf }\OperatorTok{/}\NormalTok{ (alpha }\OperatorTok{*}\NormalTok{ L0}\OperatorTok{**}\DecValTok{2}\NormalTok{)}
-\NormalTok{a2 }\OperatorTok{=}\NormalTok{ tf }\OperatorTok{*}\NormalTok{ cb }\OperatorTok{/}\NormalTok{ (p }\OperatorTok{*}\NormalTok{ c)}
-\NormalTok{a3 }\OperatorTok{=}\NormalTok{ (tf }\OperatorTok{*}\NormalTok{ Q) }\OperatorTok{/}\NormalTok{ (p }\OperatorTok{*}\NormalTok{ c }\OperatorTok{*}\NormalTok{ (TM }\OperatorTok{{-}}\NormalTok{ Ta))}
+\NormalTok{a1 }\OperatorTok{=}\NormalTok{ final\_time }\OperatorTok{/}\NormalTok{ (alpha }\OperatorTok{*}\NormalTok{ L0}\OperatorTok{**}\DecValTok{2}\NormalTok{)}
+\NormalTok{a2 }\OperatorTok{=}\NormalTok{ final\_time }\OperatorTok{*}\NormalTok{ cb }\OperatorTok{/}\NormalTok{ (p }\OperatorTok{*}\NormalTok{ c)}
+\NormalTok{a3 }\OperatorTok{=}\NormalTok{ (final\_time }\OperatorTok{*}\NormalTok{ Q) }\OperatorTok{/}\NormalTok{ (p }\OperatorTok{*}\NormalTok{ c }\OperatorTok{*}\NormalTok{ (TM }\OperatorTok{{-}}\NormalTok{ Ta))}
 
 \CommentTok{\# Dominio de las fronteras}
 \NormalTok{x\_initial, x\_boundary }\OperatorTok{=} \FloatTok{0.0}\NormalTok{, }\FloatTok{1.0}
@@ -2342,13 +2446,13 @@ DeepONetCartesianProd con la siguiente estructura especializada:
 \NormalTok{t\_initial, t\_final }\OperatorTok{=} \FloatTok{0.0}\NormalTok{, }\FloatTok{1.0}
 
 \CommentTok{\# Configuracion del numero de datos}
-\NormalTok{pts\_dom }\OperatorTok{=} \DecValTok{30}
-\NormalTok{pts\_bc }\OperatorTok{=} \DecValTok{20}
-\NormalTok{pts\_ic }\OperatorTok{=} \DecValTok{40}
+\NormalTok{pts\_dom }\OperatorTok{=} \DecValTok{45}
+\NormalTok{pts\_bc }\OperatorTok{=} \DecValTok{35}
+\NormalTok{pts\_ic }\OperatorTok{=} \DecValTok{20}
 \NormalTok{num\_test }\OperatorTok{=} \DecValTok{25}
 
 \CommentTok{\# Malla de sensores y espacio de funciones}
-\NormalTok{num\_sensors }\OperatorTok{=} \DecValTok{6}
+\NormalTok{num\_sensors }\OperatorTok{=} \DecValTok{7}
 \NormalTok{num\_function }\OperatorTok{=} \DecValTok{25}
 \NormalTok{size\_cov\_matrix }\OperatorTok{=} \DecValTok{40}
 
@@ -2360,10 +2464,10 @@ DeepONetCartesianProd con la siguiente estructura especializada:
 
 
 \CommentTok{\# Parámetros de entrenamiento}
-\NormalTok{num\_iterations }\OperatorTok{=} \DecValTok{15000}
+\NormalTok{num\_iterations }\OperatorTok{=} \DecValTok{5000}
 \NormalTok{learning\_rate }\OperatorTok{=} \FloatTok{2e{-}3}
 \NormalTok{decay\_rate }\OperatorTok{=} \FloatTok{0.05}
-\NormalTok{decay\_steps }\OperatorTok{=} \DecValTok{1000}
+\NormalTok{decay\_steps }\OperatorTok{=} \DecValTok{500}
 
 \CommentTok{\# {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
 \CommentTok{\# Dominio espacial y temporal}
@@ -2379,13 +2483,16 @@ DeepONetCartesianProd con la siguiente estructura especializada:
 \CommentTok{\# {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
 
 \KeywordTok{def}\NormalTok{ initial\_condition(X):}
-    \ControlFlowTok{return} \DecValTok{0}
+\NormalTok{    X }\OperatorTok{=}\NormalTok{ np.asarray(X)}
+    \ControlFlowTok{if}\NormalTok{ X.ndim }\OperatorTok{==} \DecValTok{1}\NormalTok{:}
+        \ControlFlowTok{return} \FloatTok{0.0}
+    \ControlFlowTok{return}\NormalTok{ np.zeros((X.shape[}\DecValTok{0}\NormalTok{], }\DecValTok{1}\NormalTok{))}
 
-\KeywordTok{def}\NormalTok{ heat\_equation(func, u, coords):}
-\NormalTok{    u\_t }\OperatorTok{=}\NormalTok{ dde.grad.jacobian(u, func, i}\OperatorTok{=}\DecValTok{0}\NormalTok{, j}\OperatorTok{=}\DecValTok{2}\NormalTok{)}
-\NormalTok{    u\_xx }\OperatorTok{=}\NormalTok{ dde.grad.hessian(u, func, i}\OperatorTok{=}\DecValTok{0}\NormalTok{, j}\OperatorTok{=}\DecValTok{0}\NormalTok{)}
-\NormalTok{    u\_yy }\OperatorTok{=}\NormalTok{ dde.grad.hessian(u, func, i}\OperatorTok{=}\DecValTok{1}\NormalTok{, j}\OperatorTok{=}\DecValTok{1}\NormalTok{)}
-    \ControlFlowTok{return}\NormalTok{ a1 }\OperatorTok{*}\NormalTok{ u\_t }\OperatorTok{{-}}\NormalTok{ (u\_xx }\OperatorTok{+}\NormalTok{ u\_yy) }\OperatorTok{+}\NormalTok{ a2 }\OperatorTok{*}\NormalTok{ u}
+\KeywordTok{def}\NormalTok{ heat\_equation(x, u, coords):}
+\NormalTok{    u\_t }\OperatorTok{=}\NormalTok{ dde.grad.jacobian(u, x, i}\OperatorTok{=}\DecValTok{0}\NormalTok{, j}\OperatorTok{=}\DecValTok{2}\NormalTok{)}
+\NormalTok{    u\_xx }\OperatorTok{=}\NormalTok{ dde.grad.hessian(u, x, i}\OperatorTok{=}\DecValTok{0}\NormalTok{, j}\OperatorTok{=}\DecValTok{0}\NormalTok{)}
+\NormalTok{    u\_yy }\OperatorTok{=}\NormalTok{ dde.grad.hessian(u, x, i}\OperatorTok{=}\DecValTok{1}\NormalTok{, j}\OperatorTok{=}\DecValTok{1}\NormalTok{)}
+    \ControlFlowTok{return}\NormalTok{ u\_t }\OperatorTok{{-}}\NormalTok{ a1}\OperatorTok{*}\NormalTok{(u\_xx }\OperatorTok{+}\NormalTok{ u\_yy) }\OperatorTok{+}\NormalTok{ a2}\OperatorTok{*}\NormalTok{u}
 
 \KeywordTok{def}\NormalTok{ zero\_value(X):}
     \ControlFlowTok{return} \DecValTok{0}
@@ -2497,7 +2604,7 @@ DeepONetCartesianProd con la siguiente estructura especializada:
 \NormalTok{model.}\BuiltInTok{compile}\NormalTok{(}\StringTok{"adam"}\NormalTok{, lr}\OperatorTok{=}\NormalTok{learning\_rate,}
 \NormalTok{            decay}\OperatorTok{=}\NormalTok{(}\StringTok{"inverse time"}\NormalTok{, decay\_steps, decay\_rate))}
 \NormalTok{losshistory, train\_state }\OperatorTok{=}\NormalTok{ model.train(iterations}\OperatorTok{=}\NormalTok{num\_iterations,}
-\NormalTok{display\_every}\OperatorTok{=}\DecValTok{500}\NormalTok{)}
+\NormalTok{display\_every}\OperatorTok{=}\NormalTok{decay\_steps)}
 
 \CommentTok{\# Refinamiento con el optimizador L{-}BFGS}
 \NormalTok{model.}\BuiltInTok{compile}\NormalTok{(}\StringTok{"L{-}BFGS"}\NormalTok{)}
@@ -2836,14 +2943,14 @@ Crank Nickolson. La visualización paralela permite evaluar:
 \NormalTok{    ax.set\_title(}\SpecialStringTok{f"Time = }\SpecialCharTok{\{}\NormalTok{t\_val}\SpecialCharTok{:.2f\}}\SpecialStringTok{"}\NormalTok{, pad}\OperatorTok{=}\DecValTok{10}\NormalTok{)}
 \NormalTok{    ax.set\_xlabel(}\StringTok{"Y"}\NormalTok{, labelpad}\OperatorTok{=}\DecValTok{10}\NormalTok{)}
 \NormalTok{    ax.set\_ylabel(}\StringTok{"X"}\NormalTok{, labelpad}\OperatorTok{=}\DecValTok{10}\NormalTok{)}
-\NormalTok{    ax.set\_zlabel(}\StringTok{"T [K]"}\NormalTok{, labelpad}\OperatorTok{=}\DecValTok{10}\NormalTok{, rotation}\OperatorTok{=}\DecValTok{90}\NormalTok{)}
+\NormalTok{    ax.set\_zlabel(}\StringTok{"T [θ]"}\NormalTok{, labelpad}\OperatorTok{=}\DecValTok{10}\NormalTok{, rotation}\OperatorTok{=}\DecValTok{90}\NormalTok{)}
 
 
 \CommentTok{\# Añadir barra de color común}
 \NormalTok{cbar }\OperatorTok{=}\NormalTok{ fig.colorbar(surf\_list[}\OperatorTok{{-}}\DecValTok{1}\NormalTok{], ax}\OperatorTok{=}\NormalTok{axes,}
 \NormalTok{                    shrink}\OperatorTok{=}\FloatTok{0.9}\NormalTok{, aspect}\OperatorTok{=}\DecValTok{90}\NormalTok{,}
 \NormalTok{                    pad}\OperatorTok{=}\FloatTok{0.1}\NormalTok{, orientation}\OperatorTok{=}\StringTok{\textquotesingle{}horizontal\textquotesingle{}}\NormalTok{)}
-\NormalTok{cbar.set\_label(}\StringTok{\textquotesingle{}Temperatura [K]\textquotesingle{}}\NormalTok{)}
+\NormalTok{cbar.set\_label(}\StringTok{\textquotesingle{}Temperatura [θ]\textquotesingle{}}\NormalTok{)}
 
 \NormalTok{plt.show()}
 \end{Highlighting}
@@ -2857,8 +2964,8 @@ Crank Nickolson. La visualización paralela permite evaluar:
 
 }
 
-\caption{\label{fig-my_results}Predicciones de la red neuronal a
-distintos tiempos.}
+\caption{\label{fig-my_results}Predicciones del modelo a distintos
+tiempos.}
 
 \end{figure}%
 
@@ -2935,7 +3042,7 @@ numérico}\label{modelo-contra-muxe9todo-numuxe9rico}
 \NormalTok{        ax.set\_title(}\SpecialStringTok{f"Time = }\SpecialCharTok{\{}\NormalTok{t\_val}\SpecialCharTok{:.2f\}}\SpecialStringTok{"}\NormalTok{, pad}\OperatorTok{=}\DecValTok{10}\NormalTok{)}
 \NormalTok{        ax.set\_xlabel(}\StringTok{"Y"}\NormalTok{, labelpad}\OperatorTok{=}\DecValTok{10}\NormalTok{)}
 \NormalTok{        ax.set\_ylabel(}\StringTok{"X"}\NormalTok{, labelpad}\OperatorTok{=}\DecValTok{10}\NormalTok{)}
-\NormalTok{        ax.set\_zlabel(}\StringTok{"T [K]"}\NormalTok{, labelpad}\OperatorTok{=}\DecValTok{10}\NormalTok{, rotation}\OperatorTok{=}\DecValTok{90}\NormalTok{)}
+\NormalTok{        ax.set\_zlabel(}\StringTok{"T [θ]"}\NormalTok{, labelpad}\OperatorTok{=}\DecValTok{10}\NormalTok{, rotation}\OperatorTok{=}\DecValTok{90}\NormalTok{)}
     
     \ControlFlowTok{return}\NormalTok{ surf\_list}
 
@@ -2953,7 +3060,7 @@ numérico}\label{modelo-contra-muxe9todo-numuxe9rico}
 \NormalTok{cbar }\OperatorTok{=}\NormalTok{ fig.colorbar(surf\_crank\_nick[}\OperatorTok{{-}}\DecValTok{1}\NormalTok{], ax}\OperatorTok{=}\NormalTok{axes.ravel().tolist(),}
 \NormalTok{                    use\_gridspec}\OperatorTok{=}\VariableTok{True}\NormalTok{, orientation}\OperatorTok{=}\StringTok{\textquotesingle{}horizontal\textquotesingle{}}\NormalTok{,}
 \NormalTok{                    pad}\OperatorTok{=}\FloatTok{0.05}\NormalTok{, aspect}\OperatorTok{=}\DecValTok{90}\NormalTok{, shrink}\OperatorTok{=}\FloatTok{0.9}\NormalTok{)}
-\NormalTok{cbar.set\_label(}\StringTok{\textquotesingle{}Temperatura [K]\textquotesingle{}}\NormalTok{, labelpad}\OperatorTok{=}\DecValTok{10}\NormalTok{)}
+\NormalTok{cbar.set\_label(}\StringTok{\textquotesingle{}Temperatura [θ]\textquotesingle{}}\NormalTok{, labelpad}\OperatorTok{=}\DecValTok{10}\NormalTok{)}
 
 
 \NormalTok{plt.show()}
@@ -2969,12 +3076,112 @@ numérico}\label{modelo-contra-muxe9todo-numuxe9rico}
 }
 
 \caption{\label{fig-met-num-vs-model}Contraste de las predicciones entre
-el método de Crank Nikolson y el modelo para cada tiempo.}
+el modelo y el método de Crank Nicolson para cada tiempo.}
 
 \end{figure}%
 
-\section{Validación Cuantitativa frente al Método de
-Crank-Nicolson}\label{validaciuxf3n-cuantitativa-frente-al-muxe9todo-de-crank-nicolson}
+\subsection{Modelo contra Solución
+analítica}\label{modelo-contra-soluciuxf3n-analuxedtica}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sol\_ana\_data }\OperatorTok{=}\NormalTok{ pd.read\_csv(}\VerbatimStringTok{r\textquotesingle{}data/sol\_analitica}\DecValTok{.}\VerbatimStringTok{csv\textquotesingle{}}\NormalTok{)}
+\NormalTok{model\_don\_data }\OperatorTok{=}\NormalTok{ pd.read\_csv(}\VerbatimStringTok{r\textquotesingle{}data/model\_DoN}\DecValTok{.}\VerbatimStringTok{csv\textquotesingle{}}\NormalTok{)}
+
+\CommentTok{\# Determinar los límites comunes para el colorbar}
+\NormalTok{min\_temp }\OperatorTok{=} \BuiltInTok{min}\NormalTok{(model\_don\_data[}\StringTok{\textquotesingle{}Theta\textquotesingle{}}\NormalTok{].}\BuiltInTok{min}\NormalTok{(),}
+\NormalTok{                sol\_ana\_data[}\StringTok{\textquotesingle{}Theta\textquotesingle{}}\NormalTok{].}\BuiltInTok{min}\NormalTok{())}
+\NormalTok{max\_temp }\OperatorTok{=} \BuiltInTok{max}\NormalTok{(model\_don\_data[}\StringTok{\textquotesingle{}Theta\textquotesingle{}}\NormalTok{].}\BuiltInTok{max}\NormalTok{(), }
+\NormalTok{                sol\_ana\_data[}\StringTok{\textquotesingle{}Theta\textquotesingle{}}\NormalTok{].}\BuiltInTok{max}\NormalTok{())}
+
+\CommentTok{\# Crear figura con subplots 3D en 2 filas y 5 columnas}
+\NormalTok{fig }\OperatorTok{=}\NormalTok{ plt.figure(figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{22}\NormalTok{, }\DecValTok{12}\NormalTok{))}
+\NormalTok{axes }\OperatorTok{=}\NormalTok{ []}
+
+\CommentTok{\# Crear los subplots}
+\ControlFlowTok{for}\NormalTok{ i }\KeywordTok{in} \BuiltInTok{range}\NormalTok{(}\DecValTok{2}\NormalTok{):  }\CommentTok{\# 2 filas}
+    \ControlFlowTok{for}\NormalTok{ j }\KeywordTok{in} \BuiltInTok{range}\NormalTok{(}\DecValTok{5}\NormalTok{):  }\CommentTok{\# 5 columnas}
+\NormalTok{        axes.append(fig.add\_subplot(}\DecValTok{2}\NormalTok{, }\DecValTok{5}\NormalTok{, i}\OperatorTok{*}\DecValTok{5} \OperatorTok{+}\NormalTok{ j }\OperatorTok{+} \DecValTok{1}\NormalTok{, projection}\OperatorTok{=}\StringTok{\textquotesingle{}3d\textquotesingle{}}\NormalTok{))}
+
+\NormalTok{axes }\OperatorTok{=}\NormalTok{ np.array(axes).reshape(}\DecValTok{2}\NormalTok{, }\DecValTok{5}\NormalTok{)}
+
+\CommentTok{\# Añadir títulos generales para cada fila}
+\NormalTok{fig.text(}\FloatTok{0.5}\NormalTok{, }\FloatTok{0.92}\NormalTok{, }\StringTok{"Predicciones modelo DON"}\NormalTok{, }
+\NormalTok{        ha}\OperatorTok{=}\StringTok{\textquotesingle{}center\textquotesingle{}}\NormalTok{, va}\OperatorTok{=}\StringTok{\textquotesingle{}center\textquotesingle{}}\NormalTok{, fontsize}\OperatorTok{=}\DecValTok{14}\NormalTok{,fontweight}\OperatorTok{=}\StringTok{\textquotesingle{}bold\textquotesingle{}}\NormalTok{)}
+\NormalTok{fig.text(}\FloatTok{0.5}\NormalTok{, }\FloatTok{0.56}\NormalTok{, }\StringTok{"Predicciones de la Sol. analítica"}\NormalTok{,}
+\NormalTok{        ha}\OperatorTok{=}\StringTok{\textquotesingle{}center\textquotesingle{}}\NormalTok{, va}\OperatorTok{=}\StringTok{\textquotesingle{}center\textquotesingle{}}\NormalTok{, fontsize}\OperatorTok{=}\DecValTok{14}\NormalTok{, fontweight}\OperatorTok{=}\StringTok{\textquotesingle{}bold\textquotesingle{}}\NormalTok{)}
+
+\CommentTok{\# Función para graficar un dataframe en una fila específica}
+\KeywordTok{def}\NormalTok{ plot\_dataframe(df, row, num\_points, cmap}\OperatorTok{=}\StringTok{"viridis"}\NormalTok{):}
+\NormalTok{    surf\_list }\OperatorTok{=}\NormalTok{ []}
+    \ControlFlowTok{for}\NormalTok{ col, t\_val }\KeywordTok{in} \BuiltInTok{enumerate}\NormalTok{(times):}
+\NormalTok{        ax }\OperatorTok{=}\NormalTok{ axes[row, col]}
+        
+        \CommentTok{\# Filtrar por tiempo actual}
+\NormalTok{        df\_t }\OperatorTok{=}\NormalTok{ df[df[}\StringTok{"time"}\NormalTok{] }\OperatorTok{==}\NormalTok{ t\_val]}
+
+        \CommentTok{\# Obtener los valores de X, Y, Theta}
+\NormalTok{        X\_vals }\OperatorTok{=}\NormalTok{ df\_t[}\StringTok{"X"}\NormalTok{].values.reshape((num\_points, num\_points))}
+\NormalTok{        Y\_vals }\OperatorTok{=}\NormalTok{ df\_t[}\StringTok{"Y"}\NormalTok{].values.reshape((num\_points, num\_points))}
+\NormalTok{        Z\_vals }\OperatorTok{=}\NormalTok{ df\_t[}\StringTok{"Theta"}\NormalTok{].values.reshape((num\_points, num\_points))}
+
+        \CommentTok{\# Dibujar la superficie con límites comunes}
+\NormalTok{        surf }\OperatorTok{=}\NormalTok{ ax.plot\_surface(}
+\NormalTok{            Y\_vals, X\_vals, Z\_vals,}
+\NormalTok{            rstride}\OperatorTok{=}\DecValTok{1}\NormalTok{, cstride}\OperatorTok{=}\DecValTok{1}\NormalTok{,}
+\NormalTok{            cmap}\OperatorTok{=}\NormalTok{cmap,}
+\NormalTok{            edgecolor}\OperatorTok{=}\StringTok{"none"}\NormalTok{,}
+\NormalTok{            antialiased}\OperatorTok{=}\VariableTok{True}\NormalTok{,}
+\NormalTok{            vmin}\OperatorTok{=}\NormalTok{min\_temp,}
+\NormalTok{            vmax}\OperatorTok{=}\NormalTok{max\_temp}
+\NormalTok{        )}
+\NormalTok{        surf\_list.append(surf)}
+
+\NormalTok{        ax.set\_title(}\SpecialStringTok{f"Time = }\SpecialCharTok{\{}\NormalTok{t\_val}\SpecialCharTok{:.2f\}}\SpecialStringTok{"}\NormalTok{, pad}\OperatorTok{=}\DecValTok{10}\NormalTok{)}
+\NormalTok{        ax.set\_xlabel(}\StringTok{"Y"}\NormalTok{, labelpad}\OperatorTok{=}\DecValTok{10}\NormalTok{)}
+\NormalTok{        ax.set\_ylabel(}\StringTok{"X"}\NormalTok{, labelpad}\OperatorTok{=}\DecValTok{10}\NormalTok{)}
+\NormalTok{        ax.set\_zlabel(}\StringTok{"T [θ]"}\NormalTok{, labelpad}\OperatorTok{=}\DecValTok{10}\NormalTok{, rotation}\OperatorTok{=}\DecValTok{90}\NormalTok{)}
+    
+    \ControlFlowTok{return}\NormalTok{ surf\_list}
+
+\CommentTok{\# Asumimos que el grid es regular para ambos dataframes}
+\NormalTok{num\_points }\OperatorTok{=} \BuiltInTok{int}\NormalTok{(np.sqrt(}
+\NormalTok{        model\_don\_data[model\_don\_data[}\StringTok{"time"}\NormalTok{] }\OperatorTok{==}\NormalTok{ times[}\DecValTok{0}\NormalTok{]].shape[}\DecValTok{0}\NormalTok{]))}
+
+\CommentTok{\# Graficar el primer dataframe en la fila superior}
+\NormalTok{surf\_model\_don }\OperatorTok{=}\NormalTok{ plot\_dataframe(model\_don\_data, }\DecValTok{0}\NormalTok{, num\_points)}
+
+\CommentTok{\# Graficar el segundo dataframe en la fila inferior}
+\NormalTok{surf\_crank\_nick }\OperatorTok{=}\NormalTok{ plot\_dataframe(sol\_ana\_data, }\DecValTok{1}\NormalTok{, num\_points)}
+
+\CommentTok{\# Añadir barra de color común en la parte inferior}
+\NormalTok{cbar }\OperatorTok{=}\NormalTok{ fig.colorbar(surf\_crank\_nick[}\OperatorTok{{-}}\DecValTok{1}\NormalTok{], ax}\OperatorTok{=}\NormalTok{axes.ravel().tolist(),}
+\NormalTok{                    use\_gridspec}\OperatorTok{=}\VariableTok{True}\NormalTok{, orientation}\OperatorTok{=}\StringTok{\textquotesingle{}horizontal\textquotesingle{}}\NormalTok{,}
+\NormalTok{                    pad}\OperatorTok{=}\FloatTok{0.05}\NormalTok{, aspect}\OperatorTok{=}\DecValTok{90}\NormalTok{, shrink}\OperatorTok{=}\FloatTok{0.9}\NormalTok{)}
+\NormalTok{cbar.set\_label(}\StringTok{\textquotesingle{}Temperatura [θ]\textquotesingle{}}\NormalTok{, labelpad}\OperatorTok{=}\DecValTok{10}\NormalTok{)}
+
+
+\NormalTok{plt.show()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{comparaciones_files/figure-pdf/fig-sol-ana-vs-model-output-1.pdf}}
+
+}
+
+\caption{\label{fig-sol-ana-vs-model}Contraste de las predicciones entre
+el modelo y la solución analítica para cada tiempo.}
+
+\end{figure}%
+
+\section{Validaciones cuantitativas}\label{validaciones-cuantitativas}
+
+\subsection{Modelo contra el Método de
+Crank-Nicolson}\label{modelo-contra-el-muxe9todo-de-crank-nicolson}
 
 Para evaluar numéricamente la precisión del modelo DeepONet, se realizó
 una comparación sistemática con soluciones de referencia generadas
@@ -3025,13 +3232,13 @@ dominio en los tiempos de interés.
 \NormalTok{error\_results }\OperatorTok{=}\NormalTok{ calculate\_errors(crank\_nick\_data, model\_don\_data, times)}
 
 \CommentTok{\# Guardar resultados}
-\NormalTok{error\_results.to\_csv(}\StringTok{"data/error\_comparison.csv"}\NormalTok{, index}\OperatorTok{=}\VariableTok{False}\NormalTok{)}
+\NormalTok{error\_results.to\_csv(}\StringTok{"data/error\_crank\_nic.csv"}\NormalTok{, index}\OperatorTok{=}\VariableTok{False}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{longtable}[]{@{}rrrr@{}}
 
-\caption{\label{tbl-errores}Error del modelo DeepONet respecto a
+\caption{\label{tbl-errores-num}Error del modelo DeepONet respecto a
 Crank-Nicolson.}
 
 \tabularnewline
@@ -3042,15 +3249,15 @@ Tiempo & MAE & MaxAE & Error L2 \\
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-0.000 & 0.007 & 0.028 & 0.229 \\
-0.250 & 0.032 & 0.086 & 1.061 \\
-0.500 & 0.013 & 0.020 & 0.353 \\
-0.750 & 0.040 & 0.132 & 1.447 \\
-1.000 & 0.107 & 0.290 & 3.547 \\
+0.000 & 0.016 & 0.063 & 0.564 \\
+0.250 & 0.032 & 0.067 & 0.959 \\
+0.500 & 0.010 & 0.032 & 0.301 \\
+0.750 & 0.055 & 0.169 & 1.919 \\
+1.000 & 0.124 & 0.324 & 4.019 \\
 
 \end{longtable}
 
-\subsection{Gráficas de error
+\subsubsection{Gráficas de error
 absoluto}\label{gruxe1ficas-de-error-absoluto}
 
 \begin{Shaded}
@@ -3105,7 +3312,7 @@ absoluto}\label{gruxe1ficas-de-error-absoluto}
 \NormalTok{cbar }\OperatorTok{=}\NormalTok{ fig.colorbar(abs\_errors\_pc[}\OperatorTok{{-}}\DecValTok{1}\NormalTok{], ax}\OperatorTok{=}\NormalTok{axes,}
 \NormalTok{                    use\_gridspec}\OperatorTok{=}\VariableTok{True}\NormalTok{, shrink}\OperatorTok{=}\FloatTok{0.9}\NormalTok{,}
 \NormalTok{                    aspect}\OperatorTok{=}\DecValTok{90}\NormalTok{, pad}\OperatorTok{=}\FloatTok{0.1}\NormalTok{, orientation}\OperatorTok{=}\StringTok{\textquotesingle{}horizontal\textquotesingle{}}\NormalTok{)}
-\NormalTok{cbar.set\_label(}\StringTok{\textquotesingle{}Error absoluto [K]\textquotesingle{}}\NormalTok{)}
+\NormalTok{cbar.set\_label(}\StringTok{\textquotesingle{}Error absoluto [θ]\textquotesingle{}}\NormalTok{)}
 
 \CommentTok{\# Mostrar el gráfico}
 \NormalTok{plt.show()}
@@ -3116,12 +3323,161 @@ absoluto}\label{gruxe1ficas-de-error-absoluto}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{comparaciones_files/figure-pdf/fig-abs-errors-output-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{comparaciones_files/figure-pdf/fig-abs-errors-num-output-1.pdf}}
 
 }
 
-\caption{\label{fig-abs-errors}Errores absolutos entre el método de
-Crank Nikolson y el modelo para cada tiempo.}
+\caption{\label{fig-abs-errors-num}Errores absolutos entre el modelo y
+el método de Crank Nicolson para cada tiempo.}
+
+\end{figure}%
+
+\subsection{Modelo contra la Solución
+analítica}\label{modelo-contra-la-soluciuxf3n-analuxedtica}
+
+De manera análoga a la sección anterior se realizó una comparativa
+contra la solción analítica (Sección~\ref{sec-sol-ana}). De este modo se
+tiene una visión más completa acerca del rendimiento del modelo.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Función para calcular errores}
+\KeywordTok{def}\NormalTok{ calculate\_errors(true\_data, pred\_data, times):}
+\NormalTok{    results }\OperatorTok{=}\NormalTok{ []}
+    
+    \ControlFlowTok{for}\NormalTok{ time }\KeywordTok{in}\NormalTok{ times:}
+        \CommentTok{\# Filtrar datos por tiempo}
+\NormalTok{        true\_subset }\OperatorTok{=}\NormalTok{ true\_data[true\_data[}\StringTok{\textquotesingle{}time\textquotesingle{}}\NormalTok{] }\OperatorTok{==}\NormalTok{ time]}
+\NormalTok{        pred\_subset }\OperatorTok{=}\NormalTok{ pred\_data[pred\_data[}\StringTok{\textquotesingle{}time\textquotesingle{}}\NormalTok{] }\OperatorTok{==}\NormalTok{ time]}
+        
+        \ControlFlowTok{if} \BuiltInTok{len}\NormalTok{(true\_subset) }\OperatorTok{==} \DecValTok{0} \KeywordTok{or} \BuiltInTok{len}\NormalTok{(pred\_subset) }\OperatorTok{==} \DecValTok{0}\NormalTok{:}
+            \BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Advertencia: No hay datos para tiempo t=}\SpecialCharTok{\{}\NormalTok{time}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
+            \ControlFlowTok{continue}
+        
+        \CommentTok{\# Verificar que las dimensiones coincidan}
+        \ControlFlowTok{if} \BuiltInTok{len}\NormalTok{(true\_subset) }\OperatorTok{!=} \BuiltInTok{len}\NormalTok{(pred\_subset):}
+            \BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Advertencia:Num de puntos no coincide para t=}\SpecialCharTok{\{}\NormalTok{time}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
+\NormalTok{            min\_len }\OperatorTok{=} \BuiltInTok{min}\NormalTok{(}\BuiltInTok{len}\NormalTok{(true\_subset), }\BuiltInTok{len}\NormalTok{(pred\_subset))}
+\NormalTok{            true\_subset }\OperatorTok{=}\NormalTok{ true\_subset.iloc[:min\_len]}
+\NormalTok{            pred\_subset }\OperatorTok{=}\NormalTok{ pred\_subset.iloc[:min\_len]}
+        
+        \CommentTok{\# Calcular errores para Theta}
+\NormalTok{        theta\_true }\OperatorTok{=}\NormalTok{ true\_subset[}\StringTok{\textquotesingle{}Theta\textquotesingle{}}\NormalTok{].values}
+\NormalTok{        theta\_pred }\OperatorTok{=}\NormalTok{ pred\_subset[}\StringTok{\textquotesingle{}Theta\textquotesingle{}}\NormalTok{].values}
+        
+\NormalTok{        absolute\_error }\OperatorTok{=}\NormalTok{ np.}\BuiltInTok{abs}\NormalTok{(theta\_true }\OperatorTok{{-}}\NormalTok{ theta\_pred)}
+\NormalTok{        l2\_error }\OperatorTok{=}\NormalTok{ np.sqrt(np.}\BuiltInTok{sum}\NormalTok{((theta\_true }\OperatorTok{{-}}\NormalTok{ theta\_pred)}\OperatorTok{**}\DecValTok{2}\NormalTok{))}
+        
+\NormalTok{        results.append(\{}
+            \StringTok{\textquotesingle{}time\textquotesingle{}}\NormalTok{: time,}
+            \StringTok{\textquotesingle{}mean\_absolute\_error\textquotesingle{}}\NormalTok{: np.mean(absolute\_error),}
+            \StringTok{\textquotesingle{}max\_absolute\_error\textquotesingle{}}\NormalTok{: np.}\BuiltInTok{max}\NormalTok{(absolute\_error),}
+            \StringTok{\textquotesingle{}l2\_error\textquotesingle{}}\NormalTok{: l2\_error}
+\NormalTok{        \})}
+    
+    \ControlFlowTok{return}\NormalTok{ pd.DataFrame(results)}
+
+\CommentTok{\# Calcular errores}
+\NormalTok{error\_results }\OperatorTok{=}\NormalTok{ calculate\_errors(sol\_ana\_data, model\_don\_data, times)}
+
+\CommentTok{\# Guardar resultados}
+\NormalTok{error\_results.to\_csv(}\StringTok{"data/error\_ana.csv"}\NormalTok{, index}\OperatorTok{=}\VariableTok{False}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}rrrr@{}}
+
+\caption{\label{tbl-errores-ana}Error del modelo DeepONet respecto a la
+solución analítica.}
+
+\tabularnewline
+
+\toprule\noalign{}
+Tiempo & MAE & MaxAE & Error L2 \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.000 & 0.016 & 0.063 & 0.564 \\
+0.250 & 0.031 & 0.065 & 0.931 \\
+0.500 & 0.010 & 0.037 & 0.330 \\
+0.750 & 0.058 & 0.176 & 2.011 \\
+1.000 & 0.127 & 0.333 & 4.139 \\
+
+\end{longtable}
+
+\subsubsection{Gráficas de error
+absoluto}\label{gruxe1ficas-de-error-absoluto-1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Calcular el error absoluto entre los dos dataframes}
+\NormalTok{error\_data }\OperatorTok{=}\NormalTok{ model\_don\_data.copy()}
+\NormalTok{error\_data[}\StringTok{\textquotesingle{}error\textquotesingle{}}\NormalTok{] }\OperatorTok{=}\NormalTok{ np.}\BuiltInTok{abs}\NormalTok{(}
+\NormalTok{                    sol\_ana\_data[}\StringTok{\textquotesingle{}Theta\textquotesingle{}}\NormalTok{] }\OperatorTok{{-}}\NormalTok{ model\_don\_data[}\StringTok{\textquotesingle{}Theta\textquotesingle{}}\NormalTok{])}
+
+\CommentTok{\# Crear figura con 3 filas y 2 columnas}
+\NormalTok{fig, axes }\OperatorTok{=}\NormalTok{ plt.subplots(nrows}\OperatorTok{=}\DecValTok{1}\NormalTok{, ncols}\OperatorTok{=}\DecValTok{5}\NormalTok{, figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{22}\NormalTok{, }\DecValTok{8}\NormalTok{))}
+\NormalTok{axes }\OperatorTok{=}\NormalTok{ axes.ravel()  }\CommentTok{\# Convertir a array 1D para fácil acceso}
+
+\CommentTok{\# Asumir que el grid es regular}
+\NormalTok{num\_points }\OperatorTok{=} \BuiltInTok{int}\NormalTok{(np.sqrt(}
+\NormalTok{                    error\_data[error\_data[}\StringTok{"time"}\NormalTok{] }\OperatorTok{==}\NormalTok{ times[}\DecValTok{0}\NormalTok{]].shape[}\DecValTok{0}\NormalTok{]}
+\NormalTok{                    ))}
+
+\CommentTok{\# Configuración común para los mapas de calor}
+\NormalTok{plot\_kwargs }\OperatorTok{=}\NormalTok{ \{}
+    \StringTok{\textquotesingle{}cmap\textquotesingle{}}\NormalTok{: }\StringTok{\textquotesingle{}hot\_r\textquotesingle{}}\NormalTok{,}
+    \StringTok{\textquotesingle{}shading\textquotesingle{}}\NormalTok{: }\StringTok{\textquotesingle{}auto\textquotesingle{}}\NormalTok{,}
+    \StringTok{\textquotesingle{}vmin\textquotesingle{}}\NormalTok{: error\_data[}\StringTok{\textquotesingle{}error\textquotesingle{}}\NormalTok{].}\BuiltInTok{min}\NormalTok{(),}
+    \StringTok{\textquotesingle{}vmax\textquotesingle{}}\NormalTok{: error\_data[}\StringTok{\textquotesingle{}error\textquotesingle{}}\NormalTok{].}\BuiltInTok{max}\NormalTok{()}
+\NormalTok{\}}
+\CommentTok{\# Lista para guardar los gráficos}
+\NormalTok{abs\_errors\_pc }\OperatorTok{=}\NormalTok{ []}
+
+\CommentTok{\# Crear los subplots}
+\ControlFlowTok{for}\NormalTok{ i, t\_val }\KeywordTok{in} \BuiltInTok{enumerate}\NormalTok{(times):}
+\NormalTok{    ax }\OperatorTok{=}\NormalTok{ axes[i]}
+    
+    \CommentTok{\# Filtrar por tiempo actual}
+\NormalTok{    df\_t }\OperatorTok{=}\NormalTok{ error\_data[error\_data[}\StringTok{"time"}\NormalTok{] }\OperatorTok{==}\NormalTok{ t\_val]}
+    
+    \CommentTok{\# Obtener valores y reshape}
+\NormalTok{    X\_vals }\OperatorTok{=}\NormalTok{ df\_t[}\StringTok{"X"}\NormalTok{].values.reshape((num\_points, num\_points))}
+\NormalTok{    Y\_vals }\OperatorTok{=}\NormalTok{ df\_t[}\StringTok{"Y"}\NormalTok{].values.reshape((num\_points, num\_points))}
+\NormalTok{    error\_vals }\OperatorTok{=}\NormalTok{ df\_t[}\StringTok{"error"}\NormalTok{].values.reshape((num\_points, num\_points))}
+    
+    \CommentTok{\# Crear mapa de calor}
+\NormalTok{    pc }\OperatorTok{=}\NormalTok{ ax.pcolormesh(X\_vals, Y\_vals, error\_vals, }\OperatorTok{**}\NormalTok{plot\_kwargs)}
+    
+    \CommentTok{\# Configuración de ejes}
+\NormalTok{    ax.set\_title(}\SpecialStringTok{f"Tiempo = }\SpecialCharTok{\{}\NormalTok{t\_val}\SpecialCharTok{:.2f\}}\SpecialStringTok{"}\NormalTok{, pad}\OperatorTok{=}\DecValTok{10}\NormalTok{)}
+\NormalTok{    ax.set\_xlabel(}\StringTok{"X"}\NormalTok{)}
+\NormalTok{    ax.set\_ylabel(}\StringTok{"Y"}\NormalTok{)}
+\NormalTok{    ax.set\_aspect(}\StringTok{\textquotesingle{}equal\textquotesingle{}}\NormalTok{)}
+
+\NormalTok{    abs\_errors\_pc.append(pc)}
+
+\NormalTok{cbar }\OperatorTok{=}\NormalTok{ fig.colorbar(abs\_errors\_pc[}\OperatorTok{{-}}\DecValTok{1}\NormalTok{], ax}\OperatorTok{=}\NormalTok{axes,}
+\NormalTok{                    use\_gridspec}\OperatorTok{=}\VariableTok{True}\NormalTok{, shrink}\OperatorTok{=}\FloatTok{0.9}\NormalTok{,}
+\NormalTok{                    aspect}\OperatorTok{=}\DecValTok{90}\NormalTok{, pad}\OperatorTok{=}\FloatTok{0.1}\NormalTok{, orientation}\OperatorTok{=}\StringTok{\textquotesingle{}horizontal\textquotesingle{}}\NormalTok{)}
+\NormalTok{cbar.set\_label(}\StringTok{\textquotesingle{}Error absoluto [θ]\textquotesingle{}}\NormalTok{)}
+
+\CommentTok{\# Mostrar el gráfico}
+\NormalTok{plt.show()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{comparaciones_files/figure-pdf/fig-abs-errors-ana-output-1.pdf}}
+
+}
+
+\caption{\label{fig-abs-errors-ana}Errores absolutos entre el modelo y
+la solución analítica para cada tiempo.}
 
 \end{figure}%
 
@@ -3140,19 +3496,20 @@ mediante la comparación con el método de Crank Nickolson demostraron que
 la red neuronal DeepONet se aproxima con un mínimo del 1.1\% y un máximo
 del 6.7\% para el error medio absoluto, y cometiendo un error mínimo del
 6.4\% y máximo del 20\% para el error máximo absoluto
-(Tabla~\ref{tbl-errores}).
+\ref{tbl-errores-num}.
 
 Los errores obtenidos demuestran la eficacia del modelo para converger a
-la condición inicial, pues tal como se aprecia en la
-Figura~\ref{fig-abs-errors}, a medida que la ecuación evoluciona en el
-tiempo, las predicciones entre el método de Crank Nickolson y la red
-neuronal divergen, esto es conforme evoluciona la función, vemos que
-cada vez se aleja más del valor real. Valdría la pena en otro trabajo
-comparar la solución con otro método númerico clásico para observar si
-se presenta el mismo comportamiento.Desafortunadamente no se cuenta con
-una base de datos que sirva como conjunto de validación por lo que no se
-puede asegurar que los resultados del método numérico sean los más
-óptimos para tomar como referencia.
+la condición inicial, pues tal como se aprecia en las figuras
+\ref{fig-abs-errors-num} y \ref{fig-abs-errors-ana}, a medida que la
+ecuación evoluciona en el tiempo, las predicciones entre el método de
+Crank Nickolson y la red neuronal divergen, esto es conforme evoluciona
+la función, vemos que cada vez se aleja más del valor real. Valdría la
+pena en otro trabajo comparar la solución con otro método númerico
+clásico para observar si se presenta el mismo
+comportamiento.Desafortunadamente no se cuenta con una base de datos que
+sirva como conjunto de validación por lo que no se puede asegurar que
+los resultados del método numérico sean los más óptimos para tomar como
+referencia.
 
 Lo anterior evidencia el potencial que tiene las PINNs como herramienta
 auxiliar en la solución de ecuaciones diferenciales parciales, pues solo
