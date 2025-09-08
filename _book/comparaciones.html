@@ -733,7 +733,7 @@ Figura&nbsp;14.3: Contraste de las predicciones entre el modelo y el método de 
 </div>
 </section>
 <section id="modelo-contra-solución-analítica" class="level3" data-number="14.1.3">
-<h3 data-number="14.1.3" class="anchored" data-anchor-id="modelo-contra-solución-analítica"><span class="header-section-number">14.1.3</span> Modelo contra Solución analítica</h3>
+<h3 data-number="14.1.3" class="anchored" data-anchor-id="modelo-contra-solución-analítica"><span class="header-section-number">14.1.3</span> Modelo contra solución analítica</h3>
 <div id="cell-fig-sol-ana-vs-model" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Código</summary>
@@ -833,9 +833,9 @@ Figura&nbsp;14.4: Contraste de las predicciones entre el modelo y la solución a
 <section id="validaciones-cuantitativas" class="level2" data-number="14.2">
 <h2 data-number="14.2" class="anchored" data-anchor-id="validaciones-cuantitativas"><span class="header-section-number">14.2</span> Validaciones cuantitativas</h2>
 <section id="modelo-contra-el-método-de-crank-nicolson" class="level3" data-number="14.2.1">
-<h3 data-number="14.2.1" class="anchored" data-anchor-id="modelo-contra-el-método-de-crank-nicolson"><span class="header-section-number">14.2.1</span> Modelo contra el Método de Crank-Nicolson</h3>
+<h3 data-number="14.2.1" class="anchored" data-anchor-id="modelo-contra-el-método-de-crank-nicolson"><span class="header-section-number">14.2.1</span> Modelo contra el método de Crank-Nicolson</h3>
 <p>Para evaluar numéricamente la precisión del modelo DeepONet, se realizó una comparación sistemática con soluciones de referencia generadas mediante el método de Crank-Nicolson. Este enfoque proporciona una métrica objetiva de la exactitud del modelo, siendo complementado con una serie de gráficos que muestran el error absoluto para cada punto del dominio en los tiempos de interés.</p>
-<div id="a2cdc6ff" class="cell" data-execution_count="4">
+<div id="02ae66c4" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Función para calcular errores</span></span>
@@ -901,33 +901,33 @@ Tabla&nbsp;14.1: Error del modelo DeepONet respecto a Crank-Nicolson.
 <tbody>
 <tr class="odd">
 <td style="text-align: right;">0.000</td>
-<td style="text-align: right;">0.016</td>
-<td style="text-align: right;">0.063</td>
-<td style="text-align: right;">0.564</td>
+<td style="text-align: right;">0.011</td>
+<td style="text-align: right;">0.065</td>
+<td style="text-align: right;">0.443</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">0.250</td>
-<td style="text-align: right;">0.032</td>
-<td style="text-align: right;">0.067</td>
-<td style="text-align: right;">0.959</td>
+<td style="text-align: right;">0.033</td>
+<td style="text-align: right;">0.072</td>
+<td style="text-align: right;">1.014</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">0.500</td>
-<td style="text-align: right;">0.010</td>
-<td style="text-align: right;">0.032</td>
-<td style="text-align: right;">0.301</td>
+<td style="text-align: right;">0.008</td>
+<td style="text-align: right;">0.031</td>
+<td style="text-align: right;">0.266</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">0.750</td>
-<td style="text-align: right;">0.055</td>
-<td style="text-align: right;">0.169</td>
-<td style="text-align: right;">1.919</td>
+<td style="text-align: right;">0.057</td>
+<td style="text-align: right;">0.171</td>
+<td style="text-align: right;">1.962</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">1.000</td>
-<td style="text-align: right;">0.124</td>
-<td style="text-align: right;">0.324</td>
-<td style="text-align: right;">4.019</td>
+<td style="text-align: right;">0.123</td>
+<td style="text-align: right;">0.325</td>
+<td style="text-align: right;">4.024</td>
 </tr>
 </tbody>
 </table>
@@ -1012,9 +1012,9 @@ Figura&nbsp;14.5: Errores absolutos entre el modelo y el método de Crank Nicols
 </section>
 </section>
 <section id="modelo-contra-la-solución-analítica" class="level3" data-number="14.2.2">
-<h3 data-number="14.2.2" class="anchored" data-anchor-id="modelo-contra-la-solución-analítica"><span class="header-section-number">14.2.2</span> Modelo contra la Solución analítica</h3>
-<p>De manera análoga a la sección anterior se realizó una comparativa contra la solción analítica (<a href="ecuacion.html#sec-sol-ana" class="quarto-xref"><span>Sección 9.3</span></a>). De este modo se tiene una visión más completa acerca del rendimiento del modelo.</p>
-<div id="c3850b72" class="cell" data-execution_count="7">
+<h3 data-number="14.2.2" class="anchored" data-anchor-id="modelo-contra-la-solución-analítica"><span class="header-section-number">14.2.2</span> Modelo contra la solución analítica</h3>
+<p>De manera análoga a la sección anterior se realizó una comparativa contra la solución analítica (<a href="ecuacion.html#sec-sol-ana" class="quarto-xref"><span>Sección 9.3</span></a>). De este modo se tiene una visión más completa acerca del rendimiento del modelo.</p>
+<div id="884d84e8" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Función para calcular errores</span></span>
@@ -1080,33 +1080,33 @@ Tabla&nbsp;14.2: Error del modelo DeepONet respecto a la solución analítica.
 <tbody>
 <tr class="odd">
 <td style="text-align: right;">0.000</td>
-<td style="text-align: right;">0.016</td>
-<td style="text-align: right;">0.063</td>
-<td style="text-align: right;">0.564</td>
+<td style="text-align: right;">0.011</td>
+<td style="text-align: right;">0.065</td>
+<td style="text-align: right;">0.443</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">0.250</td>
-<td style="text-align: right;">0.031</td>
-<td style="text-align: right;">0.065</td>
-<td style="text-align: right;">0.931</td>
+<td style="text-align: right;">0.032</td>
+<td style="text-align: right;">0.069</td>
+<td style="text-align: right;">0.986</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">0.500</td>
-<td style="text-align: right;">0.010</td>
-<td style="text-align: right;">0.037</td>
-<td style="text-align: right;">0.330</td>
+<td style="text-align: right;">0.008</td>
+<td style="text-align: right;">0.036</td>
+<td style="text-align: right;">0.303</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">0.750</td>
-<td style="text-align: right;">0.058</td>
-<td style="text-align: right;">0.176</td>
-<td style="text-align: right;">2.011</td>
+<td style="text-align: right;">0.060</td>
+<td style="text-align: right;">0.178</td>
+<td style="text-align: right;">2.054</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">1.000</td>
 <td style="text-align: right;">0.127</td>
-<td style="text-align: right;">0.333</td>
-<td style="text-align: right;">4.139</td>
+<td style="text-align: right;">0.334</td>
+<td style="text-align: right;">4.145</td>
 </tr>
 </tbody>
 </table>

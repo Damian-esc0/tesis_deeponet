@@ -56,14 +56,14 @@ t_initial, t_final = 0.0, 1.0
 
 # Configuracion del numero de datos
 pts_dom = 45
-pts_bc = 35
+pts_bc = 30
 pts_ic = 20
 num_test = 25
 
 # Malla de sensores y espacio de funciones
-num_sensors = 7
+num_sensors = 6
 num_function = 25
-size_cov_matrix = 40
+size_cov_matrix = 50
 
 # Arquitectura de la red
 width_net = 20
@@ -73,7 +73,7 @@ k_initializer = "Glorot normal"
 
 
 # Parámetros de entrenamiento
-num_iterations = 5000
+num_iterations = 15000
 learning_rate = 2e-3
 decay_rate = 0.05
 decay_steps = 500

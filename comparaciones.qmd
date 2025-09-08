@@ -161,7 +161,7 @@ cbar.set_label('Temperatura [θ]', labelpad=10)
 plt.show()
 ```
 
-### Modelo contra Solución analítica
+### Modelo contra solución analítica
 ```{python}
 #| label: fig-sol-ana-vs-model
 #| fig-cap: "Contraste de las predicciones entre el modelo y la solución analítica para cada tiempo."
@@ -247,7 +247,7 @@ plt.show()
 
 ## Validaciones cuantitativas
 
-### Modelo contra el Método de Crank-Nicolson
+### Modelo contra el método de Crank-Nicolson
 Para evaluar numéricamente la precisión del modelo DeepONet, se realizó una comparación sistemática con soluciones de referencia generadas mediante el método de Crank-Nicolson. Este enfoque proporciona una métrica objetiva de la exactitud del modelo, siendo complementado con una serie de gráficos que muestran el error absoluto para cada punto del dominio en los tiempos de interés.
 
 ```{python}
@@ -375,8 +375,8 @@ plt.show()
 
 ```
 
-### Modelo contra la Solución analítica
-De manera análoga a la sección anterior se realizó una comparativa contra la solción analítica (@sec-sol-ana). De este modo se tiene una visión más completa acerca del rendimiento del modelo.
+### Modelo contra la solución analítica
+De manera análoga a la sección anterior se realizó una comparativa contra la solución analítica (@sec-sol-ana). De este modo se tiene una visión más completa acerca del rendimiento del modelo.
 
 ```{python}
 # Función para calcular errores

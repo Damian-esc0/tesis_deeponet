@@ -253,10 +253,10 @@
 \floatname{codelisting}{Listado}
 \newcommand*\listoflistings{\listof{codelisting}{Listado de Listados}}
 \usepackage{amsthm}
-\theoremstyle{definition}
-\newtheorem{definition}{Definición}[chapter]
 \theoremstyle{plain}
 \newtheorem{theorem}{Teorema}[chapter]
+\theoremstyle{definition}
+\newtheorem{definition}{Definición}[chapter]
 \theoremstyle{remark}
 \AtBeginDocument{\renewcommand*{\proofname}{Prueba}}
 \newtheorem*{remark}{Observación}
@@ -790,7 +790,7 @@ problema original. Este es el enfoque más común porque los métodos de
 aproximación proporcionan resultados más precisos e información de error
 realista (\citeproc{ref-burden2011}{Burden y Faires 2010}).
 
-\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, opacityback=0, toptitle=1mm, toprule=.15mm, breakable, colbacktitle=quarto-callout-caution-color!10!white, colback=white, coltitle=black, bottomtitle=1mm, colframe=quarto-callout-caution-color-frame, titlerule=0mm, leftrule=.75mm, title={Ejemplo}, rightrule=.15mm, left=2mm, arc=.35mm, bottomrule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toptitle=1mm, breakable, opacityback=0, colbacktitle=quarto-callout-caution-color!10!white, colback=white, leftrule=.75mm, opacitybacktitle=0.6, colframe=quarto-callout-caution-color-frame, titlerule=0mm, bottomtitle=1mm, rightrule=.15mm, title={Ejemplo}, arc=.35mm, toprule=.15mm, left=2mm, bottomrule=.15mm]
 
 El movimiento de un péndulo oscilante bajo ciertas suposiciones se
 describe mediante la ecuación diferencial de segundo orden: \[
@@ -886,7 +886,7 @@ tiene una solución única \(y(t)\) para \(a\leq t \leq b\).
 
 \end{theorem}
 
-\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, opacityback=0, toptitle=1mm, toprule=.15mm, breakable, colbacktitle=quarto-callout-caution-color!10!white, colback=white, coltitle=black, bottomtitle=1mm, colframe=quarto-callout-caution-color-frame, titlerule=0mm, leftrule=.75mm, title={Ejemplo}, rightrule=.15mm, left=2mm, arc=.35mm, bottomrule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toptitle=1mm, breakable, opacityback=0, colbacktitle=quarto-callout-caution-color!10!white, colback=white, leftrule=.75mm, opacitybacktitle=0.6, colframe=quarto-callout-caution-color-frame, titlerule=0mm, bottomtitle=1mm, rightrule=.15mm, title={Ejemplo}, arc=.35mm, toprule=.15mm, left=2mm, bottomrule=.15mm]
 
 Use el Teorema~\ref{thm-uniq-sol} para mostrar que hay una única
 solución al problema de valor inicial: \[
@@ -973,7 +973,7 @@ Supongamos
 
 \end{theorem}
 
-\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, opacityback=0, toptitle=1mm, toprule=.15mm, breakable, colbacktitle=quarto-callout-caution-color!10!white, colback=white, coltitle=black, bottomtitle=1mm, colframe=quarto-callout-caution-color-frame, titlerule=0mm, leftrule=.75mm, title={Ejemplo}, rightrule=.15mm, left=2mm, arc=.35mm, bottomrule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toptitle=1mm, breakable, opacityback=0, colbacktitle=quarto-callout-caution-color!10!white, colback=white, leftrule=.75mm, opacitybacktitle=0.6, colframe=quarto-callout-caution-color-frame, titlerule=0mm, bottomtitle=1mm, rightrule=.15mm, title={Ejemplo}, arc=.35mm, toprule=.15mm, left=2mm, bottomrule=.15mm]
 
 Demostrar que el problema de valor inicial\\
 \[
@@ -1760,8 +1760,126 @@ adecuadas}\label{condiciones-de-uso-adecuadas}
 
 \section{Solución analítica}\label{sec-sol-ana}
 
-Basado en lo anterior se codificó la solución analítica y se guardó en
-un dataframe para los tiempos de interes
+Consideremos la ecuación diferencial parcial \ref{eq-PBHE-reduced} sin
+el término \(a_3\),
+\begin{equation}\phantomsection\label{eq-PBHE-wout-a3}{
+\partial _\tau \theta(x,y,\tau) = a_1 \nabla^2(x,y,\tau) - a_2W\theta(x,y,\tau),
+}\end{equation}
+
+donde \(a_{1}\) y \(a_{2}\) son parámetros positivos adimensionales,
+\(W\) es una constante asociada al término de disipación, y se ha tomado
+\(a_{3}=0\). El dominio de estudio corresponde al cuadrado
+\([0,1]\times[0,1]\) en el espacio y al intervalo \([0,1]\) en el tiempo
+adimensional \(\tau\).
+
+Las condiciones de frontera establecidas son mixtas:
+
+\begin{itemize}
+\item
+  En \(y=0\) y \(y=1\) se imponen condiciones de tipo Neumann, es decir,
+  \[
+  ∂_y ​θ(x,0,τ)=0, \ \ ∂_y ​θ(x,1,τ)=0, \ \ τ≥0.
+  \]
+\item
+  En \(x=0\) se prescribe una condición de tipo Dirichlet: \[
+  θ(0,y,τ)=0, \ \ τ≥0.
+  \]
+\item
+  En \(x=1\) se fija una condición de tipo Neumann no homogénea, con
+  dependencia lineal en el tiempo: \[
+  ∂_x ​θ(1,y,τ)=τ, \ \ τ≥0.
+  \]
+\end{itemize}
+
+Además, se establece la condición inicial \[
+θ(x,y,0)=0,\ \ (x,y)∈[0,1]×[0,1].
+\]
+
+\subsection{Reducción del problema}\label{reducciuxf3n-del-problema}
+
+Obsérvese que la ecuación es independiente de la variable \(y\), y que
+las condiciones de frontera en esa dirección son homogéneas (Neumann).
+Por tanto, la solución puede asumirse también independiente de \(y\),
+reduciendo el problema a una dimensión espacial. En consecuencia, se
+escribe \[
+θ(x,y,τ) \equiv θ(x,τ).
+\]
+
+La ecuación \ref{eq-PBHE-wout-a3} se reduce a resolver
+\begin{equation}\phantomsection\label{eq-partial-sol-ana}{
+\partial _\tau \theta(x,\tau) = a_1 \dfrac{\partial^2 \theta}{\partial x^2}(x,\tau) - a_2W\theta(x,\tau),
+}\end{equation}
+
+con las condiciones de frontera \[
+θ(0,τ)=0, \ \ ∂_x​θ(1,τ)=τ,
+\]
+
+y la condición inicial \[
+\theta(x,0) = 0.
+\]
+
+\subsection{Método de solución}\label{muxe9todo-de-soluciuxf3n}
+
+Para resolver este problema, se aplica la técnica de separación en
+solución \textbf{particular + solución homogénea}. Se introduce la
+transformación
+
+\[
+θ(x,τ)=u(x,τ)+φ(x,τ),
+\]
+
+donde \(\varphi(x,\tau)\) se escoge de manera que satisfaga la condición
+de frontera no homogénea en \(x=1\). Una elección natural es
+
+\[
+φ(x,τ)=xτ,
+\]
+
+pues se cumple \[
+∂_x​φ(1,τ)=τ, \ \ φ(0,τ)=0.
+\]
+
+De este modo,la función \(u(x,\tau)\) obedece condiciones homogéneas: \[
+u(0,τ)=0, \ \ ∂_x​u(1,τ)=0,
+\]
+
+y al sustituir en la ecuación \ref{eq-partial-sol-ana}, se obtiene para
+\(u(x,\tau)\): \[
+∂_τ​u = a_1\dfrac{​∂^2 u}{∂x^2}​ − a_2​Wu − a_2​Wxτ−x.
+\]
+
+\subsection{Solución en serie}\label{soluciuxf3n-en-serie}
+
+Se plantea una expansión de \(u(x,\tau)\) en términos de los autovalores
+y autofunciones del problema de Sturm--Liouville asociado: \[
+u(x,τ)= \sum_{m=1}^{\infty}​a_m​(τ) sen(α_m​x),
+\]
+
+donde los modo propios satisfacen \[
+\alpha_m = \dfrac{(2m-1)\pi}{2}.
+\]
+
+La evolución temporal de los coeficientes \(a_{m}(\tau)\) resulta \[
+a_m(\tau) = c_m\dfrac{1-e^{-\sigma_m\tau}}{\sigma_m} + d_m\dfrac{\sigma_m \tau-1+e^{-\sigma_m\tau}}{\sigma_m^2},
+\]
+
+con \[
+\sigma_m = a_1\alpha_m^2 + a_2W, \ \
+c_m = -\dfrac{2(-1)^{m-1}}{\alpha_m^2}, \ \
+d_m = -\dfrac{2a_2W(-1)^{m-1}}{\alpha_m^2}. 
+\]
+
+Finalmente la solución aproximada truncada a \(M\) modos se expresa como
+\begin{equation}\phantomsection\label{eq-sol-truncada}{
+u(x,τ) \approx x\tau + \sum_{m=1}^{M}​a_m​(τ)sen(α_m​x).
+}\end{equation}
+
+\subsection{Solución truncada
+codificada}\label{soluciuxf3n-truncada-codificada}
+
+Basado la Ecuación~\ref{eq-sol-truncada} se codificó la solución
+analítica aproximada y se guardó en un dataframe para los tiempos de
+interés.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2324,7 +2442,7 @@ temporal de la solución en el dominio de estudio.
 \caption{\label{fig-met-crank-nick}Resultados obtenidos mediante el
 método numérico de Crank Nickolson, donde X e Y representan coordenadas
 espaciales y T la temeperatura, todas las medidas están
-adimencionalizadas dadas las ecuaciones \ref{eq-adimencionalizadores}.}
+adimensionalizadas dadas las ecuaciones \ref{eq-adimencionalizadores}.}
 
 \end{figure}%
 
@@ -2447,14 +2565,14 @@ DeepONetCartesianProd con la siguiente estructura especializada:
 
 \CommentTok{\# Configuracion del numero de datos}
 \NormalTok{pts\_dom }\OperatorTok{=} \DecValTok{45}
-\NormalTok{pts\_bc }\OperatorTok{=} \DecValTok{35}
+\NormalTok{pts\_bc }\OperatorTok{=} \DecValTok{30}
 \NormalTok{pts\_ic }\OperatorTok{=} \DecValTok{20}
 \NormalTok{num\_test }\OperatorTok{=} \DecValTok{25}
 
 \CommentTok{\# Malla de sensores y espacio de funciones}
-\NormalTok{num\_sensors }\OperatorTok{=} \DecValTok{7}
+\NormalTok{num\_sensors }\OperatorTok{=} \DecValTok{6}
 \NormalTok{num\_function }\OperatorTok{=} \DecValTok{25}
-\NormalTok{size\_cov\_matrix }\OperatorTok{=} \DecValTok{40}
+\NormalTok{size\_cov\_matrix }\OperatorTok{=} \DecValTok{50}
 
 \CommentTok{\# Arquitectura de la red}
 \NormalTok{width\_net }\OperatorTok{=} \DecValTok{20}
@@ -2464,7 +2582,7 @@ DeepONetCartesianProd con la siguiente estructura especializada:
 
 
 \CommentTok{\# Parámetros de entrenamiento}
-\NormalTok{num\_iterations }\OperatorTok{=} \DecValTok{5000}
+\NormalTok{num\_iterations }\OperatorTok{=} \DecValTok{15000}
 \NormalTok{learning\_rate }\OperatorTok{=} \FloatTok{2e{-}3}
 \NormalTok{decay\_rate }\OperatorTok{=} \FloatTok{0.05}
 \NormalTok{decay\_steps }\OperatorTok{=} \DecValTok{500}
@@ -3080,7 +3198,7 @@ el modelo y el método de Crank Nicolson para cada tiempo.}
 
 \end{figure}%
 
-\subsection{Modelo contra Solución
+\subsection{Modelo contra solución
 analítica}\label{modelo-contra-soluciuxf3n-analuxedtica}
 
 \begin{Shaded}
@@ -3180,7 +3298,7 @@ el modelo y la solución analítica para cada tiempo.}
 
 \section{Validaciones cuantitativas}\label{validaciones-cuantitativas}
 
-\subsection{Modelo contra el Método de
+\subsection{Modelo contra el método de
 Crank-Nicolson}\label{modelo-contra-el-muxe9todo-de-crank-nicolson}
 
 Para evaluar numéricamente la precisión del modelo DeepONet, se realizó
@@ -3249,11 +3367,11 @@ Tiempo & MAE & MaxAE & Error L2 \\
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-0.000 & 0.016 & 0.063 & 0.564 \\
-0.250 & 0.032 & 0.067 & 0.959 \\
-0.500 & 0.010 & 0.032 & 0.301 \\
-0.750 & 0.055 & 0.169 & 1.919 \\
-1.000 & 0.124 & 0.324 & 4.019 \\
+0.000 & 0.011 & 0.065 & 0.443 \\
+0.250 & 0.033 & 0.072 & 1.014 \\
+0.500 & 0.008 & 0.031 & 0.266 \\
+0.750 & 0.057 & 0.171 & 1.962 \\
+1.000 & 0.123 & 0.325 & 4.024 \\
 
 \end{longtable}
 
@@ -3332,12 +3450,12 @@ el método de Crank Nicolson para cada tiempo.}
 
 \end{figure}%
 
-\subsection{Modelo contra la Solución
+\subsection{Modelo contra la solución
 analítica}\label{modelo-contra-la-soluciuxf3n-analuxedtica}
 
 De manera análoga a la sección anterior se realizó una comparativa
-contra la solción analítica (Sección~\ref{sec-sol-ana}). De este modo se
-tiene una visión más completa acerca del rendimiento del modelo.
+contra la solución analítica (Sección~\ref{sec-sol-ana}). De este modo
+se tiene una visión más completa acerca del rendimiento del modelo.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3398,11 +3516,11 @@ Tiempo & MAE & MaxAE & Error L2 \\
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-0.000 & 0.016 & 0.063 & 0.564 \\
-0.250 & 0.031 & 0.065 & 0.931 \\
-0.500 & 0.010 & 0.037 & 0.330 \\
-0.750 & 0.058 & 0.176 & 2.011 \\
-1.000 & 0.127 & 0.333 & 4.139 \\
+0.000 & 0.011 & 0.065 & 0.443 \\
+0.250 & 0.032 & 0.069 & 0.986 \\
+0.500 & 0.008 & 0.036 & 0.303 \\
+0.750 & 0.060 & 0.178 & 2.054 \\
+1.000 & 0.127 & 0.334 & 4.145 \\
 
 \end{longtable}
 
