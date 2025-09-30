@@ -23,7 +23,7 @@ advisor:
 
 # Resumen {.unnumbered}
 ::: {style="text-align: justify"}
-Este trabajo explora el uso de DeepONet para resolver ecuaciones diferenciales parciales, aplicándola a la estimación de temperatura en tejidos biológicos mediante la ecuación del bio-calor, en contextos clínicos como la hipertermia oncológica.
+Este trabajo explora el uso de DeepONet para resolver ecuaciones diferenciales parciales (EDPs), aplicándola a la estimación de temperatura en tejidos biológicos mediante la ecuación del bio-calor, en contextos clínicos como la hipertermia oncológica.
 
 Se comparó el desempeño de DeepONet frente a un método numérico clásico, como Crank-Nicolson, evaluando precisión mediante métricas de error. La red neuronal fue entrenada para resolver la EDP del Bio-Calor simplificandola de manera que no se tuviera en cuenta la fuente metabólica de calor $Q$.
 

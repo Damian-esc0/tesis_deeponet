@@ -24,7 +24,7 @@ Por su parte @nci2021 aporta lo siguiente:
 
 ![Una célula de cáncer de seno que se multiplica [@nci2021].](images/dividing-breast-cancer-cell.jpg){#fig-breast-cancer fig-align="center" width="500"}
 
-Ésta enfermedad es la principal causa de muerte a nivel mundial, solo en 2020 arrebató casi 10 millones de vidas y según datos de @omscancer los cánceres más comunes en 2020 fueron:
+Ésta enfermedad es la principal causa de muerte a nivel mundial, solo en 2020 arrebató casi 10 millones de vidas y, según datos de @omscancer, los cánceres más comunes en 2020 fueron:
 
 - De mama (2.26 millones de casos)
 - De pulmón (2.21 millones de casos)
@@ -33,7 +33,7 @@ Por su parte @nci2021 aporta lo siguiente:
 - De piel (distinto del melanoma) (1.20 millones de casos)
 - Gástrico (1.09 millones de casos)
 
-Es ante este panorama que distintos tratamientos surgen con el objetivo de erradicar la enfermedad siempre que se tenga una detección oportuna. Uno de dichos tratamientos es la hipertermia, según en el @hyperthermia es un método que consiste en calentar el tejido corporal hasta los 39-45 °C para ayudar a erradicar células cancerígenas con pequeñas o nulas lesiones en el tejido sano. La hipertermia también es llamada terapia térmica o termoterapia.
+Es ante este panorama, distintos tratamientos surgen con el objetivo de erradicar la enfermedad siempre que se tenga una detección oportuna. Uno de dichos tratamientos es la hipertermia, según en el @hyperthermia, es un método que consiste en calentar el tejido corporal hasta los 39-45 °C para ayudar a erradicar células cancerígenas con pequeñas o nulas lesiones en el tejido sano. La hipertermia también es llamada terapia térmica o termoterapia.
 
 Uno de los principales retos de este tratamiento es la creación de un modelo óptimo que se adecue al comportamiento de la transferencia de calor que se hace a los tejidos con el fin de dañar únicamente el área en el que se encuentran las células cancerígenas, es por ello que los modelos de inteligencia artificial y más precisamente las PINN's [@sec-pinns] surgen como posible solución a este reto.   
 

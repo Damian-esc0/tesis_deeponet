@@ -7,11 +7,13 @@ execute:
 ::: {style="text-align: justify"}
 Para validar los resultados del modelo propuesto, se implementó el método de Crank-Nicolson en Julia utilizando la librería *DifferentialEquations.jl*. El método se resolvió sobre una malla refinada de 51×51 puntos para garantizar alta precisión en la solución numérica, calculando las predicciones en los tiempos clave: t = [0.0, 0.25, 0.50, 0.75, 1.0]. En la @fig-met-crank-nick se muestran las cinco gráficas generadas, las cuales ilustran la evolución temporal de la solución en el dominio de estudio.
 ```{julia}
+#| lst-label: lst-met-num
+#| lst-cap: Método de Crank-Nicolson.
 #| output: false
 using DifferentialEquations, LinearAlgebra
 using DataFrames, CSV
 
-# --- PARÁMETROS FÍSICOS Y DIMENSIONALES ----------------------------------
+# --- PARÁMETROS FÍSICOS Y DIMENSIONALES --------------------------------
 p, c  = 1050.0, 3639.0                       # densidad, calor específico 
 k_eff = 5.0                                  # conductividad
 t_f   = 1800.0                               # tiempo final 
@@ -20,26 +22,26 @@ c_b   = 3825.0                               # coef. perfusión
 Q     = 0.0                                  # fuente térmica
 T_M, T_a = 45.0, 37.0                        # temp máxima, temp ambiente
 
-# --- COEFICIENTES ADIMENSIONALES -----------------------------------------
+# --- COEFICIENTES ADIMENSIONALES ---------------------------------------
 α = p * c / k_eff
 a₁ = t_f / (α * L^2)
 a₂ = t_f * c_b / (p * c)
 a₃ = (t_f * Q) / (p * c * (T_M - T_a))  # aquí Q=0 → a₃=0
 
-# --- MALLA ESPACIAL ------------------------------------------------------
+# --- MALLA ESPACIAL ----------------------------------------------------
 Nx, Ny = 51, 51
 dx, dy = 1.0 / (Nx - 1), 1.0 / (Ny - 1)
 x = range(0, 1, length=Nx)
 y = range(0, 1, length=Ny)
 N = Nx * Ny  # total de puntos
 
-# --- CONDICIÓN INICIAL ---------------------------------------------------
+# --- CONDICIÓN INICIAL -------------------------------------------------
 u0 = zeros(N)   # coincide con la condición inicial θ=0
 
-# --- SISTEMA DE EDOs DEL PDE ---------------------------------------------
+# --- SISTEMA DE EDOs DEL PDE -------------------------------------------
 function f!(du, u, _, τ)
-    U = reshape(u, Nx, Ny)           # arreglo 2D con los valores actuales
-    D = zeros(eltype(U), Nx, Ny)     # preasigno en cero
+    U = reshape(u, Nx, Ny)          # arreglo 2D con los valores actuales
+    D = zeros(eltype(U), Nx, Ny)    # preasigno en cero
 
     # Enforce Dirichlet en X=0: θ(0,y,τ) = 0 (mantenemos esa fila = 0)
     U[1, :] .= 0.0
@@ -86,13 +88,13 @@ function f!(du, u, _, τ)
     du .= vec(D)
 end
 
-# --- RESOLVER PDE -------------------------------------------------------
+# --- RESOLVER PDE -----------------------------------------------------
 τspan = (0.0, 1.0)
 prob = ODEProblem(f!, u0, τspan)
 taus = [0.0, 0.25, 0.5, 0.75, 1.0]
 sol = solve(prob, Trapezoid(), dt=8e-4, saveat=taus)
 
-# --- PROCESAR SOLUCIÓN EN GRILLA REDUCIDA -------------------------------
+# --- PROCESAR SOLUCIÓN EN GRILLA REDUCIDA -----------------------------
 idxs = 1:2:Nx  # índices para submuestreo
 
 # Preasignar vectores para crear el DataFrame
@@ -115,25 +117,25 @@ end
 
 df = DataFrame(time=times, X=Xs, Y=Ys, Theta=Thetas)
 
-# --- GUARDAR CSV ---------------------------------------------------------
+# --- GUARDAR CSV -------------------------------------------------------
 ruta = "data"
 CSV.write(joinpath(ruta, "crank_nick.csv"), df)
 ```
 
 ```{julia}
 #| label: fig-met-crank-nick
-#| fig-cap: "Resultados obtenidos mediante el método numérico de Crank Nickolson, donde X e Y representan coordenadas espaciales y T la temeperatura, todas las medidas están adimensionalizadas dadas las ecuaciones [-@eq-adimencionalizadores]."
+#| fig-cap: "Resultados obtenidos mediante el método numérico de Crank Nickolson, para la temperatura T en función de las coordenadas X e Y, aquí el código de colores representa el gradiente de temperaturas; todas las medidas están adimensionalizadas dadas las ecuaciones [-@eq-adimencionalizadores]."
 using DataFrames, CSV, Plots, Statistics
 pyplot()
 
-# --- OBTENER VALORES ÚNICOS Y ORDENADOS DE X, Y, TIME --------------------
+# --- OBTENER VALORES ÚNICOS Y ORDENADOS DE X, Y, TIME ------------------
 x_vals = sort(unique(df.X))
 y_vals = sort(unique(df.Y))
 times = sort(unique(df.time))  # tiempos
 
 Nx, Ny = length(x_vals), length(y_vals)
 
-# --- RECONSTRUIR MATRICES 2D DE THETA PARA CADA TIEMPO -------------------
+# --- RECONSTRUIR MATRICES 2D DE THETA PARA CADA TIEMPO -----------------
 solutions = []
 
 for t in times
@@ -152,11 +154,11 @@ for t in times
     push!(solutions, Θ)
 end
 
-# --- DETERMINAR ESCALA GLOBAL DE COLORES ---------------------------------
+# --- DETERMINAR ESCALA GLOBAL DE COLORES -------------------------------
 zmin = minimum([minimum(u) for u in solutions])
 zmax = maximum([maximum(u) for u in solutions])
 
-# --- GRAFICAR EN LAYOUT 3x2 ----------------------------------------------
+# --- GRAFICAR EN LAYOUT 3x2 --------------------------------------------
 p = plot(layout = (3, 2), size = (800, 900))
 
 for (i, (t, Θ)) in enumerate(zip(times, solutions))
@@ -184,8 +186,8 @@ close("all")
 display(p)
 ```
 
-## Guardado de datos
-Con el objetivo de optimizar el proceso de comparación cuantitativa con el modelo de redes neuronales, se exportó un subconjunto representativo de los resultados. Aunque la simulación original utilizó una malla de 51×51 puntos, se almacenaron únicamente los valores correspondientes a una grilla de 26×26 puntos. Esta decisión se basó en:
+## Análisis de sensibilidad
+Con el objetivo de optimizar el proceso de comparación cuantitativa con el modelo de redes neuronales, se exportó un subconjunto representativo de los resultados [@lst-met-num]. Aunque la simulación original utilizó una malla de 51×51 puntos, se almacenaron únicamente los valores correspondientes a una grilla de 26×26 puntos. Esta decisión se basó en:
 
 1. Suficiencia estadística: La densidad de puntos conserva los patrones espaciales críticos.
 2. Eficiencia computacional: Reduce el tamaño del archivo sin perder información relevante.

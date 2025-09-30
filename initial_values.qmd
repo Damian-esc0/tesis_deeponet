@@ -99,9 +99,10 @@ $$
 $$ {#eq-perturbed-rpoblem}
 tenga una única solución $z(t)$ que satisface:
 $$
-|z(t)-y(t)| < k\varepsilon \quad \forall t \in[a,b].
+|z(t)-y(t)| < k\varepsilon \quad \forall t \in[a,b],
 $$
 
+donde $k$ es conocida como *constante de estabilidad*.
 :::
 
 El problema especificado por la @eq-perturbed-rpoblem se denomina **problema perturbado** asociado al problema original @eq-original-problem. Se asume la posibilidad de que se introduzca un error en el planteamiento de la ecuación diferencial, así como la presencia de un error $δ_0$ en la condición inicial.

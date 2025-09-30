@@ -15,7 +15,7 @@ $$
 \frac{\partial u}{\partial t} + u \frac{\partial u}{\partial x} = \nu \frac{\partial^2 u}{\partial x^2}
 $$
 
-Con una condición inicial adecuada y condiciones de contorno de Dirichlet. En la @fig-pinn_graph, la red izquierda (physics-​uninformed) representa el sustituto de la solución de EDP $u(x, t)$, mientras que la red derecha (physics-​informed) describe el residuo de EDP $\frac{\partial u}{\partial t} + u \frac{\partial u}{\partial x} - \nu \frac{\partial^2 u}{\partial x^2} = 0$. La función de pérdida incluye una pérdida supervisada de las mediciones de datos de $u$ de las condiciones iniciales y de contorno, y una pérdida no supervisada de EDP:
+con una condición inicial adecuada y condiciones de contorno de Dirichlet. En la @fig-pinn_graph, la red izquierda (*physics-​uninformed*) representa el sustituto de la solución de EDP $u(x, t)$, mientras que la red derecha (*physics-​informed*) describe el residuo de EDP $\frac{\partial u}{\partial t} + u \frac{\partial u}{\partial x} - \nu \frac{\partial^2 u}{\partial x^2} = 0$. La función de pérdida incluye una pérdida supervisada de las mediciones de datos de $u$ de las condiciones iniciales y de contorno, y una pérdida no supervisada de EDP:
 
 $$
 \mathcal{L} = w_{\text{data}} \mathcal{L}_{\text{data}} + w_{\text{PDE}} \mathcal{L}_{\text{PDE}}
@@ -32,7 +32,7 @@ Aquí, $(x_i, t_i)$ representan puntos donde se conocen valores de la solución 
 
 Este enfoque permite resolver EDPs (clásicas, fraccionarias o estocásticas) sin mallas, en dominios complejos o con datos escasos y ruidosos, siendo una herramienta flexible y poderosa para la modelación científica.
 
-![**El algoritmo de una PINN.** Construya una red neuronal (NN) $u(x, t; \theta)$ donde $\theta$ representa el conjunto de pesos entrenables $w$ y sesgos $b$, y $\sigma$ representa una función de activación no lineal. Especifique los datos de medición ${x_i, t_i, u_i}$ para $u$ y los puntos residuales ${x_j, t_j}$ para la EDP. Especifique la pérdida $\mathcal{L}$ en la @eq-loss-funct sumando las pérdidas ponderadas de los datos y la EDP. Entrene la NN para encontrar los mejores parámetros $\mathbb{\theta^*}$ minimizando la pérdida $\mathcal{L}$ [@karniadakis2021].](images/PINN_diagram.png){#fig-pinn_graph fig-align="center" width="600" .lightbox}
+![**El algoritmo de una PINN.** Se construye una red neuronal (NN) $u(x, t; \theta)$ donde $\theta$ representa el conjunto de pesos entrenables $w$ y sesgos $b$, y $\sigma$ representa una función de activación no lineal. Especifique los datos de medición ${x_i, t_i, u_i}$ para $u$ y los puntos residuales ${x_j, t_j}$ para la EDP. Especifique la pérdida $\mathcal{L}$ en la @eq-loss-funct sumando las pérdidas ponderadas de los datos y la EDP. Entrene la NN para encontrar los mejores parámetros $\mathbb{\theta^*}$ minimizando la pérdida $\mathcal{L}$ [@karniadakis2021].](images/PINN_diagram.png){#fig-pinn_graph fig-align="center" width="600" .lightbox}
 
 ## Algoritmos de optimización {#sec-optimizadores}
 Un algoritmo de optimización busca minimizar o maximizar una función objetivo ajustando sus parámetros de manera iterativa. Son esenciales en el entrenamiento de redes neuronales y otros modelos de aprendizaje automático [@kingma2014adam].
@@ -120,6 +120,7 @@ losshistory, train_state = model.train()
 ```
 
 ```{python}
+#| label: fig-burgers-ejemplo
 #| fig-cap: "Comparación entre solución real y predicción de la red neuronal para la ecuación de Burger 1D. Debido a su naturaleza unidimensional, es posible plasmar en un eje al tiempo (t) y representar a la función a lo largo de éste como una serie de *fotos* para un instante $t$ dado."
 import matplotlib.pyplot as plt 
 from mpl_toolkits.mplot3d import Axes3D
@@ -133,7 +134,7 @@ x_coords = X[:, 0]  # coordenadas x (espacio)
 time = X[:, 1]      # coordenadas t (tiempo)
 
 # Crear figura con dos subgráficos 3D
-fig = plt.figure(figsize=(12, 9))
+fig = plt.figure(figsize=(14, 9))
 ax1 = fig.add_subplot(121, projection='3d')
 ax2 = fig.add_subplot(122, projection='3d')
 

@@ -247,6 +247,7 @@ El proceso de entrenamiento del modelo se monitoreó mediante el seguimiento det
     - Complejidad: En problemas 2D/3D suele ser la última en estabilizarse
 
 ### Perdida para el conjunto de entrenamiento
+La tendencia decreciente de la pérdida durante el entrenamiento evidencia que el modelo neuronal está aprendiendo progresivamente a satisfacer las restricciones físicas impuestas por la ecuación de Bio-Calor y sus condiciones asociadas. Este comportamiento indica una correcta adaptación de los parámetros de la red, permitiendo reducir consistentemente el error en las distintas componentes de la función objetivo y aproximando con mayor precisión la dinámica térmica en el dominio.
 ```{python}
 #| output: false
 
@@ -312,6 +313,7 @@ fig_train.write_image("images/fig-training_loss.png", width=800, height=600)
 
 
 ### Pérdida para el conjunto de prueba
+La disminución del error en el conjunto de prueba confirma que el modelo no solo memoriza los datos de entrenamiento, sino que logra generalizar a situaciones no vistas. Esto constituye un resultado favorable, pues asegura que la red neuronal mantiene su capacidad predictiva fuera de los escenarios empleados para el ajuste, garantizando robustez y confiabilidad en aplicaciones biomédicas donde la precisión en la estimación térmica es fundamental.
 ```{python}
 #| output: false
 
@@ -388,6 +390,8 @@ Para permitir la comparación cuantitativa con el método de Crank-Nicolson y fa
     - Coordenadas espacio-temporales (t, x, y) para cada punto de la grilla 26×26.
     - Valores de la solución en los tiempos de interés.
 ```{python}
+#| lst-label: lst-modelo-don
+#| lst-cap: Guardado de los datos de la red neuronal.
 import pandas as pd
 # Lista de tiempos
 times = [0.0, 0.25, 0.5, 0.75, 1.0]
@@ -427,7 +431,7 @@ df.to_csv(ruta, index=False)
 
 ::: {.content-visible when-format="html"}
 ### Visualización interactiva
-Para facilitar el análisis exploratorio de las predicciones generadas por el modelo DeepONet, se implementó una tabla dinámica interactiva mediante la librería itables (versión 1.5.2), que extiende las funcionalidades de Pandas para su visualización.
+Para facilitar el análisis exploratorio de las predicciones generadas por el modelo DeepONet, se implementó una tabla dinámica interactiva mediante la librería itables (versión 1.5.2), que extiende las funcionalidades de Pandas para su visualización (*Solo en versión en línea*).
 ```{python}
 #| label: tbl-data-model
 #| tbl-cap: "Predicciones de la red neuronal."

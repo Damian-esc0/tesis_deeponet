@@ -5,7 +5,7 @@ execute:
   freeze: auto
 ---
 ::: {style="text-align: justify"}
-Existen métodos implícitos de diferencias finitas para resolver ecuaciones diferenciales parciales parabólicas [ec @eq-heat]. Estos métodos requieren la resolución de un sistema de ecuaciones para determinar los valores aproximados de $u$ en la línea de tiempo $(j + 1)$. Sin embargo, los métodos implícitos no presentan problemas de inestabilidad [@zill2008].
+Existen métodos implícitos de diferencias finitas para resolver ecuaciones diferenciales parciales parabólicas (@eq-heat). Estos métodos requieren la resolución de un sistema de ecuaciones para determinar los valores aproximados de $u$ en la línea de tiempo $(j + 1)$. Sin embargo, los métodos implícitos no presentan problemas de inestabilidad [@zill2008].
 
 El algoritmo introducido por **J. Crank** y **P. Nicholson** en 1947 se utiliza principalmente para resolver la ecuación del calor. El algoritmo consiste en sustituir la segunda derivada parcial en $c\frac{\partial^2 u}{\partial x^2} = \frac{\partial u}{\partial t}$ por el promedio de dos cocientes de diferencias centrales, uno evaluado en $t$ y el otro en $t+k$:
 $$
@@ -31,7 +31,7 @@ $$ {#eq-cn-reducida}
 
 donde $\alpha=2(1+\frac{1}{\lambda})$, $\beta=2(1-\frac{1}{\lambda})$, $j=0,1,\dots, m-1, \ \ \ i=0,1,\dots, n-1$.
 
-Para cada elección de $j$ la ecuación diferencial [ec @eq-cn-reducida] para $i=0,1,\dots, n-1$ da $n-1$ ecuaciones en $n-1$ incógnitas $u_{i,j+1}$. Debido a las condiciones de contorno preestablecidas, los valores de $u_{i, j+1}$ se conocen para $i=0$ y para $i=n$. Por ejemplo, en el caso $n=4$, el sistema de ecuaciones para determinar los valores aproximados de $u$ en la línea de tiempo $(j+1)$ es:
+Para cada elección de $j$, la ecuación diferencial [ec @eq-cn-reducida] para $i=0,1,\dots, n-1$ da $n-1$ ecuaciones en $n-1$ incógnitas $u_{i,j+1}$. Debido a las condiciones de contorno preestablecidas, los valores de $u_{i, j+1}$ se conocen para $i=0$ y para $i=n$. Por ejemplo, en el caso $n=4$, el sistema de ecuaciones para determinar los valores aproximados de $u$ en la línea de tiempo $(j+1)$ es:
 
 $$
 \begin{split}

@@ -7,15 +7,16 @@ execute:
 ::: {style="text-align: justify"}
 
 ## Comparativa visual de las predicciones
-Esta sección presenta un análisis cualitativo de los resultados mediante la comparación directa entre las predicciones del modelo, las soluciones reportadas en el estudio de @medical_rep y las obtenidas mediante el método de Crank Nickolson. La visualización paralela permite evaluar:
+Esta sección presenta un análisis cualitativo de los resultados mediante la comparación directa entre las predicciones del modelo, las soluciones reportadas en el estudio de @medical_rep y las obtenidas mediante el método de Crank Nickolson y la solución analítica. La visualización paralela permite evaluar:
 
 - Dominio espacial: Cuadrado unitario [0,1] × [0,1] con malla 26×26.
 - Escala de colores: Mapa térmico viridis (consistente en ambas columnas).
 
 ### Modelo contra resultados de @medical_rep
+El siguiente código grafica las predicciones de la red neuronal DeepONet para la temperatura dadas las coordenadas espaciales en los distintos tiempos de interés, los ejes están adimencionalizados siguiendo las ecuaciones -@eq-adimencionalizadores.
 ```{python}
 #| label: fig-my_results
-#| fig-cap: "Predicciones del modelo a distintos tiempos."
+#| fig-cap: "Predicciones de la red neuronal a distintos tiempos."
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.gridspec as gridspec
@@ -78,9 +79,10 @@ plt.show()
 ![Resultados reportados por @medical_rep en el caso 2D.](images/results_paper.png){#fig-results_fnn fig-align="center" width="550"}
 
 ### Modelo contra método numérico
+El siguiente código utiliza los archivos csv de @lst-modelo-don y @lst-met-num para graficar una comparativa entre los tiempos de interés, las predicciones del modelo se encuentran en la parte superior mientras que las del método numérico en la parte inferior.
 ```{python}
 #| label: fig-met-num-vs-model
-#| fig-cap: "Contraste de las predicciones entre el modelo y el método de Crank Nicolson para cada tiempo."
+#| fig-cap: "Contraste de las predicciones entre el modelo y el método de Crank Nicolson para cada tiempo. Se aprecia que ambas comparten forma y tendencia, sin embargo a medida que el tiempo se acerca a t=1 los resultados divergen."
 
 crank_nick_data = pd.read_csv(r'data/crank_nick.csv')
 model_don_data = pd.read_csv(r'data/model_DoN.csv')
@@ -162,9 +164,10 @@ plt.show()
 ```
 
 ### Modelo contra solución analítica
+El siguiente código utiliza los archivos csv de @lst-modelo-don y @lst-sol-ana para graficar una comparativa entre los tiempos de interés, las predicciones del modelo se encuentran en la parte superior mientras que las de la solución analítica en la parte inferior.
 ```{python}
 #| label: fig-sol-ana-vs-model
-#| fig-cap: "Contraste de las predicciones entre el modelo y la solución analítica para cada tiempo."
+#| fig-cap: "Contraste de las predicciones entre el modelo y la solución analítica para cada tiempo. Se aprecia que ambas comparten forma y tendencia, sin embargo a medida que el tiempo se acerca a t=1 los resultados divergen."
 
 sol_ana_data = pd.read_csv(r'data/sol_analitica.csv')
 model_don_data = pd.read_csv(r'data/model_DoN.csv')

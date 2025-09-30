@@ -30,7 +30,7 @@ $$
 u(0)=u(1)=0
 $$
 
-el término $f$ representa a una función continua arbitraria.
+dónde el término $f$ representa a una función continua arbitraria.
 
 ```{python}
 #| output: false
@@ -105,6 +105,7 @@ y = model.predict((fx, x))
 ```
 
 ```{python}
+#| label: fig-poisson-ejemplo
 #| fig-cap: Soluciones halladas por la red neuronal, en la parte superior las funciones arbitrarias $f(x)$, mientras que en la parte inferior está su solución $u(x)$, el color representa la relación *término-solución*.
 
 # Setup figure
@@ -132,7 +133,7 @@ plt.show()
 
 
 ## Comparación con una PINN
-En contraste con una red PINN convencional (Physics-Informed Neural Network), que resuelve una instancia específica de una ecuación diferencial para un conjunto dado de condiciones, DeepONet aprende el operador general que resuelve muchas instancias a la vez. Mientras que una PINN debe ser reentrenada para cada nuevo problema, DeepONet, una vez entrenado, puede predecir soluciones rápidamente para múltiples condiciones nuevas. Esto lo hace especialmente eficiente en aplicaciones donde se requiere realizar inferencias repetidas, como en control o diseño inverso [@kumar2024deeponet].
+En contraste con una red PINN convencional (Physics-Informed Neural Network), que resuelve una instancia específica de una ecuación diferencial para un conjunto dado de condiciones, DeepONet aproxima el operador general que resuelve varias instancias a la vez. Mientras que una PINN debe ser reentrenada para cada nuevo problema, DeepONet, una vez entrenado, puede predecir soluciones rápidamente para múltiples condiciones nuevas. Esto lo hace especialmente eficiente en aplicaciones donde se requiere realizar inferencias repetidas, como en control o diseño inverso [@kumar2024deeponet].
 
 
 
