@@ -288,7 +288,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ejemplos.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Modelado del Bio-Calor en Hipertermia</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Otras aplicaciones de la ecuación del bio-calor</span></span></a>
   </div>
 </li>
       </ul>
@@ -551,9 +551,9 @@ Ejemplo
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>El movimiento de un péndulo oscilante bajo ciertas suposiciones se describe mediante la ecuación diferencial de segundo orden: <span class="math display">\[
-\dfrac{d^2 \theta}{d t^2} + \dfrac{g}{L} \sin{\theta} = 0
+\dfrac{d^2 \theta}{d t^2} + \dfrac{g}{L} \sin{\theta} = 0,
 \]</span></p>
-<p>Donde <span class="math inline">\(L\)</span> es la longitud del péndulo, <span class="math inline">\(g \approx 9.81 \frac{m}{s^2}\)</span> es la constante gravitacional terrestre y <span class="math inline">\(\theta\)</span> es el ángulo que forma el péndulo con la vertical. Si, además, especificamos la posición del péndulo al inicio del movimiento, <span class="math inline">\(\theta(t_0) = \theta_{0}\)</span> , y su velocidad en ese punto, <span class="math inline">\(\theta'(t_0) = \theta'_0\)</span>. Tenemos un <em>problema de valor inicial</em>.</p>
+<p>donde <span class="math inline">\(L\)</span> es la longitud del péndulo, <span class="math inline">\(g \approx 9.81 \frac{m}{s^2}\)</span> es la constante gravitacional terrestre y <span class="math inline">\(\theta\)</span> es el ángulo que forma el péndulo con la vertical. Si, además, especificamos la posición del péndulo al inicio del movimiento, <span class="math inline">\(\theta(t_0) = \theta_{0}\)</span> , y su velocidad en ese punto, <span class="math inline">\(\theta'(t_0) = \theta'_0\)</span>. Tenemos un <em>problema de valor inicial</em>.</p>
 </div>
 </div>
 </div>
@@ -628,9 +628,10 @@ f(t,y) = 1 + t\sin(ty),
 <li>Existen constantes <span class="math inline">\(ε_0 &gt; 0\)</span> y <span class="math inline">\(k &gt; 0\)</span> tales que para cualquier <span class="math inline">\(\varepsilon\)</span>, con <span class="math inline">\(\varepsilon_0 &gt; \varepsilon &gt; 0\)</span>, siempre que <span class="math inline">\(δ(t)\)</span> sea continua con <span class="math inline">\(|δ(t)| &lt; \varepsilon\)</span> para todo <span class="math inline">\(t\)</span> en <span class="math inline">\([a, b]\)</span>, y cuando <span class="math inline">\(|δ_0| &lt; \varepsilon\)</span>, el problema del valor inicial <span id="eq-perturbed-rpoblem"><span class="math display">\[
 \dfrac{dz}{dt} = f(t,z) + δ(t), \quad a\leq t \leq b, \quad z(a) = \alpha + δ_0
 \tag{5.3}\]</span></span> tenga una única solución <span class="math inline">\(z(t)\)</span> que satisface: <span class="math display">\[
-|z(t)-y(t)| &lt; k\varepsilon \quad \forall t \in[a,b].
+|z(t)-y(t)| &lt; k\varepsilon \quad \forall t \in[a,b],
 \]</span></li>
 </ul>
+<p>donde <span class="math inline">\(k\)</span> es conocida como <em>constante de estabilidad</em>.</p>
 </div>
 <p>El problema especificado por la <a href="#eq-perturbed-rpoblem" class="quarto-xref">Ecuación&nbsp;<span>5.3</span></a> se denomina <strong>problema perturbado</strong> asociado al problema original <a href="#eq-original-problem" class="quarto-xref">Ecuación&nbsp;<span>5.2</span></a>. Se asume la posibilidad de que se introduzca un error en el planteamiento de la ecuación diferencial, así como la presencia de un error <span class="math inline">\(δ_0\)</span> en la condición inicial.</p>
 <p>Los métodos numéricos siempre se centrarán en la solución de un problema perturbado, ya que cualquier error de redondeo introducido en la representación perturba el problema original. A menos que el problema original esté bien planteado, hay pocas razones para esperar que la solución numérica de un problema perturbado se aproxime con precisión a la solución del problema original.</p>
@@ -673,7 +674,7 @@ z(t) &amp;= (t + 1)^2 + (\delta + \delta_0 - 0.5)e^t - \delta
 <p>Sea <span class="math inline">\(\varepsilon\)</span> un número positivo. Si <span class="math inline">\(|\delta| &lt; \varepsilon\)</span> y <span class="math inline">\(|\delta_0| &lt; \varepsilon\)</span>, entonces <span class="math display">\[
 |y(t) - z(t)| = |(\delta + \delta_0)e^t - \delta| \leq |\delta + \delta_0|e^2 + |\delta| \leq (2e^2 + 1)\varepsilon,
 \]</span></p>
-<p>para todo <span class="math inline">\(t\)</span>. Esta desigualdad demuestra que <a href="#eq-1-exm" class="quarto-xref"><span>5.4</span></a> está bien planteado, con una constante de estabilidad <span class="math inline">\(k(\varepsilon) = 2e^2 + 1\)</span> para cualquier <span class="math inline">\(\varepsilon &gt; 0\)</span>.</p>
+<p>para todo <span class="math inline">\(t\)</span>. Esta desigualdad demuestra que <a href="#eq-1-exm" class="quarto-xref"><span>5.4</span></a> está bien planteado, con una constante de estabilidad <span class="math inline">\(k = 2e^2 + 1\)</span> para cualquier <span class="math inline">\(\varepsilon &gt; 0\)</span>.</p>
 </div>
 </div>
 </div>

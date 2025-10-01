@@ -323,7 +323,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ejemplos.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Modelado del Bio-Calor en Hipertermia</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Otras aplicaciones de la ecuación del bio-calor</span></span></a>
   </div>
 </li>
       </ul>
@@ -713,10 +713,10 @@ Tabla&nbsp;9.2: Tabla de nomenclatura de las relaciones para escalamiento.
 <p>Consideremos la ecuación diferencial parcial <a href="#eq-PBHE-reduced" class="quarto-xref"><span>9.3</span></a> sin el término <span class="math inline">\(a_3\)</span>, <span id="eq-PBHE-wout-a3"><span class="math display">\[
 \partial _\tau \theta(x,y,\tau) = a_1 \nabla^2(x,y,\tau) - a_2W\theta(x,y,\tau),
 \tag{9.4}\]</span></span></p>
-<p>donde <span class="math inline">\(a_{1}\)</span> y <span class="math inline">\(a_{2}\)</span> son parámetros positivos adimensionales, <span class="math inline">\(W\)</span> es una constante asociada al término de disipación, y se ha tomado <span class="math inline">\(a_{3}=0\)</span>. El dominio de estudio corresponde al cuadrado <span class="math inline">\([0,1]\times[0,1]\)</span> en el espacio y al intervalo <span class="math inline">\([0,1]\)</span> en el tiempo adimensional <span class="math inline">\(\tau\)</span>.</p>
+<p>donde <span class="math inline">\(a_{1}\)</span> y <span class="math inline">\(a_{2}\)</span> son parámetros positivos adimensionales, <span class="math inline">\(W\)</span> es una constante asociada al término de disipación. El dominio de estudio corresponde al cuadrado <span class="math inline">\([0,1]\times[0,1]\)</span> en el espacio y al intervalo <span class="math inline">\([0,1]\)</span> en el tiempo adimensional <span class="math inline">\(\tau\)</span>.</p>
 <p>Las condiciones de frontera establecidas son mixtas:</p>
 <ul>
-<li><p>En <span class="math inline">\(y=0\)</span> y <span class="math inline">\(y=1\)</span> se imponen condiciones de tipo Neumann, es decir, <span class="math display">\[
+<li><p>En <span class="math inline">\(y=0\)</span> es <span class="math inline">\(y=1\)</span> se imponen condiciones de tipo Neumann, es decir, <span class="math display">\[
 ∂_y ​θ(x,0,τ)=0, \ \ ∂_y ​θ(x,1,τ)=0, \ \ τ≥0.
 \]</span></p></li>
 <li><p>En <span class="math inline">\(x=0\)</span> se prescribe una condición de tipo Dirichlet: <span class="math display">\[
@@ -757,19 +757,19 @@ Tabla&nbsp;9.2: Tabla de nomenclatura de las relaciones para escalamiento.
 <p>pues se cumple <span class="math display">\[
 ∂_x​φ(1,τ)=τ, \ \ φ(0,τ)=0.
 \]</span></p>
-<p>De este modo,la función <span class="math inline">\(u(x,\tau)\)</span> obedece condiciones homogéneas: <span class="math display">\[
+<p>De este modo, la función <span class="math inline">\(u(x,\tau)\)</span> obedece condiciones homogéneas: <span class="math display">\[
 u(0,τ)=0, \ \ ∂_x​u(1,τ)=0,
 \]</span></p>
 <p>y al sustituir en la ecuación <a href="#eq-partial-sol-ana" class="quarto-xref"><span>9.5</span></a>, se obtiene para <span class="math inline">\(u(x,\tau)\)</span>: <span class="math display">\[
 ∂_τ​u = a_1\dfrac{​∂^2 u}{∂x^2}​ − a_2​Wu − a_2​Wxτ−x.
 \]</span></p>
 </section>
-<section id="solución-en-serie" class="level3" data-number="9.3.3">
-<h3 data-number="9.3.3" class="anchored" data-anchor-id="solución-en-serie"><span class="header-section-number">9.3.3</span> Solución en serie</h3>
+<section id="solución-mediante-series" class="level3" data-number="9.3.3">
+<h3 data-number="9.3.3" class="anchored" data-anchor-id="solución-mediante-series"><span class="header-section-number">9.3.3</span> Solución mediante series</h3>
 <p>Se plantea una expansión de <span class="math inline">\(u(x,\tau)\)</span> en términos de los autovalores y autofunciones del problema de Sturm–Liouville asociado: <span class="math display">\[
 u(x,τ)= \sum_{m=1}^{\infty}​a_m​(τ) sen(α_m​x),
 \]</span></p>
-<p>donde los modo propios satisfacen <span class="math display">\[
+<p>donde los modos propios satisfacen <span class="math display">\[
 \alpha_m = \dfrac{(2m-1)\pi}{2}.
 \]</span></p>
 <p>La evolución temporal de los coeficientes <span class="math inline">\(a_{m}(\tau)\)</span> resulta <span class="math display">\[
@@ -787,7 +787,13 @@ u(x,τ) \approx x\tau + \sum_{m=1}^{M}​a_m​(τ)sen(α_m​x).
 <section id="solución-truncada-codificada" class="level3" data-number="9.3.4">
 <h3 data-number="9.3.4" class="anchored" data-anchor-id="solución-truncada-codificada"><span class="header-section-number">9.3.4</span> Solución truncada codificada</h3>
 <p>Basado la <a href="#eq-sol-truncada" class="quarto-xref">Ecuación&nbsp;<span>9.6</span></a> se codificó la solución analítica aproximada y se guardó en un dataframe para los tiempos de interés.</p>
-<div id="09ef03d9" class="cell" data-execution_count="1">
+<div id="005901e4" class="cell" data-execution_count="1">
+<div id="lst-sol-ana" class="python cell-code listing quarto-float quarto-figure quarto-figure-left anchored">
+<figure class="quarto-float quarto-float-lst figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-lst" id="lst-sol-ana-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Listado&nbsp;9.1: Guardado de los datos de la solución analítica.
+</figcaption>
+<div aria-describedby="lst-sol-ana-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -824,45 +830,53 @@ u(x,τ) \approx x\tau + \sum_{m=1}^{M}​a_m​(τ)sen(α_m​x).
 <span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="co"># ---------- Mallado en espacio y tiempos ----------</span></span>
 <span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>step <span class="op">=</span> <span class="fl">0.04</span></span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>grid_vals <span class="op">=</span> np.<span class="bu">round</span>(np.arange(<span class="fl">0.0</span>, <span class="fl">1.0</span> <span class="op">+</span> <span class="fl">1e-12</span>, step), <span class="dv">2</span>)  <span class="co"># 0.00, 0.04, ..., 1.00</span></span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> grid_vals.copy()</span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> grid_vals.copy()</span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>X, Y <span class="op">=</span> np.meshgrid(x, y, indexing<span class="op">=</span><span class="st">'xy'</span>)</span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>times <span class="op">=</span> [<span class="fl">0.0</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="fl">1.0</span>]</span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="co"># ---------- Función para calcular θ(x,τ) ----------</span></span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> theta_xt(x_vec, tau_val):</span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Devuelve theta(x, tau) en un vector de x, usando la serie truncada."""</span></span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>    <span class="co"># coeficientes a_m(tau)</span></span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>    small_mask <span class="op">=</span> np.isclose(sigma_m, <span class="fl">0.0</span>, atol<span class="op">=</span><span class="fl">1e-12</span>)</span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>    a <span class="op">=</span> np.empty_like(sigma_m)</span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> np.<span class="bu">any</span>(small_mask):</span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>        a[small_mask] <span class="op">=</span> c_m[small_mask]<span class="op">*</span>tau_val <span class="op">+</span> <span class="fl">0.5</span><span class="op">*</span>d_m[small_mask]<span class="op">*</span>tau_val<span class="op">**</span><span class="dv">2</span></span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> np.<span class="bu">any</span>(<span class="op">~</span>small_mask):</span>
-<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>        s <span class="op">=</span> sigma_m[<span class="op">~</span>small_mask]</span>
-<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>        cm <span class="op">=</span> c_m[<span class="op">~</span>small_mask]</span>
-<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>        dm <span class="op">=</span> d_m[<span class="op">~</span>small_mask]</span>
-<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>        a[<span class="op">~</span>small_mask] <span class="op">=</span> cm<span class="op">*</span>(<span class="fl">1.0</span> <span class="op">-</span> np.exp(<span class="op">-</span>s<span class="op">*</span>tau_val))<span class="op">/</span>s <span class="op">+</span> dm<span class="op">*</span>(s<span class="op">*</span>tau_val <span class="op">-</span> <span class="fl">1.0</span> <span class="op">+</span> np.exp(<span class="op">-</span>s<span class="op">*</span>tau_val))<span class="op">/</span>s<span class="op">**</span><span class="dv">2</span></span>
-<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>    <span class="co"># suma modal</span></span>
-<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>    sin_ax <span class="op">=</span> np.sin(np.outer(alpha_m, x_vec))   <span class="co"># (M, Nx)</span></span>
-<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>    theta_series <span class="op">=</span> a.dot(sin_ax)                <span class="co"># (Nx,)</span></span>
-<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>    <span class="co"># añadir φ(x,τ) = x τ</span></span>
-<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> theta_series <span class="op">+</span> tau_val <span class="op">*</span> x_vec</span>
-<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a><span class="co"># ---------- Construcción del DataFrame ----------</span></span>
-<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> []</span>
-<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> t_val <span class="kw">in</span> times:</span>
-<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>    theta_x <span class="op">=</span> theta_xt(x, t_val)         <span class="co"># (Nx,)</span></span>
-<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>    Theta <span class="op">=</span> np.tile(theta_x, (y.size, <span class="dv">1</span>))  <span class="co"># shape (Ny, Nx)</span></span>
-<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> xi, yi, thetai <span class="kw">in</span> <span class="bu">zip</span>(X.ravel(), Y.ravel(), Theta.ravel()):</span>
-<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>        results.append([t_val, <span class="bu">float</span>(xi), <span class="bu">float</span>(yi), <span class="bu">float</span>(thetai)])</span>
-<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(results, columns<span class="op">=</span>[<span class="st">"time"</span>, <span class="st">"X"</span>, <span class="st">"Y"</span>, <span class="st">"Theta"</span>])</span>
-<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a><span class="co"># ---------- Guardar en CSV ----------</span></span>
-<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>df.to_csv(<span class="st">"data/sol_analitica.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="co"># 0.00, 0.04, ..., 1.00</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>grid_vals <span class="op">=</span> np.<span class="bu">round</span>(np.arange(<span class="fl">0.0</span>, <span class="fl">1.0</span> <span class="op">+</span> <span class="fl">1e-12</span>, step), <span class="dv">2</span>)  </span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> grid_vals.copy()</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> grid_vals.copy()</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>X, Y <span class="op">=</span> np.meshgrid(x, y, indexing<span class="op">=</span><span class="st">'xy'</span>)</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>times <span class="op">=</span> [<span class="fl">0.0</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="fl">1.0</span>]</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="co"># ---------- Función para calcular θ(x,τ) ----------</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> theta_xt(x_vec, tau_val):</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Devuelve theta(x, tau) en un vector de x,</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="co">    usando la serie truncada."""</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>    <span class="co"># coeficientes a_m(tau)</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>    small_mask <span class="op">=</span> np.isclose(sigma_m, <span class="fl">0.0</span>, atol<span class="op">=</span><span class="fl">1e-12</span>)</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>    a <span class="op">=</span> np.empty_like(sigma_m)</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> np.<span class="bu">any</span>(small_mask):</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>        a[small_mask] <span class="op">=</span> (c_m[small_mask]<span class="op">*</span>tau_val </span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>        <span class="op">+</span> <span class="fl">0.5</span><span class="op">*</span>d_m[small_mask]<span class="op">*</span>tau_val<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> np.<span class="bu">any</span>(<span class="op">~</span>small_mask):</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>        s <span class="op">=</span> sigma_m[<span class="op">~</span>small_mask]</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>        cm <span class="op">=</span> c_m[<span class="op">~</span>small_mask]</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>        dm <span class="op">=</span> d_m[<span class="op">~</span>small_mask]</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>        a[<span class="op">~</span>small_mask] <span class="op">=</span> (cm<span class="op">*</span>(<span class="fl">1.0</span> <span class="op">-</span> np.exp(<span class="op">-</span>s<span class="op">*</span>tau_val))<span class="op">/</span>s </span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>        <span class="op">+</span> dm<span class="op">*</span>(s<span class="op">*</span>tau_val <span class="op">-</span> <span class="fl">1.0</span> </span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>        <span class="op">+</span> np.exp(<span class="op">-</span>s<span class="op">*</span>tau_val))<span class="op">/</span>s<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>    <span class="co"># suma modal</span></span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>    sin_ax <span class="op">=</span> np.sin(np.outer(alpha_m, x_vec))   <span class="co"># (M, Nx)</span></span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>    theta_series <span class="op">=</span> a.dot(sin_ax)                <span class="co"># (Nx,)</span></span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>    <span class="co"># añadir φ(x,τ) = x τ</span></span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> theta_series <span class="op">+</span> tau_val <span class="op">*</span> x_vec</span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a><span class="co"># ---------- Construcción del DataFrame ----------</span></span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> []</span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> t_val <span class="kw">in</span> times:</span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>    theta_x <span class="op">=</span> theta_xt(x, t_val)         <span class="co"># (Nx,)</span></span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a>    Theta <span class="op">=</span> np.tile(theta_x, (y.size, <span class="dv">1</span>))  <span class="co"># shape (Ny, Nx)</span></span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> xi, yi, thetai <span class="kw">in</span> <span class="bu">zip</span>(X.ravel(), Y.ravel(), Theta.ravel()):</span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>        results.append([t_val, <span class="bu">float</span>(xi), <span class="bu">float</span>(yi), <span class="bu">float</span>(thetai)])</span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(results, columns<span class="op">=</span>[<span class="st">"time"</span>, <span class="st">"X"</span>, <span class="st">"Y"</span>, <span class="st">"Theta"</span>])</span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a><span class="co"># ---------- Guardar en CSV ----------</span></span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a>df.to_csv(<span class="st">"data/sol_analitica.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+</div>
+</figure>
+</div>
 </div>
 </section>
 </section>
@@ -1295,8 +1309,8 @@ Pennes, H. H. 1948. <span>«Analysis of Tissue and Arterial Blood Temperatures i
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./ejemplos.html" class="pagination-link" aria-label="Modelado del Bio-Calor en Hipertermia">
-        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Modelado del Bio-Calor en Hipertermia</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./ejemplos.html" class="pagination-link" aria-label="Otras aplicaciones de la ecuación del bio-calor">
+        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Otras aplicaciones de la ecuación del bio-calor</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

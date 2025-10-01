@@ -7,10 +7,10 @@ execute:
 ::: {style="text-align: justify"}
 
 ## Comparativa visual de las predicciones
-Esta sección presenta un análisis cualitativo de los resultados mediante la comparación directa entre las predicciones del modelo, las soluciones reportadas en el estudio de @medical_rep y las obtenidas mediante el método de Crank Nickolson y la solución analítica. La visualización paralela permite evaluar:
+Esta sección presenta un análisis cualitativo de los resultados mediante la comparación directa entre las predicciones del modelo, las soluciones reportadas en el estudio de @medical_rep, así como las obtenidas mediante el método de Crank Nickolson y la solución analítica. La visualización paralela permite evaluar:
 
 - Dominio espacial: Cuadrado unitario [0,1] × [0,1] con malla 26×26.
-- Escala de colores: Mapa térmico viridis (consistente en ambas columnas).
+- Escala de colores: Mapa térmico YlGnBu y viridis (consistente en sus respectivos gráficos).
 
 ### Modelo contra resultados de @medical_rep
 El siguiente código grafica las predicciones de la red neuronal DeepONet para la temperatura dadas las coordenadas espaciales en los distintos tiempos de interés, los ejes están adimencionalizados siguiendo las ecuaciones -@eq-adimencionalizadores.
@@ -31,8 +31,10 @@ df = pd.read_csv(r'data/model_DoN.csv')
 
 # Crear figura con subplots 3D en 1 fila y 5 columnas
 fig, axes = plt.subplots(nrows=1, ncols=len(times), 
-                        figsize=(22, 6),
+                        figsize=(28, 7),
                         subplot_kw={'projection': '3d'})
+
+plt.subplots_adjust(right=0.8)
 
 # Asumimos que el grid es regular
 num_points = int(np.sqrt(df[df["time"] == times[0]].shape[0]))
@@ -64,7 +66,7 @@ for i, (t_val, ax) in enumerate(zip(times, axes)):
     ax.set_xlabel("Y", labelpad=10)
     ax.set_ylabel("X", labelpad=10)
     ax.set_zlabel("T [θ]", labelpad=10, rotation=90)
-
+    ax.set_box_aspect(None, zoom=0.75)
 
 # Añadir barra de color común
 cbar = fig.colorbar(surf_list[-1], ax=axes,
@@ -76,10 +78,12 @@ plt.show()
 ```
 
 
-![Resultados reportados por @medical_rep en el caso 2D.](images/results_paper.png){#fig-results_fnn fig-align="center" width="550"}
+![Resultados reportados por @medical_rep en el caso 2D.](images/results_paper.png){#fig-results_fnn fig-align="center" width="650"}
+
+La comparación visual entre las predicciones del modelo DeepONet [@fig-my_results] y los resultados de @medical_rep [@fig-results_fnn] revela una notable similitud en la evolución temporal y espacial de la temperatura. Ambos modelos capturan la misma tendencia de calentamiento progresivo, con un gradiente térmico que se intensifica cerca de la frontera derecha ($x=1$), donde se aplica una condición de Neumann no homogénea. Sin embargo, se observa que en $t=0$, el modelo DeepONet se aproxima con mayor fidelidad al plano $XY=0$, lo que sugiere una mejor captura de la condición inicial en comparación con el trabajo de referencia.
 
 ### Modelo contra método numérico
-El siguiente código utiliza los archivos csv de @lst-modelo-don y @lst-met-num para graficar una comparativa entre los tiempos de interés, las predicciones del modelo se encuentran en la parte superior mientras que las del método numérico en la parte inferior.
+La siguiente gráfica utiliza los archivos csv obtenidos de los códigos [-@lst-modelo-don] y [-@lst-met-num] para motrar una comparativa entre los tiempos de interés, las predicciones del modelo se encuentran en la parte superior mientras que las del método numérico en la parte inferior.
 ```{python}
 #| label: fig-met-num-vs-model
 #| fig-cap: "Contraste de las predicciones entre el modelo y el método de Crank Nicolson para cada tiempo. Se aprecia que ambas comparten forma y tendencia, sin embargo a medida que el tiempo se acerca a t=1 los resultados divergen."
@@ -107,7 +111,7 @@ axes = np.array(axes).reshape(2, 5)
 # Añadir títulos generales para cada fila
 fig.text(0.5, 0.92, "Predicciones modelo DON", 
         ha='center', va='center', fontsize=14,fontweight='bold')
-fig.text(0.5, 0.56, "Predicciones método numérico",
+fig.text(0.5, 0.58, "Predicciones método numérico",
         ha='center', va='center', fontsize=14, fontweight='bold')
 
 # Función para graficar un dataframe en una fila específica
@@ -140,6 +144,7 @@ def plot_dataframe(df, row, num_points, cmap="viridis"):
         ax.set_xlabel("Y", labelpad=10)
         ax.set_ylabel("X", labelpad=10)
         ax.set_zlabel("T [θ]", labelpad=10, rotation=90)
+        ax.set_box_aspect(None, zoom=0.75)
     
     return surf_list
 
@@ -163,8 +168,10 @@ cbar.set_label('Temperatura [θ]', labelpad=10)
 plt.show()
 ```
 
+Al contrastar las predicciones del modelo con las obtenidas mediante el método de Crank-Nicolson [@fig-met-num-vs-model], se confirma que ambas soluciones comparten la misma estructura general y comportamiento temporal. No obstante, a medida que el tiempo avanza hacia $t=1$, se aprecia una ligera divergencia en la magnitud de la temperatura, especialmente en la región cercana a $x=1$, donde el gradiente impuesto introduce mayor sensibilidad numérica.
+
 ### Modelo contra solución analítica
-El siguiente código utiliza los archivos csv de @lst-modelo-don y @lst-sol-ana para graficar una comparativa entre los tiempos de interés, las predicciones del modelo se encuentran en la parte superior mientras que las de la solución analítica en la parte inferior.
+La siguiente gráfica utiliza los archivos csv obtenidos de los códigos [-@lst-modelo-don] y [-@lst-sol-ana] para mostrar una comparativa entre los tiempos de interés, las predicciones del modelo se encuentran en la parte superior mientras que las de la solución analítica en la parte inferior.
 ```{python}
 #| label: fig-sol-ana-vs-model
 #| fig-cap: "Contraste de las predicciones entre el modelo y la solución analítica para cada tiempo. Se aprecia que ambas comparten forma y tendencia, sin embargo a medida que el tiempo se acerca a t=1 los resultados divergen."
@@ -192,7 +199,7 @@ axes = np.array(axes).reshape(2, 5)
 # Añadir títulos generales para cada fila
 fig.text(0.5, 0.92, "Predicciones modelo DON", 
         ha='center', va='center', fontsize=14,fontweight='bold')
-fig.text(0.5, 0.56, "Predicciones de la Sol. analítica",
+fig.text(0.5, 0.58, "Predicciones de la Sol. analítica",
         ha='center', va='center', fontsize=14, fontweight='bold')
 
 # Función para graficar un dataframe en una fila específica
@@ -225,6 +232,7 @@ def plot_dataframe(df, row, num_points, cmap="viridis"):
         ax.set_xlabel("Y", labelpad=10)
         ax.set_ylabel("X", labelpad=10)
         ax.set_zlabel("T [θ]", labelpad=10, rotation=90)
+        ax.set_box_aspect(None, zoom=0.75)
     
     return surf_list
 
@@ -247,6 +255,8 @@ cbar.set_label('Temperatura [θ]', labelpad=10)
 
 plt.show()
 ```
+
+Finalmente, la comparación con la solución analítica [@fig-sol-ana-vs-model] refuerza la validez del modelo DeepONet. Aunque la forma general de la solución es consistentemente recuperada, se observa que las discrepancias aumentan levemente con el tiempo, lo cual es esperable dada la naturaleza truncada de la solución analítica y la aproximación inherente de la red neuronal.
 
 ## Validaciones cuantitativas
 
@@ -300,7 +310,7 @@ error_results.to_csv("data/error_crank_nic.csv", index=False)
 
 ```{python}
 #| label: tbl-errores-num
-#| tbl-cap: "Error del modelo DeepONet respecto a Crank-Nicolson."
+#| tbl-cap: "Desviación del modelo DeepONet respecto a Crank-Nicolson."
 #| echo: false
 from tabulate import tabulate
 from IPython.display import Markdown
@@ -315,6 +325,8 @@ error_table = tabulate(
 )
 Markdown(error_table)
 ```
+
+Las métricas de error calculadas —Error Absoluto Medio (MAE), Error Absoluto Máximo (MaxAE) y Error L2— confirman el buen desempeño del modelo DeepONet. En la comparación con el método de Crank-Nicolson [@tbl-errores-num], el MAE se mantuvo entre 0.013 y 0.069, con un valor máximo de 0.181 en el MaxAE. Estos valores reflejan una aproximación satisfactoria, aunque se observa que los errores tienden a aumentar en tiempos intermedios ($t=0.25$ y $t=0.5$), posiblemente debido a la mayor complejidad dinámica en esas etapas.
 
 #### Gráficas de error absoluto
 ```{python}
@@ -444,6 +456,8 @@ error_table = tabulate(
 Markdown(error_table)
 ```
 
+Al comparar con la solución analítica [@tbl-errores-ana], los errores son consistentemente bajos, con un MAE máximo de 0.067 y un MaxAE de 0.178. La similitud entre ambas tablas sugiere que el método de Crank-Nicolson y la solución analítica están bien alineados, y que el modelo DeepONet se aproxima a ambos con un nivel de error comparable.
+
 #### Gráficas de error absoluto
 ```{python}
 #| label: fig-abs-errors-ana
@@ -505,4 +519,5 @@ cbar.set_label('Error absoluto [θ]')
 plt.show()
 ```
 
+Los mapas de error absoluto [@fig-abs-errors-num] y [@fig-abs-errors-ana] permiten localizar espacialmente las discrepancias. Se observa que los mayores errores se concentran en la región de $x=1$, donde la condición de Neumann no homogénea introduce mayores exigencias en la aproximación. Esta distribución del error es coherente con el comportamiento reportado en la literatura para problemas con condiciones de frontera variables en el tiempo.
 :::

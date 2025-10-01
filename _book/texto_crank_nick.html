@@ -288,7 +288,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ejemplos.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Modelado del Bio-Calor en Hipertermia</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Otras aplicaciones de la ecuación del bio-calor</span></span></a>
   </div>
 </li>
       </ul>
@@ -536,7 +536,7 @@ window.Quarto = {
 
 
 <div style="text-align: justify">
-<p>Existen métodos implícitos de diferencias finitas para resolver ecuaciones diferenciales parciales parabólicas <a href="boundary_problems.html#eq-heat" class="quarto-xref">ec&nbsp;<span>4.1</span></a>. Estos métodos requieren la resolución de un sistema de ecuaciones para determinar los valores aproximados de <span class="math inline">\(u\)</span> en la línea de tiempo <span class="math inline">\((j + 1)\)</span>. Sin embargo, los métodos implícitos no presentan problemas de inestabilidad <span class="citation" data-cites="zill2008">(<a href="references.html#ref-zill2008" role="doc-biblioref">Zill y Cullen 2008</a>)</span>.</p>
+<p>Existen métodos implícitos de diferencias finitas para resolver ecuaciones diferenciales parciales parabólicas (<a href="boundary_problems.html#eq-heat" class="quarto-xref">Ecuación&nbsp;<span>4.1</span></a>). Estos métodos requieren la resolución de un sistema de ecuaciones para determinar los valores aproximados de <span class="math inline">\(u\)</span> en la línea de tiempo <span class="math inline">\((j + 1)\)</span>. Sin embargo, los métodos implícitos no presentan problemas de inestabilidad <span class="citation" data-cites="zill2008">(<a href="references.html#ref-zill2008" role="doc-biblioref">Zill y Cullen 2008</a>)</span>.</p>
 <p>El algoritmo introducido por <strong>J. Crank</strong> y <strong>P. Nicholson</strong> en 1947 se utiliza principalmente para resolver la ecuación del calor. El algoritmo consiste en sustituir la segunda derivada parcial en <span class="math inline">\(c\frac{\partial^2 u}{\partial x^2} = \frac{\partial u}{\partial t}\)</span> por el promedio de dos cocientes de diferencias centrales, uno evaluado en <span class="math inline">\(t\)</span> y el otro en <span class="math inline">\(t+k\)</span>: <span id="eq-cn-completa"><span class="math display">\[
 \begin{split}
 \dfrac{c}{2}&amp; \left[\dfrac{u(x+h,t)-2u(x,t)+u(x-h,t)}{h^2}\right] + \\
@@ -554,7 +554,7 @@ u(x+h,t+k) &amp;=u_{i+1,j+1}, \quad u(x,t+k)=u_{i,j+1}, \quad u(x-h,t+k)=u_{i-1,
 -u_{i-1,j+1} + \alpha u_{i,j+1} - u_{i+1,j+1} = u_{i+1,j} - \beta u_{ij} + u_{i-1,j},
 \tag{6.2}\]</span></span></p>
 <p>donde <span class="math inline">\(\alpha=2(1+\frac{1}{\lambda})\)</span>, <span class="math inline">\(\beta=2(1-\frac{1}{\lambda})\)</span>, <span class="math inline">\(j=0,1,\dots, m-1, \ \ \ i=0,1,\dots, n-1\)</span>.</p>
-<p>Para cada elección de <span class="math inline">\(j\)</span> la ecuación diferencial <a href="#eq-cn-reducida" class="quarto-xref">ec&nbsp;<span>6.2</span></a> para <span class="math inline">\(i=0,1,\dots, n-1\)</span> da <span class="math inline">\(n-1\)</span> ecuaciones en <span class="math inline">\(n-1\)</span> incógnitas <span class="math inline">\(u_{i,j+1}\)</span>. Debido a las condiciones de contorno preestablecidas, los valores de <span class="math inline">\(u_{i, j+1}\)</span> se conocen para <span class="math inline">\(i=0\)</span> y para <span class="math inline">\(i=n\)</span>. Por ejemplo, en el caso <span class="math inline">\(n=4\)</span>, el sistema de ecuaciones para determinar los valores aproximados de <span class="math inline">\(u\)</span> en la línea de tiempo <span class="math inline">\((j+1)\)</span> es:</p>
+<p>Para cada elección de <span class="math inline">\(j\)</span>, la ecuación diferencial <a href="#eq-cn-reducida" class="quarto-xref">ec&nbsp;<span>6.2</span></a> para <span class="math inline">\(i=0,1,\dots, n-1\)</span> da <span class="math inline">\(n-1\)</span> ecuaciones en <span class="math inline">\(n-1\)</span> incógnitas <span class="math inline">\(u_{i,j+1}\)</span>. Debido a las condiciones de contorno preestablecidas, los valores de <span class="math inline">\(u_{i, j+1}\)</span> se conocen para <span class="math inline">\(i=0\)</span> y para <span class="math inline">\(i=n\)</span>. Por ejemplo, en el caso <span class="math inline">\(n=4\)</span>, el sistema de ecuaciones para determinar los valores aproximados de <span class="math inline">\(u\)</span> en la línea de tiempo <span class="math inline">\((j+1)\)</span> es:</p>
 <p><span class="math display">\[
 \begin{split}
 -u_{0,j+1} + \alpha u_{1,j+1} - u_{2,j+1} =&amp; u_{2,j} - \beta u_{1,j} + u_{0,j} \\

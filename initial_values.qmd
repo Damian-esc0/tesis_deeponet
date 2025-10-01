@@ -13,10 +13,10 @@ En situaciones reales comunes, la ecuación diferencial que modela el problema e
 ## Ejemplo
 El movimiento de un péndulo oscilante bajo ciertas suposiciones se describe mediante la ecuación diferencial de segundo orden:
 $$
-\dfrac{d^2 \theta}{d t^2} + \dfrac{g}{L} \sin{\theta} = 0 
+\dfrac{d^2 \theta}{d t^2} + \dfrac{g}{L} \sin{\theta} = 0, 
 $$
 
-Donde $L$ es la longitud del péndulo, $g \approx 9.81 \frac{m}{s^2}$ es la constante gravitacional terrestre y $\theta$ es el ángulo que forma el péndulo con la vertical. Si, además, especificamos la posición del péndulo al inicio del movimiento, $\theta(t_0) = \theta_{0}$ , y su velocidad en ese punto, $\theta'(t_0) = \theta'_0$. Tenemos un *problema de valor inicial*.
+donde $L$ es la longitud del péndulo, $g \approx 9.81 \frac{m}{s^2}$ es la constante gravitacional terrestre y $\theta$ es el ángulo que forma el péndulo con la vertical. Si, además, especificamos la posición del péndulo al inicio del movimiento, $\theta(t_0) = \theta_{0}$ , y su velocidad en ese punto, $\theta'(t_0) = \theta'_0$. Tenemos un *problema de valor inicial*.
 :::
 
 Para dar una idea más clara acerca de los problemas de valor inicial @burden2011 brinda las siguientes definiciones y teoremas:
@@ -150,7 +150,7 @@ $$
 |y(t) - z(t)| = |(\delta + \delta_0)e^t - \delta| \leq |\delta + \delta_0|e^2 + |\delta| \leq (2e^2 + 1)\varepsilon,
 $$
 
-para todo $t$. Esta desigualdad demuestra que [-@eq-1-exm] está bien planteado, con una constante de estabilidad $k(\varepsilon) = 2e^2 + 1$ para cualquier $\varepsilon > 0$.
+para todo $t$. Esta desigualdad demuestra que [-@eq-1-exm] está bien planteado, con una constante de estabilidad $k = 2e^2 + 1$ para cualquier $\varepsilon > 0$.
 :::
 
 

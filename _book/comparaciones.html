@@ -134,6 +134,35 @@ div.csl-indent {
   });
 </script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -294,7 +323,7 @@ div.csl-indent {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ejemplos.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Modelado del Bio-Calor en Hipertermia</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Otras aplicaciones de la ecuación del bio-calor</span></span></a>
   </div>
 </li>
       </ul>
@@ -544,13 +573,14 @@ div.csl-indent {
 <div style="text-align: justify">
 <section id="comparativa-visual-de-las-predicciones" class="level2" data-number="14.1">
 <h2 data-number="14.1" class="anchored" data-anchor-id="comparativa-visual-de-las-predicciones"><span class="header-section-number">14.1</span> Comparativa visual de las predicciones</h2>
-<p>Esta sección presenta un análisis cualitativo de los resultados mediante la comparación directa entre las predicciones del modelo, las soluciones reportadas en el estudio de <span class="citation" data-cites="medical_rep">Alessio Borgi (<a href="references.html#ref-medical_rep" role="doc-biblioref">2023</a>)</span> y las obtenidas mediante el método de Crank Nickolson. La visualización paralela permite evaluar:</p>
+<p>Esta sección presenta un análisis cualitativo de los resultados mediante la comparación directa entre las predicciones del modelo, las soluciones reportadas en el estudio de <span class="citation" data-cites="medical_rep">Alessio Borgi (<a href="references.html#ref-medical_rep" role="doc-biblioref">2023</a>)</span>, así como las obtenidas mediante el método de Crank Nickolson y la solución analítica. La visualización paralela permite evaluar:</p>
 <ul>
 <li>Dominio espacial: Cuadrado unitario [0,1] × [0,1] con malla 26×26.</li>
-<li>Escala de colores: Mapa térmico viridis (consistente en ambas columnas).</li>
+<li>Escala de colores: Mapa térmico YlGnBu y viridis (consistente en sus respectivos gráficos).</li>
 </ul>
 <section id="modelo-contra-resultados-de-medical_rep" class="level3" data-number="14.1.1">
 <h3 data-number="14.1.1" class="anchored" data-anchor-id="modelo-contra-resultados-de-medical_rep"><span class="header-section-number">14.1.1</span> Modelo contra resultados de <span class="citation" data-cites="medical_rep">Alessio Borgi (<a href="references.html#ref-medical_rep" role="doc-biblioref">2023</a>)</span></h3>
+<p>El siguiente código grafica las predicciones de la red neuronal DeepONet para la temperatura dadas las coordenadas espaciales en los distintos tiempos de interés, los ejes están adimencionalizados siguiendo las ecuaciones <a href="ecuacion.html#eq-adimencionalizadores" class="quarto-xref"><span>9.2</span></a>.</p>
 <div id="cell-fig-my_results" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Código</summary>
@@ -568,57 +598,59 @@ div.csl-indent {
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear figura con subplots 3D en 1 fila y 5 columnas</span></span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="dv">1</span>, ncols<span class="op">=</span><span class="bu">len</span>(times), </span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>                        figsize<span class="op">=</span>(<span class="dv">22</span>, <span class="dv">6</span>),</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>                        figsize<span class="op">=</span>(<span class="dv">28</span>, <span class="dv">7</span>),</span>
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>                        subplot_kw<span class="op">=</span>{<span class="st">'projection'</span>: <span class="st">'3d'</span>})</span>
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Asumimos que el grid es regular</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>num_points <span class="op">=</span> <span class="bu">int</span>(np.sqrt(df[df[<span class="st">"time"</span>] <span class="op">==</span> times[<span class="dv">0</span>]].shape[<span class="dv">0</span>]))</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Lista para almacenar los objetos surface</span></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>surf_list <span class="op">=</span> []</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Reordenar para graficar</span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, (t_val, ax) <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="bu">zip</span>(times, axes)):</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Filtrar por tiempo actual</span></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    df_t <span class="op">=</span> df[df[<span class="st">"time"</span>] <span class="op">==</span> t_val]</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Obtener los valores de X, Y, Theta</span></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    X_vals <span class="op">=</span> df_t[<span class="st">"X"</span>].values.reshape((num_points, num_points))</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    Y_vals <span class="op">=</span> df_t[<span class="st">"Y"</span>].values.reshape((num_points, num_points))</span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    Z_vals <span class="op">=</span> df_t[<span class="st">"Theta"</span>].values.reshape((num_points, num_points))</span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Dibujar la superficie</span></span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    surf <span class="op">=</span> ax.plot_surface(</span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>        Y_vals, X_vals, Z_vals,</span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>        rstride<span class="op">=</span><span class="dv">1</span>, cstride<span class="op">=</span><span class="dv">1</span>,</span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>        cmap<span class="op">=</span><span class="st">"YlGnBu"</span>,</span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>        edgecolor<span class="op">=</span><span class="st">"none"</span>,</span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>        antialiased<span class="op">=</span><span class="va">True</span></span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>    surf_list.append(surf)</span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>    ax.set_title(<span class="ss">f"Time = </span><span class="sc">{</span>t_val<span class="sc">:.2f}</span><span class="ss">"</span>, pad<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(<span class="st">"Y"</span>, labelpad<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="st">"X"</span>, labelpad<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>    ax.set_zlabel(<span class="st">"T [θ]"</span>, labelpad<span class="op">=</span><span class="dv">10</span>, rotation<span class="op">=</span><span class="dv">90</span>)</span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="co"># Añadir barra de color común</span></span>
-<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>cbar <span class="op">=</span> fig.colorbar(surf_list[<span class="op">-</span><span class="dv">1</span>], ax<span class="op">=</span>axes,</span>
-<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>                    shrink<span class="op">=</span><span class="fl">0.9</span>, aspect<span class="op">=</span><span class="dv">90</span>,</span>
-<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>                    pad<span class="op">=</span><span class="fl">0.1</span>, orientation<span class="op">=</span><span class="st">'horizontal'</span>)</span>
-<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>cbar.set_label(<span class="st">'Temperatura [θ]'</span>)</span>
-<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>plt.subplots_adjust(right<span class="op">=</span><span class="fl">0.8</span>)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Asumimos que el grid es regular</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>num_points <span class="op">=</span> <span class="bu">int</span>(np.sqrt(df[df[<span class="st">"time"</span>] <span class="op">==</span> times[<span class="dv">0</span>]].shape[<span class="dv">0</span>]))</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Lista para almacenar los objetos surface</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>surf_list <span class="op">=</span> []</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Reordenar para graficar</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, (t_val, ax) <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="bu">zip</span>(times, axes)):</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Filtrar por tiempo actual</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    df_t <span class="op">=</span> df[df[<span class="st">"time"</span>] <span class="op">==</span> t_val]</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Obtener los valores de X, Y, Theta</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    X_vals <span class="op">=</span> df_t[<span class="st">"X"</span>].values.reshape((num_points, num_points))</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>    Y_vals <span class="op">=</span> df_t[<span class="st">"Y"</span>].values.reshape((num_points, num_points))</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>    Z_vals <span class="op">=</span> df_t[<span class="st">"Theta"</span>].values.reshape((num_points, num_points))</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Dibujar la superficie</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>    surf <span class="op">=</span> ax.plot_surface(</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>        Y_vals, X_vals, Z_vals,</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>        rstride<span class="op">=</span><span class="dv">1</span>, cstride<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>        cmap<span class="op">=</span><span class="st">"YlGnBu"</span>,</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>        edgecolor<span class="op">=</span><span class="st">"none"</span>,</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>        antialiased<span class="op">=</span><span class="va">True</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>    surf_list.append(surf)</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>    ax.set_title(<span class="ss">f"Time = </span><span class="sc">{</span>t_val<span class="sc">:.2f}</span><span class="ss">"</span>, pad<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(<span class="st">"Y"</span>, labelpad<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="st">"X"</span>, labelpad<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>    ax.set_zlabel(<span class="st">"T [θ]"</span>, labelpad<span class="op">=</span><span class="dv">10</span>, rotation<span class="op">=</span><span class="dv">90</span>)</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>    ax.set_box_aspect(<span class="va">None</span>, zoom<span class="op">=</span><span class="fl">0.75</span>)</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="co"># Añadir barra de color común</span></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>cbar <span class="op">=</span> fig.colorbar(surf_list[<span class="op">-</span><span class="dv">1</span>], ax<span class="op">=</span>axes,</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>                    shrink<span class="op">=</span><span class="fl">0.9</span>, aspect<span class="op">=</span><span class="dv">90</span>,</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>                    pad<span class="op">=</span><span class="fl">0.1</span>, orientation<span class="op">=</span><span class="st">'horizontal'</span>)</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>cbar.set_label(<span class="st">'Temperatura [θ]'</span>)</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="fig-my_results" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-my_results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="comparaciones_files/figure-html/fig-my_results-output-1.png" width="1682" height="428" class="figure-img">
+<img src="comparaciones_files/figure-html/fig-my_results-output-1.png" width="1834" height="468" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-my_results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;14.1: Predicciones del modelo a distintos tiempos.
+Figura&nbsp;14.1: Predicciones de la red neuronal a distintos tiempos.
 </figcaption>
 </figure>
 </div>
@@ -627,16 +659,18 @@ Figura&nbsp;14.1: Predicciones del modelo a distintos tiempos.
 <div id="fig-results_fnn" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-results_fnn-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="images/results_paper.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="550">
+<img src="images/results_paper.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="650">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-results_fnn-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figura&nbsp;14.2: Resultados reportados por <span class="citation" data-cites="medical_rep">Alessio Borgi (<a href="references.html#ref-medical_rep" role="doc-biblioref">2023</a>)</span> en el caso 2D.
 </figcaption>
 </figure>
 </div>
+<p>La comparación visual entre las predicciones del modelo DeepONet <a href="#fig-my_results" class="quarto-xref">Figura&nbsp;<span>14.1</span></a> y los resultados de , <a href="#fig-results_fnn" class="quarto-xref">Figura&nbsp;<span>14.2</span></a> revela una notable similitud en la evolución temporal y espacial de la temperatura. Ambos modelos capturan la misma tendencia de calentamiento progresivo, con un gradiente térmico que se intensifica cerca de la frontera derecha (<span class="math inline">\(x=1\)</span>), donde se aplica una condición de Neumann no homogénea. Sin embargo, se observa que en <span class="math inline">\(t=0\)</span>, el modelo DeepONet se aproxima con mayor fidelidad al plano <span class="math inline">\(XY=0\)</span>, lo que sugiere una mejor captura de la condición inicial en comparación con el trabajo de referencia.</p>
 </section>
 <section id="modelo-contra-método-numérico" class="level3" data-number="14.1.2">
 <h3 data-number="14.1.2" class="anchored" data-anchor-id="modelo-contra-método-numérico"><span class="header-section-number">14.1.2</span> Modelo contra método numérico</h3>
+<p>La siguiente gráfica utiliza los archivos csv obtenidos de los códigos <a href="model_don.html#lst-modelo-don" class="quarto-xref"><span>13.1</span></a> y <a href="pred_crank_nick.html#lst-met-num" class="quarto-xref"><span>12.1</span></a> para motrar una comparativa entre los tiempos de interés, las predicciones del modelo se encuentran en la parte superior mientras que las del método numérico en la parte inferior.</p>
 <div id="cell-fig-met-num-vs-model" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Código</summary>
@@ -663,7 +697,7 @@ Figura&nbsp;14.2: Resultados reportados por <span class="citation" data-cites="m
 <span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Añadir títulos generales para cada fila</span></span>
 <span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>fig.text(<span class="fl">0.5</span>, <span class="fl">0.92</span>, <span class="st">"Predicciones modelo DON"</span>, </span>
 <span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>        ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'center'</span>, fontsize<span class="op">=</span><span class="dv">14</span>,fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>fig.text(<span class="fl">0.5</span>, <span class="fl">0.56</span>, <span class="st">"Predicciones método numérico"</span>,</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>fig.text(<span class="fl">0.5</span>, <span class="fl">0.58</span>, <span class="st">"Predicciones método numérico"</span>,</span>
 <span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>        ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'center'</span>, fontsize<span class="op">=</span><span class="dv">14</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
 <span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Función para graficar un dataframe en una fila específica</span></span>
@@ -696,44 +730,47 @@ Figura&nbsp;14.2: Resultados reportados por <span class="citation" data-cites="m
 <span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>        ax.set_xlabel(<span class="st">"Y"</span>, labelpad<span class="op">=</span><span class="dv">10</span>)</span>
 <span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>        ax.set_ylabel(<span class="st">"X"</span>, labelpad<span class="op">=</span><span class="dv">10</span>)</span>
 <span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>        ax.set_zlabel(<span class="st">"T [θ]"</span>, labelpad<span class="op">=</span><span class="dv">10</span>, rotation<span class="op">=</span><span class="dv">90</span>)</span>
-<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> surf_list</span>
-<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a><span class="co"># Asumimos que el grid es regular para ambos dataframes</span></span>
-<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>num_points <span class="op">=</span> <span class="bu">int</span>(np.sqrt(</span>
-<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>        model_don_data[model_don_data[<span class="st">"time"</span>] <span class="op">==</span> times[<span class="dv">0</span>]].shape[<span class="dv">0</span>]))</span>
-<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficar el primer dataframe en la fila superior</span></span>
-<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>surf_model_don <span class="op">=</span> plot_dataframe(model_don_data, <span class="dv">0</span>, num_points)</span>
-<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficar el segundo dataframe en la fila inferior</span></span>
-<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>surf_crank_nick <span class="op">=</span> plot_dataframe(crank_nick_data, <span class="dv">1</span>, num_points)</span>
-<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a><span class="co"># Añadir barra de color común en la parte inferior</span></span>
-<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>cbar <span class="op">=</span> fig.colorbar(surf_crank_nick[<span class="op">-</span><span class="dv">1</span>], ax<span class="op">=</span>axes.ravel().tolist(),</span>
-<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a>                    use_gridspec<span class="op">=</span><span class="va">True</span>, orientation<span class="op">=</span><span class="st">'horizontal'</span>,</span>
-<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>                    pad<span class="op">=</span><span class="fl">0.05</span>, aspect<span class="op">=</span><span class="dv">90</span>, shrink<span class="op">=</span><span class="fl">0.9</span>)</span>
-<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a>cbar.set_label(<span class="st">'Temperatura [θ]'</span>, labelpad<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>        ax.set_box_aspect(<span class="va">None</span>, zoom<span class="op">=</span><span class="fl">0.75</span>)</span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> surf_list</span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a><span class="co"># Asumimos que el grid es regular para ambos dataframes</span></span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>num_points <span class="op">=</span> <span class="bu">int</span>(np.sqrt(</span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>        model_don_data[model_don_data[<span class="st">"time"</span>] <span class="op">==</span> times[<span class="dv">0</span>]].shape[<span class="dv">0</span>]))</span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficar el primer dataframe en la fila superior</span></span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>surf_model_don <span class="op">=</span> plot_dataframe(model_don_data, <span class="dv">0</span>, num_points)</span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficar el segundo dataframe en la fila inferior</span></span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>surf_crank_nick <span class="op">=</span> plot_dataframe(crank_nick_data, <span class="dv">1</span>, num_points)</span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a><span class="co"># Añadir barra de color común en la parte inferior</span></span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a>cbar <span class="op">=</span> fig.colorbar(surf_crank_nick[<span class="op">-</span><span class="dv">1</span>], ax<span class="op">=</span>axes.ravel().tolist(),</span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>                    use_gridspec<span class="op">=</span><span class="va">True</span>, orientation<span class="op">=</span><span class="st">'horizontal'</span>,</span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a>                    pad<span class="op">=</span><span class="fl">0.05</span>, aspect<span class="op">=</span><span class="dv">90</span>, shrink<span class="op">=</span><span class="fl">0.9</span>)</span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a>cbar.set_label(<span class="st">'Temperatura [θ]'</span>, labelpad<span class="op">=</span><span class="dv">10</span>)</span>
 <span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="fig-met-num-vs-model" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-met-num-vs-model-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="comparaciones_files/figure-html/fig-met-num-vs-model-output-1.png" width="1682" height="894" class="figure-img">
+<img src="comparaciones_files/figure-html/fig-met-num-vs-model-output-1.png" width="1656" height="894" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-met-num-vs-model-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;14.3: Contraste de las predicciones entre el modelo y el método de Crank Nicolson para cada tiempo.
+Figura&nbsp;14.3: Contraste de las predicciones entre el modelo y el método de Crank Nicolson para cada tiempo. Se aprecia que ambas comparten forma y tendencia, sin embargo a medida que el tiempo se acerca a t=1 los resultados divergen.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
+<p>Al contrastar las predicciones del modelo con las obtenidas mediante el método de Crank-Nicolson <a href="#fig-met-num-vs-model" class="quarto-xref">Figura&nbsp;<span>14.3</span></a>, se confirma que ambas soluciones comparten la misma estructura general y comportamiento temporal. No obstante, a medida que el tiempo avanza hacia <span class="math inline">\(t=1\)</span>, se aprecia una ligera divergencia en la magnitud de la temperatura, especialmente en la región cercana a <span class="math inline">\(x=1\)</span>, donde el gradiente impuesto introduce mayor sensibilidad numérica.</p>
 </section>
 <section id="modelo-contra-solución-analítica" class="level3" data-number="14.1.3">
 <h3 data-number="14.1.3" class="anchored" data-anchor-id="modelo-contra-solución-analítica"><span class="header-section-number">14.1.3</span> Modelo contra solución analítica</h3>
+<p>La siguiente gráfica utiliza los archivos csv obtenidos de los códigos <a href="model_don.html#lst-modelo-don" class="quarto-xref"><span>13.1</span></a> y <a href="ecuacion.html#lst-sol-ana" class="quarto-xref"><span>9.1</span></a> para mostrar una comparativa entre los tiempos de interés, las predicciones del modelo se encuentran en la parte superior mientras que las de la solución analítica en la parte inferior.</p>
 <div id="cell-fig-sol-ana-vs-model" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Código</summary>
@@ -760,7 +797,7 @@ Figura&nbsp;14.3: Contraste de las predicciones entre el modelo y el método de 
 <span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Añadir títulos generales para cada fila</span></span>
 <span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>fig.text(<span class="fl">0.5</span>, <span class="fl">0.92</span>, <span class="st">"Predicciones modelo DON"</span>, </span>
 <span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>        ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'center'</span>, fontsize<span class="op">=</span><span class="dv">14</span>,fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>fig.text(<span class="fl">0.5</span>, <span class="fl">0.56</span>, <span class="st">"Predicciones de la Sol. analítica"</span>,</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>fig.text(<span class="fl">0.5</span>, <span class="fl">0.58</span>, <span class="st">"Predicciones de la Sol. analítica"</span>,</span>
 <span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>        ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'center'</span>, fontsize<span class="op">=</span><span class="dv">14</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
 <span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Función para graficar un dataframe en una fila específica</span></span>
@@ -793,41 +830,43 @@ Figura&nbsp;14.3: Contraste de las predicciones entre el modelo y el método de 
 <span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>        ax.set_xlabel(<span class="st">"Y"</span>, labelpad<span class="op">=</span><span class="dv">10</span>)</span>
 <span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>        ax.set_ylabel(<span class="st">"X"</span>, labelpad<span class="op">=</span><span class="dv">10</span>)</span>
 <span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a>        ax.set_zlabel(<span class="st">"T [θ]"</span>, labelpad<span class="op">=</span><span class="dv">10</span>, rotation<span class="op">=</span><span class="dv">90</span>)</span>
-<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> surf_list</span>
-<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a><span class="co"># Asumimos que el grid es regular para ambos dataframes</span></span>
-<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a>num_points <span class="op">=</span> <span class="bu">int</span>(np.sqrt(</span>
-<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a>        model_don_data[model_don_data[<span class="st">"time"</span>] <span class="op">==</span> times[<span class="dv">0</span>]].shape[<span class="dv">0</span>]))</span>
-<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficar el primer dataframe en la fila superior</span></span>
-<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a>surf_model_don <span class="op">=</span> plot_dataframe(model_don_data, <span class="dv">0</span>, num_points)</span>
-<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficar el segundo dataframe en la fila inferior</span></span>
-<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a>surf_crank_nick <span class="op">=</span> plot_dataframe(sol_ana_data, <span class="dv">1</span>, num_points)</span>
-<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a><span class="co"># Añadir barra de color común en la parte inferior</span></span>
-<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a>cbar <span class="op">=</span> fig.colorbar(surf_crank_nick[<span class="op">-</span><span class="dv">1</span>], ax<span class="op">=</span>axes.ravel().tolist(),</span>
-<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a>                    use_gridspec<span class="op">=</span><span class="va">True</span>, orientation<span class="op">=</span><span class="st">'horizontal'</span>,</span>
-<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a>                    pad<span class="op">=</span><span class="fl">0.05</span>, aspect<span class="op">=</span><span class="dv">90</span>, shrink<span class="op">=</span><span class="fl">0.9</span>)</span>
-<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a>cbar.set_label(<span class="st">'Temperatura [θ]'</span>, labelpad<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a>        ax.set_box_aspect(<span class="va">None</span>, zoom<span class="op">=</span><span class="fl">0.75</span>)</span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> surf_list</span>
+<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a><span class="co"># Asumimos que el grid es regular para ambos dataframes</span></span>
+<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a>num_points <span class="op">=</span> <span class="bu">int</span>(np.sqrt(</span>
+<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a>        model_don_data[model_don_data[<span class="st">"time"</span>] <span class="op">==</span> times[<span class="dv">0</span>]].shape[<span class="dv">0</span>]))</span>
+<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficar el primer dataframe en la fila superior</span></span>
+<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a>surf_model_don <span class="op">=</span> plot_dataframe(model_don_data, <span class="dv">0</span>, num_points)</span>
+<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficar el segundo dataframe en la fila inferior</span></span>
+<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a>surf_crank_nick <span class="op">=</span> plot_dataframe(sol_ana_data, <span class="dv">1</span>, num_points)</span>
+<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a><span class="co"># Añadir barra de color común en la parte inferior</span></span>
+<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a>cbar <span class="op">=</span> fig.colorbar(surf_crank_nick[<span class="op">-</span><span class="dv">1</span>], ax<span class="op">=</span>axes.ravel().tolist(),</span>
+<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a>                    use_gridspec<span class="op">=</span><span class="va">True</span>, orientation<span class="op">=</span><span class="st">'horizontal'</span>,</span>
+<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a>                    pad<span class="op">=</span><span class="fl">0.05</span>, aspect<span class="op">=</span><span class="dv">90</span>, shrink<span class="op">=</span><span class="fl">0.9</span>)</span>
+<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a>cbar.set_label(<span class="st">'Temperatura [θ]'</span>, labelpad<span class="op">=</span><span class="dv">10</span>)</span>
 <span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="fig-sol-ana-vs-model" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sol-ana-vs-model-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="comparaciones_files/figure-html/fig-sol-ana-vs-model-output-1.png" width="1682" height="894" class="figure-img">
+<img src="comparaciones_files/figure-html/fig-sol-ana-vs-model-output-1.png" width="1656" height="894" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sol-ana-vs-model-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;14.4: Contraste de las predicciones entre el modelo y la solución analítica para cada tiempo.
+Figura&nbsp;14.4: Contraste de las predicciones entre el modelo y la solución analítica para cada tiempo. Se aprecia que ambas comparten forma y tendencia, sin embargo a medida que el tiempo se acerca a t=1 los resultados divergen.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
+<p>Finalmente, la comparación con la solución analítica <a href="#fig-sol-ana-vs-model" class="quarto-xref">Figura&nbsp;<span>14.4</span></a> refuerza la validez del modelo DeepONet. Aunque la forma general de la solución es consistentemente recuperada, se observa que las discrepancias aumentan levemente con el tiempo, lo cual es esperable dada la naturaleza truncada de la solución analítica y la aproximación inherente de la red neuronal.</p>
 </section>
 </section>
 <section id="validaciones-cuantitativas" class="level2" data-number="14.2">
@@ -835,7 +874,7 @@ Figura&nbsp;14.4: Contraste de las predicciones entre el modelo y la solución a
 <section id="modelo-contra-el-método-de-crank-nicolson" class="level3" data-number="14.2.1">
 <h3 data-number="14.2.1" class="anchored" data-anchor-id="modelo-contra-el-método-de-crank-nicolson"><span class="header-section-number">14.2.1</span> Modelo contra el método de Crank-Nicolson</h3>
 <p>Para evaluar numéricamente la precisión del modelo DeepONet, se realizó una comparación sistemática con soluciones de referencia generadas mediante el método de Crank-Nicolson. Este enfoque proporciona una métrica objetiva de la exactitud del modelo, siendo complementado con una serie de gráficos que muestran el error absoluto para cada punto del dominio en los tiempos de interés.</p>
-<div id="02ae66c4" class="cell" data-execution_count="4">
+<div id="aa00c767" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Función para calcular errores</span></span>
@@ -885,7 +924,7 @@ Figura&nbsp;14.4: Contraste de las predicciones entre el modelo y la solución a
 <div id="tbl-errores-num" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="5">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-errores-num-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabla&nbsp;14.1: Error del modelo DeepONet respecto a Crank-Nicolson.
+Tabla&nbsp;14.1: Desviación del modelo DeepONet respecto a Crank-Nicolson.
 </figcaption>
 <div aria-describedby="tbl-errores-num-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="5">
@@ -901,33 +940,33 @@ Tabla&nbsp;14.1: Error del modelo DeepONet respecto a Crank-Nicolson.
 <tbody>
 <tr class="odd">
 <td style="text-align: right;">0.000</td>
-<td style="text-align: right;">0.011</td>
-<td style="text-align: right;">0.065</td>
-<td style="text-align: right;">0.443</td>
+<td style="text-align: right;">0.013</td>
+<td style="text-align: right;">0.058</td>
+<td style="text-align: right;">0.467</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">0.250</td>
-<td style="text-align: right;">0.033</td>
-<td style="text-align: right;">0.072</td>
-<td style="text-align: right;">1.014</td>
+<td style="text-align: right;">0.066</td>
+<td style="text-align: right;">0.181</td>
+<td style="text-align: right;">2.215</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">0.500</td>
-<td style="text-align: right;">0.008</td>
-<td style="text-align: right;">0.031</td>
-<td style="text-align: right;">0.266</td>
+<td style="text-align: right;">0.069</td>
+<td style="text-align: right;">0.154</td>
+<td style="text-align: right;">2.166</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">0.750</td>
-<td style="text-align: right;">0.057</td>
-<td style="text-align: right;">0.171</td>
-<td style="text-align: right;">1.962</td>
+<td style="text-align: right;">0.034</td>
+<td style="text-align: right;">0.052</td>
+<td style="text-align: right;">0.964</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">1.000</td>
-<td style="text-align: right;">0.123</td>
-<td style="text-align: right;">0.325</td>
-<td style="text-align: right;">4.024</td>
+<td style="text-align: right;">0.028</td>
+<td style="text-align: right;">0.110</td>
+<td style="text-align: right;">1.067</td>
 </tr>
 </tbody>
 </table>
@@ -936,6 +975,7 @@ Tabla&nbsp;14.1: Error del modelo DeepONet respecto a Crank-Nicolson.
 </figure>
 </div>
 </div>
+<p>Las métricas de error calculadas —Error Absoluto Medio (MAE), Error Absoluto Máximo (MaxAE) y Error L2— confirman el buen desempeño del modelo DeepONet. En la comparación con el método de Crank-Nicolson <a href="#tbl-errores-num" class="quarto-xref">Tabla&nbsp;<span>14.1</span></a>, el MAE se mantuvo entre 0.013 y 0.069, con un valor máximo de 0.181 en el MaxAE. Estos valores reflejan una aproximación satisfactoria, aunque se observa que los errores tienden a aumentar en tiempos intermedios (<span class="math inline">\(t=0.25\)</span> y <span class="math inline">\(t=0.5\)</span>), posiblemente debido a la mayor complejidad dinámica en esas etapas.</p>
 <section id="gráficas-de-error-absoluto" class="level4" data-number="14.2.1.1">
 <h4 data-number="14.2.1.1" class="anchored" data-anchor-id="gráficas-de-error-absoluto"><span class="header-section-number">14.2.1.1</span> Gráficas de error absoluto</h4>
 <div id="cell-fig-abs-errors-num" class="cell" data-execution_count="6">
@@ -1014,7 +1054,7 @@ Figura&nbsp;14.5: Errores absolutos entre el modelo y el método de Crank Nicols
 <section id="modelo-contra-la-solución-analítica" class="level3" data-number="14.2.2">
 <h3 data-number="14.2.2" class="anchored" data-anchor-id="modelo-contra-la-solución-analítica"><span class="header-section-number">14.2.2</span> Modelo contra la solución analítica</h3>
 <p>De manera análoga a la sección anterior se realizó una comparativa contra la solución analítica (<a href="ecuacion.html#sec-sol-ana" class="quarto-xref"><span>Sección 9.3</span></a>). De este modo se tiene una visión más completa acerca del rendimiento del modelo.</p>
-<div id="884d84e8" class="cell" data-execution_count="7">
+<div id="7c0b06eb" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Función para calcular errores</span></span>
@@ -1080,33 +1120,33 @@ Tabla&nbsp;14.2: Error del modelo DeepONet respecto a la solución analítica.
 <tbody>
 <tr class="odd">
 <td style="text-align: right;">0.000</td>
-<td style="text-align: right;">0.011</td>
-<td style="text-align: right;">0.065</td>
-<td style="text-align: right;">0.443</td>
+<td style="text-align: right;">0.013</td>
+<td style="text-align: right;">0.058</td>
+<td style="text-align: right;">0.467</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">0.250</td>
-<td style="text-align: right;">0.032</td>
-<td style="text-align: right;">0.069</td>
-<td style="text-align: right;">0.986</td>
+<td style="text-align: right;">0.065</td>
+<td style="text-align: right;">0.178</td>
+<td style="text-align: right;">2.187</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">0.500</td>
-<td style="text-align: right;">0.008</td>
-<td style="text-align: right;">0.036</td>
-<td style="text-align: right;">0.303</td>
+<td style="text-align: right;">0.067</td>
+<td style="text-align: right;">0.149</td>
+<td style="text-align: right;">2.104</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">0.750</td>
-<td style="text-align: right;">0.060</td>
-<td style="text-align: right;">0.178</td>
-<td style="text-align: right;">2.054</td>
+<td style="text-align: right;">0.031</td>
+<td style="text-align: right;">0.046</td>
+<td style="text-align: right;">0.877</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">1.000</td>
-<td style="text-align: right;">0.127</td>
-<td style="text-align: right;">0.334</td>
-<td style="text-align: right;">4.145</td>
+<td style="text-align: right;">0.032</td>
+<td style="text-align: right;">0.119</td>
+<td style="text-align: right;">1.181</td>
 </tr>
 </tbody>
 </table>
@@ -1115,6 +1155,7 @@ Tabla&nbsp;14.2: Error del modelo DeepONet respecto a la solución analítica.
 </figure>
 </div>
 </div>
+<p>Al comparar con la solución analítica <a href="#tbl-errores-ana" class="quarto-xref">Tabla&nbsp;<span>14.2</span></a>, los errores son consistentemente bajos, con un MAE máximo de 0.067 y un MaxAE de 0.178. La similitud entre ambas tablas sugiere que el método de Crank-Nicolson y la solución analítica están bien alineados, y que el modelo DeepONet se aproxima a ambos con un nivel de error comparable.</p>
 <section id="gráficas-de-error-absoluto-1" class="level4" data-number="14.2.2.1">
 <h4 data-number="14.2.2.1" class="anchored" data-anchor-id="gráficas-de-error-absoluto-1"><span class="header-section-number">14.2.2.1</span> Gráficas de error absoluto</h4>
 <div id="cell-fig-abs-errors-ana" class="cell" data-execution_count="9">
@@ -1188,6 +1229,7 @@ Figura&nbsp;14.6: Errores absolutos entre el modelo y la solución analítica pa
 </div>
 </div>
 </div>
+<p>Los mapas de error absoluto <a href="#fig-abs-errors-num" class="quarto-xref">Figura&nbsp;<span>14.5</span></a> y <a href="#fig-abs-errors-ana" class="quarto-xref">Figura&nbsp;<span>14.6</span></a> permiten localizar espacialmente las discrepancias. Se observa que los mayores errores se concentran en la región de <span class="math inline">\(x=1\)</span>, donde la condición de Neumann no homogénea introduce mayores exigencias en la aproximación. Esta distribución del error es coherente con el comportamiento reportado en la literatura para problemas con condiciones de frontera variables en el tiempo.</p>
 </section>
 </section>
 </section>

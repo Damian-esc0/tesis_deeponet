@@ -326,7 +326,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ejemplos.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Modelado del Bio-Calor en Hipertermia</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Otras aplicaciones de la ecuación del bio-calor</span></span></a>
   </div>
 </li>
       </ul>
@@ -575,11 +575,11 @@ window.Quarto = {
 
 <div style="text-align: justify">
 <p>Las Physics-Informed Neural Networks (PINNs) son un enfoque innovador que combina redes neuronales con ecuaciones diferenciales gobernantes para resolver problemas complejos de física <span class="citation" data-cites="blechs2021">(<a href="references.html#ref-blechs2021" role="doc-biblioref">Blechschmidt y Ernst 2021</a>)</span>. A diferencia de métodos tradicionales, las PINNs incorporan directamente las ecuaciones físicas en su función de pérdida mediante diferenciación automática, lo que permite minimizar simultáneamente el error en los datos y el residual de las PDEs <span class="citation" data-cites="karniadakis2021">(<a href="references.html#ref-karniadakis2021" role="doc-biblioref">George Em Karniadakis 2021</a>)</span>. Esta característica las hace particularmente valiosas en escenarios con datos limitados, donde el conocimiento físico actúa como un regularizador efectivo. La capacidad de aproximación de las PINNs se fundamenta en el teorema de aproximación universal de las redes neuronales, adaptado para incorporar restricciones físicas a través de términos de penalización en la función de optimización <span class="citation" data-cites="karniadakis2021">(<a href="references.html#ref-karniadakis2021" role="doc-biblioref">George Em Karniadakis 2021</a>)</span>.</p>
-<p>Como ejemplo, se considera la <strong>ecuación de Burgers para viscocidad</strong>:</p>
+<p>como ejemplo, se considera la <strong>ecuación de Burgers para viscocidad</strong>:</p>
 <p><span class="math display">\[
 \frac{\partial u}{\partial t} + u \frac{\partial u}{\partial x} = \nu \frac{\partial^2 u}{\partial x^2}
 \]</span></p>
-<p>Con una condición inicial adecuada y condiciones de contorno de Dirichlet. En la <a href="#fig-pinn_graph" class="quarto-xref">Figura&nbsp;<span>7.1</span></a>, la red izquierda (physics-​uninformed) representa el sustituto de la solución de EDP <span class="math inline">\(u(x, t)\)</span>, mientras que la red derecha (physics-​informed) describe el residuo de EDP <span class="math inline">\(\frac{\partial u}{\partial t} + u \frac{\partial u}{\partial x} - \nu \frac{\partial^2 u}{\partial x^2} = 0\)</span>. La función de pérdida incluye una pérdida supervisada de las mediciones de datos de <span class="math inline">\(u\)</span> de las condiciones iniciales y de contorno, y una pérdida no supervisada de EDP:</p>
+<p>con una condición inicial adecuada y condiciones de contorno de Dirichlet. En la <a href="#fig-pinn_graph" class="quarto-xref">Figura&nbsp;<span>7.1</span></a>, la red izquierda (<em>physics-​uninformed</em>) representa el sustituto de la solución de EDP <span class="math inline">\(u(x, t)\)</span>, mientras que la red derecha (<em>physics-​informed</em>) describe el residuo de EDP <span class="math inline">\(\frac{\partial u}{\partial t} + u \frac{\partial u}{\partial x} - \nu \frac{\partial^2 u}{\partial x^2} = 0\)</span>. La función de pérdida incluye una pérdida supervisada de las mediciones de datos de <span class="math inline">\(u\)</span> de las condiciones iniciales y de contorno, y una pérdida no supervisada de EDP:</p>
 <p><span id="eq-loss-funct"><span class="math display">\[
 \mathcal{L} = w_{\text{data}} \mathcal{L}_{\text{data}} + w_{\text{PDE}} \mathcal{L}_{\text{PDE}}
 \tag{7.1}\]</span></span></p>
@@ -593,10 +593,10 @@ window.Quarto = {
 <div id="fig-pinn_graph" class="lightbox quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-pinn_graph-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/PINN_diagram.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figura&nbsp;7.1: El algoritmo de una PINN. Construya una red neuronal (NN) u(x, t; \theta) donde \theta representa el conjunto de pesos entrenables w y sesgos b, y \sigma representa una función de activación no lineal. Especifique los datos de medición {x_i, t_i, u_i} para u y los puntos residuales {x_j, t_j} para la EDP. Especifique la pérdida \mathcal{L} en la Ecuación&nbsp;eq-loss-funct sumando las pérdidas ponderadas de los datos y la EDP. Entrene la NN para encontrar los mejores parámetros \mathbb{\theta^*} minimizando la pérdida \mathcal{L} [@karniadakis2021]."><img src="images/PINN_diagram.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="600"></a>
+<a href="images/PINN_diagram.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figura&nbsp;7.1: El algoritmo de una PINN. Se construye una red neuronal (NN) u(x, t; \theta) donde \theta representa el conjunto de pesos entrenables w y sesgos b, y \sigma representa una función de activación no lineal. Especifique los datos de medición {x_i, t_i, u_i} para u y los puntos residuales {x_j, t_j} para la EDP. Se especifica la pérdida \mathcal{L} en la Ecuación&nbsp;eq-loss-funct sumando las pérdidas ponderadas de los datos y la EDP. Entrene la NN para encontrar los mejores parámetros \mathbb{\theta^*} minimizando la pérdida \mathcal{L} [@karniadakis2021]."><img src="images/PINN_diagram.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="600"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pinn_graph-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;7.1: <strong>El algoritmo de una PINN.</strong> Construya una red neuronal (NN) <span class="math inline">\(u(x, t; \theta)\)</span> donde <span class="math inline">\(\theta\)</span> representa el conjunto de pesos entrenables <span class="math inline">\(w\)</span> y sesgos <span class="math inline">\(b\)</span>, y <span class="math inline">\(\sigma\)</span> representa una función de activación no lineal. Especifique los datos de medición <span class="math inline">\({x_i, t_i, u_i}\)</span> para <span class="math inline">\(u\)</span> y los puntos residuales <span class="math inline">\({x_j, t_j}\)</span> para la EDP. Especifique la pérdida <span class="math inline">\(\mathcal{L}\)</span> en la <a href="#eq-loss-funct" class="quarto-xref">Ecuación&nbsp;<span>7.1</span></a> sumando las pérdidas ponderadas de los datos y la EDP. Entrene la NN para encontrar los mejores parámetros <span class="math inline">\(\mathbb{\theta^*}\)</span> minimizando la pérdida <span class="math inline">\(\mathcal{L}\)</span> <span class="citation" data-cites="karniadakis2021">(<a href="references.html#ref-karniadakis2021" role="doc-biblioref">George Em Karniadakis 2021</a>)</span>.
+Figura&nbsp;7.1: <strong>El algoritmo de una PINN.</strong> Se construye una red neuronal (NN) <span class="math inline">\(u(x, t; \theta)\)</span> donde <span class="math inline">\(\theta\)</span> representa el conjunto de pesos entrenables <span class="math inline">\(w\)</span> y sesgos <span class="math inline">\(b\)</span>, y <span class="math inline">\(\sigma\)</span> representa una función de activación no lineal. Especifique los datos de medición <span class="math inline">\({x_i, t_i, u_i}\)</span> para <span class="math inline">\(u\)</span> y los puntos residuales <span class="math inline">\({x_j, t_j}\)</span> para la EDP. Se especifica la pérdida <span class="math inline">\(\mathcal{L}\)</span> en la <a href="#eq-loss-funct" class="quarto-xref">Ecuación&nbsp;<span>7.1</span></a> sumando las pérdidas ponderadas de los datos y la EDP. Entrene la NN para encontrar los mejores parámetros <span class="math inline">\(\mathbb{\theta^*}\)</span> minimizando la pérdida <span class="math inline">\(\mathcal{L}\)</span> <span class="citation" data-cites="karniadakis2021">(<a href="references.html#ref-karniadakis2021" role="doc-biblioref">George Em Karniadakis 2021</a>)</span>.
 </figcaption>
 </figure>
 </div>
@@ -624,7 +624,7 @@ Figura&nbsp;7.1: <strong>El algoritmo de una PINN.</strong> Construya una red ne
 <p>con la condición de frontera de Dirichlet y condición inicial: <span class="math display">\[
 u(-1,t) = u(1,t) = 0, \quad u(x,0)=-\sin(\pi x).
 \]</span></p>
-<div id="5b4897bd" class="cell" data-execution_count="1">
+<div id="7ea21708" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> deepxde <span class="im">as</span> dde</span>
@@ -686,7 +686,7 @@ u(-1,t) = u(1,t) = 0, \quad u(x,0)=-\sin(\pi x).
 <span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a><span class="co">#dde.saveplot(losshistory, train_state, issave=False, isplot=True)</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="3bf73ee9" class="cell" data-execution_count="2">
+<div id="cell-fig-burgers-ejemplo" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt </span>
@@ -701,7 +701,7 @@ u(-1,t) = u(1,t) = 0, \quad u(x,0)=-\sin(\pi x).
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>time <span class="op">=</span> X[:, <span class="dv">1</span>]      <span class="co"># coordenadas t (tiempo)</span></span>
 <span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear figura con dos subgráficos 3D</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">9</span>))</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">19</span>, <span class="dv">9</span>), constrained_layout<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>ax1 <span class="op">=</span> fig.add_subplot(<span class="dv">121</span>, projection<span class="op">=</span><span class="st">'3d'</span>)</span>
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>ax2 <span class="op">=</span> fig.add_subplot(<span class="dv">122</span>, projection<span class="op">=</span><span class="st">'3d'</span>)</span>
 <span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
@@ -732,20 +732,33 @@ u(-1,t) = u(1,t) = 0, \quad u(x,0)=-\sin(\pi x).
 <span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>                    pad<span class="op">=</span><span class="fl">0.1</span>, orientation<span class="op">=</span><span class="st">'horizontal'</span>)</span>
 <span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>cbar.set_label(<span class="st">'Magnitud de u(x,t)'</span>)</span>
 <span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
-<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Error relativo L2:"</span>, dde.metrics.l2_relative_error(y_true, y_pred))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a><span class="co"># Ajustar manualmente para evitar corte del eje z</span></span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>plt.subplots_adjust(left<span class="op">=</span><span class="fl">0.05</span>, right<span class="op">=</span><span class="fl">0.9</span>, wspace<span class="op">=</span><span class="fl">0.1</span>)</span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Error relativo L2:"</span>, dde.metrics.l2_relative_error(y_true, y_pred))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+<div class="cell-output cell-output-stderr">
+<pre><code>/tmp/ipykernel_18272/1064299669.py:45: UserWarning:
+
+This figure was using a layout engine that is incompatible with subplots_adjust and/or tight_layout; not calling subplots_adjust.
+</code></pre>
+</div>
 <div class="cell-output cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="pinns_files/figure-html/cell-3-output-1.png" width="934" height="561" class="figure-img"></p>
-<figcaption>Comparación entre solución real y predicción de la red neuronal para la ecuación de Burger 1D. Debido a su naturaleza unidimensional, es posible plasmar en un eje al tiempo (t) y representar a la función a lo largo de éste como una serie de <em>fotos</em> para un instante <span class="math inline">\(t\)</span> dado.</figcaption>
+<div id="fig-burgers-ejemplo" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-burgers-ejemplo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="pinns_files/figure-html/fig-burgers-ejemplo-output-2.png" width="1674" height="879" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-burgers-ejemplo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;7.2: Comparación entre solución real y predicción de la red neuronal para la ecuación de Burger 1D. Debido a su naturaleza unidimensional, es posible plasmar en un eje al tiempo (t) y representar a la función a lo largo de éste como una serie de <em>fotos</em> para un instante <span class="math inline">\(t\)</span> dado.
+</figcaption>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Error relativo L2: 0.006932442610063683</code></pre>
+<pre><code>Error relativo L2: 0.00475976509358058</code></pre>
 </div>
 </div>
 </section>

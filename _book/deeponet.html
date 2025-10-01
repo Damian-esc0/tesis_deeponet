@@ -323,7 +323,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ejemplos.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Modelado del Bio-Calor en Hipertermia</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Otras aplicaciones de la ecuación del bio-calor</span></span></a>
   </div>
 </li>
       </ul>
@@ -597,8 +597,8 @@ u''(x) = f(x), \quad x\in[0,1]
 <p>con la condición de frontera de Dirichlet <span class="math display">\[
 u(0)=u(1)=0
 \]</span></p>
-<p>el término <span class="math inline">\(f\)</span> representa a una función continua arbitraria.</p>
-<div id="263b1e39" class="cell" data-execution_count="1">
+<p>dónde el término <span class="math inline">\(f\)</span> representa a una función continua arbitraria.</p>
+<div id="9a80cd6a" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> deepxde <span class="im">as</span> dde</span>
@@ -670,7 +670,7 @@ u(0)=u(1)=0
 <span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> model.predict((fx, x))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="3c361ebf" class="cell" data-execution_count="2">
+<div id="cell-fig-poisson-ejemplo" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Setup figure</span></span>
@@ -696,10 +696,14 @@ u(0)=u(1)=0
 <span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="deeponet_files/figure-html/cell-3-output-1.png" width="608" height="672" class="figure-img"></p>
-<figcaption>Soluciones halladas por la red neuronal, en la parte superior las funciones arbitrarias <span class="math inline">\(f(x)\)</span>, mientras que en la parte inferior está su solución <span class="math inline">\(u(x)\)</span>, el color representa la relación <em>término-solución</em>.</figcaption>
+<div id="fig-poisson-ejemplo" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-poisson-ejemplo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="deeponet_files/figure-html/fig-poisson-ejemplo-output-1.png" width="608" height="672" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-poisson-ejemplo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;8.2: Soluciones halladas por la red neuronal, en la parte superior las funciones arbitrarias <span class="math inline">\(f(x)\)</span>, mientras que en la parte inferior está su solución <span class="math inline">\(u(x)\)</span>, el color representa la relación <em>término-solución</em>.
+</figcaption>
 </figure>
 </div>
 </div>
@@ -707,7 +711,7 @@ u(0)=u(1)=0
 </section>
 <section id="comparación-con-una-pinn" class="level2" data-number="8.3">
 <h2 data-number="8.3" class="anchored" data-anchor-id="comparación-con-una-pinn"><span class="header-section-number">8.3</span> Comparación con una PINN</h2>
-<p>En contraste con una red PINN convencional (Physics-Informed Neural Network), que resuelve una instancia específica de una ecuación diferencial para un conjunto dado de condiciones, DeepONet aprende el operador general que resuelve muchas instancias a la vez. Mientras que una PINN debe ser reentrenada para cada nuevo problema, DeepONet, una vez entrenado, puede predecir soluciones rápidamente para múltiples condiciones nuevas. Esto lo hace especialmente eficiente en aplicaciones donde se requiere realizar inferencias repetidas, como en control o diseño inverso <span class="citation" data-cites="kumar2024deeponet">(<a href="references.html#ref-kumar2024deeponet" role="doc-biblioref">Kumar et&nbsp;al. 2024</a>)</span>.</p>
+<p>En contraste con una red PINN convencional (Physics-Informed Neural Network), que resuelve una instancia específica de una ecuación diferencial para un conjunto dado de condiciones, DeepONet aproxima el operador general que resuelve varias instancias a la vez. Mientras que una PINN debe ser reentrenada para cada nuevo problema, DeepONet, una vez entrenado, puede predecir soluciones rápidamente para múltiples condiciones nuevas. Esto lo hace especialmente eficiente en aplicaciones donde se requiere realizar inferencias repetidas, como en control o diseño inverso <span class="citation" data-cites="kumar2024deeponet">(<a href="references.html#ref-kumar2024deeponet" role="doc-biblioref">Kumar et&nbsp;al. 2024</a>)</span>.</p>
 </section>
 </div>
 

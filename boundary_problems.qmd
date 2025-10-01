@@ -22,7 +22,7 @@ $$
 \frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2} = 0  
 $$ {#eq-laplace} 
 
-o variantes ligeras de estas ecuaciones. Las EDPs [-@eq-heat], [-@eq-wave] y [-@eq-laplace] se conocen, respectivamente, como la *ecuación del calor unidimensional*, la *ecuación de onda unidimensional* y la *forma bidimensional de la ecuación de Laplace*. El término "unidimensional" en el caso de las ecuaciones [-@eq-heat] y [-@eq-wave] se refiere al hecho de que $x$ denota una variable espacial, mientras que $t$ representa el tiempo; "bidimensional" en [-@eq-laplace] significa que tanto $x$ como $y$ son variables espaciales. Si comparas [-@eq-heat]-[-@eq-laplace] con la forma lineal en la @def-PDEs-classes (donde $t$ juega el papel del símbolo $y$), observarás que la ecuación del calor [-@eq-heat] es parabólica, la ecuación de onda [-@eq-wave] es hiperbólica y la ecuación de Laplace [-@eq-laplace] es elíptica.
+o variantes ligeras de estas ecuaciones. Las EDPs [-@eq-heat], [-@eq-wave] y [-@eq-laplace] se conocen, respectivamente, como la *ecuación del calor unidimensional*, la *ecuación de onda unidimensional* y la *forma bidimensional de la ecuación de Laplace*. El término "unidimensional" en el caso de las ecuaciones [-@eq-heat] y [-@eq-wave] se refiere al hecho de que $x$ denota una variable espacial, mientras que $t$ representa el tiempo; "bidimensional" en [-@eq-laplace] significa que tanto $x$ como $y$ son variables espaciales. Si se compara [-@eq-heat]-[-@eq-laplace] con la forma lineal en la @def-PDEs-classes (donde $t$ juega el papel del símbolo $y$), se observa que la ecuación del calor [-@eq-heat] es parabólica, la ecuación de onda [-@eq-wave] es hiperbólica y la ecuación de Laplace [-@eq-laplace] es elíptica.
 
 ::: {#fig-examples-eqs layout-ncol=2}
 
@@ -41,14 +41,14 @@ $$
 u(x, 0) = f(x), \quad \left. \frac{\partial u}{\partial t} \right|_{t=0} = g(x), \quad 0 < x < L.
 $$ {#eq-initail-cond}
 
-Por ejemplo, la cuerda podría ser tensada, como se muestra en la @fig-wave-exmpl, y liberada desde el reposo $(g(x)=0)$.
+Por ejemplo, la cuerda podría ser tensada, como se muestra en la @fig-wave-exmpl, o liberada desde el reposo $(g(x)=0)$.
 
 ## Condiciones de frontera
 La cuerda en la @fig-wave-exmpl está fija al eje $x$ en $x=0$ y $x=L$ para todos los tiempos. Ésto se interpreta a través de dos **condiciones de frontera (CF):**
 $$
 u(0,t) = 0, \quad u(L,t)=0, \quad t>0.
 $$
-En éste contexto la función $f$ en la [ec @eq-initail-cond] es continua y, en consecuencia, $f(0)=0$ y $f(L)=0$. En general, existen tres tipos de condiciones de frontera asociadas con las ecuaciones [-@eq-heat], [-@eq-wave] y [-@eq-laplace]. En la frontera es posible especificar los valores de *una* de las siguientes:
+En éste contexto la función $f$ en la [Ec @eq-initail-cond] es continua y, en consecuencia, $f(0)=0$ y $f(L)=0$. En general, existen tres tipos de condiciones de frontera asociadas con las ecuaciones [-@eq-heat], [-@eq-wave] y [-@eq-laplace]. En la frontera es posible especificar los valores de *una* de las siguientes:
 
 $$
 \text{(i)}\quad u, \qquad \text{(ii)}\quad \dfrac{\partial u}{\partial n},\qquad \text{o}\qquad \text{(iii)}\quad \dfrac{\partial u}{\partial n} + hu,\quad \text{con $h$ constante.}
