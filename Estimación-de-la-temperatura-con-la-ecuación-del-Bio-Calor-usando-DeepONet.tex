@@ -253,10 +253,10 @@
 \floatname{codelisting}{Listado}
 \newcommand*\listoflistings{\listof{codelisting}{Listado de Listados}}
 \usepackage{amsthm}
-\theoremstyle{definition}
-\newtheorem{definition}{Definición}[chapter]
 \theoremstyle{plain}
 \newtheorem{theorem}{Teorema}[chapter]
+\theoremstyle{definition}
+\newtheorem{definition}{Definición}[chapter]
 \theoremstyle{remark}
 \AtBeginDocument{\renewcommand*{\proofname}{Prueba}}
 \newtheorem*{remark}{Observación}
@@ -790,7 +790,7 @@ problema original. Este es el enfoque más común porque los métodos de
 aproximación proporcionan resultados más precisos e información de error
 realista (\citeproc{ref-burden2011}{Burden y Faires 2010}).
 
-\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, coltitle=black, toprule=.15mm, opacityback=0, colback=white, colbacktitle=quarto-callout-caution-color!10!white, arc=.35mm, breakable, opacitybacktitle=0.6, bottomtitle=1mm, toptitle=1mm, titlerule=0mm, leftrule=.75mm, left=2mm, title={Ejemplo}, rightrule=.15mm, colframe=quarto-callout-caution-color-frame]
+\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, colbacktitle=quarto-callout-caution-color!10!white, leftrule=.75mm, opacitybacktitle=0.6, opacityback=0, toprule=.15mm, arc=.35mm, coltitle=black, bottomtitle=1mm, toptitle=1mm, titlerule=0mm, left=2mm, colback=white, rightrule=.15mm, colframe=quarto-callout-caution-color-frame, breakable, title={Ejemplo}]
 
 El movimiento de un péndulo oscilante bajo ciertas suposiciones se
 describe mediante la ecuación diferencial de segundo orden: \[
@@ -886,7 +886,7 @@ tiene una solución única \(y(t)\) para \(a\leq t \leq b\).
 
 \end{theorem}
 
-\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, coltitle=black, toprule=.15mm, opacityback=0, colback=white, colbacktitle=quarto-callout-caution-color!10!white, arc=.35mm, breakable, opacitybacktitle=0.6, bottomtitle=1mm, toptitle=1mm, titlerule=0mm, leftrule=.75mm, left=2mm, title={Ejemplo}, rightrule=.15mm, colframe=quarto-callout-caution-color-frame]
+\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, colbacktitle=quarto-callout-caution-color!10!white, leftrule=.75mm, opacitybacktitle=0.6, opacityback=0, toprule=.15mm, arc=.35mm, coltitle=black, bottomtitle=1mm, toptitle=1mm, titlerule=0mm, left=2mm, colback=white, rightrule=.15mm, colframe=quarto-callout-caution-color-frame, breakable, title={Ejemplo}]
 
 Use el Teorema~\ref{thm-uniq-sol} para mostrar que hay una única
 solución al problema de valor inicial: \[
@@ -975,7 +975,7 @@ Supongamos
 
 \end{theorem}
 
-\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, coltitle=black, toprule=.15mm, opacityback=0, colback=white, colbacktitle=quarto-callout-caution-color!10!white, arc=.35mm, breakable, opacitybacktitle=0.6, bottomtitle=1mm, toptitle=1mm, titlerule=0mm, leftrule=.75mm, left=2mm, title={Ejemplo}, rightrule=.15mm, colframe=quarto-callout-caution-color-frame]
+\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, colbacktitle=quarto-callout-caution-color!10!white, leftrule=.75mm, opacitybacktitle=0.6, opacityback=0, toprule=.15mm, arc=.35mm, coltitle=black, bottomtitle=1mm, toptitle=1mm, titlerule=0mm, left=2mm, colback=white, rightrule=.15mm, colframe=quarto-callout-caution-color-frame, breakable, title={Ejemplo}]
 
 Demostrar que el problema de valor inicial\\
 \[
@@ -1021,18 +1021,62 @@ cualquier \(\varepsilon > 0\).
 
 \end{tcolorbox}
 
-\chapter{Método de Crank Nickolson}\label{muxe9todo-de-crank-nickolson}
+\chapter{Método de Crank Nicolson}\label{muxe9todo-de-crank-nicolson}
 
-Existen métodos implícitos de diferencias finitas para resolver
-ecuaciones diferenciales parciales parabólicas (Ecuación~\ref{eq-heat}).
-Estos métodos requieren la resolución de un sistema de ecuaciones para
-determinar los valores aproximados de \(u\) en la línea de tiempo
-\((j + 1)\). Sin embargo, los métodos implícitos no presentan problemas
-de inestabilidad (\citeproc{ref-zill2008}{Zill y Cullen 2008}).
+El algoritmo introducido por \textbf{J. Crank} y \textbf{P. Nicolson}
+(\emph{Crank-Nicolson}) en 1947 representa un esquema numérico
+ampliamente utilizado para resolver ecuaciones diferenciales parciales
+de tipo parabólico, como la ecuación de calor. Para comprender su
+fundamento, resulta ilustrativo considerar el problema de determinar la
+evolución temporal de la temperatura en una varilla metálica. Dado que
+la temperatura en cada punto varía de manera continua, es necesario
+discretizar el problema para su tratamiento computacional, lo que
+implica representar la varilla mediante un conjunto discreto de puntos y
+el tiempo mediante una secuencia de pasos finitos
+(\citeproc{ref-zill2008}{Zill y Cullen 2008}).
 
-El algoritmo introducido por \textbf{J. Crank} y \textbf{P. Nicholson}
-en 1947 se utiliza principalmente para resolver la ecuación del calor.
-El algoritmo consiste en sustituir la segunda derivada parcial en
+En este marco, las estrategias de solución numérica se clasifican
+principalmente en dos categorías. Por un lado, los métodos explícitos
+calculan el estado futuro del sistema a partir exclusivamente de
+información del estado presente, lo que los hace conceptualmente
+sencillos y computacionalmente eficientes por paso de tiempo. Sin
+embargo, presentan una limitación significativa: su estabilidad depende
+críticamente del tamaño del paso temporal. Si este paso excede un umbral
+crítico, la solución numérica puede volverse inestable, manifestando
+oscilaciones no físicas que divergen hacia infinito
+(\citeproc{ref-burden2011}{Burden y Faires 2010}).
+
+Por otro lado, los métodos implícitos superan esta restricción de
+estabilidad al establecer una dependencia entre el estado futuro de un
+punto y el de sus vecinos en el mismo instante futuro. Esta
+característica garantiza estabilidad incondicional para una gama más
+amplia de parámetros, pero conlleva una mayor complejidad computacional,
+ya que requiere resolver un sistema de ecuaciones acoplado en cada paso
+de tiempo (\citeproc{ref-burden2011}{Burden y Faires 2010}).
+
+El método de Crank-Nicolson surge como un esquema híbrido que sintetiza
+las ventajas de ambos enfoques. Se fundamenta en promediar la
+discretización espacial de la ecuación diferencial entre el instante de
+tiempo actual (\(n\)) y el futuro (\(n+1\)). Esta estrategia de
+promediado le confiere dos propiedades clave
+(\citeproc{ref-zill2008}{Zill y Cullen 2008}):
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \textbf{Estabilidad Incondicional:} A diferencia de los métodos
+  explícitos, el esquema de Crank-Nicolson permanece estable para
+  cualquier tamaño de paso temporal, lo que permite simulaciones más
+  rápidas sin riesgo de divergencia.
+\item
+  \textbf{Precisión de Segundo Orden:} Al ser un método de segundo orden
+  en tiempo, el error de truncamiento local se reduce más ráticamente al
+  disminuir el paso temporal, lo que se traduce en una mayor precisión
+  global de la solución numérica comparado con métodos de primer orden.
+\end{enumerate}
+
+En esencia, el algoritmo consiste en sustituir la segunda derivada
+parcial en
 \(c\frac{\partial^2 u}{\partial x^2} = \frac{\partial u}{\partial t}\)
 por el promedio de dos cocientes de diferencias centrales, uno evaluado
 en \(t\) y el otro en \(t+k\):
@@ -1051,17 +1095,17 @@ u(x+h,t+k) &=u_{i+1,j+1}, \quad u(x,t+k)=u_{i,j+1}, \quad u(x-h,t+k)=u_{i-1,j+1}
 \end{split}
 \]
 
-es posible reescribir a la ec~\ref{eq-cn-completa} como:
+es posible reescribir a la Ec.~\ref{eq-cn-completa} como:
 \begin{equation}\phantomsection\label{eq-cn-reducida}{
 -u_{i-1,j+1} + \alpha u_{i,j+1} - u_{i+1,j+1} = u_{i+1,j} - \beta u_{ij} + u_{i-1,j},
 }\end{equation}
 
 donde \(\alpha=2(1+\frac{1}{\lambda})\),
-\(\beta=2(1-\frac{1}{\lambda})\),
-\(j=0,1,\dots, m-1, \ \ \ i=0,1,\dots, n-1\).
+\(\ \beta=2(1-\frac{1}{\lambda})\),
+\(\ j=0,1,\dots, m-1, \ \ \ i=0,1,\dots, n-1\).
 
 Para cada elección de \(j\), la ecuación diferencial
-ec~\ref{eq-cn-reducida} para \(i=0,1,\dots, n-1\) da \(n-1\) ecuaciones
+Ec.~\ref{eq-cn-reducida} para \(i=0,1,\dots, n-1\) da \(n-1\) ecuaciones
 en \(n-1\) incógnitas \(u_{i,j+1}\). Debido a las condiciones de
 contorno preestablecidas, los valores de \(u_{i, j+1}\) se conocen para
 \(i=0\) y para \(i=n\). Por ejemplo, en el caso \(n=4\), el sistema de
@@ -1092,7 +1136,7 @@ b_3 &= u_{4,j} - \beta u_{3,j} + u_{2,j} + u_{4,j+1}.
 \end{align*}
 
 En general, si utilizamos la ecuación diferencial
-ec~\ref{eq-cn-reducida} para determinar valores de \(u\) en la línea de
+Ec.~\ref{eq-cn-reducida} para determinar valores de \(u\) en la línea de
 tiempo \((j -1)\), es necesario resolver un sistema lineal
 \(\mathbf{AX=B}\), donde la matriz de coeficientes \(\mathbf{A}\) es una
 \textbf{matriz tridiagonal}, \[
@@ -1307,7 +1351,7 @@ u(-1,t) = u(1,t) = 0, \quad u(x,0)=-\sin(\pi x).
 
 \CommentTok{\# Compilar el modelo y entrenarlo}
 \NormalTok{model.}\BuiltInTok{compile}\NormalTok{(}\StringTok{"adam"}\NormalTok{, lr}\OperatorTok{=}\FloatTok{1e{-}3}\NormalTok{)}
-\NormalTok{losshistory, train\_state }\OperatorTok{=}\NormalTok{ model.train(iterations}\OperatorTok{=}\DecValTok{5000}\NormalTok{)}
+\NormalTok{losshistory, train\_state }\OperatorTok{=}\NormalTok{ model.train(iterations}\OperatorTok{=}\DecValTok{3000}\NormalTok{)}
 \NormalTok{model.}\BuiltInTok{compile}\NormalTok{(}\StringTok{"L{-}BFGS"}\NormalTok{)}
 \NormalTok{losshistory, train\_state }\OperatorTok{=}\NormalTok{ model.train()}
 \CommentTok{\#dde.saveplot(losshistory, train\_state, issave=False, isplot=True)}
@@ -1328,7 +1372,7 @@ u(-1,t) = u(1,t) = 0, \quad u(x,0)=-\sin(\pi x).
 \NormalTok{time }\OperatorTok{=}\NormalTok{ X[:, }\DecValTok{1}\NormalTok{]      }\CommentTok{\# coordenadas t (tiempo)}
 
 \CommentTok{\# Crear figura con dos subgráficos 3D}
-\NormalTok{fig }\OperatorTok{=}\NormalTok{ plt.figure(figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{19}\NormalTok{, }\DecValTok{9}\NormalTok{), constrained\_layout}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+\NormalTok{fig }\OperatorTok{=}\NormalTok{ plt.figure(figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{14}\NormalTok{, }\DecValTok{8}\NormalTok{), constrained\_layout}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
 \NormalTok{ax1 }\OperatorTok{=}\NormalTok{ fig.add\_subplot(}\DecValTok{121}\NormalTok{, projection}\OperatorTok{=}\StringTok{\textquotesingle{}3d\textquotesingle{}}\NormalTok{)}
 \NormalTok{ax2 }\OperatorTok{=}\NormalTok{ fig.add\_subplot(}\DecValTok{122}\NormalTok{, projection}\OperatorTok{=}\StringTok{\textquotesingle{}3d\textquotesingle{}}\NormalTok{)}
 
@@ -1344,6 +1388,7 @@ u(-1,t) = u(1,t) = 0, \quad u(x,0)=-\sin(\pi x).
 \NormalTok{ax1.set\_zlabel(}\StringTok{\textquotesingle{}u(x,t)\textquotesingle{}}\NormalTok{)}
 \NormalTok{ax1.set\_title(}\StringTok{\textquotesingle{}Valores reales de u(x,t)\textquotesingle{}}\NormalTok{)}
 \NormalTok{ax1.set\_zlim([z\_min, z\_max])}
+\NormalTok{ax1.set\_box\_aspect(}\VariableTok{None}\NormalTok{, zoom}\OperatorTok{=}\FloatTok{0.9}\NormalTok{)}
 
 \CommentTok{\# Gráfico 2: Valores predichos}
 \NormalTok{sc2 }\OperatorTok{=}\NormalTok{ ax2.scatter(x\_coords, time, y\_pred, c}\OperatorTok{=}\NormalTok{y\_pred,}
@@ -1353,6 +1398,7 @@ u(-1,t) = u(1,t) = 0, \quad u(x,0)=-\sin(\pi x).
 \NormalTok{ax2.set\_zlabel(}\StringTok{\textquotesingle{}u(x,t)\textquotesingle{}}\NormalTok{)}
 \NormalTok{ax2.set\_title(}\StringTok{\textquotesingle{}Valores predichos de u(x,t)\textquotesingle{}}\NormalTok{)}
 \NormalTok{ax2.set\_zlim([z\_min, z\_max])}
+\NormalTok{ax2.set\_box\_aspect(}\VariableTok{None}\NormalTok{, zoom}\OperatorTok{=}\FloatTok{0.75}\NormalTok{)}
 
 \NormalTok{cbar }\OperatorTok{=}\NormalTok{ fig.colorbar(sc1, ax}\OperatorTok{=}\NormalTok{(ax1,ax2),}
 \NormalTok{                    shrink}\OperatorTok{=}\FloatTok{0.9}\NormalTok{, aspect}\OperatorTok{=}\DecValTok{90}\NormalTok{,}
@@ -1369,7 +1415,7 @@ u(-1,t) = u(1,t) = 0, \quad u(x,0)=-\sin(\pi x).
 \end{Shaded}
 
 \begin{verbatim}
-/tmp/ipykernel_18589/1064299669.py:45: UserWarning:
+/tmp/ipykernel_16662/4204483522.py:47: UserWarning:
 
 This figure was using a layout engine that is incompatible with subplots_adjust and/or tight_layout; not calling subplots_adjust.
 \end{verbatim}
@@ -1391,7 +1437,7 @@ representar a la función a lo largo de éste como una serie de
 \end{figure}%
 
 \begin{verbatim}
-Error relativo L2: 0.005802487226513813
+Error relativo L2: 0.01270950351416249
 \end{verbatim}
 
 \section{Comparación con Redes Neuronales
@@ -2483,7 +2529,7 @@ ecuaciones \ref{eq-adimencionalizadores}.}
 
 Con el objetivo de optimizar el proceso de comparación cuantitativa con
 el modelo de redes neuronales, se exportó un subconjunto representativo
-de los resultados Listado~\ref{lst-met-num}. Aunque la simulación
+de los resultados Código~\ref{lst-met-num}. Aunque la simulación
 original utilizó una malla de 51×51 puntos, se almacenaron únicamente
 los valores correspondientes a una grilla de 26×26 puntos. Esta decisión
 se basó en:
@@ -2513,7 +2559,7 @@ columnas:
 
 Este archivo permitió calcular de manera estandarizada las métricas de
 error (MAE, MaxAE, error L2) en la sección de comparación de resultados
-\ref{tbl-errores-num}.
+Sección~\ref{sec-val-cuant-Cr-Nc}.
 
 \chapter{Métricas del modelo}\label{muxe9tricas-del-modelo}
 
@@ -2532,7 +2578,7 @@ DeepONetCartesianProd con la siguiente estructura especializada:
   \begin{itemize}
   \tightlist
   \item
-    Capa de entrada: (num\_sensors + 1)² = 64 neuronas.
+    Capa de entrada: (num\_sensors + 1)² = 49 neuronas.
   \item
     3 capas ocultas de 20 neuronas cada una.
   \end{itemize}
@@ -2556,8 +2602,8 @@ DeepONetCartesianProd con la siguiente estructura especializada:
   \item
     Inicialización de pesos: Glorot normal.
   \item
-    Optimizador: Adam con tasa de aprendizaje inicial de 2×10⁻³ y
-    decaimiento exponencial (decay\_rate=0.05 cada 500 pasos).
+    Optimizador: ADAM con tasa de aprendizaje inicial de 2×10⁻³ y
+    decaimiento exponencial (\emph{decay\_rate}=0.05 cada 500 pasos).
   \end{itemize}
 \end{itemize}
 
@@ -2616,7 +2662,7 @@ DeepONetCartesianProd con la siguiente estructura especializada:
 
 
 \CommentTok{\# Parámetros de entrenamiento}
-\NormalTok{num\_iterations }\OperatorTok{=} \DecValTok{15000}
+\NormalTok{num\_iterations }\OperatorTok{=} \DecValTok{20000}
 \NormalTok{learning\_rate }\OperatorTok{=} \FloatTok{2e{-}3}
 \NormalTok{decay\_rate }\OperatorTok{=} \FloatTok{0.05}
 \NormalTok{decay\_steps }\OperatorTok{=} \DecValTok{500}
@@ -3060,7 +3106,7 @@ Esta sección presenta un análisis cualitativo de los resultados mediante
 la comparación directa entre las predicciones del modelo, las soluciones
 reportadas en el estudio de Alessio Borgi
 (\citeproc{ref-medical_rep}{2023}), así como las obtenidas mediante el
-método de Crank Nickolson y la solución analítica. La visualización
+método de Crank Nicolson y la solución analítica. La visualización
 paralela permite evaluar:
 
 \begin{itemize}
@@ -3161,7 +3207,7 @@ distintos tiempos.}
 
 \centering{
 
-\includegraphics[width=6.77083in,height=\textheight,keepaspectratio]{images/results_paper.png}
+\includegraphics[width=5.72917in,height=\textheight,keepaspectratio]{images/results_paper.png}
 
 }
 
@@ -3413,7 +3459,7 @@ analítica y la aproximación inherente de la red neuronal.
 \section{Validaciones cuantitativas}\label{validaciones-cuantitativas}
 
 \subsection{Modelo contra el método de
-Crank-Nicolson}\label{modelo-contra-el-muxe9todo-de-crank-nicolson}
+Crank-Nicolson}\label{sec-val-cuant-Cr-Nc}
 
 Para evaluar numéricamente la precisión del modelo DeepONet, se realizó
 una comparación sistemática con soluciones de referencia generadas
@@ -3481,19 +3527,19 @@ Tiempo & MAE & MaxAE & Error L2 \\
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-0.000 & 0.013 & 0.058 & 0.467 \\
-0.250 & 0.066 & 0.181 & 2.215 \\
-0.500 & 0.069 & 0.154 & 2.166 \\
-0.750 & 0.034 & 0.052 & 0.964 \\
-1.000 & 0.028 & 0.110 & 1.067 \\
+0.000 & 0.013 & 0.055 & 0.457 \\
+0.250 & 0.067 & 0.182 & 2.250 \\
+0.500 & 0.070 & 0.156 & 2.205 \\
+0.750 & 0.035 & 0.052 & 0.992 \\
+1.000 & 0.028 & 0.107 & 1.040 \\
 
 \end{longtable}
 
 Las métricas de error calculadas ---Error Absoluto Medio (MAE), Error
 Absoluto Máximo (MaxAE) y Error L2--- confirman el buen desempeño del
 modelo DeepONet. En la comparación con el método de Crank-Nicolson
-Tabla~\ref{tbl-errores-num}, el MAE se mantuvo entre 0.013 y 0.069, con
-un valor máximo de 0.181 en el MaxAE. Estos valores reflejan una
+Tabla~\ref{tbl-errores-num}, el MAE se mantuvo entre 0.013 y 0.07, con
+un valor máximo de 0.182 en el MaxAE. Estos valores reflejan una
 aproximación satisfactoria, aunque se observa que los errores tienden a
 aumentar en tiempos intermedios (\(t=0.25\) y \(t=0.5\)), posiblemente
 debido a la mayor complejidad dinámica en esas etapas.
@@ -3639,17 +3685,17 @@ Tiempo & MAE & MaxAE & Error L2 \\
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-0.000 & 0.013 & 0.058 & 0.467 \\
-0.250 & 0.065 & 0.178 & 2.187 \\
-0.500 & 0.067 & 0.149 & 2.104 \\
-0.750 & 0.031 & 0.046 & 0.877 \\
-1.000 & 0.032 & 0.119 & 1.181 \\
+0.000 & 0.013 & 0.055 & 0.457 \\
+0.250 & 0.067 & 0.180 & 2.221 \\
+0.500 & 0.068 & 0.151 & 2.143 \\
+0.750 & 0.032 & 0.047 & 0.905 \\
+1.000 & 0.031 & 0.116 & 1.153 \\
 
 \end{longtable}
 
 Al comparar con la solución analítica Tabla~\ref{tbl-errores-ana}, los
-errores son consistentemente bajos, con un MAE máximo de 0.067 y un
-MaxAE de 0.178. La similitud entre ambas tablas sugiere que el método de
+errores son consistentemente bajos, con un MAE máximo de 0.068 y un
+MaxAE de 0.18. La similitud entre ambas tablas sugiere que el método de
 Crank-Nicolson y la solución analítica están bien alineados, y que el
 modelo DeepONet se aproxima a ambos con un nivel de error comparable.
 
@@ -3747,47 +3793,41 @@ obtuvieron predicciones para el cuadrado de \([0,1]\times[0,1]\). Los
 hiperparámetros de la red se fueron variando para obtener la mejor
 configuración, usando como base los resultados obtenidos por Alessio
 Borgi (\citeproc{ref-medical_rep}{2023}). Los resultados obtenidos
-mediante la comparación con el método de Crank Nickolson demostraron que
-la red neuronal DeepONet se aproxima con un mínimo del 1.1\% y un máximo
-del 6.7\% para el error medio absoluto, y cometiendo un error mínimo del
-6.4\% y máximo del 20\% para el error máximo absoluto
-\ref{tbl-errores-num}.
+mediante la comparación con el método de Crank Nicolson demostraron que
+la red neuronal DeepONet se aproxima eficientemente, pues el MAE se
+mantuvo entre 1.3\% y 7\%, con un valor máximo de 18.2\% en el MaxAE
+Tabla~\ref{tbl-errores-num}. Complementando a los resultados previos, al
+comparar con la solución analítica, el MAE máximo fué de 6.8\% y un
+MaxAE de 18\% Tabla~\ref{tbl-errores-ana}.
 
 Los errores obtenidos demuestran la eficacia del modelo para converger a
 la condición inicial, pues tal como se aprecia en las figuras
 \ref{fig-abs-errors-num} y \ref{fig-abs-errors-ana}, a medida que la
 ecuación evoluciona en el tiempo, las predicciones entre el método de
-Crank Nickolson y la red neuronal divergen, esto es conforme evoluciona
+Crank Nicolson y la red neuronal divergen, esto es conforme evoluciona
 la función, vemos que cada vez se aleja más del valor real. Valdría la
 pena en otro trabajo comparar la solución con otro método númerico
 clásico para observar si se presenta el mismo comportamiento.
-Desafortunadamente no se cuenta con una base de datos que sirva como
-conjunto de validación por lo que no se puede asegurar que los
-resultados del método numérico sean los más óptimos para tomar como
-referencia.
 
 Lo anterior evidencia el potencial que tiene las PINNs como herramienta
 auxiliar en la solución de ecuaciones diferenciales parciales, pues solo
 a través de la definición de la geometria y el espacio temporal (si es
 necesario) junto con algunos puntos en el dominio y las condiciones
 iniciales y de frontera probarón predecir de forma muy acertada el
-conjunto de prueba. Ésto representa una gran ventaja respecto a los
-modelos de Deep learning que necesitan una gran cantidad de datos para
-poder ser entrenados. Otro punto clave de las PINNs es su adaptabilidad
-al ruido (\citeproc{ref-karniadakis2021}{George Em Karniadakis 2021})
-donde se ha demostrado que incluso a pesar de que los problemas no están
-perfectamente bien planteados o si existen parámetros desconocidos la
-red puede producir resultados significativos. Siendo ambas situaciones
-mencionadas comúnes en el ámbito científico.
+conjunto de prueba. Una situación que es común en el ámbito científico,
+es la de no siempre contar con una base de datos extensa y libre de
+ruido con la que entrenar a un modelo, lo que le otortga a las PINNs una
+gran ventaja respecto a los modelos de Deep learning que necesitan una
+gran cantidad de datos para poder ser entrenados
+(\citeproc{ref-karniadakis2021}{George Em Karniadakis 2021}).
 
-Complementado a las PINNs, la arquitectura DeepONet aprende operadores
-(mapeos entre espacios de funciones) en lugar de solo aproximar
-funciones a diferencia de las PINNs tradicionales, que predicen
-soluciones específicas para condiciones fijas, DeepONet es capaz de
-generalizar a nuevas condiciones iniciales y de frontera sin
-reentrenamiento, gracias a su estructura de red dual (branch-trunk).
-Esto lo hace ideal para aplicaciones en tiempo real, como la
-\emph{hipertermia}, donde las características del problema son
+Complementado a las PINNs, que predicen soluciones específicas para
+condiciones fijas; la arquitectura DeepONet aprende operadores (mapeos
+entre espacios de funciones) en lugar de solo aproximar funciones, lo
+que le otorga la capacidad de generalizar a nuevas condiciones iniciales
+y de frontera sin reentrenamiento, gracias a su estructura de red dual
+(branch-trunk). Esto lo hace ideal para aplicaciones en tiempo real,
+como la \emph{hipertermia}, donde las características del problema son
 suceptibles a cambios, como lo son las propiedades del cuerpo humano que
 varían en cada paciente. Un problema clave que se encontró es que al
 tener una estructura más compleja, los tiempos de entrenamiento
@@ -3797,8 +3837,8 @@ ya sean iniciales o de frontera.
 
 La creación de éste tipo de modelos, tanto PINNs clásicas como DeepONets
 se puede ver obstaculizada por el conocimiento en programación del
-investigador o estudiante que se plantee programarlos. Si bien tanto el
-ámbito científico como en la programación el pensamiento crítico,
+investigador o estudiante que se plantee programarlos. Si bien, tanto en
+el ámbito científico como en la programación el pensamiento crítico,
 seguimiento lógico y abstracción de los problemas son pilares
 fundamentales; también es necesario familiarizarse con las librerías que
 implementan éste tipo de modelos, además es bastante recomendado tener
@@ -3811,31 +3851,33 @@ cualquier nueva habilidad hay que practicar su uso para obtener
 resultados que valgan la pena.
 
 Cabe mencionar que las aplicaciones de las PINNs son tan amplias como lo
-es en sí en campo de las PDEs, si nos centramos únicamente en la
-medicina, está la \emph{hipertermia} como tratamiento oncológico, la
-cual busca elevar la temperatura en tejidos tumorales (39-45°C) para
-potenciar terapias como radioterapia. Sin embargo, controlar la
-distribución térmica en tiempo real es un desafío. Las redes neuronales,
-especialmente DeepONet, permiten predecir la temperatura de forma rápida
-y precisa bajo distintas condiciones, optimizando la dosificación de
-calor y minimizando daños a tejidos sanos. Esto facilita terapias
-personalizadas y no invasivas, mejorando la eficacia clínica.
+es en sí en campo de las PDEs, si nos centramos en la
+\emph{hipertermia}, la cual busca elevar la temperatura en tejidos
+tumorales (39-45°C), nos topamos con que predecir la distribución
+térmica en tiempo real es un desafío más complejo de lo que parece en un
+inicio, hay varias formas de caracterizar la temperatura en un cuerpo
+biológico, sin contar que las múltiples varibales que componen el
+fenómeno cambian dependiendo del individuo. Por ello, las redes
+neuronales, especialmente DeepONet por su capacidad de generalización,
+permiten aproximar la temperatura de forma bajo distintas condiciones,
+optimizando la dosificación de calor y minimizando daños a tejidos
+sanos. Esto facilita terapias personalizadas y no invasivas, mejorando
+la eficacia clínica.
 
 \bookmarksetup{startatroot}
 
 \chapter{Futuros trabajos de
 investigación}\label{futuros-trabajos-de-investigaciuxf3n}
 
-De cara al futuro es planteable mejorar el modelo siendo más rigurosos
-en ciertos aspectos como lo son:
+De cara al futuro, es planteable explorar ramas alternas de la
+metodología usada en ciertos aspectos, como lo son: - Ajustar la
+configuración del optimizador \emph{L-BFGS} ya sea aumentando o
+disminuyendo sus iteraciones máximas, su umbral de tolerancia o máximo
+número de funciones a evaluar.
 
 \begin{itemize}
 \item
-  Ajustar la configuración del optimizador \emph{L-BFGS} ya sea
-  aumentando o disminuyendo sus iteraciones máximas, su umbral de
-  tolerancia o máximo número de funciones a evaluar.
-\item
-  Utilizar el modulo de \emph{callbacks} para hacer un
+  Utilizar el módulo de \emph{callbacks} para hacer un
   \emph{earlyStopping} del modelo para evitar un sobreajuste.
 \item
   Utilizar un conjunto de validación con datos reales tomados de una

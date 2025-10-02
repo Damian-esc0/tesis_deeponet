@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>6&nbsp; Método de Crank Nickolson – Estimación de la temperatura con la ecuación del Bio-Calor usando DeepONet</title>
+<title>6&nbsp; Método de Crank Nicolson – Estimación de la temperatura con la ecuación del Bio-Calor usando DeepONet</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -140,7 +140,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./partial_diff_eq.html">Preliminares</a></li><li class="breadcrumb-item"><a href="./texto_crank_nick.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Método de Crank Nickolson</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./partial_diff_eq.html">Preliminares</a></li><li class="breadcrumb-item"><a href="./texto_crank_nick.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Método de Crank Nicolson</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -242,7 +242,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./texto_crank_nick.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Método de Crank Nickolson</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Método de Crank Nicolson</span></span></a>
   </div>
 </li>
       </ul>
@@ -516,9 +516,9 @@ window.Quarto = {
     }
   </script>
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./partial_diff_eq.html">Preliminares</a></li><li class="breadcrumb-item"><a href="./texto_crank_nick.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Método de Crank Nickolson</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./partial_diff_eq.html">Preliminares</a></li><li class="breadcrumb-item"><a href="./texto_crank_nick.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Método de Crank Nicolson</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Método de Crank Nickolson</span></h1>
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Método de Crank Nicolson</span></h1>
 </div>
 
 
@@ -536,8 +536,15 @@ window.Quarto = {
 
 
 <div style="text-align: justify">
-<p>Existen métodos implícitos de diferencias finitas para resolver ecuaciones diferenciales parciales parabólicas (<a href="boundary_problems.html#eq-heat" class="quarto-xref">Ecuación&nbsp;<span>4.1</span></a>). Estos métodos requieren la resolución de un sistema de ecuaciones para determinar los valores aproximados de <span class="math inline">\(u\)</span> en la línea de tiempo <span class="math inline">\((j + 1)\)</span>. Sin embargo, los métodos implícitos no presentan problemas de inestabilidad <span class="citation" data-cites="zill2008">(<a href="references.html#ref-zill2008" role="doc-biblioref">Zill y Cullen 2008</a>)</span>.</p>
-<p>El algoritmo introducido por <strong>J. Crank</strong> y <strong>P. Nicholson</strong> en 1947 se utiliza principalmente para resolver la ecuación del calor. El algoritmo consiste en sustituir la segunda derivada parcial en <span class="math inline">\(c\frac{\partial^2 u}{\partial x^2} = \frac{\partial u}{\partial t}\)</span> por el promedio de dos cocientes de diferencias centrales, uno evaluado en <span class="math inline">\(t\)</span> y el otro en <span class="math inline">\(t+k\)</span>: <span id="eq-cn-completa"><span class="math display">\[
+<p>El algoritmo introducido por <strong>J. Crank</strong> y <strong>P. Nicolson</strong> (<em>Crank-Nicolson</em>) en 1947 representa un esquema numérico ampliamente utilizado para resolver ecuaciones diferenciales parciales de tipo parabólico, como la ecuación de calor. Para comprender su fundamento, resulta ilustrativo considerar el problema de determinar la evolución temporal de la temperatura en una varilla metálica. Dado que la temperatura en cada punto varía de manera continua, es necesario discretizar el problema para su tratamiento computacional, lo que implica representar la varilla mediante un conjunto discreto de puntos y el tiempo mediante una secuencia de pasos finitos <span class="citation" data-cites="zill2008">(<a href="references.html#ref-zill2008" role="doc-biblioref">Zill y Cullen 2008</a>)</span>.</p>
+<p>En este marco, las estrategias de solución numérica se clasifican principalmente en dos categorías. Por un lado, los métodos explícitos calculan el estado futuro del sistema a partir exclusivamente de información del estado presente, lo que los hace conceptualmente sencillos y computacionalmente eficientes por paso de tiempo. Sin embargo, presentan una limitación significativa: su estabilidad depende críticamente del tamaño del paso temporal. Si este paso excede un umbral crítico, la solución numérica puede volverse inestable, manifestando oscilaciones no físicas que divergen hacia infinito <span class="citation" data-cites="burden2011">(<a href="references.html#ref-burden2011" role="doc-biblioref">Burden y Faires 2010</a>)</span>.</p>
+<p>Por otro lado, los métodos implícitos superan esta restricción de estabilidad al establecer una dependencia entre el estado futuro de un punto y el de sus vecinos en el mismo instante futuro. Esta característica garantiza estabilidad incondicional para una gama más amplia de parámetros, pero conlleva una mayor complejidad computacional, ya que requiere resolver un sistema de ecuaciones acoplado en cada paso de tiempo <span class="citation" data-cites="burden2011">(<a href="references.html#ref-burden2011" role="doc-biblioref">Burden y Faires 2010</a>)</span>.</p>
+<p>El método de Crank-Nicolson surge como un esquema híbrido que sintetiza las ventajas de ambos enfoques. Se fundamenta en promediar la discretización espacial de la ecuación diferencial entre el instante de tiempo actual (<span class="math inline">\(n\)</span>) y el futuro (<span class="math inline">\(n+1\)</span>). Esta estrategia de promediado le confiere dos propiedades clave <span class="citation" data-cites="zill2008">(<a href="references.html#ref-zill2008" role="doc-biblioref">Zill y Cullen 2008</a>)</span>:</p>
+<ol type="1">
+<li><p><strong>Estabilidad Incondicional:</strong> A diferencia de los métodos explícitos, el esquema de Crank-Nicolson permanece estable para cualquier tamaño de paso temporal, lo que permite simulaciones más rápidas sin riesgo de divergencia.</p></li>
+<li><p><strong>Precisión de Segundo Orden:</strong> Al ser un método de segundo orden en tiempo, el error de truncamiento local se reduce más ráticamente al disminuir el paso temporal, lo que se traduce en una mayor precisión global de la solución numérica comparado con métodos de primer orden.</p></li>
+</ol>
+<p>En esencia, el algoritmo consiste en sustituir la segunda derivada parcial en <span class="math inline">\(c\frac{\partial^2 u}{\partial x^2} = \frac{\partial u}{\partial t}\)</span> por el promedio de dos cocientes de diferencias centrales, uno evaluado en <span class="math inline">\(t\)</span> y el otro en <span class="math inline">\(t+k\)</span>: <span id="eq-cn-completa"><span class="math display">\[
 \begin{split}
 \dfrac{c}{2}&amp; \left[\dfrac{u(x+h,t)-2u(x,t)+u(x-h,t)}{h^2}\right] + \\
     + &amp;\dfrac{c}{2} \left[\dfrac{u(x+h,t+k)-2u(x,t+k)+u(x-h,t+k)}{h^2} \right] \\
@@ -550,11 +557,11 @@ u(x+h,t) &amp;=u_{i+1,j}, \quad u(x,t)=u_{ij}, \quad u(x-h,t)=u_{i-1,j}, \\
 u(x+h,t+k) &amp;=u_{i+1,j+1}, \quad u(x,t+k)=u_{i,j+1}, \quad u(x-h,t+k)=u_{i-1,j+1},
 \end{split}
 \]</span></p>
-<p>es posible reescribir a la <a href="#eq-cn-completa" class="quarto-xref">ec&nbsp;<span>6.1</span></a> como: <span id="eq-cn-reducida"><span class="math display">\[
+<p>es posible reescribir a la <a href="#eq-cn-completa" class="quarto-xref">Ec.&nbsp;<span>6.1</span></a> como: <span id="eq-cn-reducida"><span class="math display">\[
 -u_{i-1,j+1} + \alpha u_{i,j+1} - u_{i+1,j+1} = u_{i+1,j} - \beta u_{ij} + u_{i-1,j},
 \tag{6.2}\]</span></span></p>
-<p>donde <span class="math inline">\(\alpha=2(1+\frac{1}{\lambda})\)</span>, <span class="math inline">\(\beta=2(1-\frac{1}{\lambda})\)</span>, <span class="math inline">\(j=0,1,\dots, m-1, \ \ \ i=0,1,\dots, n-1\)</span>.</p>
-<p>Para cada elección de <span class="math inline">\(j\)</span>, la ecuación diferencial <a href="#eq-cn-reducida" class="quarto-xref">ec&nbsp;<span>6.2</span></a> para <span class="math inline">\(i=0,1,\dots, n-1\)</span> da <span class="math inline">\(n-1\)</span> ecuaciones en <span class="math inline">\(n-1\)</span> incógnitas <span class="math inline">\(u_{i,j+1}\)</span>. Debido a las condiciones de contorno preestablecidas, los valores de <span class="math inline">\(u_{i, j+1}\)</span> se conocen para <span class="math inline">\(i=0\)</span> y para <span class="math inline">\(i=n\)</span>. Por ejemplo, en el caso <span class="math inline">\(n=4\)</span>, el sistema de ecuaciones para determinar los valores aproximados de <span class="math inline">\(u\)</span> en la línea de tiempo <span class="math inline">\((j+1)\)</span> es:</p>
+<p>donde <span class="math inline">\(\alpha=2(1+\frac{1}{\lambda})\)</span>, <span class="math inline">\(\ \beta=2(1-\frac{1}{\lambda})\)</span>, <span class="math inline">\(\ j=0,1,\dots, m-1, \ \ \ i=0,1,\dots, n-1\)</span>.</p>
+<p>Para cada elección de <span class="math inline">\(j\)</span>, la ecuación diferencial <a href="#eq-cn-reducida" class="quarto-xref">Ec.&nbsp;<span>6.2</span></a> para <span class="math inline">\(i=0,1,\dots, n-1\)</span> da <span class="math inline">\(n-1\)</span> ecuaciones en <span class="math inline">\(n-1\)</span> incógnitas <span class="math inline">\(u_{i,j+1}\)</span>. Debido a las condiciones de contorno preestablecidas, los valores de <span class="math inline">\(u_{i, j+1}\)</span> se conocen para <span class="math inline">\(i=0\)</span> y para <span class="math inline">\(i=n\)</span>. Por ejemplo, en el caso <span class="math inline">\(n=4\)</span>, el sistema de ecuaciones para determinar los valores aproximados de <span class="math inline">\(u\)</span> en la línea de tiempo <span class="math inline">\((j+1)\)</span> es:</p>
 <p><span class="math display">\[
 \begin{split}
 -u_{0,j+1} + \alpha u_{1,j+1} - u_{2,j+1} =&amp; u_{2,j} - \beta u_{1,j} + u_{0,j} \\
@@ -574,7 +581,7 @@ b_1 &amp;= u_{2,j} - \beta u_{1,j} + u_{0,j} + u_{0,j+1}, \\
 b_2 &amp;= u_{3,j} - \beta u_{2,j} + u_{1,j}, \\
 b_3 &amp;= u_{4,j} - \beta u_{3,j} + u_{2,j} + u_{4,j+1}.
 \end{align*}\]</span></p>
-<p>En general, si utilizamos la ecuación diferencial <a href="#eq-cn-reducida" class="quarto-xref">ec&nbsp;<span>6.2</span></a> para determinar valores de <span class="math inline">\(u\)</span> en la línea de tiempo <span class="math inline">\((j -1)\)</span>, es necesario resolver un sistema lineal <span class="math inline">\(\mathbf{AX=B}\)</span>, donde la matriz de coeficientes <span class="math inline">\(\mathbf{A}\)</span> es una <strong>matriz tridiagonal</strong>, <span class="math display">\[
+<p>En general, si utilizamos la ecuación diferencial <a href="#eq-cn-reducida" class="quarto-xref">Ec.&nbsp;<span>6.2</span></a> para determinar valores de <span class="math inline">\(u\)</span> en la línea de tiempo <span class="math inline">\((j -1)\)</span>, es necesario resolver un sistema lineal <span class="math inline">\(\mathbf{AX=B}\)</span>, donde la matriz de coeficientes <span class="math inline">\(\mathbf{A}\)</span> es una <strong>matriz tridiagonal</strong>, <span class="math display">\[
 A =
 \begin{pmatrix}
 \alpha &amp; -1    &amp; 0      &amp; 0      &amp; 0      &amp; \cdots &amp; 0 &amp; 0      \\
@@ -598,6 +605,9 @@ b_{n-1} &amp;= u_{n,j} - \beta u_{n-1,j} + u_{n-2,j} + u_{n,j+1}.
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-burden2011" class="csl-entry" role="listitem">
+Burden, Richard L., y J. Douglas Faires. 2010. <span>«Numerical Analysis»</span>. En <em>Numerical Analysis</em>, 9.ª ed., 259-64. Boston, USA: Brooks Cole.
+</div>
 <div id="ref-zill2008" class="csl-entry" role="listitem">
 Zill, Dennis G., y Michael R. Cullen. 2008. <span>«Differential Equations with Boundary-Value Problems»</span>. En, 7.ª ed., 433-42. Belmont, CA: Cengage Learning.
 </div>

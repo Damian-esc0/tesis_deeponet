@@ -193,7 +193,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./texto_crank_nick.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Método de Crank Nickolson</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Método de Crank Nicolson</span></span></a>
   </div>
 </li>
       </ul>
@@ -487,10 +487,9 @@ ul.task-list li input[type="checkbox"] {
 
 
 <div style="text-align: justify">
-<p>De cara al futuro es planteable mejorar el modelo siendo más rigurosos en ciertos aspectos como lo son:</p>
+<p>De cara al futuro, es planteable explorar ramas alternas de la metodología usada en ciertos aspectos, como lo son: - Ajustar la configuración del optimizador <em>L-BFGS</em> ya sea aumentando o disminuyendo sus iteraciones máximas, su umbral de tolerancia o máximo número de funciones a evaluar.</p>
 <ul>
-<li><p>Ajustar la configuración del optimizador <em>L-BFGS</em> ya sea aumentando o disminuyendo sus iteraciones máximas, su umbral de tolerancia o máximo número de funciones a evaluar.</p></li>
-<li><p>Utilizar el modulo de <em>callbacks</em> para hacer un <em>earlyStopping</em> del modelo para evitar un sobreajuste.</p></li>
+<li><p>Utilizar el módulo de <em>callbacks</em> para hacer un <em>earlyStopping</em> del modelo para evitar un sobreajuste.</p></li>
 <li><p>Utilizar un conjunto de validación con datos reales tomados de una sesión de hipertérmia.</p></li>
 <li><p>Utilizar otro método numérico para comparar el modelo, como puede ser diferencias finitas.</p></li>
 <li><p>Comparar otras librerías en Python que implementen PINNs como lo son SimNet, PyDEns, NeuroDiffEq o SciANN.</p></li>

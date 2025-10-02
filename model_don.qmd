@@ -8,7 +8,7 @@ execute:
 Conforme se ha referido previamente, el desarrollo del modelo predictivo se realizó utilizando el framework DeepXDE (versión 1.10.1) con backend de TensorFlow 1.x (configurado mediante tensorflow.compat.v1). Para asegurar reproducibilidad, se fijó la semilla aleatoria en 123 a nivel de DeepXDE, TensorFlow y NumPy. La red neuronal se implementó como un DeepONetCartesianProd con la siguiente estructura especializada:
 
 - Rama (*branch*)
-    - Capa de entrada: (num_sensors + 1)² = 64 neuronas.
+    - Capa de entrada: (num_sensors + 1)² = 49 neuronas.
     - 3 capas ocultas de 20 neuronas cada una.
 - Tronco (*trunk*)
     - Capa de entrada: 3 neuronas (coordenadas espaciotemporales x, y, t).
@@ -16,7 +16,7 @@ Conforme se ha referido previamente, el desarrollo del modelo predictivo se real
 - Hiperparámetros clave
     - Función de activación: ELU (Exponential Linear Unit).
     - Inicialización de pesos: Glorot normal.
-    - Optimizador: Adam con tasa de aprendizaje inicial de 2×10⁻³ y decaimiento exponencial (decay_rate=0.05 cada 500 pasos).
+    - Optimizador: ADAM con tasa de aprendizaje inicial de 2×10⁻³ y decaimiento exponencial (*decay_rate*=0.05 cada 500 pasos).
 ```{python}
 #| output: false
 #| warning: false
@@ -73,7 +73,7 @@ k_initializer = "Glorot normal"
 
 
 # Parámetros de entrenamiento
-num_iterations = 15000
+num_iterations = 20000
 learning_rate = 2e-3
 decay_rate = 0.05
 decay_steps = 500

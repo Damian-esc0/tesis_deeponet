@@ -187,7 +187,7 @@ display(p)
 ```
 
 ## Análisis de sensibilidad
-Con el objetivo de optimizar el proceso de comparación cuantitativa con el modelo de redes neuronales, se exportó un subconjunto representativo de los resultados [@lst-met-num]. Aunque la simulación original utilizó una malla de 51×51 puntos, se almacenaron únicamente los valores correspondientes a una grilla de 26×26 puntos. Esta decisión se basó en:
+Con el objetivo de optimizar el proceso de comparación cuantitativa con el modelo de redes neuronales, se exportó un subconjunto representativo de los resultados [Código @lst-met-num]. Aunque la simulación original utilizó una malla de 51×51 puntos, se almacenaron únicamente los valores correspondientes a una grilla de 26×26 puntos. Esta decisión se basó en:
 
 1. Suficiencia estadística: La densidad de puntos conserva los patrones espaciales críticos.
 2. Eficiencia computacional: Reduce el tamaño del archivo sin perder información relevante.
@@ -197,5 +197,5 @@ Los datos se guardaron en un archivo CSV estructurado con las siguientes columna
 - Coordenadas espacio-temporales (t, x, y) para cada punto de la grilla 26×26.
 - Valores de la solución en los tiempos de interés.
 
-Este archivo permitió calcular de manera estandarizada las métricas de error (MAE, MaxAE, error L2) en la sección de comparación de resultados [-@tbl-errores-num].
+Este archivo permitió calcular de manera estandarizada las métricas de error (MAE, MaxAE, error L2) en la sección de comparación de resultados [@sec-val-cuant-Cr-Nc].
 :::

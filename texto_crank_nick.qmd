@@ -1,13 +1,23 @@
 ---
-title: Método de Crank Nickolson
+title: Método de Crank Nicolson
 lang: es
 execute: 
   freeze: auto
 ---
 ::: {style="text-align: justify"}
-Existen métodos implícitos de diferencias finitas para resolver ecuaciones diferenciales parciales parabólicas (@eq-heat). Estos métodos requieren la resolución de un sistema de ecuaciones para determinar los valores aproximados de $u$ en la línea de tiempo $(j + 1)$. Sin embargo, los métodos implícitos no presentan problemas de inestabilidad [@zill2008].
+El algoritmo introducido por **J. Crank** y **P. Nicolson** (*Crank-Nicolson*) en 1947 representa un esquema numérico ampliamente utilizado para resolver ecuaciones diferenciales parciales de tipo parabólico, como la ecuación de calor. Para comprender su fundamento, resulta ilustrativo considerar el problema de determinar la evolución temporal de la temperatura en una varilla metálica. Dado que la temperatura en cada punto varía de manera continua, es necesario discretizar el problema para su tratamiento computacional, lo que implica representar la varilla mediante un conjunto discreto de puntos y el tiempo mediante una secuencia de pasos finitos [@zill2008].
 
-El algoritmo introducido por **J. Crank** y **P. Nicholson** en 1947 se utiliza principalmente para resolver la ecuación del calor. El algoritmo consiste en sustituir la segunda derivada parcial en $c\frac{\partial^2 u}{\partial x^2} = \frac{\partial u}{\partial t}$ por el promedio de dos cocientes de diferencias centrales, uno evaluado en $t$ y el otro en $t+k$:
+En este marco, las estrategias de solución numérica se clasifican principalmente en dos categorías. Por un lado, los métodos explícitos calculan el estado futuro del sistema a partir exclusivamente de información del estado presente, lo que los hace conceptualmente sencillos y computacionalmente eficientes por paso de tiempo. Sin embargo, presentan una limitación significativa: su estabilidad depende críticamente del tamaño del paso temporal. Si este paso excede un umbral crítico, la solución numérica puede volverse inestable, manifestando oscilaciones no físicas que divergen hacia infinito [@burden2011].
+
+Por otro lado, los métodos implícitos superan esta restricción de estabilidad al establecer una dependencia entre el estado futuro de un punto y el de sus vecinos en el mismo instante futuro. Esta característica garantiza estabilidad incondicional para una gama más amplia de parámetros, pero conlleva una mayor complejidad computacional, ya que requiere resolver un sistema de ecuaciones acoplado en cada paso de tiempo [@burden2011].
+
+El método de Crank-Nicolson surge como un esquema híbrido que sintetiza las ventajas de ambos enfoques. Se fundamenta en promediar la discretización espacial de la ecuación diferencial entre el instante de tiempo actual ($n$) y el futuro ($n+1$). Esta estrategia de promediado le confiere dos propiedades clave [@zill2008]:
+
+1. **Estabilidad Incondicional:** A diferencia de los métodos explícitos, el esquema de Crank-Nicolson permanece estable para cualquier tamaño de paso temporal, lo que permite simulaciones más rápidas sin riesgo de divergencia.
+
+2. **Precisión de Segundo Orden:** Al ser un método de segundo orden en tiempo, el error de truncamiento local se reduce más ráticamente al disminuir el paso temporal, lo que se traduce en una mayor precisión global de la solución numérica comparado con métodos de primer orden.
+
+En esencia, el algoritmo consiste en sustituir la segunda derivada parcial en $c\frac{\partial^2 u}{\partial x^2} = \frac{\partial u}{\partial t}$ por el promedio de dos cocientes de diferencias centrales, uno evaluado en $t$ y el otro en $t+k$:
 $$
 \begin{split}
 \dfrac{c}{2}& \left[\dfrac{u(x+h,t)-2u(x,t)+u(x-h,t)}{h^2}\right] + \\
@@ -24,14 +34,14 @@ u(x+h,t+k) &=u_{i+1,j+1}, \quad u(x,t+k)=u_{i,j+1}, \quad u(x-h,t+k)=u_{i-1,j+1}
 \end{split}
 $$
 
-es posible reescribir a la [ec @eq-cn-completa] como:
+es posible reescribir a la [Ec. @eq-cn-completa] como:
 $$
 -u_{i-1,j+1} + \alpha u_{i,j+1} - u_{i+1,j+1} = u_{i+1,j} - \beta u_{ij} + u_{i-1,j},
 $$ {#eq-cn-reducida}
 
-donde $\alpha=2(1+\frac{1}{\lambda})$, $\beta=2(1-\frac{1}{\lambda})$, $j=0,1,\dots, m-1, \ \ \ i=0,1,\dots, n-1$.
+donde $\alpha=2(1+\frac{1}{\lambda})$, $\ \beta=2(1-\frac{1}{\lambda})$, $\ j=0,1,\dots, m-1, \ \ \ i=0,1,\dots, n-1$.
 
-Para cada elección de $j$, la ecuación diferencial [ec @eq-cn-reducida] para $i=0,1,\dots, n-1$ da $n-1$ ecuaciones en $n-1$ incógnitas $u_{i,j+1}$. Debido a las condiciones de contorno preestablecidas, los valores de $u_{i, j+1}$ se conocen para $i=0$ y para $i=n$. Por ejemplo, en el caso $n=4$, el sistema de ecuaciones para determinar los valores aproximados de $u$ en la línea de tiempo $(j+1)$ es:
+Para cada elección de $j$, la ecuación diferencial [Ec. @eq-cn-reducida] para $i=0,1,\dots, n-1$ da $n-1$ ecuaciones en $n-1$ incógnitas $u_{i,j+1}$. Debido a las condiciones de contorno preestablecidas, los valores de $u_{i, j+1}$ se conocen para $i=0$ y para $i=n$. Por ejemplo, en el caso $n=4$, el sistema de ecuaciones para determinar los valores aproximados de $u$ en la línea de tiempo $(j+1)$ es:
 
 $$
 \begin{split}
@@ -57,7 +67,7 @@ b_2 &= u_{3,j} - \beta u_{2,j} + u_{1,j}, \\
 b_3 &= u_{4,j} - \beta u_{3,j} + u_{2,j} + u_{4,j+1}.
 \end{align*}
 
-En general, si utilizamos la ecuación diferencial [ec @eq-cn-reducida]  para determinar valores de $u$ en la línea de tiempo $(j -1)$, es necesario resolver un sistema lineal $\mathbf{AX=B}$, donde la matriz de coeficientes $\mathbf{A}$ es una **matriz tridiagonal**,
+En general, si utilizamos la ecuación diferencial [Ec. @eq-cn-reducida]  para determinar valores de $u$ en la línea de tiempo $(j -1)$, es necesario resolver un sistema lineal $\mathbf{AX=B}$, donde la matriz de coeficientes $\mathbf{A}$ es una **matriz tridiagonal**,
 $$
 A = 
 \begin{pmatrix}
