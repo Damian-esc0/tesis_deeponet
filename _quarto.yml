@@ -10,7 +10,7 @@ website:
     location: sidebar
     type: overlay
   comments:
-    hypothesis: true
+    hypothesis: false
 
 book:
   title: "Estimación de la temperatura con la ecuación del Bio-Calor usando DeepONet"
@@ -62,9 +62,6 @@ book:
     - futuros_trabajos.qmd
 
     - references.qmd
-
-comments: 
-  hypothesis: True
 
 bibliography: references.bib
 
