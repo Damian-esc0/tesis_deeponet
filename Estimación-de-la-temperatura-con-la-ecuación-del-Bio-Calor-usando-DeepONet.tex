@@ -190,15 +190,57 @@
 \usepackage{upgreek}
 \usepackage{amsmath}
 \usepackage{amssymb}
+
+\usepackage{xcolor}
+\usepackage{fvextra}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{etoolbox}
+\usepackage{ifthen}
+
 \newcommand{\dashedbox}[1]{
   \begin{tikzpicture}
     \node[draw, dashed, rounded corners=5pt, inner sep=10pt] {
-      \begin{minipage}{0.8\textwidth} % Establece el ancho del minipage
+      \begin{minipage}{0.8\textwidth}
         #1
       \end{minipage}
     };
   \end{tikzpicture}
 }
+
+% Configuración para bloques de código en Quarto
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{%
+    commandchars=\\\{\},
+    breaksymbolleft={},
+    breaklines=true,
+    breakanywhere=true,
+    breakautoindent=true,
+    breaksymbolindentleft=0pt,
+    breaksymbolsepleft=0pt,
+    breaksymbolindentright=0pt,
+    breaksymbolsepright=0pt,
+    frame=single,
+    framesep=2mm,
+    rulecolor=\color{gray!30},
+    baselinestretch=0.8,
+    fontsize=\small
+}
+
+% Permitir que los bloques de código se dividan entre páginas
+\makeatletter
+\def\verbatim@processline{%
+  \hbox to\columnwidth{\the\verbatim@line\strut\hss}%
+  \ifx\verbatim@line\verbatim@empty\else%
+    \ifnum\prevgraf>23%
+      \penalty-200%
+      \prevgraf0%
+    \fi%
+  \fi%
+}
+\makeatother
+
+% Configuración adicional para listados largos
+\emergencystretch=3em
 \makeatletter
 \@ifpackageloaded{tcolorbox}{}{\usepackage[skins,breakable]{tcolorbox}}
 \@ifpackageloaded{fontawesome5}{}{\usepackage{fontawesome5}}
@@ -789,7 +831,7 @@ problema original. Este es el enfoque más común porque los métodos de
 aproximación proporcionan resultados más precisos e información de error
 realista (\citeproc{ref-burden2011}{Burden y Faires 2010}).
 
-\begin{tcolorbox}[enhanced jigsaw, leftrule=.75mm, colframe=quarto-callout-caution-color-frame, left=2mm, coltitle=black, colbacktitle=quarto-callout-caution-color!10!white, titlerule=0mm, opacitybacktitle=0.6, bottomtitle=1mm, toptitle=1mm, title={Ejemplo}, arc=.35mm, opacityback=0, colback=white, rightrule=.15mm, bottomrule=.15mm, breakable, toprule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, title={Ejemplo}, left=2mm, leftrule=.75mm, coltitle=black, opacityback=0, colback=white, titlerule=0mm, toprule=.15mm, opacitybacktitle=0.6, colframe=quarto-callout-caution-color-frame, bottomtitle=1mm, colbacktitle=quarto-callout-caution-color!10!white, rightrule=.15mm, arc=.35mm, breakable, toptitle=1mm, bottomrule=.15mm]
 
 El movimiento de un péndulo oscilante bajo ciertas suposiciones se
 describe mediante la ecuación diferencial de segundo orden: \[
@@ -885,7 +927,7 @@ tiene una solución única \(y(t)\) para \(a\leq t \leq b\).
 
 \end{theorem}
 
-\begin{tcolorbox}[enhanced jigsaw, leftrule=.75mm, colframe=quarto-callout-caution-color-frame, left=2mm, coltitle=black, colbacktitle=quarto-callout-caution-color!10!white, titlerule=0mm, opacitybacktitle=0.6, bottomtitle=1mm, toptitle=1mm, title={Ejemplo}, arc=.35mm, opacityback=0, colback=white, rightrule=.15mm, bottomrule=.15mm, breakable, toprule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, title={Ejemplo}, left=2mm, leftrule=.75mm, coltitle=black, opacityback=0, colback=white, titlerule=0mm, toprule=.15mm, opacitybacktitle=0.6, colframe=quarto-callout-caution-color-frame, bottomtitle=1mm, colbacktitle=quarto-callout-caution-color!10!white, rightrule=.15mm, arc=.35mm, breakable, toptitle=1mm, bottomrule=.15mm]
 
 Use el Teorema~\ref{thm-uniq-sol} para mostrar que hay una única
 solución al problema de valor inicial: \[
@@ -974,7 +1016,7 @@ Supongamos
 
 \end{theorem}
 
-\begin{tcolorbox}[enhanced jigsaw, leftrule=.75mm, colframe=quarto-callout-caution-color-frame, left=2mm, coltitle=black, colbacktitle=quarto-callout-caution-color!10!white, titlerule=0mm, opacitybacktitle=0.6, bottomtitle=1mm, toptitle=1mm, title={Ejemplo}, arc=.35mm, opacityback=0, colback=white, rightrule=.15mm, bottomrule=.15mm, breakable, toprule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, title={Ejemplo}, left=2mm, leftrule=.75mm, coltitle=black, opacityback=0, colback=white, titlerule=0mm, toprule=.15mm, opacitybacktitle=0.6, colframe=quarto-callout-caution-color-frame, bottomtitle=1mm, colbacktitle=quarto-callout-caution-color!10!white, rightrule=.15mm, arc=.35mm, breakable, toptitle=1mm, bottomrule=.15mm]
 
 Demostrar que el problema de valor inicial\\
 \[
@@ -1404,26 +1446,17 @@ u(-1,t) = u(1,t) = 0, \quad u(x,0)=-\sin(\pi x).
 \NormalTok{                    pad}\OperatorTok{=}\FloatTok{0.1}\NormalTok{, orientation}\OperatorTok{=}\StringTok{\textquotesingle{}horizontal\textquotesingle{}}\NormalTok{)}
 \NormalTok{cbar.set\_label(}\StringTok{\textquotesingle{}Magnitud de u(x,t)\textquotesingle{}}\NormalTok{)}
 
-\CommentTok{\# Ajustar manualmente para evitar corte del eje z}
-\NormalTok{plt.subplots\_adjust(left}\OperatorTok{=}\FloatTok{0.05}\NormalTok{, right}\OperatorTok{=}\FloatTok{0.9}\NormalTok{, wspace}\OperatorTok{=}\FloatTok{0.1}\NormalTok{)}
-
 \NormalTok{plt.show()}
 
 \BuiltInTok{print}\NormalTok{(}\StringTok{"Error relativo L2:"}\NormalTok{, dde.metrics.l2\_relative\_error(y\_true, y\_pred))}
 \end{Highlighting}
 \end{Shaded}
 
-\begin{verbatim}
-/tmp/ipykernel_16662/4204483522.py:47: UserWarning:
-
-This figure was using a layout engine that is incompatible with subplots_adjust and/or tight_layout; not calling subplots_adjust.
-\end{verbatim}
-
 \begin{figure}[H]
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{pinns_files/figure-pdf/fig-burgers-ejemplo-output-2.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{pinns_files/figure-pdf/fig-burgers-ejemplo-output-1.pdf}}
 
 }
 
@@ -1436,7 +1469,7 @@ representar a la función a lo largo de éste como una serie de
 \end{figure}%
 
 \begin{verbatim}
-Error relativo L2: 0.01270950351416249
+Error relativo L2: 0.03250306476857025
 \end{verbatim}
 
 \section{Comparación con Redes Neuronales
@@ -1944,7 +1977,7 @@ interés.
 \begin{codelisting}
 
 \caption{\label{lst-sol-ana}Guardado de los datos de la solución
-analítica.}
+analítica (Parte 1).}
 
 \centering{
 
@@ -1991,7 +2024,15 @@ analítica.}
 \NormalTok{X, Y }\OperatorTok{=}\NormalTok{ np.meshgrid(x, y, indexing}\OperatorTok{=}\StringTok{\textquotesingle{}xy\textquotesingle{}}\NormalTok{)}
 
 \NormalTok{times }\OperatorTok{=}\NormalTok{ [}\FloatTok{0.0}\NormalTok{, }\FloatTok{0.25}\NormalTok{, }\FloatTok{0.5}\NormalTok{, }\FloatTok{0.75}\NormalTok{, }\FloatTok{1.0}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
 
+}
+
+\end{codelisting}%
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \CommentTok{\# {-}{-}{-}{-}{-}{-}{-}{-}{-}{-} Función para calcular θ(x,τ) {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
 \KeywordTok{def}\NormalTok{ theta\_xt(x\_vec, tau\_val):}
     \CommentTok{"""Devuelve theta(x, tau) en un vector de x,}
@@ -2029,10 +2070,6 @@ analítica.}
 \NormalTok{df.to\_csv(}\StringTok{"data/sol\_analitica.csv"}\NormalTok{, index}\OperatorTok{=}\VariableTok{False}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
-
-}
-
-\end{codelisting}%
 
 \chapter{Otras aplicaciones de la ecuación del
 bio-calor}\label{otras-aplicaciones-de-la-ecuaciuxf3n-del-bio-calor}
@@ -2321,7 +2358,7 @@ temporal de la solución en el dominio de estudio.
 
 \begin{codelisting}
 
-\caption{\label{lst-met-num}Método de Crank-Nicolson.}
+\caption{\label{lst-met-num}Método de Crank-Nicolson (Parte 1).}
 
 \centering{
 
@@ -2354,7 +2391,15 @@ temporal de la solución en el dominio de estudio.
 
 \CommentTok{\# {-}{-}{-} CONDICIÓN INICIAL {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
 \NormalTok{u0 }\OperatorTok{=} \FunctionTok{zeros}\NormalTok{(N)   }\CommentTok{\# coincide con la condición inicial θ=0}
+\end{Highlighting}
+\end{Shaded}
 
+}
+
+\end{codelisting}%
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \CommentTok{\# {-}{-}{-} SISTEMA DE EDOs DEL PDE {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
 \KeywordTok{function} \FunctionTok{f!}\NormalTok{(du, u, \_, τ)}
 \NormalTok{    U }\OperatorTok{=} \FunctionTok{reshape}\NormalTok{(u, Nx, Ny)          }\CommentTok{\# arreglo 2D con los valores actuales}
@@ -2404,7 +2449,11 @@ temporal de la solución en el dominio de estudio.
 
 \NormalTok{    du }\OperatorTok{.=} \FunctionTok{vec}\NormalTok{(D)}
 \KeywordTok{end}
+\end{Highlighting}
+\end{Shaded}
 
+\begin{Shaded}
+\begin{Highlighting}[]
 \CommentTok{\# {-}{-}{-} RESOLVER PDE {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
 \NormalTok{τspan }\OperatorTok{=}\NormalTok{ (}\FloatTok{0.0}\NormalTok{, }\FloatTok{1.0}\NormalTok{)}
 \NormalTok{prob }\OperatorTok{=} \FunctionTok{ODEProblem}\NormalTok{(f!, u0, τspan)}
@@ -2439,10 +2488,6 @@ temporal de la solución en el dominio de estudio.
 \NormalTok{CSV.}\FunctionTok{write}\NormalTok{(}\FunctionTok{joinpath}\NormalTok{(ruta, }\StringTok{"crank\_nick.csv"}\NormalTok{), df)}
 \end{Highlighting}
 \end{Shaded}
-
-}
-
-\end{codelisting}%
 
 \begin{Shaded}
 \begin{Highlighting}[]

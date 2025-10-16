@@ -618,7 +618,7 @@ Figura&nbsp;7.1: <strong>El algoritmo de una PINN.</strong> Se construye una red
 <p>con la condición de frontera de Dirichlet y condición inicial: <span class="math display">\[
 u(-1,t) = u(1,t) = 0, \quad u(x,0)=-\sin(\pi x).
 \]</span></p>
-<div id="19a3249f" class="cell" data-execution_count="1">
+<div id="4d95964e" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> deepxde <span class="im">as</span> dde</span>
@@ -728,24 +728,15 @@ u(-1,t) = u(1,t) = 0, \quad u(x,0)=-\sin(\pi x).
 <span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>                    pad<span class="op">=</span><span class="fl">0.1</span>, orientation<span class="op">=</span><span class="st">'horizontal'</span>)</span>
 <span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>cbar.set_label(<span class="st">'Magnitud de u(x,t)'</span>)</span>
 <span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a><span class="co"># Ajustar manualmente para evitar corte del eje z</span></span>
-<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>plt.subplots_adjust(left<span class="op">=</span><span class="fl">0.05</span>, right<span class="op">=</span><span class="fl">0.9</span>, wspace<span class="op">=</span><span class="fl">0.1</span>)</span>
-<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
-<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Error relativo L2:"</span>, dde.metrics.l2_relative_error(y_true, y_pred))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Error relativo L2:"</span>, dde.metrics.l2_relative_error(y_true, y_pred))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-stderr">
-<pre><code>/tmp/ipykernel_16507/4204483522.py:47: UserWarning:
-
-This figure was using a layout engine that is incompatible with subplots_adjust and/or tight_layout; not calling subplots_adjust.
-</code></pre>
-</div>
 <div class="cell-output cell-output-display">
 <div id="fig-burgers-ejemplo" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-burgers-ejemplo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="pinns_files/figure-html/fig-burgers-ejemplo-output-2.png" width="1331" height="802" class="figure-img">
+<img src="pinns_files/figure-html/fig-burgers-ejemplo-output-1.png" width="1331" height="802" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-burgers-ejemplo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figura&nbsp;7.2: Comparación entre solución real y predicción de la red neuronal para la ecuación de Burger 1D. Debido a su naturaleza unidimensional, es posible plasmar en un eje al tiempo (t) y representar a la función a lo largo de éste como una serie de <em>fotos</em> para un instante <span class="math inline">\(t\)</span> dado.
@@ -754,7 +745,7 @@ Figura&nbsp;7.2: Comparación entre solución real y predicción de la red neuro
 </div>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Error relativo L2: 0.01318714454871092</code></pre>
+<pre><code>Error relativo L2: 0.016544904890081934</code></pre>
 </div>
 </div>
 </section>

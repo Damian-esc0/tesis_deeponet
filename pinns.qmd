@@ -167,9 +167,6 @@ cbar = fig.colorbar(sc1, ax=(ax1,ax2),
                     pad=0.1, orientation='horizontal')
 cbar.set_label('Magnitud de u(x,t)')
 
-# Ajustar manualmente para evitar corte del eje z
-plt.subplots_adjust(left=0.05, right=0.9, wspace=0.1)
-
 plt.show()
 
 print("Error relativo L2:", dde.metrics.l2_relative_error(y_true, y_pred))

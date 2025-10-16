@@ -6,6 +6,8 @@ execute:
 ---
 ::: {style="text-align: justify"}
 Para validar los resultados del modelo propuesto, se implementó el método de Crank-Nicolson en Julia utilizando la librería *DifferentialEquations.jl*. El método se resolvió sobre una malla refinada de 51×51 puntos para garantizar alta precisión en la solución numérica, calculando las predicciones en los tiempos clave: t = [0.0, 0.25, 0.50, 0.75, 1.0]. En la @fig-met-crank-nick se muestran las cinco gráficas generadas, las cuales ilustran la evolución temporal de la solución en el dominio de estudio.
+
+::: {.content-visible when-format="html"}
 ```{julia}
 #| lst-label: lst-met-num
 #| lst-cap: Método de Crank-Nicolson.
@@ -121,6 +123,133 @@ df = DataFrame(time=times, X=Xs, Y=Ys, Theta=Thetas)
 ruta = "data"
 CSV.write(joinpath(ruta, "crank_nick.csv"), df)
 ```
+:::
+
+::: {.content-visible when-format="pdf"}
+```{julia}
+#| lst-label: lst-met-num
+#| lst-cap: Método de Crank-Nicolson (Parte 1).
+#| output: false
+using DifferentialEquations, LinearAlgebra
+using DataFrames, CSV
+
+# --- PARÁMETROS FÍSICOS Y DIMENSIONALES --------------------------------
+p, c  = 1050.0, 3639.0                       # densidad, calor específico 
+k_eff = 5.0                                  # conductividad
+t_f   = 1800.0                               # tiempo final 
+L     = 0.05                                 # longitud del dominio
+c_b   = 3825.0                               # coef. perfusión
+Q     = 0.0                                  # fuente térmica
+T_M, T_a = 45.0, 37.0                        # temp máxima, temp ambiente
+
+# --- COEFICIENTES ADIMENSIONALES ---------------------------------------
+α = p * c / k_eff
+a₁ = t_f / (α * L^2)
+a₂ = t_f * c_b / (p * c)
+a₃ = (t_f * Q) / (p * c * (T_M - T_a))  # aquí Q=0 → a₃=0
+
+# --- MALLA ESPACIAL ----------------------------------------------------
+Nx, Ny = 51, 51
+dx, dy = 1.0 / (Nx - 1), 1.0 / (Ny - 1)
+x = range(0, 1, length=Nx)
+y = range(0, 1, length=Ny)
+N = Nx * Ny  # total de puntos
+
+# --- CONDICIÓN INICIAL -------------------------------------------------
+u0 = zeros(N)   # coincide con la condición inicial θ=0
+
+```
+```{julia}
+#| lst-cap: Método de Crank-Nicolson (Parte 2).
+#| output: false
+# --- SISTEMA DE EDOs DEL PDE -------------------------------------------
+function f!(du, u, _, τ)
+    U = reshape(u, Nx, Ny)          # arreglo 2D con los valores actuales
+    D = zeros(eltype(U), Nx, Ny)    # preasigno en cero
+
+    # Enforce Dirichlet en X=0: θ(0,y,τ) = 0 (mantenemos esa fila = 0)
+    U[1, :] .= 0.0
+
+    @inbounds for i in 1:Nx, j in 1:Ny
+        # Si estamos en la frontera izquierda X=0 (Dirichlet), 
+        # la condición fija implica ∂_τ θ = 0 en esos puntos
+        # (se mantiene constante).
+        if i == 1
+            D[i, j] = 0.0
+            continue
+        end
+
+        # Derivada segunda en x:
+        if i == Nx
+            # Neumann con valor no homogéneo en X=1: ∂_X θ(1,y,τ) = τ
+            # uso ghost node U_{N+1} tal que (U_{N+1} - U_N)/dx = 
+            # τ → U_{N+1} = U_N + τ*dx
+            U_ghost = U[Nx, j] + τ * dx
+            d2x = (U_ghost - 2U[Nx, j] + U[Nx-1, j]) / dx^2
+        else
+            # interior (o i==2 cuando i-1 existe)
+            d2x = (U[i+1, j] - 2U[i, j] + U[i-1, j]) / dx^2
+        end
+
+        # Derivada segunda en y (bordes Y=0 y Y=1 son 
+        # Neumann homogéneos ∂_Y = 0)
+        if j == 1
+            # j=1: ghost U_0 = U_2  → segunda derivada = 
+            # 2*(U[2] - U[1]) / dy^2
+            d2y = 2*(U[i, 2] - U[i, 1]) / dy^2
+        elseif j == Ny
+            # j=Ny: ghost U_{Ny+1} = U_{Ny-1} → segunda derivada = 
+            # 2*(U[Ny-1] - U[Ny]) / dy^2
+            d2y = 2*(U[i, Ny-1] - U[i, Ny]) / dy^2
+        else
+            d2y = (U[i, j+1] - 2U[i, j] + U[i, j-1]) / dy^2
+        end
+
+        # ECUACIÓN: ∂_τ θ = a₁ * (d2x + d2y) - a₂ * θ + a₃
+        D[i, j] = a₁ * (d2x + d2y) - a₂ * U[i, j] + a₃
+    end
+
+    du .= vec(D)
+end
+```
+
+```{julia}
+#| lst-cap: Método de Crank-Nicolson (Parte 3).
+#| output: false
+# --- RESOLVER PDE -----------------------------------------------------
+τspan = (0.0, 1.0)
+prob = ODEProblem(f!, u0, τspan)
+taus = [0.0, 0.25, 0.5, 0.75, 1.0]
+sol = solve(prob, Trapezoid(), dt=8e-4, saveat=taus)
+
+# --- PROCESAR SOLUCIÓN EN GRILLA REDUCIDA -----------------------------
+idxs = 1:2:Nx  # índices para submuestreo
+
+# Preasignar vectores para crear el DataFrame
+times = Float64[]
+Xs = Float64[]
+Ys = Float64[]
+Thetas = Float64[]
+
+for τ in taus
+    Θ = reshape(sol(τ), Nx, Ny)
+    # Asegurarse (por consistencia) que la frontera izquierda permanece 0
+    Θ[1, :] .= 0.0
+    for j in idxs, i in idxs
+        push!(times, τ)
+        push!(Xs, x[i])
+        push!(Ys, y[j])
+        push!(Thetas, Θ[i, j])
+    end
+end
+
+df = DataFrame(time=times, X=Xs, Y=Ys, Theta=Thetas)
+
+# --- GUARDAR CSV -------------------------------------------------------
+ruta = "data"
+CSV.write(joinpath(ruta, "crank_nick.csv"), df)
+```
+:::
 
 ```{julia}
 #| label: fig-met-crank-nick
